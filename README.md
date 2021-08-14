@@ -12,7 +12,7 @@ BOOTSTRAPED WITH `npx create-next-app --typescript`
 
 - `emotion` (css)
 
-- `bootstrap` (css)
+- `Material-Ui` (react components library)
 
 - `next-auth`
 
