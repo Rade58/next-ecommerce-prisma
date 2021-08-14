@@ -18,3 +18,4 @@ BOOTSTRAPED WITH `npx create-next-app --typescript`
 
 - `xstate` AND `@xstate/react`
 
+- `PayPal`
