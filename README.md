@@ -12,7 +12,7 @@ BOOTSTRAPED WITH `npx create-next-app --typescript`
 
 - `emotion` (css)
 
-- `tailwind` (css)
+- `bootstrap` (css)
 
 - `next-auth`
 
