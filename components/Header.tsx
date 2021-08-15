@@ -22,7 +22,14 @@ const Header: FC = () => {
   return (
     <AppBar position="sticky" color="secondary">
       <Toolbar color="primary">
-        <IconButton edge="start" color="inherit" aria-label="menu">
+        <IconButton
+          onClick={() => {
+            console.log("Hello Button World");
+          }}
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+        >
           <MenuIcon />
         </IconButton>
         <Typography variant="h6">News</Typography>
