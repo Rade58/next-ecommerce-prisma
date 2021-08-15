@@ -8,6 +8,7 @@ import { ThemeProvider, CssBaseline } from "@material-ui/core";
 import theme from "../theme";
 
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CssBaseline />
         <Header />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
     </Fragment>
   );
