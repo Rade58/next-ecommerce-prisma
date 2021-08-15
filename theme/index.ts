@@ -7,7 +7,7 @@ import lime from "@material-ui/core/colors/lime";
 enum colors_enum {
   dark_byzantium = "#542344",
   dark_purple = "#260f26",
-  linen = "#efe6dd",
+  linen = "#f0eff4",
   nickel_grey = "#626c66",
   rifle_green = "#434a42",
 }
