@@ -2,6 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
+import { Fragment } from "react";
 import type { FC } from "react";
 
 import {
@@ -11,17 +12,23 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
+import { Menu as MenuIcon } from "@material-ui/icons";
+
+import { useAppBarStyles } from "../theme";
 
 const Header: FC = () => {
+  const { butt } = useAppBarStyles();
+
   return (
     <AppBar position="sticky" color="secondary">
       <Toolbar color="primary">
         <IconButton edge="start" color="inherit" aria-label="menu">
-          <Menu />
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6">News</Typography>
-        <Button color="inherit">Login</Button>
+        <Button className={butt} color="inherit">
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );

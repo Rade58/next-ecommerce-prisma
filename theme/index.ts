@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme, makeStyles } from "@material-ui/core/styles";
 
 import gray from "@material-ui/core/colors/grey";
 
@@ -26,6 +26,12 @@ const theme = createTheme({
     background: {
       default: colors_enum.linen,
     },
+  },
+});
+
+export const useAppBarStyles = makeStyles({
+  butt: {
+    //
   },
 });
 
