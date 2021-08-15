@@ -2,8 +2,14 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { NextPage as NP } from "next";
 
+import Lorem from "../components/Lorem";
+
 const PageName: NP = () => {
-  return <div>👾</div>;
+  return (
+    <>
+      <Lorem />
+    </>
+  );
 };
 
 export default PageName;
