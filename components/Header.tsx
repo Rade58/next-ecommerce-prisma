@@ -15,15 +15,17 @@ import { Menu } from "@material-ui/icons";
 
 const Header: FC = () => {
   return (
-    <AppBar position="sticky" color="secondary">
-      <Toolbar color="primary">
-        <IconButton edge="start" color="inherit" aria-label="menu">
-          <Menu />
-        </IconButton>
-        <Typography variant="h6">News</Typography>
-        <Button color="inherit">Login</Button>
-      </Toolbar>
-    </AppBar>
+    <header>
+      <AppBar position="sticky" color="secondary">
+        <Toolbar color="primary">
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <Menu />
+          </IconButton>
+          <Typography variant="h6">News</Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </header>
   );
 };
 
