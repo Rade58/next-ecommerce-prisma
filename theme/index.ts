@@ -18,13 +18,13 @@ const theme = createTheme({
   //
   palette: {
     primary: {
-      main: gray["600"],
+      main: colors_enum.dark_purple,
     },
     secondary: {
-      main: lime["200"],
+      main: colors_enum.rifle_green,
     },
     background: {
-      // default:
+      default: colors_enum.linen,
     },
   },
 });
