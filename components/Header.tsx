@@ -20,10 +20,11 @@ import {
   EmojiObjectsTwoTone,
 } from "@material-ui/icons";
 
-import { useAppBarStyles } from "../theme";
+import { useAppBarStyles, useLogoStyles } from "../theme";
 
 const Header: FC = () => {
   const { butt } = useAppBarStyles();
+  const { logo } = useLogoStyles();
 
   return (
     <header
@@ -42,10 +43,11 @@ const Header: FC = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
+            className={logo}
           >
-            🦜 FancyParrot
+            <Typography>FANCY PARROT 🦜</Typography>
           </IconButton>
-          <Typography variant="h6">Hello World</Typography>
+          {/* <Typography variant="h6">Hello World</Typography> */}
           <nav
             css={css`
               /* border: pink solid 1px; */
