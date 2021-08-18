@@ -14,16 +14,31 @@ const LatestProducts: FC<{
   products: ProductsListType;
 }> = ({ products }) => {
   return (
-    <Grid item xs={12} sm={12} md={6} lg={4} xl={3} spacing={2}>
-      {products.map((product) => {
-        return (
-          <ProductCard
-            product={product}
-            key={`${product.productId}-${product.name}`}
-          />
-        );
-      })}
-    </Grid>
+    <div
+      css={css`
+        margin: 10px auto;
+        width: fit fit-content;
+        border: pink solid 1px;
+      `}
+    >
+      <Grid
+        //
+        container
+        spacing={2}
+        sm={12}
+        md={12}
+        lg={12}
+      >
+        {products.map((product) => {
+          return (
+            <ProductCard
+              product={product}
+              key={`${product.productId}-${product.name}`}
+            />
+          );
+        })}
+      </Grid>
+    </div>
   );
 };
 

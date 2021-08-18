@@ -14,7 +14,10 @@ const Layout: FC = ({ children }) => {
       className="index-page-content"
       css={css`
         border: pink solid 2px;
-        padding: 10px auto;
+        margin: 12px 10%;
+        position: relative;
+        display: flex;
+        justify-content: center;
       `}
     >
       {children}

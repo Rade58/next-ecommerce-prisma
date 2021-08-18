@@ -16,22 +16,31 @@ import {
   CardMedia,
   Typography,
   Button,
+  makeStyles,
 } from "@material-ui/core";
 
 import type { ProductType } from "../../dummy/products";
 
+const useStyles = makeStyles({
+  myCard: {
+    maxWidth: 345,
+  },
+});
+
 const Product: FC<{ product: ProductType }> = ({ product }) => {
   const { name, image, description } = product;
 
+  const { myCard } = useStyles();
+
   return (
-    <Grid>
+    <Grid className={myCard} item>
       <Paper>
         <Card>
           <CardActionArea>
             <CardMedia
               component="img"
               alt={name}
-              height="160"
+              height="120"
               image={image}
               title={name}
             />
