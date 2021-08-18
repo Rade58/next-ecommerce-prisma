@@ -11,7 +11,13 @@ import type { ProductsListType } from "../../dummy/products";
 const LatestProducts: FC<{
   products: ProductsListType;
 }> = ({ products }) => {
-  return <Grid></Grid>;
+  return (
+    <Grid>
+      {products.map(({ name, image, productId }) => {
+        return <div key={`${productId}-${name}`}>{name}</div>;
+      })}
+    </Grid>
+  );
 };
 
 export default LatestProducts;
