@@ -1,9 +1,20 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
-import React from "react";
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
 const Footer: FC = () => {
-  return <footer>footer &copy;</footer>;
+  return (
+    <footer
+      css={css`
+        display: flex;
+        justify-content: center;
+      `}
+    >
+      footer &copy; My Shop
+    </footer>
+  );
 };
 
 export default Footer;
