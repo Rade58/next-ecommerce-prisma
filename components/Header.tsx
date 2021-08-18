@@ -27,65 +27,57 @@ const Header: FC = () => {
   const { logo } = useLogoStyles();
 
   return (
-    <header
-      css={css`
-        position: sticky;
-        top: 0;
-        display: flex;
-      `}
-    >
-      <AppBar position="relative" color="primary">
-        <Toolbar color="primary">
-          <IconButton
-            onClick={() => {
-              Router.push("/");
-            }}
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            className={logo}
-          >
-            <Typography>
-              FANCY PARROT{" "}
-              <span
-                css={css`
-                  font-size: 1.4em;
-                `}
-              >
-                🦜
-              </span>
-            </Typography>
-          </IconButton>
-          {/* <Typography variant="h6">Hello World</Typography> */}
-          <nav
-            css={css`
-              /* border: pink solid 1px; */
-              display: flex;
-              justify-content: space-evenly;
-              margin-left: auto;
-              min-width: 150px;
-            `}
-          >
-            <Button
-              onClick={() => Router.push("/signin")}
-              color="secondary"
-              variant="contained"
-              // className={butt}
+    <AppBar position="sticky" color="primary">
+      <Toolbar color="primary">
+        <IconButton
+          onClick={() => {
+            Router.push("/");
+          }}
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          className={logo}
+        >
+          <Typography>
+            FANCY PARROT{" "}
+            <span
+              css={css`
+                font-size: 1.4em;
+              `}
             >
-              Login
-            </Button>
-            <Button
-              onClick={() => Router.push("/cart")}
-              color="secondary"
-              variant="contained"
-              className={butt}
-            >
-              <ShopIcon />
-            </Button>
-          </nav>
-        </Toolbar>
-      </AppBar>
-    </header>
+              🦜
+            </span>
+          </Typography>
+        </IconButton>
+        {/* <Typography variant="h6">Hello World</Typography> */}
+        <nav
+          css={css`
+            /* border: pink solid 1px; */
+            display: flex;
+            justify-content: space-evenly;
+            margin-left: auto;
+            min-width: 150px;
+          `}
+        >
+          <Button
+            onClick={() => Router.push("/signin")}
+            color="secondary"
+            variant="contained"
+            // className={butt}
+          >
+            Login
+          </Button>
+          <Button
+            onClick={() => Router.push("/cart")}
+            color="secondary"
+            variant="contained"
+            className={butt}
+          >
+            <ShopIcon />
+          </Button>
+        </nav>
+      </Toolbar>
+    </AppBar>
   );
 };
 
