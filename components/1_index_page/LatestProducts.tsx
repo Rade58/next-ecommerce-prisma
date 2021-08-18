@@ -12,7 +12,7 @@ const LatestProducts: FC<{
   products: ProductsListType;
 }> = ({ products }) => {
   return (
-    <Grid>
+    <Grid xs={12} sm={12} md={6} lg={4} xl={3}>
       {products.map(({ name, image, productId }) => {
         return <div key={`${productId}-${name}`}>{name}</div>;
       })}

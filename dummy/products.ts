@@ -80,5 +80,6 @@ const products = [
 ];
 
 export type ProductsListType = typeof products;
+export type ProductType = typeof products[0];
 
 export default products;
