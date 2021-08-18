@@ -14,7 +14,11 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { Menu as MenuIcon, ShoppingCart as ShopIcon } from "@material-ui/icons";
+import {
+  Menu as MenuIcon,
+  ShoppingCart as ShopIcon,
+  EmojiObjectsTwoTone,
+} from "@material-ui/icons";
 
 import { useAppBarStyles } from "../theme";
 
@@ -39,7 +43,7 @@ const Header: FC = () => {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            🦜
           </IconButton>
           <Typography variant="h6">Hello World</Typography>
           <nav
