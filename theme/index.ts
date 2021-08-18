@@ -1,8 +1,8 @@
 import { createTheme, makeStyles } from "@material-ui/core/styles";
 
-import gray from "@material-ui/core/colors/grey";
+// import gray from "@material-ui/core/colors/grey";
 
-import lime from "@material-ui/core/colors/lime";
+// import lime from "@material-ui/core/colors/lime";
 
 enum colors_enum {
   xike_dark = "#04030F",

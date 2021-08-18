@@ -5,6 +5,8 @@ import { jsx, css } from "@emotion/react";
 import { Fragment } from "react";
 import type { FC } from "react";
 
+import Router from "next/router";
+
 import {
   AppBar,
   Toolbar,
@@ -39,19 +41,34 @@ const Header: FC = () => {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6">Hello World</Typography>
           <nav
             css={css`
-              margin: auto;
+              /* border: pink solid 1px; */
+              display: flex;
+              justify-content: space-evenly;
+              margin-right: 1em;
+              margin-left: auto;
+              min-width: 150px;
             `}
           >
-            <Typography variant="h6">Hello World</Typography>
+            <Button
+              onClick={() => Router.push("/signin")}
+              color="secondary"
+              variant="contained"
+              // className={butt}
+            >
+              Login
+            </Button>
+            <Button
+              onClick={() => Router.push("/cart")}
+              color="secondary"
+              variant="contained"
+              className={butt}
+            >
+              <ShopIcon />
+            </Button>
           </nav>
-          <Button color="secondary" variant="contained" className={butt}>
-            Login
-          </Button>
-          <Button color="secondary" variant="contained" className={butt}>
-            <ShopIcon />
-          </Button>
         </Toolbar>
       </AppBar>
     </header>
