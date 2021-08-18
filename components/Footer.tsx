@@ -10,6 +10,8 @@ const Footer: FC = () => {
       css={css`
         display: flex;
         justify-content: center;
+        align-items: center;
+        height: 80vh;
       `}
     >
       footer &copy; My Shop
