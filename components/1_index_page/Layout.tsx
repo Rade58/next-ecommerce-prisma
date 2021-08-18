@@ -10,7 +10,13 @@ import products from "../../dummy/products";
 
 const Layout: FC = ({ children }) => {
   return (
-    <main className="index-page-content">
+    <main
+      className="index-page-content"
+      css={css`
+        border: pink solid 2px;
+        padding: 10px auto;
+      `}
+    >
       {children}
 
       <LatestProducts products={products} />

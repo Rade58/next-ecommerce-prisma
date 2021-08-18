@@ -4,12 +4,15 @@ import type { NextPage as NP } from "next";
 
 import Lorem from "../components/Lorem";
 
-const PageName: NP = () => {
+import Layout from "../components/1_index_page/Layout";
+
+const IndexPage: NP = () => {
   return (
     <>
+      <Layout>{/* you can add extra content */}</Layout>
       <Lorem />
     </>
   );
 };
 
-export default PageName;
+export default IndexPage;
