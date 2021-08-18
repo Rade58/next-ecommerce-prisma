@@ -3,7 +3,7 @@ import React from "react";
 import type { FC } from "react";
 
 const Footer: FC = () => {
-  return <footer>footer</footer>;
+  return <footer>footer &copy;</footer>;
 };
 
 export default Footer;
