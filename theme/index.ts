@@ -13,6 +13,7 @@ enum colors_enum {
   tart_orange = "#F0544F",
   midnight_green = "#0F4C5C",
   beau_blue = "#B4D4EE",
+  dark_jungle_green = "#1E2019",
 }
 
 const theme = createTheme({
@@ -21,7 +22,7 @@ const theme = createTheme({
   //
   palette: {
     primary: {
-      main: colors_enum.midnight_green,
+      main: colors_enum.dark_jungle_green,
     },
     secondary: {
       main: colors_enum.beau_blue,

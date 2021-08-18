@@ -4,8 +4,8 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
-const Layout: FC = () => {
-  return null;
+const Layout: FC = ({ children }) => {
+  return <main className="index-page-content">{children}</main>;
 };
 
 export default Layout;
