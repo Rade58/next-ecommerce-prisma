@@ -37,7 +37,7 @@ const Header: FC = () => {
         <Toolbar color="primary">
           <IconButton
             onClick={() => {
-              console.log("Hello Button World");
+              Router.push("/");
             }}
             edge="start"
             color="inherit"
