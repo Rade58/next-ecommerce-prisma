@@ -43,7 +43,7 @@ const Header: FC = () => {
             color="inherit"
             aria-label="menu"
           >
-            🦜
+            🦜 FancyParrot
           </IconButton>
           <Typography variant="h6">Hello World</Typography>
           <nav
