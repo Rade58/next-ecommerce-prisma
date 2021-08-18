@@ -4,7 +4,7 @@ import { createTheme, makeStyles } from "@material-ui/core/styles";
 
 // import lime from "@material-ui/core/colors/lime";
 
-enum colors_enum {
+export enum colors_enum {
   xike_dark = "#04030F",
   tyrian_purple = "#5F1A37",
   linen = "#f0eff4",

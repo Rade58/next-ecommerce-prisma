@@ -20,7 +20,7 @@ import {
   EmojiObjectsTwoTone,
 } from "@material-ui/icons";
 
-import { useAppBarStyles, useLogoStyles } from "../theme";
+import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
 
 const Header: FC = () => {
   const { butt } = useAppBarStyles();
@@ -31,7 +31,7 @@ const Header: FC = () => {
       css={css`
         position: sticky;
         top: 0;
-        /* height: 64px; */
+        display: flex;
       `}
     >
       <AppBar position="relative" color="primary">
@@ -45,7 +45,16 @@ const Header: FC = () => {
             aria-label="menu"
             className={logo}
           >
-            <Typography>FANCY PARROT 🦜</Typography>
+            <Typography>
+              FANCY PARROT{" "}
+              <span
+                css={css`
+                  font-size: 1.4em;
+                `}
+              >
+                🦜
+              </span>
+            </Typography>
           </IconButton>
           {/* <Typography variant="h6">Hello World</Typography> */}
           <nav
@@ -53,7 +62,6 @@ const Header: FC = () => {
               /* border: pink solid 1px; */
               display: flex;
               justify-content: space-evenly;
-              margin-right: 1em;
               margin-left: auto;
               min-width: 150px;
             `}
