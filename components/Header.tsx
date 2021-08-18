@@ -20,7 +20,7 @@ const Header: FC = () => {
   const { butt } = useAppBarStyles();
 
   return (
-    <AppBar position="sticky" color="secondary">
+    <AppBar position="sticky" color="primary">
       <Toolbar color="primary">
         <IconButton
           onClick={() => {
@@ -32,8 +32,14 @@ const Header: FC = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6">News</Typography>
-        <Button className={butt} color="inherit">
+        <nav
+          css={css`
+            margin: auto;
+          `}
+        >
+          <Typography variant="h6">Hello World</Typography>
+        </nav>
+        <Button color="secondary" variant="contained" className={butt}>
           Login
         </Button>
       </Toolbar>
