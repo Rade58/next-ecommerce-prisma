@@ -84,7 +84,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
                 >
                   <Typography variant="body1">status:</Typography>
                   <Typography variant="body1">
-                    {countInStock ? "In Stock" : "Not In Stock"}
+                    {countInStock ? "In Stock" : "Out Of Stock"}
                   </Typography>
                 </div>
                 <div
@@ -116,7 +116,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
       </Grid>
       <Grid container className={papin}>
         <Grid item xs={12} sm={12} md={6} xl={7} className={papin}>
-          <Paper elevation={0}>
+          <Paper elevation={3}>
             <CardMedia
               component="img"
               alt={name}
