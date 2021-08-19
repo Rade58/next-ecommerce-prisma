@@ -60,7 +60,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
   return (
     <Fragment>
       <Grid container className={upper}>
-        <Grid item sm={6} md={6} lg={6} xl={6}>
+        <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
           <section>
             <Button color="primary" onClick={() => back()}>
               Go Back
@@ -68,7 +68,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
           </section>
         </Grid>
 
-        <Grid item sm={6} md={6} lg={6} xl={6}>
+        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <Paper>
             <Card>
               <CardContent>
@@ -103,7 +103,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
                   className={butti}
                   variant="contained"
                   size="large"
-                  color="secondary"
+                  color="primary"
                   onClick={() => {}}
                 >
                   Add To Cart
