@@ -10,4 +10,6 @@ I'M GOING TO BUILD COMPONENT FOR DISPLAYING MOCK PRODUCTS ON INDEX PAGE
 
 **IDEA IS TO LATTER ON, DISPLAY ACTUL DATA WITH THE SAME COMPONENT**
 
-`components/1_index_page/LatestProducts.tsx`
+`components/1_index_page/Products.tsx`
+
+

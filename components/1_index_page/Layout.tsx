@@ -4,7 +4,7 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
-import LatestProducts from "./LatestProducts";
+import LatestProducts from "./Products";
 
 import products from "../../dummy/products";
 
