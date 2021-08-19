@@ -51,12 +51,12 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
               title={name}
             />
             <CardContent>
-              <Typography variant="h5" component="h2">
+              <Typography variant="h6" component="h4">
                 {name}
               </Typography>
 
-              <Rating name="read-only" value={rating} />
-              <Typography className={rat} component="legend">
+              <Rating name="read-only" value={rating} precision={0.5} />
+              <Typography className={rat} variant="h6" component="h3">
                 ${Number(price)}
               </Typography>
             </CardContent>
