@@ -36,7 +36,7 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
     <Grid className={myCard} item sm={12} md={6} lg={4} xl={4}>
       <Paper>
         <Card>
-          <CardActionArea>
+          <CardActionArea onClick={() => Router.push(`/products/${productId}`)}>
             <CardMedia
               component="img"
               alt={name}
@@ -57,7 +57,7 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
               color="primary"
               onClick={() => Router.push(`/products/${productId}`)}
             >
-              Product
+              View Product
             </Button>
           </CardActions>
         </Card>
