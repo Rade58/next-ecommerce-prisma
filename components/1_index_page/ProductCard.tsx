@@ -16,9 +16,11 @@ import {
   CardMedia,
   Typography,
   Button,
-  Rating,
+  Box,
   makeStyles,
 } from "@material-ui/core";
+
+import { Rating } from "@material-ui/lab";
 
 import type { ProductType } from "../../dummy/products";
 
@@ -49,11 +51,9 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
               <Typography variant="h5" component="h2">
                 {name}
               </Typography>
-              <Rating
-                name="half-rating"
-                defaultValue={rating}
-                precision={0.5}
-              />
+
+              <Typography component="legend">rating:</Typography>
+              <Rating name="read-only" value={rating} />
             </CardContent>
           </CardActionArea>
           <CardActions>

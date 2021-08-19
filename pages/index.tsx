@@ -27,6 +27,8 @@ export const getStaticProps: GetStaticProps<PagePropsI> = async (ctx) => {
 };
 
 const IndexPage: NP<PagePropsI> = ({ products }) => {
+  console.log({ products });
+
   return (
     <>
       <Layout products={products}>
