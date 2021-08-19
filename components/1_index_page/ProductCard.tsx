@@ -16,6 +16,7 @@ import {
   CardMedia,
   Typography,
   Button,
+  Rating,
   makeStyles,
 } from "@material-ui/core";
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 const Product: FC<{ product: ProductType }> = ({ product }) => {
-  const { name, image, description, productId } = product;
+  const { name, image, description, productId, rating } = product;
 
   const { myCard } = useStyles();
 
@@ -48,7 +49,11 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
               <Typography variant="h5" component="h2">
                 {name}
               </Typography>
-              <Typography variant="body2">{description}</Typography>
+              <Rating
+                name="half-rating"
+                defaultValue={rating}
+                precision={0.5}
+              />
             </CardContent>
           </CardActionArea>
           <CardActions>
