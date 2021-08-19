@@ -3,8 +3,13 @@
 import type { GetStaticPaths, GetStaticProps, NextPage as NP } from "next";
 import { useRouter } from "next/router";
 
+import { Button, Card, List } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
+
 import type { ProductType } from "../../dummy/products";
 import products from "../../dummy/products";
+
+import ProductLayout from "../../components/2_product_page/Layout";
 
 interface ProductPageProps {
   product: ProductType;
@@ -52,7 +57,9 @@ const ProductPage: NP<ProductPageProps> = ({ product }) => {
 
   console.log({ query, product });
 
-  return <div>Page ID: {query.prodId}</div>;
+  return (
+    <ProductLayout product={product}>{/* additional things */}</ProductLayout>
+  );
 };
 
 export default ProductPage;
