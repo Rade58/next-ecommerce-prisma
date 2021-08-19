@@ -39,6 +39,9 @@ const useStyles = makeStyles({
   butti: {
     width: "100%",
   },
+  inherColor: {
+    backgroundColor: "inherit",
+  },
 });
 
 const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
@@ -53,7 +56,7 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
     countInStock,
   } = product;
   const { back } = useRouter();
-  const { kont, pap, papin, upper, butti } = useStyles();
+  const { kont, pap, papin, upper, butti, inherColor } = useStyles();
 
   return (
     <Fragment>
@@ -124,8 +127,8 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={12} md={6} xl={5} className={papin}>
-          <Paper elevation={0}>
-            <CardContent>
+          <Paper className={inherColor} elevation={0}>
+            <CardContent className={inherColor}>
               <Typography variant="h6" component="h4">
                 {name}
               </Typography>
