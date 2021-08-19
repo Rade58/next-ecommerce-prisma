@@ -71,38 +71,33 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
         <Grid item sm={6} md={6} lg={6} xl={6}>
           <Paper>
             <Card>
-              <CardActionArea>
-                <CardContent>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: space-between;
-                      border: #19181a solid 1px;
-                    `}
-                  >
-                    <Typography variant="h6" component="h4">
-                      status:
-                    </Typography>
-                    <Typography variant="h6" component="h4">
-                      status: {countInStock ? "In Stock" : "Not In Stock"}
-                    </Typography>
-                  </div>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: space-between;
-                      border: #19181a solid 1px;
-                    `}
-                  >
-                    <Typography variant="h6" component="h3">
-                      price:
-                    </Typography>
-                    <Typography variant="h6" component="h3">
-                      price: ${price}
-                    </Typography>
-                  </div>
-                </CardContent>
-              </CardActionArea>
+              <CardContent>
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                    border: #19181a solid 1px;
+                    border-bottom: transparent;
+                    padding: 4px;
+                  `}
+                >
+                  <Typography variant="body1">status:</Typography>
+                  <Typography variant="body1">
+                    {countInStock ? "In Stock" : "Not In Stock"}
+                  </Typography>
+                </div>
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                    border: #19181a solid 1px;
+                    padding: 4px;
+                  `}
+                >
+                  <Typography variant="body1">price:</Typography>
+                  <Typography variant="body1">${price}</Typography>
+                </div>
+              </CardContent>
               <CardActions>
                 <Button
                   className={butti}
