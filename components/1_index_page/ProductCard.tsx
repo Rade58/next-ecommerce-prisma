@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
 
 const Product: FC<{ product: ProductType }> = ({ product }) => {
-  const { name, image, description, productId, rating } = product;
+  const { name, image, productId, rating } = product;
 
   const { myCard, rat } = useStyles();
 
