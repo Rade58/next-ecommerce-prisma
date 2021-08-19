@@ -12,7 +12,6 @@ import {
   Card,
   Grid,
   makeStyles,
-  CardActionArea,
   CardActions,
   Typography,
   CardContent,
