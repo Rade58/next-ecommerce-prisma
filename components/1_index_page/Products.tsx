@@ -26,8 +26,9 @@ const LatestProducts: FC<{
         container
         spacing={2}
         sm={12}
-        md={12}
-        lg={12}
+        md={6}
+        lg={4}
+        xl={3}
       >
         {products.map((product) => {
           return (

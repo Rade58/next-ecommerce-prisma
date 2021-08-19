@@ -33,7 +33,7 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
   const { myCard } = useStyles();
 
   return (
-    <Grid className={myCard} md={12} item>
+    <Grid className={myCard} item sm={12} md={3} lg={1} xl={1}>
       <Paper>
         <Card>
           <CardActionArea>
