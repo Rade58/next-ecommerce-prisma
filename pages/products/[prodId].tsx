@@ -10,7 +10,7 @@ interface ProductPageProps {
   product: ProductType;
 }
 
-type paramsType = { siteId: string };
+type paramsType = { prodId: string };
 
 export const getStaticPaths: GetStaticPaths<paramsType> = async (ctx) => {
   const prods = products;
@@ -18,7 +18,7 @@ export const getStaticPaths: GetStaticPaths<paramsType> = async (ctx) => {
   const paths = prods.map(({ productId }) => {
     return {
       params: {
-        siteId: `${productId}`,
+        prodId: `${productId}`,
       },
     };
   });
@@ -31,7 +31,7 @@ export const getStaticPaths: GetStaticPaths<paramsType> = async (ctx) => {
 
 export const getStaticProps: GetStaticProps<ProductPageProps, paramsType> =
   async (ctx) => {
-    const siteId = ctx.params?.siteId;
+    const siteId = ctx.params?.prodId;
 
     const [product] = products.filter(
       ({ productId }) => `${productId}` === siteId
@@ -45,7 +45,7 @@ export const getStaticProps: GetStaticProps<ProductPageProps, paramsType> =
     };
   };
 
-const FeedbackPage: NP<ProductPageProps> = ({ product }) => {
+const ProductPage: NP<ProductPageProps> = ({ product }) => {
   console.log({ product });
 
   const { query } = useRouter();
@@ -55,4 +55,4 @@ const FeedbackPage: NP<ProductPageProps> = ({ product }) => {
   return <div>Page ID: {query.prodId}</div>;
 };
 
-export default FeedbackPage;
+export default ProductPage;

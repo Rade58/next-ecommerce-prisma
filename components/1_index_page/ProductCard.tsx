@@ -4,7 +4,7 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
-import Image from "next/image";
+import Router from "next/router";
 
 import {
   Paper,
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 const Product: FC<{ product: ProductType }> = ({ product }) => {
-  const { name, image, description } = product;
+  const { name, image, description, productId } = product;
 
   const { myCard } = useStyles();
 
@@ -52,8 +52,12 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
-              Share
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => Router.push(`/products/${productId}`)}
+            >
+              Product
             </Button>
           </CardActions>
         </Card>
