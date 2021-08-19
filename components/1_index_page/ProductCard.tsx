@@ -33,14 +33,14 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
   const { myCard } = useStyles();
 
   return (
-    <Grid className={myCard} item sm={12} md={3} lg={1} xl={1}>
+    <Grid className={myCard} item sm={12} md={6} lg={4} xl={4}>
       <Paper>
         <Card>
           <CardActionArea>
             <CardMedia
               component="img"
               alt={name}
-              height="120"
+              // height="138"
               image={image}
               title={name}
             />

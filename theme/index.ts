@@ -51,10 +51,11 @@ export const useAppBarStyles = makeStyles({
 export const useLogoStyles = makeStyles({
   logo: {
     fontSiz: "1.2em",
-    border: `${colors_enum.beau_blue} solid 2px`,
+    // border: `${colors_enum.beau_blue} solid 2px`,
     padding: "4px",
     borderRadius: "4px",
     color: colors_enum.beau_blue,
+    // background: colors_enum.xike_dark,
   },
 });
 
