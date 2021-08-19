@@ -55,12 +55,9 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
                 {name}
               </Typography>
 
-              <Typography className={rat} component="legend">
-                rating:
-              </Typography>
               <Rating name="read-only" value={rating} />
               <Typography className={rat} component="legend">
-                price: ${Number(price)}
+                ${Number(price)}
               </Typography>
             </CardContent>
           </CardActionArea>
