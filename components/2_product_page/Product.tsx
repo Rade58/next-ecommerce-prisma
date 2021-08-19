@@ -21,8 +21,6 @@ import {
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
-import Image from "next/image";
-
 const useStyles = makeStyles({
   kont: {
     height: "20vh",
