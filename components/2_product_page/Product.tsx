@@ -73,19 +73,34 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
             <Card>
               <CardActionArea>
                 <CardContent>
-                  <Typography variant="h6" component="h4">
-                    status: {countInStock ? "In Stock" : "Not In Stock"}
-                  </Typography>
-                  <Typography variant="h6" component="h4">
-                    status: {countInStock ? "In Stock" : "Not In Stock"}
-                  </Typography>
-
-                  <Typography variant="h6" component="h3">
-                    price: ${price}
-                  </Typography>
-                  <Typography variant="h6" component="h3">
-                    price: ${price}
-                  </Typography>
+                  <div
+                    css={css`
+                      display: flex;
+                      justify-content: space-between;
+                      border: #19181a solid 1px;
+                    `}
+                  >
+                    <Typography variant="h6" component="h4">
+                      status:
+                    </Typography>
+                    <Typography variant="h6" component="h4">
+                      status: {countInStock ? "In Stock" : "Not In Stock"}
+                    </Typography>
+                  </div>
+                  <div
+                    css={css`
+                      display: flex;
+                      justify-content: space-between;
+                      border: #19181a solid 1px;
+                    `}
+                  >
+                    <Typography variant="h6" component="h3">
+                      price:
+                    </Typography>
+                    <Typography variant="h6" component="h3">
+                      price: ${price}
+                    </Typography>
+                  </div>
                 </CardContent>
               </CardActionArea>
               <CardActions>
