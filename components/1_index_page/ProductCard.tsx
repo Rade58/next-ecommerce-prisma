@@ -65,7 +65,7 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
                 {numReviews} reviews
               </Typography>
               <Typography className={rat} variant="h6" component="h3">
-                ${Number(price)}
+                ${price}
               </Typography>
             </CardContent>
           </CardActionArea>

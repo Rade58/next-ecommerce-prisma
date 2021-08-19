@@ -3,9 +3,6 @@
 import type { GetStaticPaths, GetStaticProps, NextPage as NP } from "next";
 import { useRouter } from "next/router";
 
-import { Button, Card, List } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
-
 import type { ProductType } from "../../dummy/products";
 import products from "../../dummy/products";
 
