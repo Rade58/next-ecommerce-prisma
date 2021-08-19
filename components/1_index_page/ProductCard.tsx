@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
 
 const Product: FC<{ product: ProductType }> = ({ product }) => {
-  const { name, image, productId, rating } = product;
+  const { name, image, productId, rating, price } = product;
 
   const { myCard, rat } = useStyles();
 
@@ -59,6 +59,9 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
                 rating:
               </Typography>
               <Rating name="read-only" value={rating} />
+              <Typography className={rat} component="legend">
+                price: ${Number(price)}
+              </Typography>
             </CardContent>
           </CardActionArea>
           <CardActions>
