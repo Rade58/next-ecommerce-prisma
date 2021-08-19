@@ -6,9 +6,11 @@ import type { FC } from "react";
 
 import LatestProducts from "./Products";
 
-import products from "../../dummy/products";
+import type { ProductsListType } from "../../dummy/products";
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<{
+  products: ProductsListType;
+}> = ({ children, products }) => {
   return (
     <main
       className="index-page-content"
