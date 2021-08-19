@@ -28,12 +28,15 @@ const useStyles = makeStyles({
   myCard: {
     maxWidth: 345,
   },
+  rat: {
+    marginTop: "10px",
+  },
 });
 
 const Product: FC<{ product: ProductType }> = ({ product }) => {
   const { name, image, description, productId, rating } = product;
 
-  const { myCard } = useStyles();
+  const { myCard, rat } = useStyles();
 
   return (
     <Grid className={myCard} item sm={12} md={6} lg={4} xl={4}>
@@ -52,7 +55,9 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
                 {name}
               </Typography>
 
-              <Typography component="legend">rating:</Typography>
+              <Typography className={rat} component="legend">
+                rating:
+              </Typography>
               <Rating name="read-only" value={rating} />
             </CardContent>
           </CardActionArea>
