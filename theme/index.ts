@@ -14,6 +14,7 @@ export enum colors_enum {
   midnight_green = "#0F4C5C",
   beau_blue = "#B4D4EE",
   dark_jungle_green = "#1E2019",
+  paper = "#EDEBA0",
 }
 
 const theme = createTheme({
@@ -28,7 +29,7 @@ const theme = createTheme({
       main: colors_enum.beau_blue,
     },
     background: {
-      default: colors_enum.linen,
+      default: colors_enum.paper,
     },
     error: {
       main: colors_enum.tart_orange,
