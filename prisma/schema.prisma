@@ -138,13 +138,13 @@ model OrderElement {
   productId String
 
   // ----------------------
-  currentOrder   Order  @relation(fields: [currentOrderId], references: [id])
-  currentOrderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
 }
 
 // THIS IS A PAYPAL THING
 model PaymentResult {
-  // THIS IS THE ID I ADDED
+  // THIS IS THE ID THAT WILL BE GENERATED
   paymentId   String  @id @default(cuid())
   // THIS IS THE ID FROM PAYPAL
   id          String?
@@ -159,20 +159,21 @@ model PaymentResult {
 //
 
 model Order {
-  id        String         @id @default(cuid())
-  buyer     Profile        @relation(fields: [buyerId], references: [id])
-  buyerId   String
-  items     OrderElement[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  status    OrderStatus
-
-  paymentMethod String
-
+  id              String         @id @default(cuid())
+  buyer           Profile        @relation(fields: [buyerId], references: [id])
+  buyerId         String
+  items           OrderElement[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  // WE WILL UPDATE THIS
+  // WHEN WE FIND OUT STATUS FROM paymentResult
+  // OR MAYBE WE WILL REMOVE THIS IN THE FUTURE
+  status          OrderStatus
+  // PAYPAL RELATED
   paymentResult   PaymentResult? @relation(fields: [paymentResultId], references: [paymentId])
+  //
   paymentResultId String?
 
-  taxPrice      Float? @default(0.0)
   shippingPrice Float? @default(0.0)
 
   payedAt DateTime?
@@ -188,20 +189,19 @@ model Profile {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  role       Role    @default(USER)
+  role          Role    @default(USER)
   // FOR SHIPPING PURPOSES
-  addrss     String?
-  city       String?
-  postalCode String?
-  country    String?
+  addrss        String?
+  city          String?
+  postalCode    String?
+  country       String?
+  paymentMethod String?
+  taxPrice      Float?  @default(0.0)
 
+  // --------------
   ordersHistory Order[]
 
-  // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
   productCreationHistory Product[]
-  // ORDERS
-  //
-  // ADDING ROLE AND DEFULT VALUE
   reviewsHistory         Review[]
 
 }
