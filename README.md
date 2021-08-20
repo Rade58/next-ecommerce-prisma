@@ -244,3 +244,10 @@ const user = await prisma.user.create({
 # OK, THIS IS MY SCHEMA
 
 YOU CAN SE WHAT I ADDED
+
+BESIDES ALL THAT I MENTIONED I ADDED `Profile` MODEL WHICH HAS:
+
+`shippingAddress` `city`
+
+I DID THAT BECAUSE I DONT WANT TO CHANGE `User` THAT MUCH
+

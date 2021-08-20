@@ -57,23 +57,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  // ADDING ROLE AND DEFULT VALUE
-  role          Role      @default(USER)
+  id String @id @default(cuid())
+
   //
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
-  products      Product[]
-  // ORDERS
-  orders        Order[]
+
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   accounts  Account[]
   sessions  Session[]
+  profiles  Profile[]
 }
 
 model VerificationRequest {
@@ -97,7 +94,7 @@ model VerificationRequest {
 
 model Product {
   productId    String   @id @default(cuid())
-  admin        User     @relation(fields: [adminId], references: [id])
+  admin        Profile  @relation(fields: [adminId], references: [id])
   adminId      String
   name         String
   image        String
@@ -116,7 +113,7 @@ model Product {
   //  Reviews
   reviews Review[]
 
-  // ProductElements
+  // OrderElements
   orderElements OrderElement[]
 
 }
@@ -143,12 +140,33 @@ model OrderElement {
 
 model Order {
   id        String         @id @default(cuid())
-  buyer     User           @relation(fields: [buyerId], references: [id])
+  buyer     Profile        @relation(fields: [buyerId], references: [id])
   buyerId   String
   items     OrderElement[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   status    OrderStatus
+
+}
+
+model Profile {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  role            Role   @default(USER)
+  shippingAddress String
+  city            String
+
+  ordersHistory Order[]
+
+  // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
+  purchaseHistory Product[]
+  // ORDERS
+  //
+  // ADDING ROLE AND DEFULT VALUE
+
+
 }
 
 // I DON'T NEESD THIS
