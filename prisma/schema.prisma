@@ -50,19 +50,21 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   // ADDING ROLE AND DEFULT VALUE
-  role          Role      @default(USER)
+  role          Role          @default(USER)
   //
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
   products      Product[]
+  // AND FOR TRANSACTIONS
+  transactions  Transaction[]
   //
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   accounts      Account[]
   sessions      Session[]
 }
@@ -83,18 +85,36 @@ model VerificationRequest {
 // --------------------------------------------------
 // --------------------------------------------------
 
-// PRODUCTS AND TRANSACTIONS ------------------------
+// ----------- PRODUCTS AND TRANSACTIONS ------------
 // --------------------------------------------------
 
 model Product {
-  productId   String @id @default(cuid())
-  createdBy   User   @relation(fields: [adminId], references: [id])
-  adminId     String
-  name        String
-  image       String
-  description String
-  brand       String
-  category    String
+  id           String   @id @default(cuid())
+  admin        User     @relation(fields: [adminId], references: [id])
+  adminId      String
+  name         String
+  image        String
+  description  String
+  brand        String
+  category     String?
+  price        Float
+  countInStock Int
+  rating       Float
+  numReviews   Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // WE NEED THIS BECAUSE OF RELATIONS
+  transactions Transaction[]
+}
+
+model Transaction {
+  transactionId String   @id @default(cuid())
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     String
+  buyer         User     @relation(fields: [buyerId], references: [id])
+  buyerId       String
+  createdAt     DateTime @default(now())
 }
 
 // --------------------------------------------------
