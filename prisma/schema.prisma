@@ -129,12 +129,13 @@ model Review {
 
 model Order {
   id        String  @id @default(cuid())
-  product   Product @relation(fields: [productId], references: [productId])
-  productId String
   buyer     User    @relation(fields: [buyerId], references: [id])
   buyerId   String
+  product   Product @relation(fields: [productId], references: [productId])
+  productId String
 }
 
+// I DON'T NEESD THIS
 model Transaction {
   transactionId String   @id @default(cuid())
   product       Product  @relation(fields: [productId], references: [productId])
