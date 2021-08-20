@@ -104,8 +104,8 @@ model Product {
   price        Float
   countInStock Int
   // AVERAGE OF ALL OF THE REVIEW RATING (JUST YOU KNOW)
-  rating       Float
-  numReviews   Int
+  rating       Float    @default(0.0)
+  numReviews   Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
