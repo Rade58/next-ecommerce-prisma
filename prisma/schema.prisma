@@ -124,10 +124,12 @@ model Review {
 }
 
 model Order {
-  id         String   @id @default(cuid())
-  buyer      User     @relation(fields: [buyerId], references: [id])
+  id         String @id @default(cuid())
+  buyer      User   @relation(fields: [buyerId], references: [id])
   buyerId    String
-  productIds String[]
+  // ADDING JSON TYPE FOR THIS
+  // THIS SHOULD BE `JSONB` TYPE IN CASE OF POSTGRES
+  productIds Json
 }
 
 // I DON'T NEESD THIS
