@@ -241,4 +241,6 @@ const user = await prisma.user.create({
 
 **I WOULD IMPLEMENT SOMETHING LIKE `createOrderAndOrderElements`**
 
-# 
+# OK, THIS IS MY SCHEMA
+
+YOU CAN SE WHAT I ADDED

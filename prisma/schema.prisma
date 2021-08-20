@@ -16,6 +16,13 @@ enum Role {
   ADMIN
 }
 
+// THIS ONE IS FOR THE STATUS OF ORDER
+enum OrderStatus {
+  PENDING
+  FULFILLED
+  REJECTED
+}
+
 //                    NEXT-AUTH
 // --------------------------------------------------
 // --------------------------------------------------
@@ -109,6 +116,8 @@ model Product {
   //  Reviews
   reviews Review[]
 
+  // ProductElements
+  orderElements OrderElement[]
 
 }
 
@@ -123,13 +132,23 @@ model Review {
   updatedAt DateTime @updatedAt
 }
 
+model OrderElement {
+  id        String  @id @default(cuid())
+  quantity  Int
+  product   Product @relation(fields: [productId], references: [productId])
+  productId String
+  order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   String?
+}
+
 model Order {
-  id         String @id @default(cuid())
-  buyer      User   @relation(fields: [buyerId], references: [id])
-  buyerId    String
-  // ADDING JSON TYPE FOR THIS
-  // THIS SHOULD BE `JSONB` TYPE IN CASE OF POSTGRES
-  productIds Json
+  id        String         @id @default(cuid())
+  buyer     User           @relation(fields: [buyerId], references: [id])
+  buyerId   String
+  items     OrderElement[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  status    OrderStatus
 }
 
 // I DON'T NEESD THIS
