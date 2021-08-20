@@ -480,3 +480,11 @@ model Profile {
 // --------------------------------------------------
 
 ```
+
+# CHANGE SO MANY THING, AND THEREFORE WE NEED TO DO A MIGRATION
+
+```
+yarn prisma:migrate:init
+```
+
+APEARS TO BE SUCCESFUL, ALSO PRISMA CLIENT IS GENERATED
