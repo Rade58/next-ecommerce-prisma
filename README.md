@@ -251,3 +251,232 @@ BESIDES ALL THAT I MENTIONED I ADDED `Profile` MODEL WHICH HAS:
 
 I DID THAT BECAUSE I DONT WANT TO CHANGE `User` THAT MUCH
 
+**THIS IS WHAT I CREATED SO FAR, IT END UP PRETTY EXTENSIVE**
+
+```
+cat prisma/schema.prisma
+```
+
+```groq
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ROLE
+enum Role {
+  USER
+  ADMIN
+}
+
+// THIS ONE IS FOR THE STATUS OF ORDER
+enum OrderStatus {
+  PENDING
+  FULFILLED
+  REJECTED
+}
+
+//                    NEXT-AUTH
+// --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
+
+model Account {
+  id                 String    @id @default(cuid())
+  userId             String
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id])
+
+  @@unique([providerId, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id String @id @default(cuid())
+
+  //
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  accounts  Account[]
+  sessions  Session[]
+  profiles  Profile[]
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+// --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
+
+// ---- PRODUCTS, ORDERS, REVIEWS ... ----
+// --------------------------------------------------
+
+model Product {
+  productId    String   @id @default(cuid())
+  admin        Profile  @relation(fields: [adminId], references: [id])
+  adminId      String
+  name         String
+  image        String
+  description  String
+  brand        String
+  category     String?
+  price        Float
+  countInStock Int
+  // AVERAGE OF ALL OF THE REVIEW RATING (JUST YOU KNOW)
+  rating       Float    @default(0.0)
+  numReviews   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+
+  //  Reviews
+  reviews Review[]
+
+  // OrderElements
+  orderElements OrderElement[]
+
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  product   Product  @relation(fields: [productId], references: [productId])
+  productId String
+  name      String
+  rating    Float
+  user      Profile  @relation(fields: [userId], references: [id])
+  userId    String
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderElement {
+  id        String  @id @default(cuid())
+  quantity  Int
+  product   Product @relation(fields: [productId], references: [productId])
+  productId String
+
+  // ----------------------
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+}
+
+// THIS IS A PAYPAL THING
+model PaymentResult {
+  // THIS IS THE ID THAT WILL BE GENERATED
+  paymentId   String  @id @default(cuid())
+  // THIS IS THE ID FROM PAYPAL
+  id          String?
+  //
+  status      String?
+  update_time String?
+  email       String?
+
+  orders Order[]
+}
+
+//
+
+model Order {
+  id              String         @id @default(cuid())
+  buyer           Profile        @relation(fields: [buyerId], references: [id])
+  buyerId         String
+  items           OrderElement[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  // WE WILL UPDATE THIS
+  // WHEN WE FIND OUT STATUS FROM paymentResult
+  // OR MAYBE WE WILL REMOVE THIS IN THE FUTURE
+  status          OrderStatus
+  // PAYPAL RELATED
+  paymentResult   PaymentResult? @relation(fields: [paymentResultId], references: [paymentId])
+  //
+  paymentResultId String?
+
+  shippingPrice Float? @default(0.0)
+
+  payedAt DateTime?
+
+  isDelivered Boolean @default(false)
+
+  deliveredAt DateTime?
+
+}
+
+model Profile {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  role          Role    @default(USER)
+  // FOR SHIPPING PURPOSES
+  addrss        String?
+  city          String?
+  postalCode    String?
+  country       String?
+  paymentMethod String?
+  taxPrice      Float?  @default(0.0)
+
+  // --------------
+  ordersHistory Order[]
+
+  productCreationHistory Product[]
+  reviewsHistory         Review[]
+
+}
+
+// I DON'T NEESD THIS
+// model Transaction {
+// transactionId String   @id @default(cuid())
+// product       Product  @relation(fields: [productId], references: [productId])
+// productId     String
+// buyer         User     @relation(fields: [buyerId], references: [id])
+// buyerId       String
+// createdAt     DateTime @default(now())
+// }
+
+// --------------------------------------------------
+// --------------------------------------------------
+
+```
