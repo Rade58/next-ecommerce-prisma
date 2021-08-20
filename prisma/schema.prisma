@@ -124,6 +124,8 @@ model Review {
   productId String
   name      String
   rating    Float
+  buyer     Profile  @relation(fields: [buyerId], references: [id])
+  buyerId   String
   comment   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,8 +136,10 @@ model OrderElement {
   quantity  Int
   product   Product @relation(fields: [productId], references: [productId])
   productId String
-  order     Order?  @relation(fields: [orderId], references: [id])
-  orderId   String?
+
+  // ----------------------
+  currentOrder     Order?  @relation(fields: [idOfCurrentOrder], references: [id])
+  idOfCurrentOrder String?
 }
 
 model Order {
@@ -146,7 +150,6 @@ model Order {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   status    OrderStatus
-
 }
 
 model Profile {
@@ -154,18 +157,21 @@ model Profile {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  role            Role   @default(USER)
-  shippingAddress String
-  city            String
+  role       Role    @default(USER)
+  // FOR SHIPPING PURPOSES
+  addrss     String?
+  city       String?
+  postalCode String?
+  country    String?
 
   ordersHistory Order[]
 
   // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
-  purchaseHistory Product[]
+  productCreationHistory Product[]
   // ORDERS
   //
   // ADDING ROLE AND DEFULT VALUE
-
+  reviewsHistory         Review[]
 
 }
 
