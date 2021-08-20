@@ -16,8 +16,6 @@ enum Role {
   ADMIN
 }
 
-
-
 //                    NEXT-AUTH
 // --------------------------------------------------
 // --------------------------------------------------
@@ -54,12 +52,15 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   // ADDING ROLE AND DEFULT VALUE
-  role Role @default(USER)
-  // 
+  role          Role      @default(USER)
+  //
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  // ADDING RELATIONS FOR ADMIN USER (THAT'S WHY THIS FIELD IS OPTIONAL)
+  products      Product[]
+  //
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
@@ -85,8 +86,16 @@ model VerificationRequest {
 // PRODUCTS AND TRANSACTIONS ------------------------
 // --------------------------------------------------
 
-
+model Product {
+  productId   String @id @default(cuid())
+  createdBy   User   @relation(fields: [adminId], references: [id])
+  adminId     String
+  name        String
+  image       String
+  description String
+  brand       String
+  category    String
+}
 
 // --------------------------------------------------
 // --------------------------------------------------
-
