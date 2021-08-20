@@ -6,13 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:db:push": "dotenv -e .env.local -- npx prisma db push",
+    "prisma:studio": "dotenv -e .env.local -- npx prisma studio",
+    "prisma:generate:client": "dotenv -e .env.local -- npx prisma generate",
+    "prisma:migrate:init": "dotenv -e .env.local -- npx prisma migrate dev --name init",
+    "prisma:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
+    "prisma:introspect": "dotenv -e .env.local -- npx prisma introspect"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
+    "@prisma/client": "^2.29.1",
     "next": "11.1.0",
     "next-connect": "^0.10.2",
     "react": "17.0.2",
@@ -22,6 +29,7 @@
     "@types/react": "17.0.18",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0",
+    "prisma": "^2.29.1",
     "typescript": "4.3.5"
   }
 }
