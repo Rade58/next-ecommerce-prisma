@@ -138,9 +138,25 @@ model OrderElement {
   productId String
 
   // ----------------------
-  currentOrder     Order?  @relation(fields: [idOfCurrentOrder], references: [id])
-  idOfCurrentOrder String?
+  currentOrder     Order  @relation(fields: [idOfCurrentOrder], references: [id])
+  idOfCurrentOrder String
 }
+
+// THIS IS A PAYPAL THING
+model PaymentResult {
+  // THIS IS THE ID I ADDED
+  paymentId   String  @id @default(cuid())
+  // THIS IS THE ID FROM PAYPAL
+  id          String?
+  //
+  status      String?
+  update_time String?
+  email       String?
+
+  orders Order[]
+}
+
+//
 
 model Order {
   id        String         @id @default(cuid())
@@ -150,6 +166,21 @@ model Order {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   status    OrderStatus
+
+  paymentMethod String
+
+  paymentResult   PaymentResult? @relation(fields: [paymentResultId], references: [paymentId])
+  paymentResultId String?
+
+  taxPrice      Float? @default(0.0)
+  shippingPrice Float? @default(0.0)
+
+  payedAt DateTime?
+
+  isDelivered Boolean @default(false)
+
+  deliveredAt DateTime?
+
 }
 
 model Profile {
