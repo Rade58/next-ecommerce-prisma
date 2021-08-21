@@ -14,3 +14,4 @@ yarn add @next-auth/prisma-adapter
 
 I AM GOING TO USE <https://mailtrap.io/>
 
+THIS IS A EMAAIL PROVIDER MADE SPECIFICALLY FOR TESTING AND DEVELOPMENT
