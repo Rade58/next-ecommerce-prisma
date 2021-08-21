@@ -210,4 +210,20 @@ code components/Header.tsx
 
 # SOMWHERE IN OUR APP WE COULD TRY USE `session`, BY GETTING IT WITH `useSession`, SINCE PRESENCE OF SESSIONS, ACTUALLY MEANS THAT USER IS AUTHENTICATED
 
+I JUST PRINTED IT INSIDE INDX PAGE
 
+```jsx
+import { useSession } from "next-auth/client";
+
+
+
+// ....
+// ....
+// ...somewhere inside component
+ const [session, loading] = useSession();
+
+  console.log({ session, loading });
+
+
+
+```
