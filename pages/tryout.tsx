@@ -10,43 +10,61 @@ import { TextField, InputLabel } from "@material-ui/core";
 
 const TryOutPage: NP = () => {
   return (
-    <main
-      css={css`
-        padding-top: 20vh;
-        display: flex;
-        justify-content: center;
-      `}
-    >
+    <main>
       <h1>
         This page is only for practicing{" "}
         <a target="_blank" rel="noreferrer" href="https://sendgrid.com/">
           Sendgrid
         </a>
       </h1>
-      <form>
-        <InputLabel htmlFor="name-field">Name</InputLabel>
-        <TextField
-          id="name-field"
-          label="Name"
-          placeholder="Name"
-          variant="filled"
-        />
-        <InputLabel htmlFor="email-field">Email address</InputLabel>
-        <TextField
-          id="email-field"
-          label="email address"
-          placeholder="email address"
-          variant="filled"
-        />
-        <InputLabel htmlFor="message-field">Message</InputLabel>
-        <TextField
-          id="message-field"
-          label="Message"
-          placeholder="message"
-          multiline
-          variant="filled"
-        />
-      </form>
+      <section
+        className="form-holder"
+        css={css`
+          padding-top: 10vh;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          & div.field {
+            margin-top: 10vh;
+          }
+        `}
+      >
+        <form>
+          <div className="field">
+            <TextField
+              id="name-field"
+              label="Name"
+              placeholder="Name"
+              variant="filled"
+            />
+          </div>
+          <div className="field">
+            <TextField
+              id="email-field"
+              label="email address"
+              placeholder="email address"
+              variant="filled"
+            />
+          </div>
+          <div className="field">
+            <TextField
+              id="message-field"
+              label="Message"
+              placeholder="message"
+              multiline
+              variant="filled"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </div>
+        </form>
+      </section>
     </main>
   );
 };
