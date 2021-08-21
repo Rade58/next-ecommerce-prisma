@@ -55,7 +55,7 @@ NEXTAUTH_URL=http://localhost:3000
 SECRET=
 ```
 
-# MY NEHT AUTH ENDPOINT SETUP
+# NEXT-AUTH ENDPOINT SETUP
 
 ```
 mkdir -p pages/api/auth && touch "pages/api/auth/[...nextauth].ts"
