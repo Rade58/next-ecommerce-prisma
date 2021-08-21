@@ -4,7 +4,11 @@ THIS IS A HELPFUL TUTORIAL, WE CAN EXTEND WITH OUR CUSTOM STUFF TO SERVE OUR NEE
 
 <https://flaviocopes.com/nextjs-email-authentication/>
 
-# FIRST LET'S INSTALL PRISMA ADAPTER
+# WE FORGOT TO DEFINE PRISMA CLIENT
+
+I DID THAT HERE: `lib/prisma/index.ts`
+
+# NOW LET'S INSTALL PRISMA ADAPTER
 
 ```
 yarn add @next-auth/prisma-adapter
@@ -39,7 +43,17 @@ NEXTAUTH_URL=http://localhost:3000
 SECRET=
 ```
 
+# MY NEHT AUTH ENDPOINT SETUP
 
+```
+mkdir -p pages/api/auth && touch "pages/api/auth/[...nextauth].ts"
+```
+
+eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYyOTU2MTU5NiwiaWF0IjoxNjI5NTYxNTk2fQ.VD01eYRMrJ5EG3EOJ8HjO9lgqmp4U8n7ro8pGq3838s
+
+```ts
+
+```
 
 
 
