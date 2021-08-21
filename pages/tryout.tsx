@@ -6,7 +6,7 @@ import { jsx, css } from "@emotion/react";
 import type { NextPage as NP } from "next";
 import { useState } from "react";
 
-import { FormControl } from "@material-ui/core";
+import { TextField, InputLabel } from "@material-ui/core";
 
 const TryOutPage: NP = () => {
   return (
@@ -23,7 +23,30 @@ const TryOutPage: NP = () => {
           Sendgrid
         </a>
       </h1>
-      <form></form>
+      <form>
+        <InputLabel htmlFor="name-field">Name</InputLabel>
+        <TextField
+          id="name-field"
+          label="Name"
+          placeholder="Name"
+          variant="filled"
+        />
+        <InputLabel htmlFor="email-field">Email address</InputLabel>
+        <TextField
+          id="email-field"
+          label="email address"
+          placeholder="email address"
+          variant="filled"
+        />
+        <InputLabel htmlFor="message-field">Message</InputLabel>
+        <TextField
+          id="message-field"
+          label="Message"
+          placeholder="message"
+          multiline
+          variant="filled"
+        />
+      </form>
     </main>
   );
 };
