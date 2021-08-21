@@ -98,7 +98,9 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
 export default handler;
 ```
 
-# `_app.tsx`
+# `_app.tsx` (WE NEED SESSION PROVIDER)
+
+BECAUSE WE WANT TO USE `useSession` HOOK ACROSS OUR APP
 
 ```tsx
 import { useEffect, Fragment } from "react";
@@ -107,8 +109,9 @@ import Head from "next/head";
 
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
-// IMPORTED PROVIDER
+// IMPORT PROVIDER
 import { Provider } from "next-auth/client";
+// 
 
 import theme from "../theme";
 
@@ -132,7 +135,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      {/* ADDED Provider */}
+      {/* USED Provider HERE */}
       <Provider session={pageProps.session}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
