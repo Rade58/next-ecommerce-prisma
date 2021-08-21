@@ -4,6 +4,9 @@ import Head from "next/head";
 
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
+// IMPORTED PROVIDER
+import { Provider } from "next-auth/client";
+
 import theme from "../theme";
 
 import Header from "../components/Header";
@@ -26,12 +29,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header />
-        <Component {...pageProps} />
-        <Footer />
-      </ThemeProvider>
+      {/* ADDED Provider */}
+      <Provider session={pageProps.session}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
+        </ThemeProvider>
+      </Provider>
     </Fragment>
   );
 }

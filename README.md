@@ -49,11 +49,90 @@ SECRET=
 mkdir -p pages/api/auth && touch "pages/api/auth/[...nextauth].ts"
 ```
 
-eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYyOTU2MTU5NiwiaWF0IjoxNjI5NTYxNTk2fQ.VD01eYRMrJ5EG3EOJ8HjO9lgqmp4U8n7ro8pGq3838s
-
 ```ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
+import prismaClient from "../../../lib/prisma";
+
+const handler = (req: NextApiRequest, res: NextApiResponse) =>
+  NextAuth(req, res, {
+    providers: [
+      Providers.Email({
+        server: process.env.EMAIL_SERVER,
+        from: process.env.EMIL_FROM,
+      }),
+    ],
+
+    database: process.env.DATABASE_URL,
+    secret: process.env.SECRET,
+
+    session: {
+      jwt: true,
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+
+    jwt: {
+      secret: "VD01eYRMrJ5EG3EOJ8HjO9lgqmp4U8n7ro8pGq3838s",
+      encryption: true,
+    },
+
+    debug: true,
+    adapter: PrismaAdapter(prismaClient),
+  });
+
+export default handler;
 ```
 
+# `_app.tsx`
 
+```tsx
+import { useEffect, Fragment } from "react";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+
+import { ThemeProvider, CssBaseline } from "@material-ui/core";
+
+// IMPORTED PROVIDER
+import { Provider } from "next-auth/client";
+
+import theme from "../theme";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
+function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    const jssStyles = document.querySelector("#jss-server-side");
+
+    if (jssStyles) {
+      jssStyles.parentElement?.removeChild(jssStyles);
+    }
+  }, []);
+
+  return (
+    <Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      {/* ADDED Provider */}
+      <Provider session={pageProps.session}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
+        </ThemeProvider>
+      </Provider>
+    </Fragment>
+  );
+}
+export default MyApp;
+
+```
 
