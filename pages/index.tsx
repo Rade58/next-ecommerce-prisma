@@ -2,6 +2,8 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { NextPage as NP, GetStaticProps } from "next";
 
+import { useSession } from "next-auth/client";
+
 import Lorem from "../components/Lorem";
 
 import Layout from "../components/1_index_page/Layout";
@@ -12,8 +14,6 @@ import type { ProductsListType } from "../dummy/products";
 interface PagePropsI {
   products: ProductsListType;
 }
-
-import { useSession } from "next-auth/client";
 
 export const getStaticProps: GetStaticProps<PagePropsI> = async (ctx) => {
   // FETCHING FOR ALL POSTS
