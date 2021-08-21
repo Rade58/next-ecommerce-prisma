@@ -12,4 +12,5 @@ yarn add @next-auth/prisma-adapter
 
 # LET'S CREATE EMAIL PROVIDER ACCOUNT
 
-I AM GOING TO USE 
+I AM GOING TO USE <https://mailtrap.io/>
+
