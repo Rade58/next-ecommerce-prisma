@@ -212,6 +212,10 @@ code components/Header.tsx
 
 I JUST PRINTED IT INSIDE INDX PAGE
 
+```
+code pages/index.tsx
+```
+
 ```jsx
 import { useSession } from "next-auth/client";
 
@@ -220,10 +224,11 @@ import { useSession } from "next-auth/client";
 // ....
 // ....
 // ...somewhere inside component
- const [session, loading] = useSession();
+      const [session, loading] = useSession();
 
-  console.log({ session, loading });
-
+      console.log({ session, loading });
+// ...
+// ...
 
 
 ```
