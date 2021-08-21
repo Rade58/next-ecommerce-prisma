@@ -136,3 +136,4 @@ export default MyApp;
 
 ```
 
+# ADDING A LINK INSIDE OUR APP THAT POINTS TO THE `/api/auth/signin`

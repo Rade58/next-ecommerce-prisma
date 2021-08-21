@@ -13,6 +13,8 @@ interface PagePropsI {
   products: ProductsListType;
 }
 
+import { useSession } from "next-auth/client";
+
 export const getStaticProps: GetStaticProps<PagePropsI> = async (ctx) => {
   // FETCHING FOR ALL POSTS
   // THIS IS DUMMY DATA THAT REPRESENTS FETCHING
@@ -28,6 +30,10 @@ export const getStaticProps: GetStaticProps<PagePropsI> = async (ctx) => {
 
 const IndexPage: NP<PagePropsI> = ({ products }) => {
   console.log({ products });
+
+  const [session, loading] = useSession();
+
+  console.log({ session, loading });
 
   return (
     <>
