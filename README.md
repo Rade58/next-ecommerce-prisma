@@ -4,6 +4,10 @@ THIS IS A HELPFUL TUTORIAL, WE CAN EXTEND WITH OUR CUSTOM STUFF TO SERVE OUR NEE
 
 <https://flaviocopes.com/nextjs-email-authentication/>
 
+AND I WOULD AY, THIS IS EVEN BETTER TUTORIAL THAT ALSO COVERS OAuth TOO (BUT IT DOESN'T SHOW US HOW TO USE MAILTRAP)
+
+<https://blog.logrocket.com/using-authentication-in-next-js/>
+
 # WE FORGOT TO DEFINE PRISMA CLIENT
 
 I DID THAT HERE: `lib/prisma/index.ts`
@@ -165,6 +169,10 @@ WE CAN TEMPORARRY PLACE THIS IN HEADER
 
 WE CAN USE ROUTER TOO
 
+```
+code components/Header.tsx
+```
+
 ```jsx
 // ...
 // THIS IS OUR LOGIN BUTTON
@@ -183,3 +191,5 @@ WE CAN USE ROUTER TOO
 ```
 
 # SOMWHERE IN OUR APP WE COULD TRY USE `session`, BY GETTING IT WITH `useSession`
+
+
