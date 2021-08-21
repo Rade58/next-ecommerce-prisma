@@ -8,6 +8,8 @@ AND I WOULD SAY, THIS IS EVEN BETTER TUTORIAL THAT ALSO COVERS OAuth TOO (BUT IT
 
 <https://blog.logrocket.com/using-authentication-in-next-js/>
 
+AND THIS LINK HAS FACEBOOK OAUTH AT THE END: <https://blog.logrocket.com/how-to-use-nextauth-js-for-client-side-authentication-in-next-js/>
+
 # WE FORGOT TO DEFINE PRISMA CLIENT
 
 I DID THAT HERE: `lib/prisma/index.ts`
