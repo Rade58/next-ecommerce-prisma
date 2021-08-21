@@ -232,3 +232,17 @@ import { useSession } from "next-auth/client";
 
 
 ```
+
+# LETS TEST THIS
+
+```
+yarn dev
+```
+
+WHWN WE PRESS ON LOGIN BUTTUN, WE SHOULD BE NAVIGATED TO `/api/auth/signin`
+
+THERE WE HAVE FORM WITH FIELD FOR EMAIL, FOR REGISTRATION OR LOGIN
+
+AFTER WE SUBMITTED WE SHOUD SEE THIS
+
+
