@@ -61,6 +61,8 @@ SECRET=
 mkdir -p pages/api/auth && touch "pages/api/auth/[...nextauth].ts"
 ```
 
+FOR NOW WE WILLL SEND SAME JWT TO EVERYONE SINCE WE ARE TESTING AND DEVELOPING
+
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
