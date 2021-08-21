@@ -10,7 +10,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
     providers: [
       Providers.Email({
         server: process.env.EMAIL_SERVER,
-        from: process.env.EMIL_FROM,
+        from: process.env.EMAIL_FROM,
       }),
     ],
 
