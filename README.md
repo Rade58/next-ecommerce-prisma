@@ -149,8 +149,15 @@ export default TryOutPage;
 
 ```
 
-## BUILDING API ROUTE
+## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`
 
+```
+touch pages/api/mail.ts
+```
+
+```ts
+
+```
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
