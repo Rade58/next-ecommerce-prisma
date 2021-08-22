@@ -22,7 +22,7 @@ handler.post(async (req, res) => {
   // ---- DATA
   const data = {
     to: email,
-    from: "RadeDev <radedev@maoutfull.xyz>",
+    from: "radedev@maoutfull.xyz",
     subject: "Hello World",
     text: msg,
     html: msg.replace(/\r\n/g, "<br/>"),
@@ -34,6 +34,8 @@ handler.post(async (req, res) => {
 
     res.status(200).json(emailResponse);
   } catch (err) {
+    console.log({ err });
+
     res.status(400).json(err);
   }
 });

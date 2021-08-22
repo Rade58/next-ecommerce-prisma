@@ -38,12 +38,14 @@ const TryOutPage: NP = () => {
       e.preventDefault();
 
       setReqStatus("pending");
-
-      const res = await axios.post("/api/mail", { name, email, message });
-
-      setReqStatus("idle");
-
-      console.log(res.data);
+      try {
+        const res = await axios.post("/api/mail", { name, email, message });
+        setReqStatus("idle");
+        console.log(res.data);
+      } catch (err) {
+        setReqStatus("idle");
+        console.log({ err });
+      }
     },
     [name, email, message, setReqStatus]
   );

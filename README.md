@@ -57,12 +57,14 @@ const TryOutPage: NP = () => {
       e.preventDefault();
 
       setReqStatus("pending");
-
-      const res = await axios.post("/api/mail", { name, email, message });
-
-      setReqStatus("idle");
-
-      console.log(res.data);
+      try {
+        const res = await axios.post("/api/mail", { name, email, message });
+        setReqStatus("idle");
+        console.log(res.data);
+      } catch (err) {
+        setReqStatus("idle");
+        console.log({ err });
+      }
     },
     [name, email, message, setReqStatus]
   );
@@ -168,6 +170,7 @@ const TryOutPage: NP = () => {
 };
 
 export default TryOutPage;
+
 ```
 
 ## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`, AND FOR NOW IT IS ONLY GOING TO RETURN "Hello world"
@@ -326,7 +329,7 @@ handler.post(async (req, res) => {
   // ---- DATA
   const data = {
     to: email,
-    from: "RadeDev <radedev@maoutfull.xyz>",
+    from: "radedev@maoutfull.xyz",
     subject: "Hello World",
     text: msg,
     html: msg.replace(/\r\n/g, "<br/>"),
@@ -338,12 +341,13 @@ handler.post(async (req, res) => {
 
     res.status(200).json(emailResponse);
   } catch (err) {
+    console.log({ err });
+
     res.status(400).json(err);
   }
 });
 
 export default handler;
-
 ```
 
 
