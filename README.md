@@ -347,7 +347,9 @@ handler.post(async (req, res) => {
     to: email,
     from: sendingFrom,
     subject: "Hello World",
+    // IF SOMEONE IS RECEIVING PLAIN TEXT EMAIL
     text: msg,
+    // IF SOMEONE IS RECEIVING HTML
     html: msg.replace(/\r\n/g, "<br/>"),
   };
 
