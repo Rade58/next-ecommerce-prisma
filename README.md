@@ -27,7 +27,7 @@ import { useState, useCallback } from "react";
 
 import type { ChangeEventHandler, FormEvent } from "react";
 
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 
 const TryOutPage: NP = () => {
   const [{ name, email, message }, setFields] = useState<{
@@ -39,6 +39,8 @@ const TryOutPage: NP = () => {
     email: "",
     message: "",
   });
+
+  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -52,18 +54,19 @@ const TryOutPage: NP = () => {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (!name || !email || !message) {
-        console.log("invalid");
-
-        return;
-      }
-      console.log({ name, email, message });
-
       // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
-      // WE WILL HIT OUR API ROUTE, WHICH WE ARE GOING TO BUILD SOON
+      // I AM SIMULATING IT FOR NOW
+      setReqStatus("pending");
+
+      setTimeout(() => {
+        setReqStatus("idle");
+      }, 2000);
     },
-    [name, email, message]
+    [name, email, message, setReqStatus]
   );
+
+  const buttonDisabled =
+    !name || !email || !message || reqStatus === "pending" ? true : false;
 
   return (
     <main>
@@ -136,8 +139,25 @@ const TryOutPage: NP = () => {
               fullWidth
             />
           </div>
-          <Button variant="contained" color="primary" type="submit">
-            Send
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={buttonDisabled}
+          >
+            {"Send "}
+            {reqStatus === "pending" ? (
+              <div
+                css={css`
+                  display: inline-block;
+                  margin-left: 8px;
+                `}
+              >
+                <CircularProgress color="primary" size={18} />
+              </div>
+            ) : (
+              ""
+            )}
           </Button>
         </form>
       </section>
@@ -146,7 +166,6 @@ const TryOutPage: NP = () => {
 };
 
 export default TryOutPage;
-
 ```
 
 ## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`

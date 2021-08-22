@@ -21,6 +21,8 @@ const TryOutPage: NP = () => {
     message: "",
   });
 
+  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
+
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = (e) =>
@@ -33,17 +35,19 @@ const TryOutPage: NP = () => {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (!name || !email || !message) {
-        console.log("invalid");
-
-        return;
-      }
-      console.log({ name, email, message });
-
       // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
+      // I AM SIMULATING IT FOR NOW
+      setReqStatus("pending");
+
+      setTimeout(() => {
+        setReqStatus("idle");
+      }, 2000);
     },
-    [name, email, message]
+    [name, email, message, setReqStatus]
   );
+
+  const buttonDisabled =
+    !name || !email || !message || reqStatus === "pending" ? true : false;
 
   return (
     <main>
@@ -116,8 +120,25 @@ const TryOutPage: NP = () => {
               fullWidth
             />
           </div>
-          <Button variant="contained" color="primary" type="submit">
-            Send <CircularProgress color="secondary" />
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={buttonDisabled}
+          >
+            {"Send "}
+            {reqStatus === "pending" ? (
+              <div
+                css={css`
+                  display: inline-block;
+                  margin-left: 8px;
+                `}
+              >
+                <CircularProgress color="primary" size={18} />
+              </div>
+            ) : (
+              ""
+            )}
           </Button>
         </form>
       </section>
