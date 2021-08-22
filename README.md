@@ -365,7 +365,17 @@ handler.post(async (req, res) => {
 export default handler;
 ```
 
+## WE CAN STARRT DEV SERVER AND TRY THIS
 
+```
+yarn dev
+```
+
+GO TO <http://localhost:3000/tryout>
+
+FILL OUT THE FORM, YOU CAN ENTER SOME EMAIL YOU ARE USING (**MAYBE YOU CAN ENTER SOME MAIL FROM <https://10minutemail.com/> IF YOU DON'T WANT TO SEND TO YOUR OWN EMAIL OR YOU CAN TRY BOTH**)
+
+PRESS ON SEND BUTTON
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
