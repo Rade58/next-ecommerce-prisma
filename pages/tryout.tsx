@@ -8,7 +8,7 @@ import { useState, useCallback } from "react";
 
 import type { ChangeEventHandler, FormEvent } from "react";
 
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 
 const TryOutPage: NP = () => {
   const [{ name, email, message }, setFields] = useState<{
@@ -117,7 +117,7 @@ const TryOutPage: NP = () => {
             />
           </div>
           <Button variant="contained" color="primary" type="submit">
-            Send
+            Send <CircularProgress color="secondary" />
           </Button>
         </form>
       </section>

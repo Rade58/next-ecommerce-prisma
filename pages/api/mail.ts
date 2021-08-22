@@ -3,7 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
-handler.get(async (req, res) => {
+handler.post(async (req, res) => {
+  const b = req.body;
+
+  console.log(typeof b);
+
+  console.log({ body: b });
+
   res.status(200).json("Hello World");
 });
 
