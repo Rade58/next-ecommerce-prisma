@@ -71,7 +71,7 @@ const TryOutPage: NP = () => {
   return (
     <main>
       <h1>
-        This page is only for practicing{" "}
+        This page is only made for practicing{" "}
         <a target="_blank" rel="noreferrer" href="https://sendgrid.com/">
           Sendgrid
         </a>
