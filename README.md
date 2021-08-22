@@ -168,15 +168,33 @@ const TryOutPage: NP = () => {
 export default TryOutPage;
 ```
 
-## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`
+## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`, AND FOR NOW IT IS ONLY GOING TO RETURN "Hello world"
+
+IT IS GOING TO BE "POST" ROUTE
 
 ```
 touch pages/api/mail.ts
 ```
 
 ```ts
+import nc from "next-connect";
+import type { NextApiRequest, NextApiResponse } from "next";
 
+const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.post(async (req, res) => {
+  // BECAUSE WE USE NEXT-CONNECT, body WILL BE PARSED
+  // WE DON'T NEED TO USE JSON.parse
+  const { body } = req;
+
+  res.status(200).json("Hello World");
+});
+
+export default handler;
 ```
+
+# RIGHT NOW, WE NEED TO SETUP SENDGRID
+
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
