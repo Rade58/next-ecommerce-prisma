@@ -21,6 +21,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@next-auth/prisma-adapter": "^0.5.4",
     "@prisma/client": "^2.29.1",
+    "@sendgrid/mail": "^7.4.6",
     "axios": "^0.21.1",
     "next": "11.1.0",
     "next-auth": "^3.28.0",

@@ -289,6 +289,20 @@ AND HERE:
 
 <https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/client>
 
+FROM THERE I FOUND OUT THAT I NEED TO INSTAL `@sengrid/mail` SO I'M GOING TO DO THAT JUST NOW
+
+```
+yarn add @sengrid/mail
+```
+
+## LET'S ACTUALLY INITIALIZE SENGRID MAIL WITH API KEY; ACTULLY WE ARE GOING TO DO THAT INSIDE FILE OF OUR API ROUTE; ALSO I AM GOING TO FINISH MY API ROUTE DEFFINITION WHERE I'M GOING TO DEFINE SENDING OF ACTUALL EMAIL BY USING SENDGRID
+
+- `code pages/api/mail.ts`
+
+```ts
+
+```
+
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
 <https://www.youtube.com/watch?v=61sMBUOUVww>
