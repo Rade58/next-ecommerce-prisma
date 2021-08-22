@@ -58,6 +58,7 @@ const TryOutPage: NP = () => {
 
       setReqStatus("pending");
       try {
+        // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const res = await axios.post("/api/mail", { name, email, message });
         setReqStatus("idle");
         console.log(res.data);
@@ -103,25 +104,27 @@ const TryOutPage: NP = () => {
       >
         <form onSubmit={handleSubmit}>
           <div className="field">
+            {/* THIS IS GOING TO BE INPUT FOR SENDERS MAIL  */}
             <TextField
               onChange={handleChange}
               value={name}
               name="name"
               id="name-field"
-              label="Name"
-              placeholder="Name"
+              label="Your Name"
+              placeholder="Your Name"
               variant="filled"
             />
           </div>
           <div className="field">
+            {/* THIS IS GOING TO BE EMAIL USER IS SENDDING TO */}
             <TextField
               onChange={handleChange}
               value={email}
               type="email"
               name="email"
               id="email-field"
-              label="Email address"
-              placeholder="Email address"
+              label="Send To Email Address"
+              placeholder="Send To Email address"
               variant="filled"
             />
           </div>
@@ -132,6 +135,7 @@ const TryOutPage: NP = () => {
               width: 48vw;
             `}
           >
+            {/* AND THIS IS MESSAGE, USER IS SENDING */}
             <TextField
               onChange={handleChange}
               value={message}
@@ -170,7 +174,6 @@ const TryOutPage: NP = () => {
 };
 
 export default TryOutPage;
-
 ```
 
 ## BUILDING API ROUTE, WE WILL NAME IT: `pages/api/mail.ts`, AND FOR NOW IT IS ONLY GOING TO RETURN "Hello world"
@@ -317,19 +320,32 @@ sendgridMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
+  // TAKING EVVERYTHING WE NEED FROM THE BODY
   const { name, email, message } = req.body;
 
-  // ---- FORING MESSAGE STRING FROM VALUES FROM BOSY
+  // OK, THIS IS VERY IMPORTANT
+  // THIS IS A EMAIL WE ARE SENDING FROM
+  // IT IS IMPORTANT THAT YOU FORM HIM
+  // FROM YOUR DOMAIN WE WERE SETTING UP IN SENDGRID BEFORE
+  // SO IT NEEDS TO BE LIKE THIS:
+  //    <whatever you want>@<your valid domain>
+  // OTHERWISE YOU WILL GET ERROR FROM SENDGRID
+
+  const sendingFrom = "RadeDev@moutfull.xyz"; // YES, WE SETTED moutfull.xyz AS OUR DOMAIN BEFORE
+
+  // ---- CREATING MESSAGE STRING
+  // THIS IS GOING TO BE DISPLAYED AS AN EMAIL MESSAGE
   const msg = `
     Name: ${name}\r\n
-    Email: ${email}\r\n
     Message: ${message}
   `;
 
-  // ---- DATA
+  // ---- THIS IS INFO WE PROVIDE TO SENDGRID
+  // WHERE TO SEND EMAIL AND FROM WHO
+  // AND THE REST OF THE STUFF LIKKE SUBJECT
   const data = {
     to: email,
-    from: "radedev@maoutfull.xyz",
+    from: sendingFrom,
     subject: "Hello World",
     text: msg,
     html: msg.replace(/\r\n/g, "<br/>"),
@@ -338,7 +354,6 @@ handler.post(async (req, res) => {
   try {
     // WE CAN NOW SEND EMAIL
     const emailResponse = await sendgridMail.send(data);
-
     res.status(200).json(emailResponse);
   } catch (err) {
     console.log({ err });

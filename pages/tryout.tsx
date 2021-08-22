@@ -39,6 +39,7 @@ const TryOutPage: NP = () => {
 
       setReqStatus("pending");
       try {
+        // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const res = await axios.post("/api/mail", { name, email, message });
         setReqStatus("idle");
         console.log(res.data);
@@ -84,25 +85,27 @@ const TryOutPage: NP = () => {
       >
         <form onSubmit={handleSubmit}>
           <div className="field">
+            {/* THIS IS GOING TO BE INPUT FOR SENDERS MAIL  */}
             <TextField
               onChange={handleChange}
               value={name}
               name="name"
               id="name-field"
-              label="Name"
-              placeholder="Name"
+              label="Your Name"
+              placeholder="Your Name"
               variant="filled"
             />
           </div>
           <div className="field">
+            {/* THIS IS GOING TO BE EMAIL USER IS SENDDING TO */}
             <TextField
               onChange={handleChange}
               value={email}
               type="email"
               name="email"
               id="email-field"
-              label="Email address"
-              placeholder="Email address"
+              label="Send To Email Address"
+              placeholder="Send To Email address"
               variant="filled"
             />
           </div>
@@ -113,6 +116,7 @@ const TryOutPage: NP = () => {
               width: 48vw;
             `}
           >
+            {/* AND THIS IS MESSAGE, USER IS SENDING */}
             <TextField
               onChange={handleChange}
               value={message}
