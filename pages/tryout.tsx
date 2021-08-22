@@ -30,7 +30,7 @@ const TryOutPage: NP = () => {
     }));
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       console.log({ name, email, message });
