@@ -29,6 +29,8 @@ import type { ChangeEventHandler, FormEvent } from "react";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
+import axios from "axios";
+
 const TryOutPage: NP = () => {
   const [{ name, email, message }, setFields] = useState<{
     name: string;
@@ -54,13 +56,13 @@ const TryOutPage: NP = () => {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
-      // I AM SIMULATING IT FOR NOW
       setReqStatus("pending");
 
-      setTimeout(() => {
-        setReqStatus("idle");
-      }, 2000);
+      const res = await axios.post("/api/mail", { name, email, message });
+
+      setReqStatus("idle");
+
+      console.log(res.data);
     },
     [name, email, message, setReqStatus]
   );
@@ -300,8 +302,51 @@ yarn add @sengrid/mail
 - `code pages/api/mail.ts`
 
 ```ts
+import nc from "next-connect";
+import type { NextApiRequest, NextApiResponse } from "next";
+// WE NEED THIS
+import sendgridMail from "@sendgrid/mail";
+//
+
+// WE INITIALIZE WITH API KEY
+sendgridMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+
+const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.post(async (req, res) => {
+  const { name, email, message } = req.body;
+
+  // ---- FORING MESSAGE STRING FROM VALUES FROM BOSY
+  const msg = `
+    Name: ${name}\r\n
+    Email: ${email}\r\n
+    Message: ${message}
+  `;
+
+  // ---- DATA
+  const data = {
+    to: email,
+    from: "RadeDev <radedev@maoutfull.xyz>",
+    subject: "Hello World",
+    text: msg,
+    html: msg.replace(/\r\n/g, "<br/>"),
+  };
+
+  try {
+    // WE CAN NOW SEND EMAIL
+    const emailResponse = await sendgridMail.send(data);
+
+    res.status(200).json(emailResponse);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+export default handler;
 
 ```
+
+
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 

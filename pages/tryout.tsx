@@ -10,6 +10,8 @@ import type { ChangeEventHandler, FormEvent } from "react";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
+import axios from "axios";
+
 const TryOutPage: NP = () => {
   const [{ name, email, message }, setFields] = useState<{
     name: string;
@@ -35,13 +37,13 @@ const TryOutPage: NP = () => {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
-      // I AM SIMULATING IT FOR NOW
       setReqStatus("pending");
 
-      setTimeout(() => {
-        setReqStatus("idle");
-      }, 2000);
+      const res = await axios.post("/api/mail", { name, email, message });
+
+      setReqStatus("idle");
+
+      console.log(res.data);
     },
     [name, email, message, setReqStatus]
   );
