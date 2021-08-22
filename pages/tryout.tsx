@@ -4,11 +4,41 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { NextPage as NP } from "next";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-import { TextField, InputLabel } from "@material-ui/core";
+import type { ChangeEventHandler, FormEvent } from "react";
+
+import { TextField, Button } from "@material-ui/core";
 
 const TryOutPage: NP = () => {
+  const [{ name, email, message }, setFields] = useState<{
+    name: string;
+    email: string;
+    message: string;
+  }>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) =>
+    setFields((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      console.log({ name, email, message });
+      // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
+    },
+    [name, email, message]
+  );
+
   return (
     <main>
       <h1>
@@ -32,11 +62,18 @@ const TryOutPage: NP = () => {
             display: flex;
             justify-content: center;
           }
+
+          & button {
+            margin-top: 8vh;
+          }
         `}
       >
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="field">
             <TextField
+              onChange={handleChange}
+              value={name}
+              name="name"
               id="name-field"
               label="Name"
               placeholder="name"
@@ -45,6 +82,10 @@ const TryOutPage: NP = () => {
           </div>
           <div className="field">
             <TextField
+              onChange={handleChange}
+              value={email}
+              type="email"
+              name="email"
               id="email-field"
               label="Email address"
               placeholder="email address"
@@ -59,17 +100,25 @@ const TryOutPage: NP = () => {
             `}
           >
             <TextField
+              onChange={handleChange}
+              value={message}
+              name="message"
               id="message-field"
-              placeholder="message"
+              label="Message"
+              placeholder="Message"
               multiline
-              // variant="filled"
               fullWidth
               margin="normal"
               InputLabelProps={{
                 shrink: true,
               }}
+              variant="outlined"
+              rows={4}
             />
           </div>
+          <Button variant="contained" color="primary" type="submit">
+            Send
+          </Button>
         </form>
       </section>
     </main>
