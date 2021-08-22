@@ -24,11 +24,13 @@ const TryOutPage: NP = () => {
           width: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
+          align-content: center;
 
           & div.field {
             margin-top: 10vh;
+            display: flex;
+            justify-content: center;
           }
         `}
       >
@@ -37,25 +39,30 @@ const TryOutPage: NP = () => {
             <TextField
               id="name-field"
               label="Name"
-              placeholder="Name"
+              placeholder="name"
               variant="filled"
             />
           </div>
           <div className="field">
             <TextField
               id="email-field"
-              label="email address"
+              label="Email address"
               placeholder="email address"
               variant="filled"
             />
           </div>
-          <div className="field">
+          <div
+            className="field"
+            css={css`
+              align-self: flex-start;
+              width: 48vw;
+            `}
+          >
             <TextField
               id="message-field"
-              label="Message"
               placeholder="message"
               multiline
-              variant="filled"
+              // variant="filled"
               fullWidth
               margin="normal"
               InputLabelProps={{
