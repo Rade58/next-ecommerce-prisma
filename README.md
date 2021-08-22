@@ -273,6 +273,21 @@ SENDGRID_API_KEY=
 
 GREEN MESSAGE FOR `Create Sender Identity`
 
+## NOW I FOUND THIS GITHUB REDME FOR SENDGRID THAT CAAN BE HELPFUL
+
+<https://github.com/sendgrid/sendgrid-nodejs/>
+
+FROM THERE I FOUND ACTUAL DOCUMENTATION
+
+WE ARE NOW INTERESTED IN `@sendgrid/client`
+
+SO YOU CAN FOUND OUT MORE HERE:
+
+<https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication>
+
+AND HERE:
+
+<https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/client>
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
