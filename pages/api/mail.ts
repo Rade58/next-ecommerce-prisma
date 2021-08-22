@@ -21,8 +21,8 @@ handler.post(async (req, res) => {
 
   // ---- DATA
   const data = {
-    to: email,
-    from: "radedev@maoutfull.xyz",
+    to: "bajic.rade2@gmail.com",
+    from: "radedev@moutfull.xyz",
     subject: "Hello World",
     text: msg,
     html: msg.replace(/\r\n/g, "<br/>"),
