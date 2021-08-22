@@ -52,8 +52,15 @@ const TryOutPage: NP = () => {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
+      if (!name || !email || !message) {
+        console.log("invalid");
+
+        return;
+      }
       console.log({ name, email, message });
+
       // IN HERE, LATER, WE WILL DEFINE NETWORK REQUEST
+      // WE WILL HIT OUR API ROUTE, WHICH WE ARE GOING TO BUILD SOON
     },
     [name, email, message]
   );
@@ -95,7 +102,7 @@ const TryOutPage: NP = () => {
               name="name"
               id="name-field"
               label="Name"
-              placeholder="name"
+              placeholder="Name"
               variant="filled"
             />
           </div>
@@ -107,7 +114,7 @@ const TryOutPage: NP = () => {
               name="email"
               id="email-field"
               label="Email address"
-              placeholder="email address"
+              placeholder="Email address"
               variant="filled"
             />
           </div>
@@ -127,12 +134,6 @@ const TryOutPage: NP = () => {
               placeholder="Message"
               multiline
               fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              rows={4}
             />
           </div>
           <Button variant="contained" color="primary" type="submit">
@@ -147,6 +148,9 @@ const TryOutPage: NP = () => {
 export default TryOutPage;
 
 ```
+
+## BUILDING API ROUTE
+
 
 # PASSWORDLES SIGNIN WITH NEXT-AUTH AND SENDGRID
 
