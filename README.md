@@ -268,6 +268,8 @@ const VerifyEmailInfoPage: NP = () => {
 export default VerifyEmailInfoPage;
 ```
 
+# I TRIED IT AND IT SEEMS TO WORK
+
 
 # REMANDER
 
