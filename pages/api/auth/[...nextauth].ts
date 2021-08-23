@@ -8,12 +8,6 @@ import prismaClient from "../../../lib/prisma";
 const handler = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
     providers: [
-      // THIS WS FOR MAILTRAP SO, I'LL COMMENT THIS OUT
-      /* Providers.Email({
-        server: process.env.EMAIL_SERVER,
-        from: process.env.EMAIL_FROM,
-      }), */
-      // --------- DEFINING THIS ------------------------
       Providers.Email({
         server: {
           host: process.env.EMAIL_SERVER_HOST,
@@ -25,16 +19,12 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
         },
         from: process.env.FROM_EMAIL,
       }),
-      // -----------------------------------------------
     ],
 
     database: process.env.DATABASE_URL,
     secret: process.env.SECRET,
     adapter: PrismaAdapter(prismaClient),
 
-    // WE HAD THESE FROM EARLIER, WHEN WE WERE USING MAILTRAP
-    // I STILL DON'T KNOW IF I NEED THIS
-    // I'LL COMMENT OUT THIS FOR NOW
     /* session: {
       jwt: true,
       maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -46,6 +36,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
     },
 
     debug: true, */
+
+    // I ADDED THIS
   });
 
 export default handler;

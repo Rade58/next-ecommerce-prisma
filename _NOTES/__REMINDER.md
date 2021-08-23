@@ -10,3 +10,9 @@ SEE THIS
 
 <https://next-auth.js.org/configuration/events#createuser>
 
+<https://github.com/nextauthjs/next-auth-example/blob/main/pages/api/auth/%5B...nextauth%5D.js>
+
+
+# REMANDER
+
+USE EVENTS IN NEXT-AUTH TO CREATE PROFILE
