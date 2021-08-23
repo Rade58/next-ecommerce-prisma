@@ -268,5 +268,29 @@ const VerifyEmailInfoPage: NP = () => {
 export default VerifyEmailInfoPage;
 ```
 
+## WE NEED TO UPDATE LINK THAT POINTS TO LOGIN PAGE
+
+```
+code 
+```
+
+```jsx
+{/* ... */}
+{/* ... */}
+{/* HERE YOU GO  */}
+<Button
+  // INSTEAD OF THIS
+  // onClick={() => Router.push("/api/auth/signin")}
+  // WE DEFINE THIS
+  onClick={() => Router.push("/signin")}
+  // 
+  color="secondary"
+  variant="contained"
+>
+  Login
+</Button>
+```
+
+
 # I TRIED IT AND IT SEEMS TO WORK
 
