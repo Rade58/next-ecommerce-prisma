@@ -74,6 +74,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
         // WE WILL EMBED INSIDE SESSION MORE THINGS
         // MAYBE USER ID
         // USER ID SHOULD BE ON user PARAMETER
+
+        if (session.userId && session.profile) {
+          return session;
+        }
+
         const userId = user.id as string;
 
         if (userId) {
