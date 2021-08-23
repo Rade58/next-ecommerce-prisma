@@ -98,7 +98,7 @@ const SignInPage: NP = () => {
             type="submit"
             disabled={buttonDisabled}
           >
-            {"Sign In "}
+            {"Sign In/Up "}
             {reqStatus === "pending" ? (
               <div
                 css={css`
