@@ -73,7 +73,10 @@ const Header: FC = () => {
           {/* IF SESSION IS HERE SHOW PROFILE MENU */}
 
           {session ? (
-            <ProfileMenu />
+            <ProfileMenu
+              email={session.user?.email}
+              name={session.user?.name}
+            />
           ) : (
             <Button
               // INSTEAD OF THIS

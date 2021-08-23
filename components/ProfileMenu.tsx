@@ -5,9 +5,22 @@ import { jsx, css } from "@emotion/react";
 import { useState } from "react";
 import type { FC, MouseEvent } from "react";
 
+import { useRouter } from "next/router";
+
 import { Button, Menu, MenuItem } from "@material-ui/core";
 
-const ProfileMenu: FC = () => {
+import { ExpandMore } from "@material-ui/icons";
+
+import { signOut } from "next-auth/client";
+
+interface ProfileMenuProps {
+  name: string | null | undefined;
+  email: string | null | undefined;
+}
+
+const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
+  const { push } = useRouter();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -19,13 +32,25 @@ const ProfileMenu: FC = () => {
   };
 
   return (
-    <div>
+    <div
+      css={css`
+        margin-right: 2em;
+
+        & > button:nth-of-type(1) {
+          text-transform: lowercase;
+          font-size: 0.96em;
+        }
+      `}
+    >
       <Button
+        size="small"
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        color="secondary"
       >
-        Open Menu
+        <span>{` ${name || email || "profile"}`.toLowerCase()}</span>
+        <ExpandMore />
       </Button>
       <Menu
         id="simple-menu"
@@ -34,9 +59,22 @@ const ProfileMenu: FC = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            push("/profile");
+          }}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            signOut();
+          }}
+        >
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );

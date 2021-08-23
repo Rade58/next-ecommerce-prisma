@@ -3,7 +3,7 @@
 import type { NextPage as NP } from "next";
 
 const ProfilePage: NP = () => {
-  return <div>👾</div>;
+  return <div>profile: 👾</div>;
 };
 
 export default ProfilePage;
