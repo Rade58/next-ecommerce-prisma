@@ -77,7 +77,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
         const userId = user.id as string;
 
         if (userId) {
-          session.id = userId;
+          session.userId = userId;
         }
 
         // QUERY FOR PROFILE
@@ -89,6 +89,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
               },
             },
           },
+          // IF WH DON'T SELECT ANY SPECIFIC FIELDS
+          // WHOLE RECORD WILL BE PROVIDED, WITH EVERY FIELD
+          /* select: {
+
+          } */
         });
 
         if (profile) {
