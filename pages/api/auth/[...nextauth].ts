@@ -37,9 +37,15 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
 
     debug: true, */
 
-    // I ADDED THIS
+    // -------- I ADDED THIS --------
     // I SPECIFIED THE NEW LOGIN PAGE
-    // AND verify email infoo page
+    // AND PAGE WITH INFO THAT USER NEEDS TO CHECK HIS EMAIL
+    pages: {
+      signIn: "/signin",
+      verifyRequest: "/veryify-email-info",
+      // YOU CAN SET UP SOME MORE PAGES
+      // CHACK THAT OUT IN SPARE TIME
+    },
   });
 
 export default handler;
