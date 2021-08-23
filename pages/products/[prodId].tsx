@@ -48,11 +48,11 @@ export const getStaticProps: GetStaticProps<ProductPageProps, paramsType> =
   };
 
 const ProductPage: NP<ProductPageProps> = ({ product }) => {
-  console.log({ product });
+  // console.log({ product });
 
   const { query } = useRouter();
 
-  console.log({ query, product });
+  // console.log({ query, product });
 
   return (
     <ProductLayout product={product}>{/* additional things */}</ProductLayout>

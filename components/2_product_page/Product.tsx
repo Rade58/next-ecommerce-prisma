@@ -44,6 +44,13 @@ const useStyles = makeStyles({
 });
 
 const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
+  const { back } = useRouter();
+  const { kont, pap, papin, upper, butti, inherColor } = useStyles();
+
+  if (!product) {
+    return null;
+  }
+
   const {
     image,
     name,
@@ -54,8 +61,6 @@ const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
     description,
     countInStock,
   } = product;
-  const { back } = useRouter();
-  const { kont, pap, papin, upper, butti, inherColor } = useStyles();
 
   return (
     <Fragment>

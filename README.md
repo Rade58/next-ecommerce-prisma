@@ -15,6 +15,14 @@ code pages/api/auth/[...nextauth].ts
 ```
 
 
+
+
+#
+
+Check your email
+A sign in link has been sent to your email address.
+
+
 # REMANDER
 
 USE EVENTS IN NEXT-AUTH TO CREATE Profile RECORD
