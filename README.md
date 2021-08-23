@@ -225,6 +225,12 @@ ALSO, WE WILL BE GETTING SESSION SERVER SIDE, AND WE WILL DEFINE REDIRECT TO THE
 mkdir pages/profile && touch "pages/profile/[id].tsx"
 ```
 
+```tsx
+
+```
+
+
+
 
 #
 OK, EVERYTHING WORKS
