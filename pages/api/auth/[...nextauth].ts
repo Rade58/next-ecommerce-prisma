@@ -66,6 +66,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
         });
       },
     },
+
+    // OK WE WILL DEFINE ONE CALLBACK
     // I'M GOING TO ADD session CALLBACK
 
     callbacks: {
@@ -94,7 +96,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
               },
             },
           },
-          // IF WH DON'T SELECT ANY SPECIFIC FIELDS
+          // IF WE DON'T SELECT ANY SPECIFIC FIELDS
           // WHOLE RECORD WILL BE PROVIDED, WITH EVERY FIELD
           /* select: {
 
