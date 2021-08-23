@@ -33,6 +33,8 @@ const Header: FC = () => {
   // SESSION
   const [session, loading] = useSession();
   //
+  //  WE NEED PROFILE ID FROM THE SESSION
+  const profileId = (session?.profile as { id: string }).id as string;
 
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();
@@ -71,9 +73,11 @@ const Header: FC = () => {
           `}
         >
           {/* IF SESSION IS HERE SHOW PROFILE MENU */}
-
+          {/* OTHERWISE SHOW LOGIN BUTTON */}
           {session ? (
             <ProfileMenu
+              // IT IS IMPORTANT TO PASS ID
+              profileId={profileId || ""}
               email={session.user?.email}
               name={session.user?.name}
             />

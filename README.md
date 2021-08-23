@@ -25,9 +25,10 @@ import { signOut } from "next-auth/client";
 interface ProfileMenuProps {
   name: string | null | undefined;
   email: string | null | undefined;
+  profileId: string;
 }
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
+const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
   const { push } = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -71,7 +72,8 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            push("/profile");
+            // IMPORTANT IS TO PASS PROFILE ID INTO ROUTE
+            push(`/profile/${profileId}`);
           }}
         >
           Profile
@@ -90,10 +92,9 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
 };
 
 export default ProfileMenu;
-
 ```
 
-HOOKING P PROFILE MENU TO THE HEADER
+HOOKING UP PROFILE MENU TO THE HEADER
 
 ```
 code components/Header.tsx
@@ -135,6 +136,8 @@ const Header: FC = () => {
   // SESSION
   const [session, loading] = useSession();
   //
+  //  WE NEED PROFILE ID FROM THE SESSION
+  const profileId = (session?.profile as { id: string }).id as string;
 
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();
@@ -172,20 +175,24 @@ const Header: FC = () => {
             min-width: 150px;
           `}
         >
-
+          {/* IF SESSION IS HERE SHOW PROFILE MENU */}
+          {/* OTHERWISE SHOW LOGIN BUTTON */}
           {session ? (
-            {/* IF SESSION IS HERE SHOW PROFILE MENU
-            OTHERWISW SHOW LOGIN BUTTON */}
             <ProfileMenu
+              // IT IS IMPORTANT TO PASS ID
+              profileId={profileId || ""}
               email={session.user?.email}
               name={session.user?.name}
             />
           ) : (
             <Button
-            
+              // INSTEAD OF THIS
+              // onClick={() => Router.push("/api/auth/signin")}
+              // THIS
               onClick={() => Router.push("/signin")}
               color="secondary"
               variant="contained"
+              // className={butt}
             >
               Login
             </Button>
@@ -205,8 +212,14 @@ const Header: FC = () => {
 };
 
 export default Header;
+
 ```
 
+# OK, LET'S DEFINE `/profile/[id]` PAGE, AND WE ARE GOING TO USE `getServerSideProps` 
+
+
+
+#
 OK, EVERYTHING WORKS
 
 WHEN YOU ARE SIGNED IN YOU SEE PROFILE MANU BUTTON IN HEADER, AND IF YOU ARE NOT, YOU CAN SE LOGIN BUTTON

@@ -16,9 +16,10 @@ import { signOut } from "next-auth/client";
 interface ProfileMenuProps {
   name: string | null | undefined;
   email: string | null | undefined;
+  profileId: string;
 }
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
+const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
   const { push } = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -62,7 +63,8 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name }) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            push("/profile");
+            // IMPORTANT IS TO PASS PROFILE ID INTO ROUTE
+            push(`/profile/${profileId}`);
           }}
         >
           Profile
