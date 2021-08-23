@@ -271,7 +271,7 @@ export default VerifyEmailInfoPage;
 ## WE NEED TO UPDATE LINK THAT POINTS TO LOGIN PAGE
 
 ```
-code 
+code components/Header.tsx
 ```
 
 ```jsx
