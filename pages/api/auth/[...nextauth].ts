@@ -43,8 +43,6 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
     // DEFINING createUser EVENT HANDLER
     events: {
       createUser: async (user) => {
-        console.log({ userFromEvent: user });
-
         if (!user.email) return;
 
         // GOING TO USE prismaClient
@@ -57,26 +55,34 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
             email: user.email,
           },
           select: {
+            // I MADE THIS QUERY BECAUSE I WANTED
+            // TO OBTAIN ID FROM THE USER OBJECT
+            // BECAUSE ON user ARGUMENT OF EVENT HANDLER
+            //  LOOKS LIKE THERE IS NO ID
             id: true,
           },
         });
 
         if (!obtainedUser) return;
 
+        // NOW LETS CREATE PROFILE OBJECT
+
         const newProfile = await prismaClient.profile.create({
           data: {
             // MAKING CONNECTION WITH A USER BY USING ID
-            // THAT WOULD BE A FOREIGN KEY
+            // BECAUSE FOREIGN KEY THAT IS COMMING FROM User
+            // IS id
             user: {
               connect: {
                 id: obtainedUser.id,
               },
             },
-            // ADDING SOME OTHER FIELDS
-            // WE DON'T NEED TO ADD IN EVERY COLUMN BECAUSE
+            // WE CAN ADD SOME OTHER FIELDS
+            // BUT WE DON'T NEED TO ADD IN EVERY COLUMN BECAUSE
             // A LOT OF FIELDS ARE OPTIONAL
             // AND WE WILL UPDATE Profile RECORD
-            // WHEN WE START ADDING PAYMENT METHODS AND STUFF
+            // WHEN WE START ADDING LOGIC FOR USER TO ADD PAYMENT METHODS AND STUFF
+            // ON HIS PROFILE
           },
         });
       },
