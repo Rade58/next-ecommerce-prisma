@@ -29,12 +29,10 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
       jwt: true,
       maxAge: 30 * 24 * 60 * 60, // 30 days
     },
-
     jwt: {
       secret: "VD01eYRMrJ5EG3EOJ8HjO9lgqmp4U8n7ro8pGq3838s",
       encryption: true,
     },
-
     debug: true, */
 
     pages: {
@@ -43,10 +41,44 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
     },
 
     // DEFINING createUser EVENT HANDLER
-
     events: {
       createUser: async (user) => {
         console.log({ userFromEvent: user });
+
+        if (!user.email) return;
+
+        // GOING TO USE prismaClient
+        // TO CREATE NEW Profile RECORD
+        // IN OUR DATBASE
+
+        // FIRST LET'S GET USER BY HIS email
+        const obtainedUser = await prismaClient.user.findUnique({
+          where: {
+            email: user.email,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (!obtainedUser) return;
+
+        const newProfile = await prismaClient.profile.create({
+          data: {
+            // MAKING CONNECTION WITH A USER BY USING ID
+            // THAT WOULD BE A FOREIGN KEY
+            user: {
+              connect: {
+                id: obtainedUser.id,
+              },
+            },
+            // ADDING SOME OTHER FIELDS
+            // WE DON'T NEED TO ADD IN EVERY COLUMN BECAUSE
+            // A LOT OF FIELDS ARE OPTIONAL
+            // AND WE WILL UPDATE Profile RECORD
+            // WHEN WE START ADDING PAYMENT METHODS AND STUFF
+          },
+        });
       },
     },
   });
