@@ -38,6 +38,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
     debug: true, */
 
     // I ADDED THIS
+    // I SPECIFIED THE NEW LOGIN PAGE
+    // AND verify email infoo page
   });
 
 export default handler;
