@@ -20,9 +20,20 @@ import {
   EmojiObjectsTwoTone,
 } from "@material-ui/icons";
 
+// I NEED SESSION
+import { useSession } from "next-auth/client";
+//
+// AND I NEED PROFILE MENU
+import ProfileMenu from "./ProfileMenu";
+//
+
 import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
 
 const Header: FC = () => {
+  // SESSION
+  const [session, loading] = useSession();
+  //
+
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();
 
@@ -59,17 +70,23 @@ const Header: FC = () => {
             min-width: 150px;
           `}
         >
-          <Button
-            // INSTEAD OF THIS
-            // onClick={() => Router.push("/api/auth/signin")}
-            // THIS
-            onClick={() => Router.push("/signin")}
-            color="secondary"
-            variant="contained"
-            // className={butt}
-          >
-            Login
-          </Button>
+          {/* IF SESSION IS HERE SHOW PROFILE MENU */}
+
+          {session ? (
+            <ProfileMenu />
+          ) : (
+            <Button
+              // INSTEAD OF THIS
+              // onClick={() => Router.push("/api/auth/signin")}
+              // THIS
+              onClick={() => Router.push("/signin")}
+              color="secondary"
+              variant="contained"
+              // className={butt}
+            >
+              Login
+            </Button>
+          )}
           <Button
             onClick={() => Router.push("/cart")}
             color="secondary"
