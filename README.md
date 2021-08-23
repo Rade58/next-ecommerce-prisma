@@ -172,22 +172,20 @@ const Header: FC = () => {
             min-width: 150px;
           `}
         >
-          {/* IF SESSION IS HERE SHOW PROFILE MENU */}
 
           {session ? (
+            {/* IF SESSION IS HERE SHOW PROFILE MENU
+            OTHERWISW SHOW LOGIN BUTTON */}
             <ProfileMenu
               email={session.user?.email}
               name={session.user?.name}
             />
           ) : (
             <Button
-              // INSTEAD OF THIS
-              // onClick={() => Router.push("/api/auth/signin")}
-              // THIS
+            
               onClick={() => Router.push("/signin")}
               color="secondary"
               variant="contained"
-              // className={butt}
             >
               Login
             </Button>
