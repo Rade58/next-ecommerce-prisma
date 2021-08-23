@@ -5,7 +5,22 @@
 import { jsx, css } from "@emotion/react";
 import type { NextPage as NP } from "next";
 
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useSession } from "next-auth/client";
+
 const VerifyEmailInfoPage: NP = () => {
+  const { push } = useRouter();
+  const [session, loading] = useSession();
+
+  useEffect(() => {
+    if (session) push("/");
+  }, [session, push]);
+
+  if (session) {
+    return null;
+  }
+
   return (
     <section
       css={css`

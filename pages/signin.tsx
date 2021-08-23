@@ -4,17 +4,28 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { NextPage as NP } from "next";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+
+import { useRouter } from "next/router";
 
 import type { ChangeEventHandler, FormEvent } from "react";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
 // WE ARE GOING TO USE SIGNING IN WITH EMAIL LOGIC LIKE THIS
-import { signIn } from "next-auth/client";
+// AND WE NEED TO CHECK SESSION
+import { signIn, useSession } from "next-auth/client";
+//
 //
 
 const SignInPage: NP = () => {
+  const { push } = useRouter();
+  const [session, loading] = useSession();
+
+  useEffect(() => {
+    if (session) push("/");
+  }, [session, push]);
+
   const [{ email }, setFields] = useState<{
     email: string;
   }>({
@@ -53,6 +64,10 @@ const SignInPage: NP = () => {
   );
 
   const buttonDisabled = !email || reqStatus === "pending" ? true : false;
+
+  if (session) {
+    return null;
+  }
 
   return (
     <main>
