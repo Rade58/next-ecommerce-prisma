@@ -60,7 +60,10 @@ const Header: FC = () => {
           `}
         >
           <Button
-            onClick={() => Router.push("/api/auth/signin")}
+            // INSTEAD OF THIS
+            // onClick={() => Router.push("/api/auth/signin")}
+            // THIS
+            onClick={() => Router.push("/signin")}
             color="secondary"
             variant="contained"
             // className={butt}
