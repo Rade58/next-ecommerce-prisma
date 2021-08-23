@@ -67,7 +67,7 @@ const SignInPage: NP = () => {
           align-items: center;
           align-content: center;
 
-          & div.field {
+          & div.email-field {
             margin-top: 10vh;
             display: flex;
             justify-content: center;
@@ -79,7 +79,7 @@ const SignInPage: NP = () => {
         `}
       >
         <form onSubmit={handleSubmit}>
-          <div className="field">
+          <div className="email-field">
             <TextField
               onChange={handleChange}
               value={email}
