@@ -34,7 +34,13 @@ const Header: FC = () => {
   const [session, loading] = useSession();
   //
   //  WE NEED PROFILE ID FROM THE SESSION
-  const profileId = (session?.profile as { id: string }).id as string;
+  let profileId;
+
+  if (session?.profile) {
+    profileId = (session?.profile as { id: string }).id as string;
+  } else {
+    profileId = "";
+  }
 
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();

@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FC, MouseEvent } from "react";
 
 import { useRouter } from "next/router";
@@ -31,6 +31,10 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if (!profileId || profileId === "") {
+    return null;
+  }
 
   return (
     <div
