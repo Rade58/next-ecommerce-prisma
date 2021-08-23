@@ -40,51 +40,62 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
       verifyRequest: "/veryify-email-info",
     },
 
-    // DEFINING createUser EVENT HANDLER
     events: {
       createUser: async (user) => {
         if (!user.email) return;
 
-        // GOING TO USE prismaClient
-        // TO CREATE NEW Profile RECORD
-        // IN OUR DATBASE
-
-        // FIRST LET'S GET USER BY HIS email
         const obtainedUser = await prismaClient.user.findUnique({
           where: {
             email: user.email,
           },
           select: {
-            // I MADE THIS QUERY BECAUSE I WANTED
-            // TO OBTAIN ID FROM THE USER OBJECT
-            // BECAUSE ON user ARGUMENT OF EVENT HANDLER
-            //  LOOKS LIKE THERE IS NO ID
             id: true,
           },
         });
 
         if (!obtainedUser) return;
 
-        // NOW LETS CREATE PROFILE OBJECT
-
         await prismaClient.profile.create({
           data: {
-            // MAKING CONNECTION WITH A USER BY USING ID
-            // BECAUSE FOREIGN KEY THAT IS COMMING FROM User
-            // IS id
             user: {
               connect: {
                 id: obtainedUser.id,
               },
             },
-            // WE CAN ADD SOME OTHER FIELDS
-            // BUT WE DON'T NEED TO ADD IN EVERY COLUMN BECAUSE
-            // A LOT OF FIELDS ARE OPTIONAL
-            // AND WE WILL UPDATE Profile RECORD
-            // WHEN WE START ADDING LOGIC FOR USER TO ADD PAYMENT METHODS AND STUFF
-            // ON HIS PROFILE
           },
         });
+      },
+    },
+    // I'M GOING TO ADD session CALLBACK
+
+    callbacks: {
+      session: async (session, user) => {
+        // WE WILL QUERY FOR PROFILE, BUT NOT JUST FOR PROFILE
+        // WE WILL EMBED INSIDE SESSION MORE THINGS
+        // MAYBE USER ID
+        // USER ID SHOULD BE ON user PARAMETER
+        const userId = user.id as string;
+
+        if (userId) {
+          session.id = userId;
+        }
+
+        // QUERY FOR PROFILE
+        const profile = await prismaClient.profile.findFirst({
+          where: {
+            user: {
+              id: {
+                equals: userId,
+              },
+            },
+          },
+        });
+
+        if (profile) {
+          session.profile = profile;
+        }
+
+        return session;
       },
     },
   });

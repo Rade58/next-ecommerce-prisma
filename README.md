@@ -1,3 +1,11 @@
 # WE CAN QUERY FOR PROFILE AND INCLUDE PROFILE INSIDE SESSION OBJECT
 
 WE WILL DEFINE `session` CALLBACK IN OUR NEXT-AUTH CONFIGURATION
+
+```
+code pages/api/auth/[...nextauth].ts
+```
+
+```ts
+
+```
