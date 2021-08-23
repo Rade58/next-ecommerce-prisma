@@ -10,7 +10,9 @@ import type { ChangeEventHandler, FormEvent } from "react";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
-import axios from "axios";
+// WE ARE GOING TO USE SIGNING IN WITH EMAIL LOGIC LIKE THIS
+import { signIn } from "next-auth/client";
+//
 
 const SignInPage: NP = () => {
   const [{ email }, setFields] = useState<{
@@ -36,9 +38,15 @@ const SignInPage: NP = () => {
       setReqStatus("pending");
       try {
         //
+        // TRY SIGNING IN
+        const resp = signIn("email", { email });
+
+        console.log({ resp });
       } catch (err) {
         setReqStatus("idle");
         //
+
+        console.error(err);
       }
     },
     [email, setReqStatus]
@@ -78,8 +86,8 @@ const SignInPage: NP = () => {
               type="email"
               name="email"
               id="email-field"
-              label="Send To Email Address"
-              placeholder="Send To Email address"
+              label="Sign In/Up With Email"
+              placeholder="Sign In/Up With Email"
               variant="filled"
             />
           </div>
