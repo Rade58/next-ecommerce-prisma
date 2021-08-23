@@ -67,7 +67,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
 
         // NOW LETS CREATE PROFILE OBJECT
 
-        const newProfile = await prismaClient.profile.create({
+        await prismaClient.profile.create({
           data: {
             // MAKING CONNECTION WITH A USER BY USING ID
             // BECAUSE FOREIGN KEY THAT IS COMMING FROM User
