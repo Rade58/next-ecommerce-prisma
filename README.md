@@ -692,3 +692,10 @@ EVERYTHING SEEMS TO WORK AS I EXPECTED
 
 # LETS BUILT A ROUTE THAT WILL UPDATE CURRENT Profile AND CURRENT User RECORD
 
+```
+mkdir pages/api/profile && touch "pages/api/profile/[id].ts"
+```
+
+```ts
+
+```
