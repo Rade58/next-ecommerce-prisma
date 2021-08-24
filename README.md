@@ -535,6 +535,8 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         );
 
         console.log({ data });
+
+        setReqStatus("idle");
       } catch (err) {
         setReqStatus("idle");
         //
@@ -545,8 +547,9 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     [inputData, setReqStatus, profileId]
   );
 
-  const submitButtonDisabled =
-    reqStatus === "pending" || somethingChanged ? false : true;
+  let submitButtonDisabled = somethingChanged ? false : true;
+
+  submitButtonDisabled = reqStatus === "pending" ? true : submitButtonDisabled;
 
   console.log({ submitButtonDisabled, reqStatus, somethingChanged });
 
@@ -691,6 +694,16 @@ export default UpdateProfile;
 EVERYTHING SEEMS TO WORK AS I EXPECTED
 
 # LETS BUILT A ROUTE THAT WILL UPDATE CURRENT Profile AND CURRENT User RECORD
+
+```
+mkdir middlewares && touch middlewares/verifyCurrentUser.ts
+```
+
+```tsx
+
+```
+
+NOW, LETS BUILD A ROUTE, AND WE WILL ADD UPPER MIDDLEWARE TO OUR ROUTE
 
 ```
 mkdir pages/api/profile && touch "pages/api/profile/[id].ts"

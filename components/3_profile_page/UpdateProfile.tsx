@@ -106,6 +106,8 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         );
 
         console.log({ data });
+
+        setReqStatus("idle");
       } catch (err) {
         setReqStatus("idle");
         //
@@ -116,8 +118,9 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     [inputData, setReqStatus, profileId]
   );
 
-  const submitButtonDisabled =
-    reqStatus === "pending" || somethingChanged ? false : true;
+  let submitButtonDisabled = somethingChanged ? false : true;
+
+  submitButtonDisabled = reqStatus === "pending" ? true : submitButtonDisabled;
 
   console.log({ submitButtonDisabled, reqStatus, somethingChanged });
 

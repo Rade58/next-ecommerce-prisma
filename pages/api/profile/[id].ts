@@ -1,7 +1,11 @@
 import nc from "next-connect";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
+
 const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.use(verifyCurrentUser);
 
 handler.post(async (req, res) => {
   const { id } = req.query;
