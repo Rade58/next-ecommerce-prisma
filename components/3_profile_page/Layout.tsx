@@ -16,7 +16,7 @@ const Layout: FC = ({ children }) => {
         justify-content: center;
 
         @media screen and (min-width: 680px) {
-          width: 60vw;
+          width: 80vw;
         }
       `}
     >

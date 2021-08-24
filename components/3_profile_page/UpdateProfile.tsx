@@ -11,6 +11,8 @@ import { useSession } from "next-auth/client";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
+import axios from "axios";
+
 interface UpdateProfilePropsI {
   id: string;
   addrss: string;
@@ -23,7 +25,15 @@ interface UpdateProfilePropsI {
 }
 
 const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
-  const { id, country, city, addrss, postalCode, taxPrice, name } = props;
+  const {
+    id: profileId,
+    country,
+    city,
+    addrss,
+    postalCode,
+    taxPrice,
+    name,
+  } = props;
 
   type inputDataKeyType =
     | "addrss"
@@ -82,10 +92,20 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
 
       setReqStatus("pending");
       try {
-        //
+        // WE DON''T HAVE ROUTE YET BUT WE WILL SEND A
         // REQUEST
 
-        console.log({ inputData });
+        const { data } = await axios.post(
+          `/api/profile/${profileId}`,
+          inputData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log({ data });
       } catch (err) {
         setReqStatus("idle");
         //
@@ -93,7 +113,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         console.error(err);
       }
     },
-    [inputData, setReqStatus]
+    [inputData, setReqStatus, profileId]
   );
 
   const submitButtonDisabled =
