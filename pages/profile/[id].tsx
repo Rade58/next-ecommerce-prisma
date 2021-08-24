@@ -17,6 +17,9 @@ import { getSession, useSession } from "next-auth/client";
 // WE NEED PRISMA CLIENT
 import prismaClient from "../../lib/prisma";
 
+import Layout from "../../components/3_profile_page/Layout";
+import UpdateProfile from "../../components/3_profile_page/UpdateProfile";
+
 export interface PropsI {
   profile: {
     id: string;
@@ -120,12 +123,20 @@ const ProfilePage: NP<PropsI> = (props) => {
 
   console.log({ props, query });
 
+  const { id, country, user, city, addrss, postalCode, taxPrice } = profile;
+
   return (
-    <div>
-      🦉
-      <br />
-      {JSON.stringify({ profile }, null, 2)}
-    </div>
+    <Layout>
+      <UpdateProfile
+        id={id}
+        name={user.name || ""}
+        addrss={addrss || ""}
+        city={city || ""}
+        country={country || ""}
+        postalCode={postalCode || ""}
+        taxPrice={taxPrice || 0}
+      />
+    </Layout>
   );
 };
 
