@@ -45,10 +45,27 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
       where: {
         id: profileId,
       },
-      include: {
+      select: {
+        addrss: true,
+        country: true,
+        city: true,
+        ordersHistory: true,
+        postalCode: true,
+        taxPrice: true,
+        // I INCLUDED USER LIKE THIS
         user: true,
+        // I WON'T INCLUDE DATES HERE
+        // BECAUSE PRISMA RETURNS     Date   OBJECT
+        // I CAN'T PASS Date INSTANCES AS PROPS
+        // I WOULD NEED TO STRINGIFY THEM
+        // AND I DON'T REALLY NEED DATE OBJECTS HERE
       },
+      /* include: {
+        user: true,
+      }, */
     });
+
+    console.log({ profileWithUser });
 
     // LET'S DO REDIRECT IF THERE IS NO PROFILE
     if (!profileWithUser) {
