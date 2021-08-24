@@ -98,6 +98,18 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
   const submitButtonDisabled =
     reqStatus === "pending" && !somethingChanged ? true : false;
 
+  if (loading) {
+    return (
+      <div>
+        <CircularProgress color="primary" size={28} />
+      </div>
+    );
+  }
+
+  if (!session) {
+    return null;
+  }
+
   return (
     <section
       className="form-holder"
