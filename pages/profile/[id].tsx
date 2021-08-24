@@ -6,7 +6,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 // CONVINIENTLY WE HAVE TYPE GENERATED FOR US
-import type { Profile, User } from "@prisma/client";
+// BUT I DIDN'T USE THEM ALL BECAUSE I COPIED
+// TYPES AFTER QUERY
+// BY HOVERING OVER RESULT
+import type { /*  Profile, User, */ Order } from "@prisma/client";
 
 // WE NEED SESSION
 import { getSession, useSession } from "next-auth/client";
@@ -15,8 +18,20 @@ import { getSession, useSession } from "next-auth/client";
 import prismaClient from "../../lib/prisma";
 
 interface PropsI {
-  profile: Profile & {
-    user: User;
+  profile: {
+    id: string;
+    addrss: string | null;
+    country: string | null;
+    city: string | null;
+    ordersHistory: Order[];
+    postalCode: string | null;
+    taxPrice: number | null;
+    user: {
+      id: string;
+      email: string | null;
+      name: string | null;
+      image: string | null;
+    };
   };
 }
 
@@ -47,6 +62,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         id: profileId,
       },
       select: {
+        id: true,
         addrss: true,
         country: true,
         city: true,
@@ -59,6 +75,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
             email: true,
             name: true,
             image: true,
+            id: true,
           },
         },
         // I WON'T INCLUDE DATES (FOR Profile OR FOR User)
@@ -75,7 +92,8 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     console.log({ profileWithUser });
 
     // LET'S DO REDIRECT IF THERE IS NO PROFILE
-    if (!profileWithUser) {
+    // OR USER ON SESSION DOESN'T MATCH WITH OBTAINED USER
+    if (!profileWithUser || session.userId !== profileWithUser.user.id) {
       ctx.res.writeHead(302, { Location: "/" });
 
       return {
@@ -93,13 +111,14 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
   };
 
 const ProfilePage: NP<PropsI> = (props) => {
-  //
+  // FOR NOW LET'S JUST SHOW STUFF
+  // LETS SHOW WHAT IS IN THE PROPS
 
   const { profile } = props;
 
   const { query } = useRouter();
 
-  console.log(props);
+  console.log({ props, query });
 
   return (
     <div>
