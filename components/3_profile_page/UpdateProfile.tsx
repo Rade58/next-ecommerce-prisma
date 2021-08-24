@@ -184,6 +184,18 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             variant="filled"
           />
         </div>
+        <div className="address-field">
+          <TextField
+            onChange={handleChange}
+            value={inputData.addrss}
+            type="text"
+            name="addrss"
+            id="address-field"
+            label="Address"
+            placeholder={inputData.addrss}
+            variant="filled"
+          />
+        </div>
         <div className="taxprice-field">
           <TextField
             onChange={handleChange}
