@@ -1,6 +1,7 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
+import { useEffect } from "react";
 
 import { useRouter } from "next/router";
 
@@ -8,7 +9,7 @@ import { useRouter } from "next/router";
 import type { Profile, User } from "@prisma/client";
 
 // WE NEED SESSION
-import { getSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 
 // WE NEED PRISMA CLIENT
 import prismaClient from "../../lib/prisma";
@@ -53,8 +54,14 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         postalCode: true,
         taxPrice: true,
         // I INCLUDED USER LIKE THIS
-        user: true,
-        // I WON'T INCLUDE DATES HERE
+        user: {
+          select: {
+            email: true,
+            name: true,
+            image: true,
+          },
+        },
+        // I WON'T INCLUDE DATES (FOR Profile OR FOR User)
         // BECAUSE PRISMA RETURNS     Date   OBJECT
         // I CAN'T PASS Date INSTANCES AS PROPS
         // I WOULD NEED TO STRINGIFY THEM
