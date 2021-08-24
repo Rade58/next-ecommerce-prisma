@@ -84,7 +84,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         //
         // REQUEST
 
-        console.log({});
+        console.log({ inputData });
       } catch (err) {
         setReqStatus("idle");
         //
