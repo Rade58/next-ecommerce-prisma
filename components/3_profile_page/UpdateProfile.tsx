@@ -92,7 +92,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
 
       setReqStatus("pending");
       try {
-        // WE DON''T HAVE ROUTE YET BUT WE WILL SEND A
+        // WE DON'T HAVE API ROUTE YET BUT WE WILL DEFINE A
         // REQUEST
 
         const { data } = await axios.post(
