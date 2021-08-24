@@ -32,9 +32,11 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
     setAnchorEl(null);
   };
 
-  if (!profileId || profileId === "") {
+  if (!profileId) {
     return null;
   }
+
+  console.log({ profileId });
 
   return (
     <div
@@ -67,8 +69,8 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            // IMPORTANT IS TO PASS PROFILE ID INTO ROUTE
             push(`/profile/${profileId}`);
+            // IMPORTANT IS TO PASS PROFILE ID INTO ROUTE
           }}
         >
           Profile

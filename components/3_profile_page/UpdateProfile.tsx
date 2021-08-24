@@ -55,6 +55,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
   }, [session, loading, push]);
 
   const [somethingChanged, setSomethingChanged] = useState<boolean>(false);
+  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
 
   useEffect(() => {
     for (let key in inputData) {
@@ -66,8 +67,6 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
       }
     }
   }, [inputData, setSomethingChanged, props]);
-
-  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -98,7 +97,9 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
   );
 
   const submitButtonDisabled =
-    reqStatus === "pending" && !somethingChanged ? true : false;
+    reqStatus === "pending" || somethingChanged ? false : true;
+
+  console.log({ submitButtonDisabled, reqStatus, somethingChanged });
 
   if (loading) {
     return (

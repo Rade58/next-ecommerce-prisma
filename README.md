@@ -315,7 +315,11 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     // SESSION SHOUD HAVE userId
     // BECAUSE WE INSERTED IT THER THROU session CALLLBACK
     // IN NEXT-AUTH CONFIGURATION
-    const session = (await getSession()) || { userId: "" };
+    // DON'T FORGET TO PASS REQUST
+    // YOU CAN PASS WHOLE CONTEXT IF YOU WANT
+    const session = await getSession({ req: ctx.req });
+
+    const headers = ctx.req.headers;
 
     // LET'S FETCH PROFILE
     // WE CAN DO A JOIN TO GET User RECORD TOGETHER
@@ -354,11 +358,15 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
       }, */
     });
 
-    console.log({ profileWithUser });
+    console.log({ profileWithUser, session, headers });
 
     // LET'S DO REDIRECT IF THERE IS NO PROFILE
     // OR USER ON SESSION DOESN'T MATCH WITH OBTAINED USER
-    if (!profileWithUser || session.userId !== profileWithUser.user.id) {
+
+    // IF YOU REMEMBER WE WERE THE ONE TO ATTACH userId ON SESSIN
+    // THROUGH CALLBACK IN NEXT-AUTH CONFIGURATION
+
+    if (!profileWithUser) {
       ctx.res.writeHead(302, { Location: "/" });
 
       return {
@@ -367,6 +375,17 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         },
       };
     }
+
+    if (session?.userId !== profileWithUser.user.id) {
+      ctx.res.writeHead(302, { Location: "/" });
+      return {
+        props: {
+          profile: {},
+        },
+      };
+    }
+
+    // console.log(!profileWithUser, session);
 
     return {
       props: {

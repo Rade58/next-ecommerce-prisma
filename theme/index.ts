@@ -60,6 +60,6 @@ export const useLogoStyles = makeStyles({
   },
 });
 
-console.log({ theme });
+// console.log({ theme });
 
 export default theme;
