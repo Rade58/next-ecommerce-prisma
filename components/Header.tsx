@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import type { FC } from "react";
 
 import Router from "next/router";
@@ -34,13 +34,21 @@ const Header: FC = () => {
   const [session, loading] = useSession();
   //
   //  WE NEED PROFILE ID FROM THE SESSION
-  let profileId;
+  /* let profileId;
 
   if (session?.profile) {
     profileId = (session?.profile as { id: string }).id as string;
   } else {
     profileId = "";
-  }
+  } */
+
+  const [profId, setProfId] = useState<string>("");
+
+  useEffect(() => {
+    if (session) {
+      setProfId((session?.profile as { id: string }).id as string);
+    }
+  }, [session, setProfId]);
 
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();
@@ -83,7 +91,7 @@ const Header: FC = () => {
           {session ? (
             <ProfileMenu
               // IT IS IMPORTANT TO PASS ID
-              profileId={profileId || ""}
+              profileId={profId || ""}
               email={session.user?.email}
               name={session.user?.name}
             />

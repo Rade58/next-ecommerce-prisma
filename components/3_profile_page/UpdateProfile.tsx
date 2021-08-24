@@ -49,8 +49,10 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
   const [session, loading] = useSession();
 
   useEffect(() => {
+    if (loading) return;
+
     if (!session) push("/");
-  }, [session, push]);
+  }, [session, loading, push]);
 
   const [somethingChanged, setSomethingChanged] = useState<boolean>(false);
 
