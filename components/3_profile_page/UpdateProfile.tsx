@@ -13,34 +13,36 @@ import { TextField, Button, CircularProgress } from "@material-ui/core";
 
 interface UpdateProfilePropsI {
   id: string;
-  addrss: string | null;
-  country: string | null;
-  city: string | null;
-  postalCode: string | null;
-  taxPrice: number | null;
+  addrss: string;
+  country: string;
+  city: string;
+  postalCode: string;
+  taxPrice: number;
   //
-  name: string | null;
+  name: string;
 }
 
 const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
   const { id, country, city, addrss, postalCode, taxPrice, name } = props;
 
-  const inputData = useState<{
-    addrss: string;
-    country: string;
-    city: string;
-    postalCode: string;
-    taxPrice: number;
-    //
-    name: string;
-  }>({
-    name: name || "",
-    country: country || "",
-    city: city || "",
-    postalCode: postalCode || "",
-    addrss: addrss || "",
-    taxPrice: taxPrice || 0,
+  type inputDataKeyType =
+    | "addrss"
+    | "country"
+    | "city"
+    | "postalCode"
+    | "taxPrice"
+    | "name";
+
+  const [inputData, setInputData] = useState<Record<inputDataKeyType, any>>({
+    name,
+    country,
+    city,
+    postalCode,
+    addrss,
+    taxPrice,
   });
+
+  console.log({ inputData });
 
   const { push } = useRouter();
 
@@ -50,18 +52,25 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     if (!session) push("/");
   }, [session, push]);
 
-  const [{ email }, setFields] = useState<{
-    email: string;
-  }>({
-    email: "",
-  });
+  const [somethingChanged, setSomethingChanged] = useState<boolean>(false);
+
+  useEffect(() => {
+    for (let key in inputData) {
+      key = key as inputDataKeyType;
+
+      // @ts-ignore
+      if (inputData[key] !== props[key]) {
+        setSomethingChanged(true);
+      }
+    }
+  }, [inputData, setSomethingChanged, props]);
 
   const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = (e) =>
-    setFields((prev) => ({
+    setInputData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -83,10 +92,11 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         console.error(err);
       }
     },
-    [email, setReqStatus]
+    [inputData, setReqStatus]
   );
 
-  const buttonDisabled = reqStatus === "pending" ? true : false;
+  const submitButtonDisabled =
+    reqStatus === "pending" && !somethingChanged ? true : false;
 
   return (
     <section
@@ -111,15 +121,63 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
       `}
     >
       <form onSubmit={handleSubmit}>
-        <div className="email-field">
+        <div className="name-field">
           <TextField
             onChange={handleChange}
-            value={email}
-            type="email"
-            name="email"
-            id="email-field"
-            label="Sign In/Up With Email"
-            placeholder="Sign In/Up With Email"
+            value={inputData.name}
+            type="text"
+            name="name"
+            id="name-field"
+            label="Display Name"
+            placeholder={inputData.name}
+            variant="filled"
+          />
+        </div>
+        <div className="country-field">
+          <TextField
+            onChange={handleChange}
+            value={inputData.country}
+            type="text"
+            name="country"
+            id="country-field"
+            label="Country"
+            placeholder={inputData.country}
+            variant="filled"
+          />
+        </div>
+        <div className="city-field">
+          <TextField
+            onChange={handleChange}
+            value={inputData.city}
+            type="text"
+            name="city"
+            id="city-field"
+            label="City"
+            placeholder={inputData.city}
+            variant="filled"
+          />
+        </div>
+        <div className="postalcode-field">
+          <TextField
+            onChange={handleChange}
+            value={inputData.postalCode}
+            type="text"
+            name="postalCode"
+            id="postalcode-field"
+            label="Postal Code"
+            placeholder={inputData.postalCode}
+            variant="filled"
+          />
+        </div>
+        <div className="taxprice-field">
+          <TextField
+            onChange={handleChange}
+            value={inputData.taxPrice}
+            type="number"
+            name="taxPrice"
+            id="taxprice-field"
+            label="Tax Price"
+            placeholder={inputData.taxPrice}
             variant="filled"
           />
         </div>
@@ -128,9 +186,9 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
           variant="contained"
           color="primary"
           type="submit"
-          disabled={buttonDisabled}
+          disabled={submitButtonDisabled}
         >
-          {"Sign In/Up "}
+          {"Update"}
           {reqStatus === "pending" ? (
             <div
               css={css`
