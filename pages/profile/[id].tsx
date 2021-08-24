@@ -17,7 +17,7 @@ import { getSession, useSession } from "next-auth/client";
 // WE NEED PRISMA CLIENT
 import prismaClient from "../../lib/prisma";
 
-interface PropsI {
+export interface PropsI {
   profile: {
     id: string;
     addrss: string | null;

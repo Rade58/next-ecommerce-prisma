@@ -282,7 +282,7 @@ import { getSession, useSession } from "next-auth/client";
 // WE NEED PRISMA CLIENT
 import prismaClient from "../../lib/prisma";
 
-interface PropsI {
+export interface PropsI {
   profile: {
     id: string;
     addrss: string | null;
@@ -402,3 +402,11 @@ I STARTED DEV SERVER, I DID A LOGIN, I OPENED PROFILE, AND I CAN SEE THAT DATA O
 ## NOW I WANT TO DEFINE UI FOR THE `Profile` PAGE, I WANT FORM WHERE USER CAN UPDATE HIS DATA
 
 YES HIS CURRENT DATA WILL BE DISPLAYED IN FORM AS PLACEHOLDING DATA, BUT USER CAN CHANGE HIS DTA AND PRESS ON UPDATE BUTTON TO SEND REQUEST TO THE ENDPOINT WE ARE GOING TO BUILD LATER
+
+```
+mkdir components/3_profile_page && touch components/3_profile_page/UpdateProfile.tsx 
+```
+
+```tsx
+
+```
