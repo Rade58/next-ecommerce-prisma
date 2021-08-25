@@ -95,7 +95,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         // WE DON'T HAVE API ROUTE YET BUT WE WILL DEFINE A
         // REQUEST
 
-        const { data } = await axios.post(
+        const { data } = await axios.put(
           `/api/profile/${profileId}`,
           inputData,
           {
