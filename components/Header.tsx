@@ -27,6 +27,8 @@ import { useSession } from "next-auth/client";
 import ProfileMenu from "./ProfileMenu";
 //
 
+import AdminButton from "./AdminButton";
+
 import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
 
 const Header: FC = () => {
@@ -108,6 +110,15 @@ const Header: FC = () => {
               Login
             </Button>
           )}
+          {/* IF PROFILE IS WITH ROLE ADMIN WE CAN RENDER THIS BUTTON */}
+          {session &&
+            (session as unknown as any)?.profile?.role === "ADMIN" && (
+              <AdminButton
+                profileId={profId || ""}
+                isAdmin={(session as unknown as any)?.profile?.role === "ADMIN"}
+              />
+            )}
+          {/* ------------------------------------------------- */}
           <Button
             onClick={() => Router.push("/cart")}
             color="secondary"
