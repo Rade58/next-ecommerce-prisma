@@ -35,6 +35,22 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     name,
   } = props;
 
+  const [placeholderValues, setPlaceholderValues] = useState<{
+    addrss: string;
+    country: string;
+    city: string;
+    postalCode: string;
+    taxPrice: number;
+    name: string;
+  }>({
+    country,
+    city,
+    addrss,
+    postalCode,
+    taxPrice,
+    name,
+  });
+
   type inputDataKeyType =
     | "addrss"
     | "country"
@@ -159,35 +175,21 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
       `}
     >
       <form onSubmit={handleSubmit}>
-        <TextField
-          id="standard-full-width"
-          label="Label"
-          style={{ margin: 8 }}
-          placeholder="Placeholder"
-          helperText="Full width!"
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
         <div className="name-field">
           <TextField
+            id="name-field"
+            value={inputData.name}
+            onChange={handleChange}
+            type="text"
+            name="name"
+            label="Display Name"
+            placeholder={placeholderValues.name}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
-            helperText="Full width!"
             style={{ margin: 8 }}
             margin="normal"
-            onChange={handleChange}
-            value={inputData.name}
-            type="text"
-            name="name"
-            id="name-field"
-            label="Display Name"
-            placeholder={inputData.name || "me"}
           />
         </div>
 
@@ -199,8 +201,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="country"
             id="country-field"
             label="Country"
-            placeholder={inputData.country}
-            variant="filled"
+            placeholder={placeholderValues.country}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="city-field">
@@ -211,8 +218,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="city"
             id="city-field"
             label="City"
-            placeholder={inputData.city}
-            variant="filled"
+            placeholder={placeholderValues.city}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="postalcode-field">
@@ -223,8 +235,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="postalCode"
             id="postalcode-field"
             label="Postal Code"
-            placeholder={inputData.postalCode}
-            variant="filled"
+            placeholder={placeholderValues.postalCode}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="address-field">
@@ -235,8 +252,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="addrss"
             id="address-field"
             label="Address"
-            placeholder={inputData.addrss}
-            variant="filled"
+            placeholder={placeholderValues.addrss}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="taxprice-field">
@@ -247,8 +269,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="taxPrice"
             id="taxprice-field"
             label="Tax Price"
-            placeholder={inputData.taxPrice}
-            variant="filled"
+            placeholder={placeholderValues.taxPrice}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
 
