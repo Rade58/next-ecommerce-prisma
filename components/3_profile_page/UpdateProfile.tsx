@@ -111,17 +111,32 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         // WE DON'T HAVE API ROUTE YET BUT WE WILL DEFINE A
         // REQUEST
 
-        const { data } = await axios.put(
-          `/api/profile/${profileId}`,
-          inputData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const { data } = await axios.put<{
+          addrss: string;
+          city: string;
+          postalCode: string;
+          country: string;
+          taxPrice: number;
+          user: {
+            name: string;
+          };
+        }>(`/api/profile/${profileId}`, inputData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-        console.log({ data });
+        // WHEN WE GET THE DATA, LET'S UPDATE PLACEHOLDER VALUES
+        // FOR INPUTS, SO USER CAN SEE THAT HIS DATA IS UPDATED
+
+        setPlaceholderValues({
+          addrss: data.addrss,
+          name: data.user.name,
+          city: data.city,
+          postalCode: data.postalCode,
+          country: data.country,
+          taxPrice: data.taxPrice,
+        });
 
         setReqStatus("idle");
       } catch (err) {
@@ -269,7 +284,7 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="taxPrice"
             id="taxprice-field"
             label="Tax Price"
-            placeholder={placeholderValues.taxPrice}
+            placeholder={placeholderValues.taxPrice.toString()}
             InputLabelProps={{
               shrink: true,
             }}

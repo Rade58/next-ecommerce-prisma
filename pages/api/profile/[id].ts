@@ -10,6 +10,7 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 // I ADDED MIDDLEWARE LIKE YOU SEE
 handler.use(verifyCurrentUser);
 
+// PUT
 handler.put(async (req, res) => {
   //
   const { id } = req.query;
@@ -30,7 +31,7 @@ handler.put(async (req, res) => {
   };
 
   try {
-    const { id: profileId, userId } = await prismaClient.profile.update({
+    const data = await prismaClient.profile.update({
       where: {
         id: id as string,
       },
@@ -47,14 +48,20 @@ handler.put(async (req, res) => {
         },
       },
       select: {
-        id: true,
-        userId: true,
+        addrss: true,
+        city: true,
+        country: true,
+        postalCode: true,
+        taxPrice: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
-    return res
-      .status(200)
-      .send(`UPDATED user: ${userId} and profile: ${profileId}`);
+    return res.status(200).send(data);
   } catch (err) {
     console.error(err);
     return res.status(400).send("Something went wrong");
