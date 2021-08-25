@@ -21,21 +21,7 @@ import Layout from "../../components/3_profile_page/Layout";
 import UpdateProfile from "../../components/3_profile_page/UpdateProfile";
 
 export interface PropsI {
-  profile: {
-    id: string;
-    addrss: string | null;
-    country: string | null;
-    city: string | null;
-    ordersHistory: Order[];
-    postalCode: string | null;
-    taxPrice: number | null;
-    user: {
-      id: string;
-      email: string | null;
-      name: string | null;
-      image: string | null;
-    };
-  };
+  placeholder: string;
 }
 
 type paramsType = {
@@ -45,118 +31,26 @@ type paramsType = {
 
 export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
   async (ctx) => {
-    const { params } = ctx;
-
-    const profileId = params?.id || "";
-
-    // GETTING SESSION
-    // SESSION SHOUD HAVE userId
-    // BECAUSE WE INSERTED IT THER THROU session CALLLBACK
-    // IN NEXT-AUTH CONFIGURATION
-    // DON'T FORGET TO PASS REQUST
-    // YOU CAN PASS WHOLE CONTEXT IF YOU WANT
-    const session = await getSession({ req: ctx.req });
-
-    const headers = ctx.req.headers;
-
-    // LET'S FETCH PROFILE
-    // WE CAN DO A JOIN TO GET User RECORD TOGETHER
-    // WITH Profile RECORD
-    // BECAUSE Profile RECORD HAS A FORAIGN KEY OF User (id)
-
-    const profileWithUser = await prismaClient.profile.findUnique({
-      where: {
-        id: profileId,
-      },
-      select: {
-        id: true,
-        addrss: true,
-        country: true,
-        city: true,
-        ordersHistory: true,
-        postalCode: true,
-        taxPrice: true,
-        // I INCLUDED USER LIKE THIS
-        user: {
-          select: {
-            email: true,
-            name: true,
-            image: true,
-            id: true,
-          },
-        },
-        // I WON'T INCLUDE DATES (FOR Profile OR FOR User)
-        // BECAUSE PRISMA RETURNS     Date   OBJECT
-        // I CAN'T PASS Date INSTANCES AS PROPS
-        // I WOULD NEED TO STRINGIFY THEM
-        // AND I DON'T REALLY NEED DATE OBJECTS HERE
-      },
-      /* include: {
-        user: true,
-      }, */
-    });
-
-    console.log({ profileWithUser, session, headers });
-
-    // LET'S DO REDIRECT IF THERE IS NO PROFILE
-    // OR USER ON SESSION DOESN'T MATCH WITH OBTAINED USER
-
-    // IF YOU REMEMBER WE WERE THE ONE TO ATTACH userId ON SESSIN
-    // THROUGH CALLBACK IN NEXT-AUTH CONFIGURATION
-
-    if (!profileWithUser) {
-      ctx.res.writeHead(302, { Location: "/" });
-
-      return {
-        props: {
-          profile: {},
-        },
-      };
-    }
-
-    if (session?.userId !== profileWithUser.user.id) {
-      ctx.res.writeHead(302, { Location: "/" });
-      return {
-        props: {
-          profile: {},
-        },
-      };
-    }
-
-    // console.log(!profileWithUser, session);
-
     return {
       props: {
-        profile: profileWithUser,
+        placeholder: "",
       },
     };
   };
 
 const AdminPage: NP<PropsI> = (props) => {
-  // FOR NOW LET'S JUST SHOW STUFF
-  // LETS SHOW WHAT IS IN THE PROPS
-
-  const { profile } = props;
-
   const { query } = useRouter();
 
   console.log({ props, query });
 
-  const { id, country, user, city, addrss, postalCode, taxPrice } = profile;
-
   return (
-    <Layout>
-      <UpdateProfile
-        id={id}
-        name={user.name || ""}
-        addrss={addrss || ""}
-        city={city || ""}
-        country={country || ""}
-        postalCode={postalCode || ""}
-        taxPrice={taxPrice || 0}
-      />
-    </Layout>
+    // <Layout>
+
+    <div>Admin page</div>
   );
+  {
+    /* </Layout> */
+  }
 };
 
 export default AdminPage;
