@@ -67,16 +67,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
       },
     },
 
-    // OK WE WILL DEFINE ONE CALLBACK
-    // I'M GOING TO ADD session CALLBACK
-
     callbacks: {
       session: async (session, user) => {
-        // WE WILL QUERY FOR PROFILE, BUT NOT JUST FOR PROFILE
-        // WE WILL EMBED INSIDE SESSION MORE THINGS
-        // MAYBE USER ID
-        // USER ID SHOULD BE ON user PARAMETER
-
         if (session.userId && session.profile) {
           return session;
         }
@@ -87,7 +79,6 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
           session.userId = userId;
         }
 
-        // QUERY FOR PROFILE
         const profile = await prismaClient.profile.findFirst({
           where: {
             user: {
@@ -96,11 +87,6 @@ const handler = (req: NextApiRequest, res: NextApiResponse) =>
               },
             },
           },
-          // IF WE DON'T SELECT ANY SPECIFIC FIELDS
-          // WHOLE RECORD WILL BE PROVIDED, WITH EVERY FIELD
-          /* select: {
-
-          } */
         });
 
         if (profile) {
