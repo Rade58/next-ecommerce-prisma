@@ -159,18 +159,38 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
       `}
     >
       <form onSubmit={handleSubmit}>
+        <TextField
+          id="standard-full-width"
+          label="Label"
+          style={{ margin: 8 }}
+          placeholder="Placeholder"
+          helperText="Full width!"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
         <div className="name-field">
           <TextField
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            helperText="Full width!"
+            style={{ margin: 8 }}
+            margin="normal"
             onChange={handleChange}
             value={inputData.name}
             type="text"
             name="name"
             id="name-field"
             label="Display Name"
-            placeholder={inputData.name}
-            variant="filled"
+            placeholder={inputData.name || "me"}
           />
         </div>
+
         <div className="country-field">
           <TextField
             onChange={handleChange}

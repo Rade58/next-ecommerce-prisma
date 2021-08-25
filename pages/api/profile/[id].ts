@@ -26,7 +26,7 @@ handler.put(async (req, res) => {
     city: string;
     postalCode: string;
     addrss: string;
-    taxPrice: number;
+    taxPrice: string;
   };
 
   try {
@@ -39,7 +39,7 @@ handler.put(async (req, res) => {
         city,
         country,
         postalCode,
-        taxPrice,
+        taxPrice: Number(taxPrice),
         user: {
           update: {
             name,
