@@ -20,7 +20,45 @@ handler.put(async (req, res) => {
 
   // WE NEED TO UPDATE Profile AND User RECORD
 
-  return res.status(200).send({ id, body });
+  const { name, addrss, city, country, postalCode, taxPrice } = body as {
+    name: string;
+    country: string;
+    city: string;
+    postalCode: string;
+    addrss: string;
+    taxPrice: number;
+  };
+
+  try {
+    const { id: profileId, userId } = await prismaClient.profile.update({
+      where: {
+        id: id as string,
+      },
+      data: {
+        addrss,
+        city,
+        country,
+        postalCode,
+        taxPrice,
+        user: {
+          update: {
+            name,
+          },
+        },
+      },
+      select: {
+        id: true,
+        userId: true,
+      },
+    });
+
+    return res
+      .status(200)
+      .send(`UPDATED user: ${userId} and profile: ${profileId}`);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send("Something went wrong");
+  }
 });
 
 export default handler;
