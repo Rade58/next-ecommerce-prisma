@@ -464,6 +464,22 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     name,
   } = props;
 
+  const [placeholderValues, setPlaceholderValues] = useState<{
+    addrss: string;
+    country: string;
+    city: string;
+    postalCode: string;
+    taxPrice: number;
+    name: string;
+  }>({
+    country,
+    city,
+    addrss,
+    postalCode,
+    taxPrice,
+    name,
+  });
+
   type inputDataKeyType =
     | "addrss"
     | "country"
@@ -524,19 +540,32 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
         // WE DON'T HAVE API ROUTE YET BUT WE WILL DEFINE A
         // REQUEST
 
-        // INCE W NT TO UPDATE WE ARE SENDING put
+        const { data } = await axios.put<{
+          addrss: string;
+          city: string;
+          postalCode: string;
+          country: string;
+          taxPrice: number;
+          user: {
+            name: string;
+          };
+        }>(`/api/profile/${profileId}`, inputData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-        const { data } = await axios.put(
-          `/api/profile/${profileId}`,
-          inputData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        // WHEN WE GET THE DATA, LET'S UPDATE PLACEHOLDER VALUES
+        // FOR INPUTS, SO USER CAN SEE THAT HIS DATA IS UPDATED
 
-        console.log({ data });
+        setPlaceholderValues({
+          addrss: data.addrss,
+          name: data.user.name,
+          city: data.city,
+          postalCode: data.postalCode,
+          country: data.country,
+          taxPrice: data.taxPrice,
+        });
 
         setReqStatus("idle");
       } catch (err) {
@@ -567,6 +596,8 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     return null;
   }
 
+  console.log({ placeholderValues });
+
   return (
     <section
       className="form-holder"
@@ -592,16 +623,22 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
       <form onSubmit={handleSubmit}>
         <div className="name-field">
           <TextField
-            onChange={handleChange}
+            id="name-field"
             value={inputData.name}
+            onChange={handleChange}
             type="text"
             name="name"
-            id="name-field"
             label="Display Name"
-            placeholder={inputData.name}
-            variant="filled"
+            placeholder={placeholderValues.name}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
+
         <div className="country-field">
           <TextField
             onChange={handleChange}
@@ -610,8 +647,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="country"
             id="country-field"
             label="Country"
-            placeholder={inputData.country}
-            variant="filled"
+            placeholder={placeholderValues.country}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="city-field">
@@ -622,8 +664,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="city"
             id="city-field"
             label="City"
-            placeholder={inputData.city}
-            variant="filled"
+            placeholder={placeholderValues.city}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="postalcode-field">
@@ -634,8 +681,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="postalCode"
             id="postalcode-field"
             label="Postal Code"
-            placeholder={inputData.postalCode}
-            variant="filled"
+            placeholder={placeholderValues.postalCode}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="address-field">
@@ -646,8 +698,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="addrss"
             id="address-field"
             label="Address"
-            placeholder={inputData.addrss}
-            variant="filled"
+            placeholder={placeholderValues.addrss}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
         <div className="taxprice-field">
@@ -658,8 +715,13 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
             name="taxPrice"
             id="taxprice-field"
             label="Tax Price"
-            placeholder={inputData.taxPrice}
-            variant="filled"
+            placeholder={placeholderValues.taxPrice.toString()}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            style={{ margin: 8 }}
+            margin="normal"
           />
         </div>
 
@@ -696,6 +758,8 @@ export default UpdateProfile;
 EVERYTHING SEEMS TO WORK AS I EXPECTED
 
 # LETS BUILT A ROUTE THAT WILL UPDATE CURRENT Profile AND CURRENT User RECORD
+
+**BUT LET'S FIRST BUILD A MIDDLEWARE THAT VALIDATES THE USER**
 
 ```
 mkdir middlewares && touch middlewares/verifyCurrentUser.ts
@@ -753,12 +817,86 @@ const verifyCurrentUser: Middleware<NextApiRequest, NextApiResponse> = async (
 export default verifyCurrentUser;
 ```
 
-NOW, LETS BUILD A ROUTE, AND WE WILL ADD UPPER MIDDLEWARE TO OUR ROUTE
+OK, NOW LETS BUILD A ROUTE, AND WE WILL ADD UPPER MIDDLEWARE TO OUR ROUTE
 
 ```
 mkdir pages/api/profile && touch "pages/api/profile/[id].ts"
 ```
 
 ```ts
+import nc from "next-connect";
+import type { NextApiRequest, NextApiResponse } from "next";
 
+import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
+
+import prismaClient from "../../../lib/prisma";
+
+const handler = nc<NextApiRequest, NextApiResponse>();
+
+// I ADDED MIDDLEWARE LIKE YOU SEE
+handler.use(verifyCurrentUser);
+
+// PUT
+handler.put(async (req, res) => {
+  //
+  const { id } = req.query;
+  //
+  const body = req.body;
+
+  console.log({ id, body });
+
+  // WE NEED TO UPDATE Profile AND User RECORD
+
+  const { name, addrss, city, country, postalCode, taxPrice } = body as {
+    name: string;
+    country: string;
+    city: string;
+    postalCode: string;
+    addrss: string;
+    taxPrice: string;
+  };
+
+  try {
+    const data = await prismaClient.profile.update({
+      where: {
+        id: id as string,
+      },
+      data: {
+        addrss,
+        city,
+        country,
+        postalCode,
+        taxPrice: Number(taxPrice),
+        user: {
+          update: {
+            name,
+          },
+        },
+      },
+      select: {
+        addrss: true,
+        city: true,
+        country: true,
+        postalCode: true,
+        taxPrice: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).send(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send("Something went wrong");
+  }
+});
+
+export default handler;
 ```
+
+I HAVE TRY THIS OUT AND IT SEEMS TO BE WORKING
+
+USER CAN UPDATE HIS DETAILS

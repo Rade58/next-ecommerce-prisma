@@ -167,6 +167,8 @@ const UpdateProfile: FC<UpdateProfilePropsI> = (props) => {
     return null;
   }
 
+  console.log({ placeholderValues });
+
   return (
     <section
       className="form-holder"
