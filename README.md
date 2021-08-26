@@ -297,7 +297,11 @@ const AdminPage: NP<PropsI> = (props) => {
 export default AdminPage;
 ```
 
-# LETS BUILD A TABLE TO REPRESENT FOR POPULATING ARRAY OF PROFILES
+# LETS BUILD A UI WITH TABS, BECAUSE WE NEED ONE TAB FOR LISTING OUT PROFILES, AND OTHER TABS FOR ORDERS AND PRODUCTS
+
+```
+touch components/4_admin_page/TabsView.tsx
+```
 
 
 

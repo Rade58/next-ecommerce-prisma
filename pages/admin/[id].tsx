@@ -13,6 +13,8 @@ import prismaClient from "../../lib/prisma";
 
 import Layout from "../../components/4_admin_page/Layout";
 
+import TabsView from "../../components/4_admin_page/TabsView";
+
 export interface PropsI {
   profiles: (Profile & {
     user: User;
@@ -153,6 +155,7 @@ const AdminPage: NP<PropsI> = (props) => {
   return (
     <Layout>
       <h1>Admin page</h1>
+      <TabsView />
     </Layout>
   );
 };
