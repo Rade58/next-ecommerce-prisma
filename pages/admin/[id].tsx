@@ -73,6 +73,9 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     // SEEDED DAT IS DUMMY DATA WE CAN POPULATE DATBASE WITH
     // SO IT WOULD BE EASER FOR OUR DEVELOPMENT
 
+    // WE ARE GETTING EVERY PROFILE WHICH ROLE IS NOT ADMIN
+    // BUT WE ARE GOING TO QUERY User SINCE WE WANT TO ORDER BY
+
     return {
       props: {
         placeholder: "",
