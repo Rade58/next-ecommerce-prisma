@@ -19,8 +19,8 @@ interface AdminMenuProps {
 }
 
 const AdminMenu: FC<AdminMenuProps> = ({ isAdmin, profileId }) => {
-  const { push, pathname } = useRouter();
-
+  const { push, pathname, asPath } = useRouter();
+  console.log({ pathname, asPath });
   if (!profileId) {
     return null;
   }
@@ -33,7 +33,7 @@ const AdminMenu: FC<AdminMenuProps> = ({ isAdmin, profileId }) => {
     <div
       style={{
         borderBottom:
-          pathname === `/admin/${profileId}`
+          asPath === `/admin/${profileId}`
             ? "pink 4px solid"
             : "pink 0px solid",
       }}
