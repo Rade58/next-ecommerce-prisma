@@ -105,6 +105,7 @@ const Header: FC = () => {
               onClick={() => Router.push("/signin")}
               color="secondary"
               variant="contained"
+              disabled={loading}
               // className={butt}
             >
               Login

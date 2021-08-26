@@ -77,14 +77,50 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     // WE ARE GETTING EVERY PROFILE WHICH ROLE IS NOT ADMIN
     // BUT WE ARE GOING TO QUERY User SINCE WE WANT TO ORDER BY
 
+    // MAYBE IT WOULD BE BETTER FOR US TO CREATE RAW QUERY
+    // BUT THIS ALSO WORKS
+
+    // BECAUSE WITH RAW QUERIES, DATES ARENT TURNED TO Date
+    // AN WE DON'T NEET TO CHERRY PICK LIKE BELLOW
+
+    // ONLY THING WITH ROW QUERIES YOU WOULD LAACK TYPESCCRIPT SUPPORT
+    // FOR RESULT
+
     const profiles = await prismaClient.profile.findMany({
+      // WE WILL TAKE ONLY 10 RECORDS
+      take: 10,
+      //
       where: {
         role: {
           not: "ADMIN",
         },
       },
-      include: {
-        user: true,
+      select: {
+        // I'M EXCLUDING Dates BECAUSE
+        // I CAN'T SERIALIZE THEM
+        // I CAN'T PSS THEM AS PROPS BEFORE TRANSFORMING THEM TO ISOS STRINGS
+
+        createdAt: false,
+        updatedAt: false,
+
+        addrss: true,
+        city: true,
+        country: true,
+        id: true,
+        paymentMethod: true,
+        postalCode: true,
+        role: true,
+        taxPrice: true,
+
+        user: {
+          select: {
+            updatedAt: false,
+            createdAt: false,
+            email: true,
+            id: true,
+            name: true,
+          },
+        },
       },
       orderBy: {
         // I DON'T KNOW IS IT GOOD PRACTICE TO ORDER LIKE
@@ -96,6 +132,8 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         createdAt: "desc",
       },
     });
+
+    console.log({ profiles });
 
     // FOR NOW, WE WILL ONLY RETURN USER AND PROFILE
     // AND LATER LIKE I SAID, WE ARE GOING TO PASS
