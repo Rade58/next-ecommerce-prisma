@@ -14,7 +14,6 @@ import prismaClient from "../../lib/prisma";
 import Layout from "../../components/4_admin_page/Layout";
 
 export interface PropsI {
-  placeholder: string;
   profiles: (Profile & {
     user: User;
   })[];
@@ -103,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     // PRODUCTS AND ORDERS TOO
     return {
       props: {
-        placeholder: "",
+        profiles,
       },
     };
   };
@@ -115,7 +114,7 @@ const AdminPage: NP<PropsI> = (props) => {
 
   return (
     <Layout>
-      <div>Admin page</div>
+      <h1>Admin page</h1>
     </Layout>
   );
 };
