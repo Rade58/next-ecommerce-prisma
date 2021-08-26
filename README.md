@@ -295,8 +295,9 @@ const AdminPage: NP<PropsI> = (props) => {
 };
 
 export default AdminPage;
-
 ```
+
+# LETS BUILD A TABLE TO REPRESENT FOR POPULATING ARRAY OF PROFILES
 
 
 
