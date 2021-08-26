@@ -295,6 +295,7 @@ const AdminPage: NP<PropsI> = (props) => {
 };
 
 export default AdminPage;
+
 ```
 
 
