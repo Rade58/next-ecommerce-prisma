@@ -7,7 +7,7 @@ import type { FC } from "react";
 const Layout: FC = ({ children }) => {
   return (
     <main
-      className="profile-page-content"
+      className="admin-page-content"
       css={css`
         /* border: pink solid 2px; */
         margin: 0px auto;
