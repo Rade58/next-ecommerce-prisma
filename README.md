@@ -130,7 +130,7 @@ BUT WE NEED TO PAY ATTENTION ON: "WHAT IF WE HAVE MILLION USERS"
 
 AND ON FRONT END WE ARE GOING TO REQUEST 20 MORE BECAUSE WE WILL HAVE PAGINATED LIST
 
-**ON THE BACK END WE WILL LATTER IMPLEMENT ROUTE WITH QUERY (`WHERE WE WILL DO CURSOR BASED PAGINATION` [________](https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination))**
+**ON THE BACK END WE WILL `LATTER IMPLEMENT` ROUTE WITH QUERY (`WHERE WE WILL DO CURSOR BASED PAGINATION` [________](https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination))**
 
 
 

@@ -15,7 +15,9 @@ import Layout from "../../components/4_admin_page/Layout";
 
 export interface PropsI {
   placeholder: string;
-  profiles: Profile[];
+  profiles: (Profile & {
+    user: User;
+  })[];
 }
 
 type paramsType = {
@@ -76,6 +78,29 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
     // WE ARE GETTING EVERY PROFILE WHICH ROLE IS NOT ADMIN
     // BUT WE ARE GOING TO QUERY User SINCE WE WANT TO ORDER BY
 
+    const profiles = await prismaClient.profile.findMany({
+      where: {
+        role: {
+          not: "ADMIN",
+        },
+      },
+      include: {
+        user: true,
+      },
+      orderBy: {
+        // I DON'T KNOW IS IT GOOD PRACTICE TO ORDER LIKE
+        // THIS AND DISPLAY TO USER
+        // I'M JUST SHOWING YOU THAT
+        // YOU CAN USE THIS
+        // AND LATTER WHEN I SHOW YOU PAGINATION
+        // WE ARE GOING TO USE THIS KIND OF ORDERING TOO
+        createdAt: "desc",
+      },
+    });
+
+    // FOR NOW, WE WILL ONLY RETURN USER AND PROFILE
+    // AND LATER LIKE I SAID, WE ARE GOING TO PASS
+    // PRODUCTS AND ORDERS TOO
     return {
       props: {
         placeholder: "",
