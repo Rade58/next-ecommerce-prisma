@@ -7,8 +7,6 @@ import type { FC } from "react";
 
 import { useSession } from "next-auth/client";
 
-import { makeStyles, Theme } from "@material-ui/core/styles";
-
 import { Paper, Tabs, Tab, Typography, Box } from "@material-ui/core";
 
 interface TabPanelPropsI {
@@ -75,11 +73,13 @@ const TabsView: FC<TabViewsCompPropsI> = () => {
           width: fit-content;
         `}
       >
-        <Paper square>
+        <Paper square className="tabs-region">
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="simple tabs example"
+            textColor="primary"
+            indicatorColor="primary"
           >
             <Tab label="Users" {...a11yProps(0)} />
             <Tab label="Products" {...a11yProps(1)} />
