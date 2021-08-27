@@ -154,7 +154,6 @@ const AdminPage: NP<PropsI> = (props) => {
 
   return (
     <Layout>
-      <h1>Admin page</h1>
       <TabsView />
     </Layout>
   );

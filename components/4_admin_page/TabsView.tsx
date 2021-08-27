@@ -2,12 +2,14 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import type { FC } from "react";
+
+import { useSession } from "next-auth/client";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import { AppBar, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import { Paper, Tabs, Tab, Typography, Box } from "@material-ui/core";
 
 interface TabPanelPropsI {
   children?: React.ReactNode;
@@ -42,15 +44,13 @@ function a11yProps(index: any) {
   };
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+interface TabViewsCompPropsI {
+  placeholder?: any;
+}
 
-const TabsView: FC = () => {
-  const classes = useStyles();
+const TabsView: FC<TabViewsCompPropsI> = () => {
+  const [session, loading] = useSession();
+
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -58,28 +58,54 @@ const TabsView: FC = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-    </div>
+    <Fragment>
+      <h1
+        css={css`
+          align-self: flex-start;
+          font-size: 1.36em;
+          font-weight: 400;
+          text-decoration-line: underline;
+          margin-bottom: 28px;
+        `}
+      >
+        👩‍💻 {session?.user?.email}
+      </h1>
+      <div
+        css={css`
+          width: fit-content;
+        `}
+      >
+        <Paper square>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="simple tabs example"
+          >
+            <Tab label="Users" {...a11yProps(0)} />
+            <Tab label="Products" {...a11yProps(1)} />
+            <Tab label="Orders" {...a11yProps(2)} />
+          </Tabs>
+        </Paper>
+      </div>
+      <div
+        css={css`
+          margin-top: 8px;
+          width: 100%;
+        `}
+      >
+        <Paper variant="outlined">
+          <TabPanel value={value} index={0}>
+            Users
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Products
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Orders
+          </TabPanel>
+        </Paper>
+      </div>
+    </Fragment>
   );
 };
 

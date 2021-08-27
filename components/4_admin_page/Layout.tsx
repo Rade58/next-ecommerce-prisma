@@ -13,7 +13,10 @@ const Layout: FC = ({ children }) => {
         margin: 0px auto;
         position: relative;
         display: flex;
+        flex-direction: column;
         justify-content: center;
+
+        align-items: center;
 
         @media screen and (min-width: 680px) {
           width: 80vw;
