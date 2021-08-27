@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import { useRouter } from "next/router";
 
-import type { Profile, User, Order } from "@prisma/client";
+import type { Profile, User, Order, Role } from "@prisma/client";
 
 import { getSession, useSession } from "next-auth/client";
 
@@ -16,9 +16,18 @@ import Layout from "../../components/4_admin_page/Layout";
 import TabsView from "../../components/4_admin_page/TabsView";
 
 export interface PropsI {
-  profiles: (Profile & {
-    user: User;
-  })[];
+  profiles: {
+    addrss: string | null;
+    city: string | null;
+    country: string | null;
+    id: string;
+    paymentMethod: string | null;
+    postalCode: string | null;
+    role: Role;
+    taxPrice: number | null;
+
+    user: { email: string; id: string; name: string };
+  }[];
 }
 
 type paramsType = {
@@ -154,7 +163,7 @@ const AdminPage: NP<PropsI> = (props) => {
 
   return (
     <Layout>
-      <TabsView />
+      <TabsView users={props.profiles} />
     </Layout>
   );
 };

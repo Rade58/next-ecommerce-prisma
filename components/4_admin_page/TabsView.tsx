@@ -5,9 +5,13 @@ import { jsx, css } from "@emotion/react";
 import { useState, Fragment } from "react";
 import type { FC } from "react";
 
+import type { Role } from "@prisma/client";
+
 import { useSession } from "next-auth/client";
 
 import { Paper, Tabs, Tab, Typography, Box } from "@material-ui/core";
+
+import UsersTable from "./UsersTable";
 
 interface TabPanelPropsI {
   children?: React.ReactNode;
@@ -42,8 +46,22 @@ function a11yProps(index: any) {
   };
 }
 
-interface TabViewsCompPropsI {
-  placeholder?: any;
+export interface TabViewsCompPropsI {
+  users: {
+    role: Role;
+    id: string;
+    addrss: string | null;
+    city: string | null;
+    postalCode: string | null;
+    country: string | null;
+    paymentMethod: string | null;
+    taxPrice: number | null;
+    user: {
+      email: string;
+      id: string;
+      name: string;
+    };
+  }[];
 }
 
 const TabsView: FC<TabViewsCompPropsI> = () => {
@@ -95,7 +113,8 @@ const TabsView: FC<TabViewsCompPropsI> = () => {
       >
         <Paper variant="outlined">
           <TabPanel value={value} index={0}>
-            Users
+            Users:
+            <UsersTable />
           </TabPanel>
           <TabPanel value={value} index={1}>
             Products
