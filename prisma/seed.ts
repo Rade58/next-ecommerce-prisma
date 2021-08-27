@@ -1,8 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+
+import prisma from "../lib/prisma";
 
 import mockProd from "./mock/MOCK_DATA.json";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 async function main() {
   const ajovUser = await prisma.user.findUnique({
@@ -56,3 +58,12 @@ async function main() {
     },
   });
 }
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
