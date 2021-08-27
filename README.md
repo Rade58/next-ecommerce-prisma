@@ -27,3 +27,16 @@ FILE `pages/api/mock/seed-products.ts`
 ```ts
 
 ```
+
+
+WE CAN HIT THE TOUTE TO CREATE BUNCH OF PRODUCTS
+
+```
+yarn dev
+```
+
+USING HTTPIE TO HIT THE ROUTE
+
+```
+http GET :3000/api/mock/seed-products
+```
