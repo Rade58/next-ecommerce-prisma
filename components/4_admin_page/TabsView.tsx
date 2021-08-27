@@ -64,11 +64,11 @@ const TabsView: FC<TabViewsCompPropsI> = () => {
           align-self: flex-start;
           font-size: 1.36em;
           font-weight: 400;
-          text-decoration-line: underline;
+
           margin-bottom: 28px;
         `}
       >
-        👩‍💻 {session?.user?.email}
+        👩‍💻 admin: {session?.user?.name || session?.user?.email}
       </h1>
       <div
         css={css`
