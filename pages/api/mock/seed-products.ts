@@ -45,10 +45,12 @@ handler.get(async (req, res) => {
   }
 
   // NOW WE CAN CREATE PRODUCTS
-  for await (const prod of dummyProdsArr) {
-    prismaClient.product.create({
+  for (const prod of dummyProdsArr) {
+    const product = await prismaClient.product.create({
       data: { ...prod, admin: { connect: { id: admin.id } } },
     });
+
+    console.log({ product });
   }
 
   return res.status(201).send("products created");
