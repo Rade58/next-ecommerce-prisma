@@ -1,3 +1,9 @@
+// ------------------THIS FILE
+// ------------------ IS NO OP
+// ------------------ I COULDN'T MADE THIS WORK
+// ------------------
+// ------------------
+
 // import { PrismaClient } from "@prisma/client";
 
 import prisma from "../lib/prisma";
