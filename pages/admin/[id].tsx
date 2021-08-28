@@ -28,6 +28,23 @@ export interface PropsI {
 
     user: { email: string; id: string; name: string };
   }[];
+  products: {
+    createdAt: string;
+    updatedAt: string;
+    productId: string;
+    adminId: string;
+    name: string;
+    image: string;
+    description: string;
+    brand: string;
+    category: string | null;
+    price: number;
+    countInStock: number;
+    rating: number;
+    numReviews: number;
+  }[];
+  productsCount: number;
+  profilesCount: number;
 }
 
 type paramsType = {
@@ -37,7 +54,6 @@ type paramsType = {
 
 export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
   async (ctx) => {
-    // LETS GET SESSION FIRST
     const session = await getSession({ req: ctx.req });
 
     if (!session) {
@@ -50,7 +66,6 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
 
     const id = ctx.params?.id;
 
-    // LET'S ALSO REDIRECT IF WE HAVE WRONG PROFILE
     if ((session as unknown as any).profile.id !== id) {
       ctx.res.writeHead(302, { Location: "/" });
 
@@ -59,19 +74,16 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
       };
     }
 
-    // OBTAIN PROFILE AND CHECK FOR ROLE
-
     const profile = await prismaClient.profile.findUnique({
       where: {
         id: id || "",
       },
       select: {
         role: true,
+        id: true,
       },
     });
 
-    // CHECKING THE ROLE ON PROFILE
-    // REDIRECT TO PROFILE PAGE
     if (profile?.role !== "ADMIN") {
       ctx.res.writeHead(302, { Location: `/profile/${id}` });
 
@@ -80,37 +92,14 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
       };
     }
 
-    // WE WILL GET USERS FOR NOW AND LATER WHAEN WE FIND OUT HOW TO
-    // SEED DATBASE WE WILL QUERY FOR SEEDED DATA
-    // SEEDED DAT IS DUMMY DATA WE CAN POPULATE DATBASE WITH
-    // SO IT WOULD BE EASER FOR OUR DEVELOPMENT
-
-    // WE ARE GETTING EVERY PROFILE WHICH ROLE IS NOT ADMIN
-    // BUT WE ARE GOING TO QUERY User SINCE WE WANT TO ORDER BY
-
-    // MAYBE IT WOULD BE BETTER FOR US TO CREATE RAW QUERY
-    // BUT THIS ALSO WORKS
-
-    // BECAUSE WITH RAW QUERIES, DATES ARENT TURNED TO Date
-    // AN WE DON'T NEET TO CHERRY PICK LIKE BELLOW
-
-    // ONLY THING WITH ROW QUERIES YOU WOULD LAACK TYPESCCRIPT SUPPORT
-    // FOR RESULT
-
     const profiles = await prismaClient.profile.findMany({
-      // WE WILL TAKE ONLY 10 RECORDS
       take: 10,
-      //
       where: {
         role: {
           not: "ADMIN",
         },
       },
       select: {
-        // I'M EXCLUDING Dates BECAUSE
-        // I CAN'T SERIALIZE THEM
-        // I CAN'T PSS THEM AS PROPS BEFORE TRANSFORMING THEM TO ISOS STRINGS
-
         createdAt: false,
         updatedAt: false,
 
@@ -134,24 +123,55 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         },
       },
       orderBy: {
-        // I DON'T KNOW IS IT GOOD PRACTICE TO ORDER LIKE
-        // THIS AND DISPLAY TO USER
-        // I'M JUST SHOWING YOU THAT
-        // YOU CAN USE THIS
-        // AND LATTER WHEN I SHOW YOU PAGINATION
-        // WE ARE GOING TO USE THIS KIND OF ORDERING TOO
         createdAt: "desc",
+      },
+    });
+
+    const profilesCount = await prismaClient.profile.count({
+      where: {
+        role: {
+          not: "ADMIN",
+        },
       },
     });
 
     console.log({ profiles });
 
-    // FOR NOW, WE WILL ONLY RETURN USER AND PROFILE
-    // AND LATER LIKE I SAID, WE ARE GOING TO PASS
-    // PRODUCTS AND ORDERS TOO
+    // GETTING PRODUCTS
+
+    const products = (
+      await prismaClient.product.findMany({
+        where: {
+          admin: {
+            is: {
+              id: profile.id,
+            },
+          },
+        },
+        take: 20,
+      })
+    ).map((prod) => {
+      return {
+        ...prod,
+        createdAt: prod.createdAt.toISOString(),
+        updatedAt: prod.updatedAt.toISOString(),
+      };
+    });
+
+    const productsCount = await prismaClient.product.count({
+      where: {
+        adminId: {
+          equals: profile.id,
+        },
+      },
+    });
+
     return {
       props: {
         profiles,
+        products,
+        productsCount,
+        profilesCount,
       },
     };
   };
