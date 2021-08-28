@@ -68,7 +68,27 @@ const Header: FC = () => {
           className={logo}
         >
           <Typography>
-            FANCY PARROT{" "}
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.8em",
+                fontFamily: "monospace",
+                marginBottom: "-14px",
+                fontWeight: 600,
+                marginRight: "6px",
+              }}
+            >
+              FANCY{" "}
+            </span>
+            <span
+              style={{
+                fontSize: "0.8em",
+                fontFamily: "ubuntu",
+                fontWeight: 800,
+              }}
+            >
+              PARROT{" "}
+            </span>
             <span
               css={css`
                 font-size: 1.4em;
