@@ -84,7 +84,7 @@ handler.get(async (req, res) => {
 export default handler;
 ```
 
-WE CAN HIT THE TOUTE TO CREATE BUNCH OF PRODUCTS
+WE CAN HIT THE ROUTE TO CREATE BUNCH OF PRODUCTS
 
 ```
 yarn dev
@@ -101,3 +101,5 @@ http GET :3000/api/mock/seed-products
 ```
 yarm prisma:studio
 ```
+
+YES I HAVE A LOT OF Product RECORDARIGHT NOW AND THEY ARE ALL LINKED WITH FORGEIN KEY WITH A ADMIN PROFILE
