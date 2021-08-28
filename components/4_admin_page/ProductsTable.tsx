@@ -1,44 +1,46 @@
 import type { FC } from "react";
+import { useState } from "react";
+
 import {
   DataGrid,
   GridColDef,
   GridValueGetterParams,
-  useGridState,
 } from "@material-ui/data-grid";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "id", headerName: "No", width: 110 },
+  { field: "productId", headerName: "Product Id", width: 160, editable: false },
   {
-    field: "firstName",
-    headerName: "First name",
+    field: "name",
+    headerName: "Product Name",
+    width: 190,
+    editable: true,
+  },
+  {
+    field: "description",
+    headerName: "Description",
     width: 150,
     editable: true,
   },
   {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
+    field: "brand",
+    headerName: "Brand",
     width: 110,
     editable: true,
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.getValue(params.id, "firstName") || ""} ${
-        params.getValue(params.id, "lastName") || ""
-      }`,
+    field: "price",
+    headerName: "Price",
+    width: 110,
+    editable: true,
+  },
+  {
+    field: "countInStock",
+    headerName: "Count In Stock",
+    width: 130,
+    editable: true,
   },
 ];
 
@@ -58,14 +60,21 @@ const ProductsTable: FC<{
   initialProducts: PropsI["products"];
   productsCount: PropsI["productsCount"];
 }> = ({ initialProducts, productsCount }) => {
+  const [products, setProducts] = useState(initialProducts);
+
+  console.log({ prod: products[0] });
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={initialProducts}
+        rows={products}
         columns={columns}
         pageSize={5}
         checkboxSelection
         disableSelectionOnClick
+        onSelectionModelChange={(a, b) => {
+          console.log({ a, b });
+        }}
       />
     </div>
   );
