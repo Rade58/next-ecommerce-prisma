@@ -17,10 +17,11 @@ import TabsView from "../../components/4_admin_page/TabsView";
 
 export interface PropsI {
   profiles: {
+    id: number;
     addrss: string | null;
     city: string | null;
     country: string | null;
-    id: string;
+    profileId: string;
     paymentMethod: string | null;
     postalCode: string | null;
     role: Role;
@@ -29,6 +30,7 @@ export interface PropsI {
     user: { email: string; id: string; name: string };
   }[];
   products: {
+    id: number;
     createdAt: string;
     updatedAt: string;
     productId: string;
@@ -92,39 +94,47 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
       };
     }
 
-    const profiles = await prismaClient.profile.findMany({
-      take: 10,
-      where: {
-        role: {
-          not: "ADMIN",
-        },
-      },
-      select: {
-        createdAt: false,
-        updatedAt: false,
-
-        addrss: true,
-        city: true,
-        country: true,
-        id: true,
-        paymentMethod: true,
-        postalCode: true,
-        role: true,
-        taxPrice: true,
-
-        user: {
-          select: {
-            updatedAt: false,
-            createdAt: false,
-            email: true,
-            id: true,
-            name: true,
+    const profiles = (
+      await prismaClient.profile.findMany({
+        take: 10,
+        where: {
+          role: {
+            not: "ADMIN",
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+        select: {
+          createdAt: false,
+          updatedAt: false,
+
+          addrss: true,
+          city: true,
+          country: true,
+          id: true,
+          paymentMethod: true,
+          postalCode: true,
+          role: true,
+          taxPrice: true,
+
+          user: {
+            select: {
+              updatedAt: false,
+              createdAt: false,
+              email: true,
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+    ).map((prof, i) => {
+      return {
+        ...prof,
+        id: i + 1,
+        profileId: prof.id,
+      };
     });
 
     const profilesCount = await prismaClient.profile.count({
@@ -150,11 +160,12 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         },
         take: 20,
       })
-    ).map((prod) => {
+    ).map((prod, i) => {
       return {
         ...prod,
         createdAt: prod.createdAt.toISOString(),
         updatedAt: prod.updatedAt.toISOString(),
+        id: i + 1,
       };
     });
 
