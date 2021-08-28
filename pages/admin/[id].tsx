@@ -158,7 +158,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
             },
           },
         },
-        take: 20,
+        take: 200,
       })
     ).map((prod, i) => {
       return {

@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import { useState } from "react";
 
-import {
-  DataGrid,
-  GridColDef,
-  GridValueGetterParams,
-} from "@material-ui/data-grid";
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
+
+import { Card, Button, Paper } from "@material-ui/core";
+
+import { DeleteSweep as DelIcon } from "@material-ui/icons";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
@@ -75,24 +75,74 @@ const ProductsTable: FC<{
 
   // SPINNER MOGU DA POKAZUJEM UMESTO TABELE, ONDA KADA SE SALJE REQUEST
 
+  // API ROUTE MOZE DA BUDE ISTA ZA PRODUCTS ORDERS USERS
+
   console.log({ prod: products[0] });
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={products}
-        columns={columns}
-        pageSize={10}
-        checkboxSelection
-        disableSelectionOnClick
-        onSelectionModelChange={(a, b) => {
-          console.log({ a, b });
-        }}
-        onEditRowsModelChange={(a, b) => {
-          console.log({ a, b });
-        }}
-      />
-    </div>
+    <>
+      <div>
+        <Paper elevation={2}>
+          <section
+            style={{
+              padding: "20px",
+            }}
+          >
+            <div>
+              total products manging:{" "}
+              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {productsCount}{" "}
+              </span>
+            </div>
+
+            <div>
+              loaded products count :{" "}
+              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {products.length}
+              </span>
+            </div>
+          </section>
+        </Paper>
+        <div
+          style={{
+            width: "100%",
+            marginBottom: "20px",
+            padding: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Card elevation={0}>
+            <Button variant="contained" color="primary">
+              Load 50 More Products
+            </Button>
+          </Card>
+          <Card elevation={0}>
+            <Button color="primary" variant="outlined">
+              <DelIcon />
+              Delete Selected Products
+            </Button>
+          </Card>
+        </div>
+      </div>
+      <div style={{ height: 600, width: "100%" }}>
+        <DataGrid
+          rows={products}
+          columns={columns}
+          pageSize={10}
+          checkboxSelection
+          disableSelectionOnClick
+          onSelectionModelChange={(a, b) => {
+            console.log({ a, b });
+          }}
+          onEditRowsModelChange={(a, b) => {
+            console.log({ a, b });
+          }}
+        />
+      </div>
+    </>
   );
 };
 
