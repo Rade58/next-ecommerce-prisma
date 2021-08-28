@@ -7,6 +7,8 @@ import { useState, Fragment, useCallback, FormEvent } from "react";
 
 import axios from "axios";
 
+import { useSession } from "next-auth/client";
+
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import type { GridSelectionModel } from "@material-ui/data-grid";
 
@@ -69,12 +71,26 @@ const columns: GridColDef[] = [
     width: 130,
     editable: true,
   },
+  {
+    field: "image",
+    headerName: "Image Url",
+    width: 130,
+    editable: true,
+  },
+  {
+    field: "category",
+    headerName: "Category",
+    width: 130,
+    editable: true,
+  },
 ];
 
 const ProductsTable: FC<{
   initialProducts: PropsI["products"];
   productsCount: PropsI["productsCount"];
 }> = ({ initialProducts, productsCount: initialProductsCount }) => {
+  const [session, loading] = useSession();
+
   const [productsCount, setProductsCount] =
     useState<number>(initialProductsCount);
 
@@ -121,14 +137,25 @@ const ProductsTable: FC<{
   // __________________________________________________________________
   // __________________________________________________________________
   // __________________________________________________________________
-  const [{ name, email, message }, setFields] = useState<{
+  const [
+    { name, brand, countInStock, description, image, price, category },
+    setFields,
+  ] = useState<{
     name: string;
-    email: string;
-    message: string;
+    image: string;
+    description: string;
+    brand: string;
+    price: number;
+    countInStock: number;
+    category: string;
   }>({
+    brand: "",
+    countInStock: 0,
+    description: "",
     name: "",
-    email: "",
-    message: "",
+    image: "",
+    price: 0,
+    category: "",
   });
 
   const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
@@ -145,10 +172,29 @@ const ProductsTable: FC<{
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
+      if (!session) {
+        return;
+      }
+
+      if (!session.profile || !(session as any).profile.id) {
+        return;
+      }
+
       setReqStatus("pending");
       try {
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
-        const res = await axios.post("/api/mail", { name, email, message });
+        const res = await axios.post(
+          `/api/admin/create/${(session as any).profile.id}`,
+          {
+            name,
+            brand,
+            countInStock,
+            description,
+            image,
+            price,
+            category,
+          }
+        );
         setReqStatus("idle");
         console.log(res.data);
       } catch (err) {
@@ -156,11 +202,27 @@ const ProductsTable: FC<{
         console.log({ err });
       }
     },
-    [name, email, message, setReqStatus]
+    [
+      name,
+      brand,
+      countInStock,
+      description,
+      price,
+      image,
+      category,
+      setReqStatus,
+    ]
   );
 
   const buttonDisabled =
-    !name || !email || !message || reqStatus === "pending" ? true : false;
+    !name ||
+    !brand ||
+    !countInStock ||
+    !description ||
+    !price ||
+    reqStatus === "pending"
+      ? true
+      : false;
 
   // __________________________________________________________________
   // __________________________________________________________________
@@ -207,7 +269,7 @@ const ProductsTable: FC<{
             <section
               className="form-holder"
               css={css`
-                padding-top: 10vh;
+                /* padding-top: 10vh; */
                 width: 100%;
                 display: flex;
                 flex-direction: column;
@@ -215,7 +277,7 @@ const ProductsTable: FC<{
                 align-content: center;
 
                 & div.field {
-                  margin-top: 10vh;
+                  /* margin-top: 10vh; */
                   display: flex;
                   justify-content: center;
                 }
@@ -227,27 +289,71 @@ const ProductsTable: FC<{
             >
               <form onSubmit={handleSubmit}>
                 <div className="field">
-                  {/* THIS IS GOING TO BE INPUT FOR SENDERS MAIL  */}
                   <TextField
                     onChange={handleChange}
                     value={name}
                     name="name"
                     id="name-field"
-                    label="Your Name"
-                    placeholder="Your Name"
+                    label="Name"
+                    placeholder="Name"
                     variant="filled"
                   />
                 </div>
                 <div className="field">
-                  {/* THIS IS GOING TO BE EMAIL USER IS SENDDING TO */}
                   <TextField
                     onChange={handleChange}
-                    value={email}
-                    type="email"
-                    name="email"
-                    id="email-field"
-                    label="Send To Email Address"
-                    placeholder="Send To Email address"
+                    value={brand}
+                    name="brand"
+                    id="brand-field"
+                    label="Brand"
+                    placeholder="Brand"
+                    variant="filled"
+                  />
+                </div>
+                <div className="field">
+                  <TextField
+                    onChange={handleChange}
+                    value={price}
+                    name="price"
+                    id="price-field"
+                    label="Price"
+                    placeholder="Price"
+                    variant="filled"
+                    type="number"
+                  />
+                </div>
+                <div className="field">
+                  <TextField
+                    onChange={handleChange}
+                    value={countInStock}
+                    type="number"
+                    name="countIbStock"
+                    id="countinstock-field"
+                    label="Count In Stock"
+                    placeholder="CountInStock"
+                    variant="filled"
+                  />
+                </div>
+
+                <div className="field">
+                  <TextField
+                    onChange={handleChange}
+                    value={category}
+                    name="category"
+                    id="category-field"
+                    label="Category"
+                    placeholder="Category"
+                    variant="filled"
+                  />
+                </div>
+                <div className="field">
+                  <TextField
+                    onChange={handleChange}
+                    value={image}
+                    name="image"
+                    id="image-field"
+                    label="Image Url"
+                    placeholder="Image Url"
                     variant="filled"
                   />
                 </div>
@@ -258,14 +364,13 @@ const ProductsTable: FC<{
                     width: 48vw;
                   `}
                 >
-                  {/* AND THIS IS MESSAGE, USER IS SENDING */}
                   <TextField
                     onChange={handleChange}
-                    value={message}
-                    name="message"
-                    id="message-field"
-                    label="Message"
-                    placeholder="Message"
+                    value={description}
+                    name="description"
+                    id="description-field"
+                    label="Description"
+                    placeholder="Description"
                     multiline
                     fullWidth
                   />
@@ -276,7 +381,7 @@ const ProductsTable: FC<{
                   type="submit"
                   disabled={buttonDisabled}
                 >
-                  {"Send "}
+                  {"Save New Product "}
                   {reqStatus === "pending" ? (
                     <div
                       css={css`
