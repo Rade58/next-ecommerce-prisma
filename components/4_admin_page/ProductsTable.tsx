@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import type { GridSelectionModel } from "@material-ui/data-grid";
 
 import { Card, Button, Paper } from "@material-ui/core";
 
@@ -57,7 +58,8 @@ const ProductsTable: FC<{
   const [products, setProducts] =
     useState<typeof initialProducts>(initialProducts);
 
-  const [sellectedProductsIds, setSelectedProductsIds] = useState<string[]>([]);
+  const [selectedProductsNos, setSelectedProductsNos] =
+    useState<GridSelectionModel>([]);
 
   const [productsToBeUpdated, setProductsYoBeUpdated] = useState<
     typeof products
@@ -87,7 +89,9 @@ const ProductsTable: FC<{
 
   // KADA SE DELETE-UJE MORA DA SE REFETCH-UJE DO SADA UKUPNO LOADED PRODUCTS
 
-  console.log({ prod: products[0] });
+  // console.log({ prod: products[0] });
+
+  console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
 
   return (
     <>
@@ -131,7 +135,7 @@ const ProductsTable: FC<{
               </Button>
             )}
           </Card>
-          {sellectedProductsIds.length !== 0 && (
+          {selectedProductsNos.length !== 0 && (
             <Card elevation={0}>
               <span style={{ color: "tomato" }}>danger zone: </span>
               <Button color="primary" variant="outlined">
@@ -150,7 +154,9 @@ const ProductsTable: FC<{
           checkboxSelection
           disableSelectionOnClick
           onSelectionModelChange={(a, b) => {
-            console.log({ a, b });
+            // console.log({ a, b });
+
+            setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
             console.log({ a, b });
