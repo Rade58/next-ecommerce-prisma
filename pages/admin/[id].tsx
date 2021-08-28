@@ -183,7 +183,7 @@ const AdminPage: NP<PropsI> = (props) => {
 
   return (
     <Layout>
-      <TabsView users={props.profiles} />
+      <TabsView {...props} />
     </Layout>
   );
 };

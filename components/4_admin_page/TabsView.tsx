@@ -11,7 +11,12 @@ import { useSession } from "next-auth/client";
 
 import { Paper, Tabs, Tab, Typography, Box } from "@material-ui/core";
 
+import type { PropsI as AdminPropsI } from "../../pages/admin/[id]";
+
+import type { PropsI } from "../../pages/admin/[id]";
+
 import UsersTable from "./UsersTable";
+import ProductsTable from "./ProductsTable";
 
 interface TabPanelPropsI {
   children?: React.ReactNode;
@@ -46,25 +51,7 @@ function a11yProps(index: any) {
   };
 }
 
-export interface TabViewsCompPropsI {
-  users: {
-    role: Role;
-    id: string;
-    addrss: string | null;
-    city: string | null;
-    postalCode: string | null;
-    country: string | null;
-    paymentMethod: string | null;
-    taxPrice: number | null;
-    user: {
-      email: string;
-      id: string;
-      name: string;
-    };
-  }[];
-}
-
-const TabsView: FC<TabViewsCompPropsI> = () => {
+const TabsView: FC<PropsI> = (props) => {
   const [session, loading] = useSession();
 
   const [value, setValue] = useState(0);
@@ -114,10 +101,17 @@ const TabsView: FC<TabViewsCompPropsI> = () => {
         <Paper variant="outlined">
           <TabPanel value={value} index={0}>
             Users:
-            <UsersTable />
+            <UsersTable
+              initialProfiles={props.profiles}
+              profilesCount={props.profilesCount}
+            />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Products
+            Products:
+            <ProductsTable
+              initialProducts={props.products}
+              productsCount={props.productsCount}
+            />
           </TabPanel>
           <TabPanel value={value} index={2}>
             Orders
