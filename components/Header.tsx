@@ -74,8 +74,9 @@ const Header: FC = () => {
                 fontSize: "0.8em",
                 fontFamily: "monospace",
                 marginBottom: "-14px",
-                fontWeight: 600,
+                fontWeight: 400,
                 marginRight: "6px",
+                color: "olivedrab",
               }}
             >
               FANCY{" "}
@@ -84,7 +85,8 @@ const Header: FC = () => {
               style={{
                 fontSize: "0.8em",
                 fontFamily: "ubuntu",
-                fontWeight: 800,
+                fontWeight: 700,
+                color: "tomato",
               }}
             >
               PARROT{" "}
