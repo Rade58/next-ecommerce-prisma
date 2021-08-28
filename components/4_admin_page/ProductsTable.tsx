@@ -47,13 +47,21 @@ const columns: GridColDef[] = [
 const ProductsTable: FC<{
   initialProducts: PropsI["products"];
   productsCount: PropsI["productsCount"];
-}> = ({ initialProducts, productsCount }) => {
+}> = ({ initialProducts, productsCount: initialProductsCount }) => {
+  const [productsCount, setProductsCount] =
+    useState<number>(initialProductsCount);
+
   const [fetchedProoductsCount, setFetchedProductsCount] = useState<number>(
     initialProducts.length
   );
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] =
+    useState<typeof initialProducts>(initialProducts);
 
   const [sellectedProductsIds, setSelectedProductsIds] = useState<string[]>([]);
+
+  const [productsToBeUpdated, setProductsYoBeUpdated] = useState<
+    typeof products
+  >([]);
 
   // TREBA CE TI SAVE DUGME NAKON EDITA (I TU CES DA UPDATE-UJES
   // products I DA POSALJES REQUEST)
@@ -76,6 +84,8 @@ const ProductsTable: FC<{
   // SPINNER MOGU DA POKAZUJEM UMESTO TABELE, ONDA KADA SE SALJE REQUEST
 
   // API ROUTE MOZE DA BUDE ISTA ZA PRODUCTS ORDERS USERS
+
+  // KADA SE DELETE-UJE MORA DA SE REFETCH-UJE DO SADA UKUPNO LOADED PRODUCTS
 
   console.log({ prod: products[0] });
 
@@ -115,16 +125,21 @@ const ProductsTable: FC<{
           }}
         >
           <Card elevation={0}>
-            <Button variant="contained" color="primary">
-              Load 50 More Products
-            </Button>
+            {fetchedProoductsCount !== productsCount && (
+              <Button variant="contained" color="primary">
+                Load 100 More Products
+              </Button>
+            )}
           </Card>
-          <Card elevation={0}>
-            <Button color="primary" variant="outlined">
-              <DelIcon />
-              Delete Selected Products
-            </Button>
-          </Card>
+          {sellectedProductsIds.length !== 0 && (
+            <Card elevation={0}>
+              <span style={{ color: "tomato" }}>danger zone: </span>
+              <Button color="primary" variant="outlined">
+                <DelIcon />
+                Delete Selected Products
+              </Button>
+            </Card>
+          )}
         </div>
       </div>
       <div style={{ height: 600, width: "100%" }}>
