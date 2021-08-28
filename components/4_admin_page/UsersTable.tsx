@@ -60,7 +60,7 @@ const ProfilesTable: FC<{
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={initialProfiles}
         columns={columns}
         pageSize={5}
         checkboxSelection
