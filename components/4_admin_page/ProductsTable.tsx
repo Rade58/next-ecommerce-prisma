@@ -1,18 +1,44 @@
-import type { FC } from "react";
-import { useState } from "react";
+/* eslint jsx-a11y/anchor-is-valid: 1 */
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
+import type { FC, ChangeEventHandler } from "react";
+import { useState, Fragment, useCallback, FormEvent } from "react";
+
+import axios from "axios";
 
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import type { GridSelectionModel } from "@material-ui/data-grid";
 
-import { Card, Button, Paper } from "@material-ui/core";
+import {
+  Card,
+  Button,
+  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  TextField,
+  CircularProgress,
+} from "@material-ui/core";
 
-import { DeleteSweep as DelIcon } from "@material-ui/icons";
+import {
+  DeleteSweep as DelIcon,
+  ExpandMore,
+  ExpandLess,
+} from "@material-ui/icons";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "No", width: 110 },
-  { field: "productId", headerName: "Product Id", width: 160, editable: false },
+  { field: "id", headerName: "No", width: 110, hide: true, editable: false },
+  {
+    field: "productId",
+    headerName: "Product Id",
+    width: 160,
+    editable: false,
+    hide: true,
+  },
   {
     field: "name",
     headerName: "Product Name",
@@ -28,7 +54,7 @@ const columns: GridColDef[] = [
   {
     field: "brand",
     headerName: "Brand",
-    width: 110,
+    width: 130,
     editable: true,
   },
   {
@@ -39,7 +65,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "countInStock",
-    headerName: "Count In Stock",
+    headerName: "Stock",
     width: 130,
     editable: true,
   },
@@ -91,10 +117,60 @@ const ProductsTable: FC<{
 
   // console.log({ prod: products[0] });
 
+  // ___________________________________CRETING NEW PRODUCT_______________________________
+  // __________________________________________________________________
+  // __________________________________________________________________
+  // __________________________________________________________________
+  const [{ name, email, message }, setFields] = useState<{
+    name: string;
+    email: string;
+    message: string;
+  }>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
+
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) =>
+    setFields((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      setReqStatus("pending");
+      try {
+        // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
+        const res = await axios.post("/api/mail", { name, email, message });
+        setReqStatus("idle");
+        console.log(res.data);
+      } catch (err) {
+        setReqStatus("idle");
+        console.log({ err });
+      }
+    },
+    [name, email, message, setReqStatus]
+  );
+
+  const buttonDisabled =
+    !name || !email || !message || reqStatus === "pending" ? true : false;
+
+  // __________________________________________________________________
+  // __________________________________________________________________
+  // __________________________________________________________________
+  // __________________________________________________________________
+
   console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
 
   return (
-    <>
+    <Fragment>
       <div>
         <Paper elevation={2}>
           <section
@@ -119,6 +195,105 @@ const ProductsTable: FC<{
             </div>
           </section>
         </Paper>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Add New Product</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <section
+              className="form-holder"
+              css={css`
+                padding-top: 10vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                align-content: center;
+
+                & div.field {
+                  margin-top: 10vh;
+                  display: flex;
+                  justify-content: center;
+                }
+
+                & button {
+                  margin-top: 8vh;
+                }
+              `}
+            >
+              <form onSubmit={handleSubmit}>
+                <div className="field">
+                  {/* THIS IS GOING TO BE INPUT FOR SENDERS MAIL  */}
+                  <TextField
+                    onChange={handleChange}
+                    value={name}
+                    name="name"
+                    id="name-field"
+                    label="Your Name"
+                    placeholder="Your Name"
+                    variant="filled"
+                  />
+                </div>
+                <div className="field">
+                  {/* THIS IS GOING TO BE EMAIL USER IS SENDDING TO */}
+                  <TextField
+                    onChange={handleChange}
+                    value={email}
+                    type="email"
+                    name="email"
+                    id="email-field"
+                    label="Send To Email Address"
+                    placeholder="Send To Email address"
+                    variant="filled"
+                  />
+                </div>
+                <div
+                  className="field"
+                  css={css`
+                    align-self: flex-start;
+                    width: 48vw;
+                  `}
+                >
+                  {/* AND THIS IS MESSAGE, USER IS SENDING */}
+                  <TextField
+                    onChange={handleChange}
+                    value={message}
+                    name="message"
+                    id="message-field"
+                    label="Message"
+                    placeholder="Message"
+                    multiline
+                    fullWidth
+                  />
+                </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={buttonDisabled}
+                >
+                  {"Send "}
+                  {reqStatus === "pending" ? (
+                    <div
+                      css={css`
+                        display: inline-block;
+                        margin-left: 8px;
+                      `}
+                    >
+                      <CircularProgress color="primary" size={18} />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </Button>
+              </form>
+            </section>
+          </AccordionDetails>
+        </Accordion>
         <div
           style={{
             width: "100%",
@@ -163,7 +338,7 @@ const ProductsTable: FC<{
           }}
         />
       </div>
-    </>
+    </Fragment>
   );
 };
 
