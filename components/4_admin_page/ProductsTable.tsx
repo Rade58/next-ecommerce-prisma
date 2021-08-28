@@ -48,7 +48,32 @@ const ProductsTable: FC<{
   initialProducts: PropsI["products"];
   productsCount: PropsI["productsCount"];
 }> = ({ initialProducts, productsCount }) => {
+  const [fetchedProoductsCount, setFetchedProductsCount] = useState<number>(
+    initialProducts.length
+  );
   const [products, setProducts] = useState(initialProducts);
+
+  const [sellectedProductsIds, setSelectedProductsIds] = useState<string[]>([]);
+
+  // TREBA CE TI SAVE DUGME NAKON EDITA (I TU CES DA UPDATE-UJES
+  // products I DA POSALJES REQUEST)
+
+  // STO SE TICE REQUESTA ZA LOADING-OM MORE PRODUCTS
+  // POSTOJECIM productsIMA CES PRIDODATI NOVE PRODUCTS
+
+  // MI CEMO DODATI DELETE DUGME
+  // KAD GA KORISNIK KLIKNE SALJEMO REQUEST SA selectedProducts IDS
+  // DA UKLANJAMO PRODUCTS
+
+  // VODI RACUNA O KURSORU PRI SVAKOM REQUESTU
+
+  // SVAKI PUT KADA ZATRAZIS PRODUCTS NAZAD NEKA TO BUDE BROJ PROIZVODA
+  // KOLIKO JE DO SADA USER LOAD-OVAO
+
+  // MORAMO DA RERENDER-UJEMO TABELU, NAKON SVAAKOG REQUESTA
+  // SA CIJIM PODACIMA POPULATE-UJEMO TABLE
+
+  // SPINNER MOGU DA POKAZUJEM UMESTO TABELE, ONDA KADA SE SALJE REQUEST
 
   console.log({ prod: products[0] });
 
@@ -57,12 +82,13 @@ const ProductsTable: FC<{
       <DataGrid
         rows={products}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         checkboxSelection
         disableSelectionOnClick
         onSelectionModelChange={(a, b) => {
           console.log({ a, b });
         }}
+        onEditRowsModelChange={(a, b)}
       />
     </div>
   );
