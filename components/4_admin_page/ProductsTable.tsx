@@ -88,7 +88,9 @@ const ProductsTable: FC<{
         onSelectionModelChange={(a, b) => {
           console.log({ a, b });
         }}
-        onEditRowsModelChange={(a, b)}
+        onEditRowsModelChange={(a, b) => {
+          console.log({ a, b });
+        }}
       />
     </div>
   );
