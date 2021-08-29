@@ -126,10 +126,14 @@ const ProductsTable: FC<{
   const [selectedProductsNos, setSelectedProductsNos] =
     useState<GridSelectionModel>([]);
 
-  const [updatingParameters, setUpdatingParameters] =
+  const [parametersForUpdate, setParametersForUpdate] =
     useState<UpdateProductsDataRecord>({});
 
-  const updateUpdatingParams = useCallback(
+  useEffect(() => {
+    setCursor(products[products.length - 1].productId);
+  }, [products, setCursor]);
+
+  constsetUpdatingParams = useCallback(
     (oneUpdatingParameter: GridEditRowsModel) => {
       if (!Object.keys(oneUpdatingParameter).length) {
         return;
@@ -155,7 +159,7 @@ const ProductsTable: FC<{
 
       const data = { noKey, propName, value, productId };
 
-      setUpdatingParameters((prev) => {
+      setParametersForUpdate((prev) => {
         const newParams = { ...prev };
 
         if (!prev[noKey]) {
@@ -174,27 +178,35 @@ const ProductsTable: FC<{
     [products]
   );
 
-  useEffect(() => {
-    setCursor(products[products.length - 1].productId);
-  }, [products, setCursor]);
-
   // FOR UPDATING
+
+  const handleUpdates = useCallback(async () => {
+    const { data } = await axios.put(
+      `/api/admin/${(session as any).profile.id}`,
+      parametersForUpdate
+    );
+
+    console.log(data);
+  }, [parametersForUpdate, axios, session]);
 
   //
 
   // FOR DELETING
-  const [deleteSnackbarOpen, setDeleteSnackbarOpen] = useState<boolean>(true);
+  const [updateSnackbarOpen, setupdateSnackbarOpen] = useState<boolean>(true);
 
-  const handleDeleteClose = (event?: SyntheticEvent, reason?: string) => {
+  const handleUpdatingSnackbarClose = (
+    event?: SyntheticEvent,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setDeleteSnackbarOpen(false);
+    setupdateSnackbarOpen(false);
   };
 
   const handleDeleteOpen = () => {
-    setDeleteSnackbarOpen(true);
+    setupdateSnackbarOpen(true);
   };
 
   //
@@ -317,6 +329,8 @@ const ProductsTable: FC<{
     ]
   );
 
+  useEffect(() => {}, [updateUpdatingParams]);
+
   const buttonDisabled =
     !name ||
     !brand ||
@@ -333,15 +347,15 @@ const ProductsTable: FC<{
   // __________________________________________________________________
 
   // console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
-  console.log({ updatingParameters: updatingParameters });
+  console.log({ parametersForUpdate: parametersForUpdate });
 
   /* useEffect(() => {
 
-    if(deleteSnackbarOpen){
+    if(updateSnackbarOpen){
       if(Object.keys(updateUpdatingParams).length){}
     }
 
-  }, [updateUpdatingParams, deleteSnackbarOpen]) */
+  }, [updateUpdatingParams, updateSnackbarOpen]) */
 
   return (
     <Fragment>
@@ -549,15 +563,18 @@ const ProductsTable: FC<{
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            updateUpdatingParams(a);
+            setUpdatingParams(a);
           }}
         />
       </div>
-      {Object.keys(updatingParameters).length && (
+      {Object.keys(parametersForUpdate).length && (
         <div>
-          <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
+          <Snackbar
+            open={updateSnackbarOpen}
+            onClose={handleUpdatingSnackbarClose}
+          >
             <Alert
-              // onClose={handleDeleteClose}
+              // onClose={handleUpdatingSnackbarClose}
 
               severity="info"
             >
