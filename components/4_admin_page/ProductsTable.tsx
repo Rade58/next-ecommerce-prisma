@@ -140,6 +140,57 @@ const ProductsTable: FC<{
     setCursor(products[products.length - 1].productId);
   }, [products, setCursor]);
 
+  // FOR DELETING
+
+  const handleDeletingParams = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
+
+    const productsForDeletion = [];
+
+    for (let no in selectedProductsNos) {
+      productsForDeletion.push(products[no].productId);
+    }
+
+    // MAKING REQUEST
+
+    try {
+      setDeleteRequestStatus("pending");
+
+      setTimeout(() => {
+        setDeleteRequestStatus("idle");
+      }, 3000);
+
+      /* const {data} = await axios.delete(
+        `/api/admin/${(session as any).profile.id}`,
+        {
+          data: productsForDeletion,
+        }
+      ); 
+      
+      setDeleteRequestStatus("idle")
+      
+      */
+    } catch (err) {
+      console.error(err);
+      setDeleteRequestStatus("rejected");
+
+      setTimeout(() => {
+        setDeleteRequestStatus("idle");
+      }, 5000);
+    }
+  }, [selectedProductsNos, products, session, loading]);
+
+  // FOR UPDATING
   const handleUpdatingParams = useCallback(
     (oneUpdatingParameter: GridEditRowsModel) => {
       if (!Object.keys(oneUpdatingParameter).length) {
@@ -185,7 +236,6 @@ const ProductsTable: FC<{
     [products]
   );
 
-  // FOR UPDATING
   const [updateSnackbarOpen, setUpdateSnackbarOpen] = useState<boolean>(true);
 
   const handleUpdatingSnackbarClose = (
@@ -260,6 +310,7 @@ const ProductsTable: FC<{
   }, [
     parametersForUpdate,
     session,
+    loading,
     setUpdateRequestStatus,
     setParametersForUpdate,
   ]);
@@ -601,9 +652,22 @@ const ProductsTable: FC<{
           {selectedProductsNos.length !== 0 && (
             <Card elevation={0}>
               <span style={{ color: "tomato" }}>danger zone: </span>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                disabled={
+                  deleteRequestStatus === "pending" ||
+                  deleteRequestStatus === "rejected"
+                }
+              >
                 <DelIcon />
-                Delete Selected Products
+                {deleteRequestStatus === "rejected"
+                  ? "Couldn't delete (server problem)"
+                  : "Delete Selected Products"}{" "}
+                &nbsp;{" "}
+                {deleteRequestStatus === "pending" && (
+                  <CircularProgress size={18} />
+                )}
               </Button>
             </Card>
           )}
