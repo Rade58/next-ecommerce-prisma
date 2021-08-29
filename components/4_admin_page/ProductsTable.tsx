@@ -2,15 +2,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, ChangeEventHandler } from "react";
-import { useState, Fragment, useCallback, FormEvent } from "react";
+import type { FC, ChangeEventHandler, FormEvent } from "react";
+import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
 
 import { useSession } from "next-auth/client";
 
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
-import type { GridSelectionModel } from "@material-ui/data-grid";
+import type {
+  GridSelectionModel,
+  GridEditRowsModel,
+} from "@material-ui/data-grid";
 
 import {
   Card,
@@ -100,12 +103,27 @@ const ProductsTable: FC<{
   const [products, setProducts] =
     useState<typeof initialProducts>(initialProducts);
 
+  const [cursor, setCursor] = useState<string>(
+    products[products.length - 1].productId
+  );
+
   const [selectedProductsNos, setSelectedProductsNos] =
     useState<GridSelectionModel>([]);
 
-  const [productsToBeUpdated, setProductsYoBeUpdated] = useState<
-    typeof products
-  >([]);
+  const [updatingParameters, setUpdatingParameters] =
+    useState<GridEditRowsModel>({});
+
+  useEffect(() => {
+    setCursor(products[products.length - 1].productId);
+  }, [products, setCursor]);
+
+  // FOR UPDATING
+
+  //
+
+  // FOR DELETING
+
+  //
 
   // TREBA CE TI SAVE DUGME NAKON EDITA (I TU CES DA UPDATE-UJES
   // products I DA POSALJES REQUEST)
@@ -158,9 +176,11 @@ const ProductsTable: FC<{
     category: "",
   });
 
-  const [reqStatus, setReqStatus] = useState<"idle" | "pending">("idle");
+  const [creationReqStatus, setCreationReqStatus] = useState<
+    "idle" | "pending"
+  >("idle");
 
-  const handleChange: ChangeEventHandler<
+  const handleChangeForCreation: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = (e) =>
     setFields((prev) => ({
@@ -168,7 +188,7 @@ const ProductsTable: FC<{
       [e.target.name]: e.target.value,
     }));
 
-  const handleSubmit = useCallback(
+  const handleCreationSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
@@ -176,33 +196,42 @@ const ProductsTable: FC<{
         return;
       }
 
+      if (loading) {
+        return;
+      }
+
       if (!session.profile || !(session as any).profile.id) {
         return;
       }
 
-      setReqStatus("pending");
+      setCreationReqStatus("pending");
       try {
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const res = await axios.post(
-          `/api/admin/create/${(session as any).profile.id}`,
+          `/api/admin/${(session as any).profile.id}`,
           {
-            name,
-            brand,
-            countInStock,
-            description,
-            image,
-            price,
-            category,
+            model: "product",
+            fields: {
+              name,
+              brand,
+              countInStock,
+              description,
+              image,
+              price,
+              category,
+            },
           }
         );
-        setReqStatus("idle");
+        setCreationReqStatus("idle");
         console.log(res.data);
       } catch (err) {
-        setReqStatus("idle");
+        setCreationReqStatus("idle");
         console.log({ err });
       }
     },
     [
+      session,
+      loading,
       name,
       brand,
       countInStock,
@@ -210,7 +239,7 @@ const ProductsTable: FC<{
       price,
       image,
       category,
-      setReqStatus,
+      setCreationReqStatus,
     ]
   );
 
@@ -220,7 +249,7 @@ const ProductsTable: FC<{
     !countInStock ||
     !description ||
     !price ||
-    reqStatus === "pending"
+    creationReqStatus === "pending"
       ? true
       : false;
 
@@ -287,10 +316,10 @@ const ProductsTable: FC<{
                 }
               `}
             >
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleCreationSubmit}>
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={name}
                     name="name"
                     id="name-field"
@@ -301,7 +330,7 @@ const ProductsTable: FC<{
                 </div>
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={brand}
                     name="brand"
                     id="brand-field"
@@ -312,7 +341,7 @@ const ProductsTable: FC<{
                 </div>
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={price}
                     name="price"
                     id="price-field"
@@ -324,10 +353,10 @@ const ProductsTable: FC<{
                 </div>
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={countInStock}
                     type="number"
-                    name="countIbStock"
+                    name="countInStock"
                     id="countinstock-field"
                     label="Count In Stock"
                     placeholder="CountInStock"
@@ -337,7 +366,7 @@ const ProductsTable: FC<{
 
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={category}
                     name="category"
                     id="category-field"
@@ -348,7 +377,7 @@ const ProductsTable: FC<{
                 </div>
                 <div className="field">
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={image}
                     name="image"
                     id="image-field"
@@ -365,7 +394,7 @@ const ProductsTable: FC<{
                   `}
                 >
                   <TextField
-                    onChange={handleChange}
+                    onChange={handleChangeForCreation}
                     value={description}
                     name="description"
                     id="description-field"
@@ -382,7 +411,7 @@ const ProductsTable: FC<{
                   disabled={buttonDisabled}
                 >
                   {"Save New Product "}
-                  {reqStatus === "pending" ? (
+                  {creationReqStatus === "pending" ? (
                     <div
                       css={css`
                         display: inline-block;
@@ -439,7 +468,8 @@ const ProductsTable: FC<{
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            console.log({ a, b });
+            // console.log({ a, b });
+            setUpdatingParameters(a);
           }}
         />
       </div>
