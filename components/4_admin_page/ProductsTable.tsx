@@ -288,8 +288,8 @@ const ProductsTable: FC<{
   // __________________________________________________________________
   // __________________________________________________________________
 
-  console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
-  console.log({ updatingParameters: updatingParameters });
+  // console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
+  // console.log({ updatingParameters: updatingParameters });
 
   return (
     <Fragment>
