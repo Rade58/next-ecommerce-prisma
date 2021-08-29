@@ -123,11 +123,42 @@ const ProductsTable: FC<{
   // UMESTO SVEGA OVOG
   // BOLJE NAPRAVI RECORD, KOJI MOZES TRENUTNO MENJATI
   const [updatingParameters, setUpdatingParameters] = useState<
-    GridEditRowsModel[]
-  >([]);
+    Record<number, { noKey: number; propName: string; value: any }>
+  >({});
 
   useEffect(() => {
-    setUpdatingParameters((prev) => [...prev, oneUpdatingParameter]);
+    console.log({ oneUpdatingParameter });
+
+    if (!Object.keys(oneUpdatingParameter)) {
+      return;
+    }
+
+    const noKey = Number(Object.keys(oneUpdatingParameter)[0]);
+
+    if (!oneUpdatingParameter[noKey]) {
+      return;
+    }
+
+    const propNameKeys = Object.keys(oneUpdatingParameter[noKey]);
+
+    // console.log({ noKey });
+
+    const propName = propNameKeys[0];
+
+    // console.log({ propName });
+
+    const value = oneUpdatingParameter[noKey][propName]["value"];
+
+    // console.log({ value });
+
+    const dataOb = { noKey, propName, value };
+
+    setUpdatingParameters((prev) => {
+      const prevOb = { ...prev };
+      prevOb[noKey] = dataOb;
+
+      return prevOb;
+    });
   }, [oneUpdatingParameter, setUpdatingParameters]);
 
   useEffect(() => {
@@ -289,7 +320,7 @@ const ProductsTable: FC<{
   // __________________________________________________________________
 
   // console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
-  // console.log({ updatingParameters: updatingParameters });
+  console.log({ updatingParameters: updatingParameters });
 
   return (
     <Fragment>
