@@ -130,10 +130,10 @@ const ProductsTable: FC<{
     useState<UpdateProductsDataRecord>({});
 
   const [updateRequestStatus, setUpdateRequestStatus] = useState<
-    "idle" | "pending" | "completed"
+    "idle" | "pending" | "rejected"
   >("idle");
   const [deleteRequestStatus, setDeleteRequestStatus] = useState<
-    "idle" | "pending" | "completed"
+    "idle" | "pending" | "rejected"
   >("idle");
 
   useEffect(() => {
@@ -199,22 +199,56 @@ const ProductsTable: FC<{
     setUpdateSnackbarOpen(false);
   };
 
-  const handleDeleteOpen = () => {
+  const handleUpdatingSnackbarOpen = () => {
     setUpdateSnackbarOpen(true);
   };
 
   useEffect(() => {
     if (Object.keys(parametersForUpdate).length) {
-      setUpdateSnackbarOpen(true);
+      handleUpdatingSnackbarOpen();
     }
   }, [parametersForUpdate]);
 
   const handleUpdateRequest = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
+
     if (!Object.keys(parametersForUpdate).length) {
       return;
     }
 
     // SENDING REQUEST
+
+    try {
+      throw new Error("Hello World");
+      // SIMULATING REQUEST
+      setUpdateRequestStatus("pending");
+
+      setTimeout(() => {
+        setUpdateRequestStatus("idle");
+        setParametersForUpdate({});
+      }, 3000);
+    } catch (err) {
+      console.error(err);
+
+      setUpdateRequestStatus("rejected");
+      // I'LL LEAVE THIS TIMER HERE
+      setTimeout(() => {
+        setParametersForUpdate({});
+        setUpdateRequestStatus("idle");
+      }, 8000);
+
+      // setParametersForUpdate({});
+    }
 
     /* const { data } = await axios.put(
       `/api/admin/${(session as any).profile.id}`,
@@ -222,8 +256,12 @@ const ProductsTable: FC<{
     ); */
 
     // RESETING
-    setParametersForUpdate({});
-  }, [parametersForUpdate, session]);
+  }, [
+    parametersForUpdate,
+    session,
+    setUpdateRequestStatus,
+    setParametersForUpdate,
+  ]);
 
   //
 
@@ -585,31 +623,45 @@ const ProductsTable: FC<{
           }}
         />
       </div>
-      {Object.keys(parametersForUpdate).length !== 0 && (
+      {Object.keys(parametersForUpdate).length !== 0 ? (
         <div>
           <Snackbar
             open={updateSnackbarOpen}
             onClose={handleUpdatingSnackbarClose}
           >
             <Alert
-              // onClose={handleUpdatingSnackbarClose}
-
-              severity="info"
+              onClose={
+                updateRequestStatus === "rejected"
+                  ? handleUpdatingSnackbarClose
+                  : undefined
+              }
+              severity={updateRequestStatus === "rejected" ? "error" : "info"}
             >
-              You changed some products! &nbsp;&nbsp;&nbsp;&nbsp;
-              <Button
-                onClick={(e) => {
-                  handleUpdateRequest();
-                }}
-                variant="contained"
-                color="primary"
-              >
-                Save changes
-              </Button>
+              {updateRequestStatus === "rejected"
+                ? "Error"
+                : "You changed some products!"}{" "}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {updateRequestStatus !== "rejected" ? (
+                <Button
+                  disabled={updateRequestStatus === "pending"}
+                  onClick={(e) => {
+                    handleUpdateRequest();
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Save changes &nbsp;{" "}
+                  {updateRequestStatus === "pending" && (
+                    <CircularProgress size={18} />
+                  )}
+                </Button>
+              ) : (
+                "Something went wrong (problem with server)"
+              )}
             </Alert>
           </Snackbar>
         </div>
-      )}
+      ) : null}
     </Fragment>
   );
 };
