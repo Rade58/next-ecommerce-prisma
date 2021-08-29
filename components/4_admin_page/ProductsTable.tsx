@@ -133,7 +133,7 @@ const ProductsTable: FC<{
     setCursor(products[products.length - 1].productId);
   }, [products, setCursor]);
 
-  constsetUpdatingParams = useCallback(
+  const handleUpdatingParams = useCallback(
     (oneUpdatingParameter: GridEditRowsModel) => {
       if (!Object.keys(oneUpdatingParameter).length) {
         return;
@@ -179,20 +179,7 @@ const ProductsTable: FC<{
   );
 
   // FOR UPDATING
-
-  const handleUpdates = useCallback(async () => {
-    const { data } = await axios.put(
-      `/api/admin/${(session as any).profile.id}`,
-      parametersForUpdate
-    );
-
-    console.log(data);
-  }, [parametersForUpdate, axios, session]);
-
-  //
-
-  // FOR DELETING
-  const [updateSnackbarOpen, setupdateSnackbarOpen] = useState<boolean>(true);
+  const [updateSnackbarOpen, setUpdateSnackbarOpen] = useState<boolean>(true);
 
   const handleUpdatingSnackbarClose = (
     event?: SyntheticEvent,
@@ -202,12 +189,38 @@ const ProductsTable: FC<{
       return;
     }
 
-    setupdateSnackbarOpen(false);
+    setUpdateSnackbarOpen(false);
   };
 
   const handleDeleteOpen = () => {
-    setupdateSnackbarOpen(true);
+    setUpdateSnackbarOpen(true);
   };
+
+  useEffect(() => {
+    if (Object.keys(parametersForUpdate).length) {
+      setUpdateSnackbarOpen(true);
+    }
+  }, [parametersForUpdate]);
+
+  const handleUpdateRequest = useCallback(async () => {
+    if (!Object.keys(parametersForUpdate).length) {
+      return;
+    }
+
+    // SENDING REQUEST
+
+    /* const { data } = await axios.put(
+      `/api/admin/${(session as any).profile.id}`,
+      parametersForUpdate
+    ); */
+
+    // RESETING
+    setParametersForUpdate({});
+  }, [parametersForUpdate, session]);
+
+  //
+
+  // FOR DELETING
 
   //
 
@@ -328,8 +341,6 @@ const ProductsTable: FC<{
       setCreationReqStatus,
     ]
   );
-
-  useEffect(() => {}, [updateUpdatingParams]);
 
   const buttonDisabled =
     !name ||
@@ -563,7 +574,7 @@ const ProductsTable: FC<{
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            setUpdatingParams(a);
+            handleUpdatingParams(a);
           }}
         />
       </div>
@@ -579,7 +590,13 @@ const ProductsTable: FC<{
               severity="info"
             >
               You changed some products! &nbsp;&nbsp;&nbsp;&nbsp;
-              <Button variant="contained" color="primary">
+              <Button
+                onClick={(e) => {
+                  handleUpdateRequest();
+                }}
+                variant="contained"
+                color="primary"
+              >
                 Save changes
               </Button>
             </Alert>
