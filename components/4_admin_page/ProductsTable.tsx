@@ -166,6 +166,7 @@ const ProductsTable: FC<{
     try {
       setDeleteRequestStatus("pending");
 
+      throw new Error("Hello World");
       setTimeout(() => {
         setSelectedProductsNos([]);
 
@@ -285,10 +286,10 @@ const ProductsTable: FC<{
 
     try {
       // TESTING WITH ERROR
-      // throw new Error("Hello World");
       // SIMULATING REQUEST
       setUpdateRequestStatus("pending");
 
+      throw new Error("Hello World");
       setTimeout(() => {
         setUpdateRequestStatus("idle");
         setParametersForUpdate({});

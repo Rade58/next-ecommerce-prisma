@@ -9,7 +9,14 @@ import type { Role } from "@prisma/client";
 
 import { useSession } from "next-auth/client";
 
-import { Paper, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import {
+  Paper,
+  Tabs,
+  Tab,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@material-ui/core";
 
 import type { PropsI as AdminPropsI } from "../../pages/admin/[id]";
 
@@ -60,7 +67,9 @@ const TabsView: FC<PropsI> = (props) => {
     setValue(newValue);
   };
 
-  return (
+  return loading ? (
+    <CircularProgress size={38} />
+  ) : (
     <Fragment>
       <h1
         css={css`
