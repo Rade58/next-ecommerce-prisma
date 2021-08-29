@@ -142,7 +142,7 @@ const ProductsTable: FC<{
 
   // FOR DELETING
 
-  const handleDeletingParams = useCallback(async () => {
+  const handleDeletingReq = useCallback(async () => {
     if (!session) {
       return;
     }
@@ -167,6 +167,8 @@ const ProductsTable: FC<{
       setDeleteRequestStatus("pending");
 
       setTimeout(() => {
+        setSelectedProductsNos([]);
+
         setDeleteRequestStatus("idle");
       }, 3000);
 
@@ -179,6 +181,8 @@ const ProductsTable: FC<{
       
       setDeleteRequestStatus("idle")
       
+        setSelectedProductsNos([])
+
       */
     } catch (err) {
       console.error(err);
@@ -186,6 +190,7 @@ const ProductsTable: FC<{
 
       setTimeout(() => {
         setDeleteRequestStatus("idle");
+        setSelectedProductsNos([]);
       }, 5000);
     }
   }, [selectedProductsNos, products, session, loading]);
@@ -653,6 +658,9 @@ const ProductsTable: FC<{
             <Card elevation={0}>
               <span style={{ color: "tomato" }}>danger zone: </span>
               <Button
+                onClick={() => {
+                  handleDeletingReq();
+                }}
                 color="primary"
                 variant="outlined"
                 disabled={
