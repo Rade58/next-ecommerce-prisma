@@ -514,7 +514,7 @@ const ProductsTable: FC<{
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            // console.log({ a, b });
+            console.log({ a, b });
             setoneUpdatingParameter(a);
           }}
         />
