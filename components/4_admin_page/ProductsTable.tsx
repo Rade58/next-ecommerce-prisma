@@ -542,7 +542,7 @@ const ProductsTable: FC<{
         <DataGrid
           rows={products}
           columns={columns}
-          pageSize={10}
+          pageSize={8}
           checkboxSelection
           disableSelectionOnClick
           onSelectionModelChange={(a, b) => {
@@ -556,7 +556,11 @@ const ProductsTable: FC<{
       {Object.keys(updatingParameters).length && (
         <div>
           <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
-            <Alert onClose={handleDeleteClose} severity="info">
+            <Alert
+              // onClose={handleDeleteClose}
+
+              severity="info"
+            >
               You changed some products! &nbsp;&nbsp;&nbsp;&nbsp;
               <Button variant="contained" color="primary">
                 Save changes
