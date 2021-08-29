@@ -39,6 +39,14 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
+export type UpdateProductsDataRecord = Record<
+  number,
+  Record<
+    string,
+    { productId: string; noKey: number; propName: string; value: any }
+  >
+>;
+
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -118,19 +126,8 @@ const ProductsTable: FC<{
   const [selectedProductsNos, setSelectedProductsNos] =
     useState<GridSelectionModel>([]);
 
-  /* const [oneUpdatingParameter, setoneUpdatingParameter] =
-    useState<GridEditRowsModel>({}); */
-  // UMESTO SVEGA OVOG
-  // BOLJE NAPRAVI RECORD, KOJI MOZES TRENUTNO MENJATI
-  const [updatingParameters, setUpdatingParameters] = useState<
-    Record<
-      number,
-      Record<
-        string,
-        { productId: string; noKey: number; propName: string; value: any }
-      >
-    >
-  >({});
+  const [updatingParameters, setUpdatingParameters] =
+    useState<UpdateProductsDataRecord>({});
 
   const updateUpdatingParams = useCallback(
     (oneUpdatingParameter: GridEditRowsModel) => {
@@ -146,20 +143,13 @@ const ProductsTable: FC<{
 
       const propNameKeys = Object.keys(oneUpdatingParameter[noKey]);
 
-      // console.log({ noKey });
-
       const propName = propNameKeys[0];
 
       if (!propName) {
         return;
       }
 
-      // console.log({ propName });
-
-      // const value = oneUpdatingParameter[noKey][propName]["value"];
       const value = oneUpdatingParameter[noKey][propName]["value"];
-
-      // console.log({ value });
 
       const productId = products[noKey].productId;
 
@@ -193,7 +183,7 @@ const ProductsTable: FC<{
   //
 
   // FOR DELETING
-  const [deleteSnackbarOpen, setDeleteSnackbarOpen] = useState<boolean>(false);
+  const [deleteSnackbarOpen, setDeleteSnackbarOpen] = useState<boolean>(true);
 
   const handleDeleteClose = (event?: SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
@@ -344,6 +334,14 @@ const ProductsTable: FC<{
 
   // console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
   console.log({ updatingParameters: updatingParameters });
+
+  /* useEffect(() => {
+
+    if(deleteSnackbarOpen){
+      if(Object.keys(updateUpdatingParams).length){}
+    }
+
+  }, [updateUpdatingParams, deleteSnackbarOpen]) */
 
   return (
     <Fragment>
@@ -539,21 +537,6 @@ const ProductsTable: FC<{
             </Card>
           )}
         </div>
-        <div>
-          {Object.keys(updatingParameters).length !== 0 && (
-            <div>
-              <Button variant="outlined" onClick={handleDeleteOpen}>
-                Open success snackbar
-              </Button>
-              <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
-                <Alert onClose={handleDeleteClose} severity="warning">
-                  This is a success message!
-                  <Button>Save changes</Button>
-                </Alert>
-              </Snackbar>
-            </div>
-          )}
-        </div>
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid
@@ -563,16 +546,20 @@ const ProductsTable: FC<{
           checkboxSelection
           disableSelectionOnClick
           onSelectionModelChange={(a, b) => {
-            // console.log({ a, b });
-
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            // console.log({ a, b });
-
             updateUpdatingParams(a);
           }}
         />
+      </div>
+      <div>
+        <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
+          <Alert onClose={handleDeleteClose} severity="warning">
+            This is a success message!
+            <Button>Save changes</Button>
+          </Alert>
+        </Snackbar>
       </div>
     </Fragment>
   );
