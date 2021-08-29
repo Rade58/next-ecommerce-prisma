@@ -123,7 +123,13 @@ const ProductsTable: FC<{
   // UMESTO SVEGA OVOG
   // BOLJE NAPRAVI RECORD, KOJI MOZES TRENUTNO MENJATI
   const [updatingParameters, setUpdatingParameters] = useState<
-    Record<number, { noKey: number; propName: string; value: any }>
+    Record<
+      number,
+      Record<
+        string,
+        { productId: string; noKey: number; propName: string; value: any }
+      >
+    >
   >({});
 
   const updateUpdatingParams = useCallback(
@@ -155,16 +161,27 @@ const ProductsTable: FC<{
 
       // console.log({ value });
 
-      const dataOb = { noKey, propName, value };
+      const productId = products[noKey].productId;
+
+      const data = { noKey, propName, value, productId };
 
       setUpdatingParameters((prev) => {
-        const prevOb = { ...prev };
-        prevOb[noKey] = dataOb;
+        const newParams = { ...prev };
 
-        return prevOb;
+        if (!prev[noKey]) {
+          newParams[noKey] = {
+            [`${propName}`]: data,
+          };
+
+          return newParams;
+        }
+
+        newParams[noKey][`${propName}`] = data;
+
+        return newParams;
       });
     },
-    []
+    [products]
   );
 
   useEffect(() => {
