@@ -229,7 +229,8 @@ const ProductsTable: FC<{
     // SENDING REQUEST
 
     try {
-      throw new Error("Hello World");
+      // TESTING WITH ERROR
+      // throw new Error("Hello World");
       // SIMULATING REQUEST
       setUpdateRequestStatus("pending");
 
