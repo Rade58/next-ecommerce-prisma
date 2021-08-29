@@ -118,48 +118,54 @@ const ProductsTable: FC<{
   const [selectedProductsNos, setSelectedProductsNos] =
     useState<GridSelectionModel>([]);
 
-  const [oneUpdatingParameter, setoneUpdatingParameter] =
-    useState<GridEditRowsModel>({});
+  /* const [oneUpdatingParameter, setoneUpdatingParameter] =
+    useState<GridEditRowsModel>({}); */
   // UMESTO SVEGA OVOG
   // BOLJE NAPRAVI RECORD, KOJI MOZES TRENUTNO MENJATI
   const [updatingParameters, setUpdatingParameters] = useState<
     Record<number, { noKey: number; propName: string; value: any }>
   >({});
 
-  useEffect(() => {
-    console.log({ oneUpdatingParameter });
+  const updateUpdatingParams = useCallback(
+    (oneUpdatingParameter: GridEditRowsModel) => {
+      if (!Object.keys(oneUpdatingParameter).length) {
+        return;
+      }
 
-    if (!Object.keys(oneUpdatingParameter)) {
-      return;
-    }
+      const noKey = Number(Object.keys(oneUpdatingParameter)[0]);
 
-    const noKey = Number(Object.keys(oneUpdatingParameter)[0]);
+      if (!oneUpdatingParameter[noKey]) {
+        return;
+      }
 
-    if (!oneUpdatingParameter[noKey]) {
-      return;
-    }
+      const propNameKeys = Object.keys(oneUpdatingParameter[noKey]);
 
-    const propNameKeys = Object.keys(oneUpdatingParameter[noKey]);
+      // console.log({ noKey });
 
-    // console.log({ noKey });
+      const propName = propNameKeys[0];
 
-    const propName = propNameKeys[0];
+      if (!propName) {
+        return;
+      }
 
-    // console.log({ propName });
+      // console.log({ propName });
 
-    const value = oneUpdatingParameter[noKey][propName]["value"];
+      // const value = oneUpdatingParameter[noKey][propName]["value"];
+      const value = oneUpdatingParameter[noKey][propName]["value"];
 
-    // console.log({ value });
+      // console.log({ value });
 
-    const dataOb = { noKey, propName, value };
+      const dataOb = { noKey, propName, value };
 
-    setUpdatingParameters((prev) => {
-      const prevOb = { ...prev };
-      prevOb[noKey] = dataOb;
+      setUpdatingParameters((prev) => {
+        const prevOb = { ...prev };
+        prevOb[noKey] = dataOb;
 
-      return prevOb;
-    });
-  }, [oneUpdatingParameter, setUpdatingParameters]);
+        return prevOb;
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     setCursor(products[products.length - 1].productId);
@@ -517,7 +523,7 @@ const ProductsTable: FC<{
           )}
         </div>
         <div>
-          {Object.keys(oneUpdatingParameter).length !== 0 && (
+          {Object.keys(updatingParameters).length !== 0 && (
             <div>
               <Button variant="outlined" onClick={handleDeleteOpen}>
                 Open success snackbar
@@ -545,8 +551,9 @@ const ProductsTable: FC<{
             setSelectedProductsNos(a);
           }}
           onEditRowsModelChange={(a, b) => {
-            console.log({ a, b });
-            setoneUpdatingParameter(a);
+            // console.log({ a, b });
+
+            updateUpdatingParams(a);
           }}
         />
       </div>
