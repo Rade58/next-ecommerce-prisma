@@ -563,11 +563,11 @@ const ProductsTable: FC<{
           )}
         </div>
       </div>
-      <div style={{ height: 600, width: "100%" }}>
+      <div style={{ height: 466, width: "100%" }}>
         <DataGrid
           rows={products}
           columns={columns}
-          pageSize={8}
+          pageSize={6}
           checkboxSelection
           disableSelectionOnClick
           onSelectionModelChange={(a, b) => {
@@ -578,7 +578,7 @@ const ProductsTable: FC<{
           }}
         />
       </div>
-      {Object.keys(parametersForUpdate).length && (
+      {Object.keys(parametersForUpdate).length !== 0 && (
         <div>
           <Snackbar
             open={updateSnackbarOpen}
