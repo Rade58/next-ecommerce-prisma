@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, ChangeEventHandler, FormEvent } from "react";
+import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
@@ -25,6 +25,7 @@ import {
   Typography,
   TextField,
   CircularProgress,
+  Snackbar,
 } from "@material-ui/core";
 
 import {
@@ -33,7 +34,14 @@ import {
   ExpandLess,
 } from "@material-ui/icons";
 
+import type { AlertProps } from "@material-ui/lab";
+import MuiAlert from "@material-ui/lab/Alert";
+
 import type { PropsI } from "../../pages/admin/[id]";
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "No", width: 110, hide: true, editable: false },
@@ -110,8 +118,17 @@ const ProductsTable: FC<{
   const [selectedProductsNos, setSelectedProductsNos] =
     useState<GridSelectionModel>([]);
 
-  const [updatingParameters, setUpdatingParameters] =
+  const [oneUpdatingParameter, setoneUpdatingParameter] =
     useState<GridEditRowsModel>({});
+  // UMESTO SVEGA OVOG
+  // BOLJE NAPRAVI RECORD, KOJI MOZES TRENUTNO MENJATI
+  const [updatingParameters, setUpdatingParameters] = useState<
+    GridEditRowsModel[]
+  >([]);
+
+  useEffect(() => {
+    setUpdatingParameters((prev) => [...prev, oneUpdatingParameter]);
+  }, [oneUpdatingParameter, setUpdatingParameters]);
 
   useEffect(() => {
     setCursor(products[products.length - 1].productId);
@@ -122,6 +139,19 @@ const ProductsTable: FC<{
   //
 
   // FOR DELETING
+  const [deleteSnackbarOpen, setDeleteSnackbarOpen] = useState<boolean>(false);
+
+  const handleDeleteClose = (event?: SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setDeleteSnackbarOpen(false);
+  };
+
+  const handleDeleteOpen = () => {
+    setDeleteSnackbarOpen(true);
+  };
 
   //
 
@@ -259,6 +289,7 @@ const ProductsTable: FC<{
   // __________________________________________________________________
 
   console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
+  console.log({ updatingParameters: updatingParameters });
 
   return (
     <Fragment>
@@ -454,6 +485,21 @@ const ProductsTable: FC<{
             </Card>
           )}
         </div>
+        <div>
+          {Object.keys(oneUpdatingParameter).length !== 0 && (
+            <div>
+              <Button variant="outlined" onClick={handleDeleteOpen}>
+                Open success snackbar
+              </Button>
+              <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
+                <Alert onClose={handleDeleteClose} severity="warning">
+                  This is a success message!
+                  <Button>Save changes</Button>
+                </Alert>
+              </Snackbar>
+            </div>
+          )}
+        </div>
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid
@@ -469,7 +515,7 @@ const ProductsTable: FC<{
           }}
           onEditRowsModelChange={(a, b) => {
             // console.log({ a, b });
-            setUpdatingParameters(a);
+            setoneUpdatingParameter(a);
           }}
         />
       </div>
