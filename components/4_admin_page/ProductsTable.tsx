@@ -553,14 +553,18 @@ const ProductsTable: FC<{
           }}
         />
       </div>
-      <div>
-        <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
-          <Alert onClose={handleDeleteClose} severity="warning">
-            This is a success message!
-            <Button>Save changes</Button>
-          </Alert>
-        </Snackbar>
-      </div>
+      {Object.keys(updatingParameters).length && (
+        <div>
+          <Snackbar open={deleteSnackbarOpen} onClose={handleDeleteClose}>
+            <Alert onClose={handleDeleteClose} severity="info">
+              You changed some products! &nbsp;&nbsp;&nbsp;&nbsp;
+              <Button variant="contained" color="primary">
+                Save changes
+              </Button>
+            </Alert>
+          </Snackbar>
+        </div>
+      )}
     </Fragment>
   );
 };
