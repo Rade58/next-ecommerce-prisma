@@ -129,6 +129,13 @@ const ProductsTable: FC<{
   const [parametersForUpdate, setParametersForUpdate] =
     useState<UpdateProductsDataRecord>({});
 
+  const [updateRequestStatus, setUpdateRequestStatus] = useState<
+    "idle" | "pending" | "completed"
+  >("idle");
+  const [deleteRequestStatus, setDeleteRequestStatus] = useState<
+    "idle" | "pending" | "completed"
+  >("idle");
+
   useEffect(() => {
     setCursor(products[products.length - 1].productId);
   }, [products, setCursor]);
