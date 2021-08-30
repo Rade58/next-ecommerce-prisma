@@ -7,6 +7,8 @@ import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
+handler.use(verifyCurrentUser);
+
 handler.delete(async (req, res) => {
   const { id } = req.query;
 
@@ -42,8 +44,5 @@ handler.post(async (req, res) => {
 
   res.status(200).end();
 });
-
-// I ADDED MIDDLEWARE LIKE YOU SEE
-handler.use(verifyCurrentUser);
 
 export default handler;
