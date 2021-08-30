@@ -16,6 +16,21 @@ handler.delete(async (req, res) => {
 
   const body = req.body;
 
+  if (body.model === "product") {
+    try {
+      /* const a = await prismaClient.product.deleteMany({
+        where: {
+          adminId: id as string,
+
+        },
+
+      }) */
+    } catch (err) {
+      console.error(err);
+      return res.status(400).end();
+    }
+  }
+
   console.log(JSON.stringify({ id, body }, null, 2));
 
   res.status(200).end();
@@ -28,9 +43,9 @@ handler.put(async (req, res) => {
 
   const body = req.body;
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
 
-  res.status(200).end();
+  // res.status(200).end();
 });
 
 handler.post(async (req, res) => {
@@ -40,9 +55,9 @@ handler.post(async (req, res) => {
 
   const body = req.body;
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
 
-  res.status(200).end();
+  // res.status(200).end();
 });
 
 export default handler;
