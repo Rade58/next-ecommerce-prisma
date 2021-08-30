@@ -464,6 +464,8 @@ const ProductsTable: FC<{
     try {
       setLoad100RequestStatus("pending");
 
+      throw new Error("hello world");
+
       setTimeout(() => {
         setLoad100RequestStatus("idle");
       }, 3000);
@@ -690,8 +692,21 @@ const ProductsTable: FC<{
         >
           <Card elevation={0}>
             {fetchedProoductsCount !== productsCount && (
-              <Button variant="contained" color="primary">
-                Load 100 More Products
+              <Button
+                onClick={() => {
+                  handleLoading100MoreReq();
+                }}
+                variant="contained"
+                color="primary"
+                disabled={load100RequestStatus !== "idle"}
+              >
+                {load100RequestStatus === "rejected"
+                  ? "Something went wrong (server error)"
+                  : "Load 100 More Products"}{" "}
+                &nbsp;&nbsp;{" "}
+                {load100RequestStatus === "pending" && (
+                  <CircularProgress size={8} />
+                )}
               </Button>
             )}
           </Card>
