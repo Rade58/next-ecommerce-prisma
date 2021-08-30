@@ -33,7 +33,7 @@ handler.delete(async (req, res) => {
         resArr.push(resData);
       }
 
-      console.log(JSON.stringify(resArr, null, 2));
+      // console.log(JSON.stringify(resArr, null, 2));
 
       const allProductsCount = await prismaClient.product.count({
         where: {
@@ -64,12 +64,12 @@ handler.delete(async (req, res) => {
         products,
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       return res.status(400).end();
     }
   }
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
 
   res.status(200).end();
 });
@@ -93,20 +93,22 @@ handler.put(async (req, res) => {
       for (const keyNo in upProdDataRec) {
         const ob = upProdDataRec[keyNo];
 
-        const productNamePropNames = Object.keys(ob);
+        const propNumStrings = Object.keys(ob);
 
         const updateDataRec: Record<string, any> = {};
 
         let productId: string = "";
 
-        for (const i in productNamePropNames) {
-          const productName = productNamePropNames[i];
+        for (const i in propNumStrings) {
+          const numString = propNumStrings[i];
+
+          console.log();
 
           if (!productId) {
-            productId = ob[productName].productId;
+            productId = ob[numString].productId;
           }
 
-          const dataOb = ob[productName];
+          const dataOb = ob[numString];
 
           const propName = dataOb.propName;
 
@@ -132,6 +134,16 @@ handler.put(async (req, res) => {
         console.log({ prodUpdated });
       }
 
+      const allProductsCount = await prismaClient.product.count({
+        where: {
+          adminId: {
+            equals: id as string,
+          },
+        },
+      });
+
+      console.log(allProductsCount);
+
       // REFETCHING PRODUCTS
       const products = await prismaClient.product.findMany({
         where: {
@@ -146,6 +158,8 @@ handler.put(async (req, res) => {
           name: "asc",
         },
       });
+
+      console.log(products[0], products[2]);
 
       return res.status(200).send({
         // deleteCount: resArr.length,
@@ -221,6 +235,8 @@ handler.post(async (req, res) => {
         },
       });
 
+      console.log({ products });
+
       return res.status(200).send({
         // deleteCount: resArr.length,
         allProductsCount,
@@ -232,7 +248,7 @@ handler.post(async (req, res) => {
     }
   }
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
 
   res.status(200).end();
 });

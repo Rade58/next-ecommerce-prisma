@@ -218,7 +218,7 @@ const ProductsTable: FC<{
       );
       setProductsCount(data.allProductsCount);
 
-      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
+      // setCursor((data as Product[])[(data as Product[]).length - 1].productId);
       setDeleteRequestStatus("idle");
 
       setSelectedProductsNos([]);
@@ -256,7 +256,7 @@ const ProductsTable: FC<{
 
       const value = oneUpdatingParameter[noKey][propName]["value"];
 
-      const productId = products[noKey].productId;
+      const productId = products[noKey - 1].productId;
 
       const data = { noKey, propName, value, productId };
 
@@ -352,7 +352,7 @@ const ProductsTable: FC<{
         })
       );
 
-      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
+      // setCursor((data as Product[])[(data as Product[]).length - 1].productId);
 
       setUpdateRequestStatus("idle");
       setParametersForUpdate({});
@@ -433,7 +433,7 @@ const ProductsTable: FC<{
       try {
         setSelectedProductsNos([]);
 
-        setParametersForUpdate([]);
+        setParametersForUpdate({});
 
         setCreationReqStatus("pending");
         // throw new Error("Hello world");
@@ -468,9 +468,7 @@ const ProductsTable: FC<{
         );
         setProductsCount(data.allProductsCount);
 
-        setCursor(
-          (data as Product[])[(data as Product[]).length - 1].productId
-        );
+        // setCursor(products[products.length - 1].productId);
         setFields({
           brand: "",
           category: "",
@@ -501,7 +499,7 @@ const ProductsTable: FC<{
       image,
       category,
       setCreationReqStatus,
-      products.length,
+      products,
     ]
   );
 
@@ -522,7 +520,7 @@ const ProductsTable: FC<{
       setLoad100RequestStatus("pending");
       setSelectedProductsNos([]);
 
-      setParametersForUpdate([]);
+      setParametersForUpdate({});
       /* throw new Error("hello world");
 
       setTimeout(() => {
@@ -539,8 +537,7 @@ const ProductsTable: FC<{
 
       // console.log({ data });
 
-      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
-
+      // setCursor(products[products.length - 1].productId);
       const newProducts = (data as Product[]).map((prod, i) => {
         return {
           ...prod,
@@ -558,7 +555,7 @@ const ProductsTable: FC<{
 
       setSelectedProductsNos([]);
 
-      setParametersForUpdate([]);
+      setParametersForUpdate({});
     } catch (err) {
       console.error(err);
       setLoad100RequestStatus("rejected");
@@ -566,7 +563,7 @@ const ProductsTable: FC<{
         setLoad100RequestStatus("idle");
       }, 3000);
     }
-  }, [cursor, session, loading, setCursor, products.length]);
+  }, [cursor, session, loading, setCursor, products]);
 
   const buttonDisabled =
     !name ||
@@ -593,6 +590,8 @@ const ProductsTable: FC<{
   }, [updateUpdatingParams, updateSnackbarOpen]) */
 
   console.log({ selectedProductsNos });
+  console.log({ parametersForUpdate });
+  console.log({ products });
 
   return (
     <Fragment>
