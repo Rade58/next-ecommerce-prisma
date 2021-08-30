@@ -2,14 +2,25 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
+import type {
+  FC,
+  ChangeEventHandler,
+  FormEvent,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
 
 import { useSession } from "next-auth/client";
 
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridToolbarDensitySelector,
+  GridToolbarFilterButton,
+} from "@material-ui/data-grid";
 import type {
   GridSelectionModel,
   GridEditRowsModel,
@@ -26,12 +37,15 @@ import {
   TextField,
   CircularProgress,
   Snackbar,
+  IconButton,
 } from "@material-ui/core";
 
 import {
   DeleteSweep as DelIcon,
   ExpandMore,
   ExpandLess,
+  SearchSharp,
+  ClearAll,
 } from "@material-ui/icons";
 
 import type { AlertProps } from "@material-ui/lab";
@@ -103,6 +117,47 @@ const columns: GridColDef[] = [
     editable: true,
   },
 ];
+
+interface QuickSearchToolbarProps {
+  clearSearch: () => void;
+  onChange: () => void;
+  value: string;
+}
+
+function QuickSearchToolbar(props: QuickSearchToolbarProps) {
+  return (
+    <div>
+      <div>
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+      </div>
+      <TextField
+        variant="standard"
+        value={props.value}
+        onChange={props.onChange}
+        placeholder="Search…"
+        InputProps={{
+          startAdornment: <SearchSharp fontSize="small" />,
+          endAdornment: (
+            <IconButton
+              title="Clear"
+              aria-label="Clear"
+              size="small"
+              style={{ visibility: props.value ? "visible" : "hidden" }}
+              onClick={props.clearSearch}
+            >
+              <ClearAll fontSize="small" />
+            </IconButton>
+          ),
+        }}
+      />
+    </div>
+  );
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
 const ProductsTable: FC<{
   initialProducts: PropsI["products"];
@@ -513,6 +568,23 @@ const ProductsTable: FC<{
 
   }, [updateUpdatingParams, updateSnackbarOpen]) */
 
+  // SEARCH
+
+  const [searchText, setSearchText] = useState("");
+
+  const requestSearch = (searchValue: string) => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
+    const filteredRows = products.filter((row: any) => {
+      return Object.keys(row).some((field: any) => {
+        return searchRegex.test(row[field].toString());
+      });
+    });
+    setProducts(filteredRows);
+  };
+
+  //
+
   return (
     <Fragment>
       <div>
@@ -744,6 +816,15 @@ const ProductsTable: FC<{
           pageSize={6}
           checkboxSelection
           disableSelectionOnClick
+          components={{ Toolbar: QuickSearchToolbar }}
+          componentsProps={{
+            toolbar: {
+              value: searchText,
+              // @ts-ignore
+              onChange: (event) => requestSearch(event.target.value),
+              clearSearch: () => requestSearch(""),
+            },
+          }}
           onSelectionModelChange={(a, b) => {
             setSelectedProductsNos(a);
           }}
