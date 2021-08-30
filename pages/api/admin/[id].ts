@@ -81,28 +81,47 @@ handler.put(async (req, res) => {
 
   const body = req.body;
 
+  // console.log(JSON.stringify({ id, body }, null, 2));
+
   if (body.model === "product") {
     const upProdDataRec = body.data as UpdateProductsDataRecord;
 
     try {
       // console.log()
 
-      for (const key in upProdDataRec) {
-        const ob = upProdDataRec[key];
+      for (const keyNo in upProdDataRec) {
+        const ob = upProdDataRec[keyNo];
 
-        const productId = Object.keys(ob)[0];
+        const productNamePropNames = Object.keys(ob);
 
-        const dataArr = ob[productId];
+        const productId = ob[keyNo].productId;
 
-        /*  const resData = await prismaClient.product.update({
+        const updateDataRec: Record<string, any> = {};
+
+        for (const productName in productNamePropNames) {
+          const dataOb = ob[productName];
+
+          updateDataRec[`${dataOb.propName}`] = dataOb.value;
+        }
+
+        const prodUpdated = await prismaClient.product.update({
+          where: {
+            productId,
+          },
+          data: updateDataRec,
+        });
+
+        console.log({ prodUpdated });
+
+        /* const resData = await prismaClient.product.update({
           where: {
             productId
           }
         }); 
-        resArr.push(resData); */
+        resArr.push(resData);  */
       }
 
-      /* const allProductsCount = await prismaClient.product.count({
+      const allProductsCount = await prismaClient.product.count({
         where: {
           adminId: {
             equals: id as string,
@@ -129,7 +148,7 @@ handler.put(async (req, res) => {
         // deleteCount: resArr.length,
         allProductsCount,
         products,
-      }); */
+      });
     } catch (err) {
       console.error(err);
       return res.status(400).end();
@@ -138,7 +157,7 @@ handler.put(async (req, res) => {
 
   // console.log(JSON.stringify({ id, body }, null, 2));
 
-  // res.status(200).end();
+  res.status(200).end();
 });
 
 handler.post(async (req, res) => {
