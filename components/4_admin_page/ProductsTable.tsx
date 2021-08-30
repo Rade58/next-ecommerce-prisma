@@ -174,8 +174,9 @@ const ProductsTable: FC<{
       const item = selectedProductsNos[no];
 
       console.log({ item });
-
-      productsForDeletion.push(products[Number(item) - 1].productId);
+      if (products[Number(item) - 1] !== undefined) {
+        productsForDeletion.push(products[Number(item) - 1].productId);
+      }
     }
 
     console.log({ productsForDeletion });
