@@ -112,7 +112,15 @@ handler.put(async (req, res) => {
 
           const dataOb = ob[productName];
 
-          updateDataRec[`${dataOb.propName}`] = dataOb.value;
+          const propName = dataOb.propName;
+
+          let value: any = dataOb.value;
+
+          if (dataOb.propName === "price" || dataOb.propName === "price") {
+            value = Number(value);
+          }
+
+          updateDataRec[propName] = value;
         }
 
         const prodUpdated = await prismaClient.product.update({
