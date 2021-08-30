@@ -209,6 +209,7 @@ const ProductsTable: FC<{
       );
       setProductsCount(data.allProductsCount);
 
+      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
       setDeleteRequestStatus("idle");
 
       setSelectedProductsNos([]);
@@ -342,6 +343,8 @@ const ProductsTable: FC<{
         })
       );
 
+      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
+
       setUpdateRequestStatus("idle");
       setParametersForUpdate({});
     } catch (err) {
@@ -456,6 +459,9 @@ const ProductsTable: FC<{
         );
         setProductsCount(data.allProductsCount);
 
+        setCursor(
+          (data as Product[])[(data as Product[]).length - 1].productId
+        );
         setFields({
           brand: "",
           category: "",
@@ -531,7 +537,7 @@ const ProductsTable: FC<{
           ...prod,
           createdAt: new Date(prod.createdAt).toISOString(),
           updatedAt: new Date(prod.updatedAt).toISOString(),
-          id: products.length + i,
+          id: products.length - 1 + i + 1,
         };
       });
 
