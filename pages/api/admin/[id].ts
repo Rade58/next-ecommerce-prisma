@@ -88,6 +88,7 @@ handler.put(async (req, res) => {
 
     try {
       // console.log()
+      // throw new Error("Hello world");
 
       for (const keyNo in upProdDataRec) {
         const ob = upProdDataRec[keyNo];
@@ -101,10 +102,10 @@ handler.put(async (req, res) => {
         for (const i in productNamePropNames) {
           const productName = productNamePropNames[i];
 
-          console.log(productName);
+          /* console.log(productName);
           console.log(productNamePropNames);
           console.log({ ob });
-          console.log(ob[productName]);
+          console.log(ob[productName]); */
 
           if (!productId) {
             productId = ob[productName].productId;
@@ -116,7 +117,10 @@ handler.put(async (req, res) => {
 
           let value: any = dataOb.value;
 
-          if (dataOb.propName === "price" || dataOb.propName === "price") {
+          if (
+            dataOb.propName === "price" ||
+            dataOb.propName === "countInStock"
+          ) {
             value = Number(value);
           }
 
@@ -140,13 +144,13 @@ handler.put(async (req, res) => {
         resArr.push(resData);  */
       }
 
-      const allProductsCount = await prismaClient.product.count({
+      /* const allProductsCount = await prismaClient.product.count({
         where: {
           adminId: {
             equals: id as string,
           },
         },
-      });
+      }); */
 
       // REFETCHING PRODUCTS
       const products = await prismaClient.product.findMany({
@@ -165,7 +169,7 @@ handler.put(async (req, res) => {
 
       return res.status(200).send({
         // deleteCount: resArr.length,
-        allProductsCount,
+        // allProductsCount,
         products,
       });
     } catch (err) {

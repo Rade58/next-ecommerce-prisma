@@ -348,9 +348,7 @@ const ProductsTable: FC<{
         }
       );
 
-      console.log({ data });
-
-      /* setProducts(
+      setProducts(
         data.products.map((prod: Product, i: number) => {
           return {
             ...prod,
@@ -359,7 +357,7 @@ const ProductsTable: FC<{
             id: i + 1,
           };
         })
-      ); */
+      );
 
       setUpdateRequestStatus("idle");
       setParametersForUpdate({});
@@ -913,9 +911,9 @@ const ProductsTable: FC<{
                 ? "Error"
                 : "You changed some products!"}{" "}
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {updateRequestStatus !== "rejected" ||
-              (deleteRequestStatus !== "pending" &&
-                load100RequestStatus !== "pending") ? (
+              {updateRequestStatus !== "rejected" &&
+              deleteRequestStatus !== "pending" &&
+              load100RequestStatus !== "pending" ? (
                 <Button
                   disabled={updateRequestStatus === "pending"}
                   onClick={(e) => {
