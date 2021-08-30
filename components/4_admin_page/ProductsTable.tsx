@@ -136,11 +136,11 @@ const ProductsTable: FC<{
     useState<typeof initialProducts>(initialProducts);
 
   // FOR SEARCH
-  const [rows, setRows] = useState<any[]>(products);
+  /*   const [rows, setRows] = useState<any[]>(products);
 
   useEffect(() => {
     setRows(products);
-  }, [products]);
+  }, [products]); */
 
   //
 
@@ -193,6 +193,8 @@ const ProductsTable: FC<{
 
     try {
       setDeleteRequestStatus("pending");
+
+      setSelectedProductsNos([]);
 
       /* throw new Error("Hello World");
       setTimeout(() => {
@@ -386,10 +388,7 @@ const ProductsTable: FC<{
   // __________________________________________________________________
   // __________________________________________________________________
   // __________________________________________________________________
-  const [
-    { name, brand, countInStock, description, image, price, category },
-    setFields,
-  ] = useState<{
+  const [creationFields, setFields] = useState<{
     name: string;
     image: string;
     description: string;
@@ -407,8 +406,11 @@ const ProductsTable: FC<{
     category: "",
   });
 
+  const { name, brand, countInStock, description, image, price, category } =
+    creationFields;
+
   const [creationReqStatus, setCreationReqStatus] = useState<
-    "idle" | "pending"
+    "idle" | "pending" | "rejected"
   >("idle");
 
   const handleChangeForCreation: ChangeEventHandler<
@@ -435,8 +437,14 @@ const ProductsTable: FC<{
         return;
       }
 
-      setCreationReqStatus("pending");
       try {
+        setSelectedProductsNos([]);
+
+        setParametersForUpdate([]);
+
+        setCreationReqStatus("pending");
+        // throw new Error("Hello world");
+
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const res = await axios.post(
           `/api/admin/${(session as any).profile.id}`,
@@ -453,11 +461,24 @@ const ProductsTable: FC<{
             },
           }
         );
+
+        setFields({
+          brand: "",
+          category: "",
+          countInStock: 0,
+          description: "",
+          image: "",
+          name: "",
+          price: 0,
+        });
         setCreationReqStatus("idle");
         console.log(res.data);
       } catch (err) {
-        setCreationReqStatus("idle");
+        setCreationReqStatus("rejected");
         console.log({ err });
+        setTimeout(() => {
+          setCreationReqStatus("idle");
+        }, 3000);
       }
     },
     [
@@ -489,7 +510,9 @@ const ProductsTable: FC<{
 
     try {
       setLoad100RequestStatus("pending");
+      setSelectedProductsNos([]);
 
+      setParametersForUpdate([]);
       /* throw new Error("hello world");
 
       setTimeout(() => {
@@ -522,6 +545,10 @@ const ProductsTable: FC<{
       });
 
       setLoad100RequestStatus("idle");
+
+      setSelectedProductsNos([]);
+
+      setParametersForUpdate([]);
     } catch (err) {
       console.error(err);
       setLoad100RequestStatus("rejected");
@@ -560,148 +587,164 @@ const ProductsTable: FC<{
   return (
     <Fragment>
       <div>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>Add New Product</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <section
-              className="form-holder"
-              css={css`
-                /* padding-top: 10vh; */
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                align-content: center;
-
-                & div.field {
-                  /* margin-top: 10vh; */
-                  display: flex;
-                  justify-content: center;
-                }
-
-                & button {
-                  margin-top: 8vh;
-                }
-              `}
-            >
-              <form onSubmit={handleCreationSubmit}>
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={name}
-                    name="name"
-                    id="name-field"
-                    label="Name"
-                    placeholder="Name"
-                    variant="filled"
-                  />
-                </div>
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={brand}
-                    name="brand"
-                    id="brand-field"
-                    label="Brand"
-                    placeholder="Brand"
-                    variant="filled"
-                  />
-                </div>
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={price}
-                    name="price"
-                    id="price-field"
-                    label="Price"
-                    placeholder="Price"
-                    variant="filled"
-                    type="number"
-                  />
-                </div>
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={countInStock}
-                    type="number"
-                    name="countInStock"
-                    id="countinstock-field"
-                    label="Count In Stock"
-                    placeholder="CountInStock"
-                    variant="filled"
-                  />
-                </div>
-
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={category}
-                    name="category"
-                    id="category-field"
-                    label="Category"
-                    placeholder="Category"
-                    variant="filled"
-                  />
-                </div>
-                <div className="field">
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={image}
-                    name="image"
-                    id="image-field"
-                    label="Image Url"
-                    placeholder="Image Url"
-                    variant="filled"
-                  />
-                </div>
-                <div
-                  className="field"
+        {deleteRequestStatus !== "pending" &&
+          updateRequestStatus !== "pending" &&
+          load100RequestStatus !== "pending" && (
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography>Add New Product</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <section
+                  className="form-holder"
                   css={css`
-                    align-self: flex-start;
-                    width: 48vw;
+                    /* padding-top: 10vh; */
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    align-content: center;
+
+                    & div.field {
+                      /* margin-top: 10vh; */
+                      display: flex;
+                      justify-content: center;
+                    }
+
+                    & button {
+                      margin-top: 8vh;
+                    }
                   `}
                 >
-                  <TextField
-                    onChange={handleChangeForCreation}
-                    value={description}
-                    name="description"
-                    id="description-field"
-                    label="Description"
-                    placeholder="Description"
-                    multiline
-                    fullWidth
-                  />
-                </div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={buttonDisabled}
-                >
-                  {"Save New Product "}
-                  {creationReqStatus === "pending" ? (
+                  <form onSubmit={handleCreationSubmit}>
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={name}
+                        name="name"
+                        id="name-field"
+                        label="Name"
+                        placeholder="Name"
+                        variant="filled"
+                      />
+                    </div>
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={brand}
+                        name="brand"
+                        id="brand-field"
+                        label="Brand"
+                        placeholder="Brand"
+                        variant="filled"
+                      />
+                    </div>
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={price}
+                        name="price"
+                        id="price-field"
+                        label="Price"
+                        placeholder="Price"
+                        variant="filled"
+                        type="number"
+                      />
+                    </div>
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={countInStock}
+                        type="number"
+                        name="countInStock"
+                        id="countinstock-field"
+                        label="Count In Stock"
+                        placeholder="CountInStock"
+                        variant="filled"
+                      />
+                    </div>
+
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={category}
+                        name="category"
+                        id="category-field"
+                        label="Category"
+                        placeholder="Category"
+                        variant="filled"
+                      />
+                    </div>
+                    <div className="field">
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={image}
+                        name="image"
+                        id="image-field"
+                        label="Image Url"
+                        placeholder="Image Url"
+                        variant="filled"
+                      />
+                    </div>
                     <div
+                      className="field"
                       css={css`
-                        display: inline-block;
-                        margin-left: 8px;
+                        align-self: flex-start;
+                        width: 48vw;
                       `}
                     >
-                      <CircularProgress color="primary" size={18} />
+                      <TextField
+                        onChange={handleChangeForCreation}
+                        value={description}
+                        name="description"
+                        id="description-field"
+                        label="Description"
+                        placeholder="Description"
+                        multiline
+                        fullWidth
+                      />
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </Button>
-              </form>
-            </section>
-          </AccordionDetails>
-        </Accordion>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={buttonDisabled}
+                    >
+                      {"Save New Product "}
+                      {creationReqStatus === "pending" ||
+                      creationReqStatus === "rejected" ? (
+                        <div
+                          css={css`
+                            display: inline-block;
+                            margin-left: 8px;
+                          `}
+                        >
+                          <CircularProgress color="secondary" size={18} />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </Button>
+                    {creationReqStatus === "rejected" && (
+                      <span
+                        css={css`
+                          color: tomato;
+                          margin-left: 60px;
+                          margin-top: 12px;
+                        `}
+                      >
+                        Something went wrong
+                      </span>
+                    )}
+                  </form>
+                </section>
+              </AccordionDetails>
+            </Accordion>
+          )}
         <Paper elevation={2}>
           <section
             style={{
@@ -735,48 +778,57 @@ const ProductsTable: FC<{
           }}
         >
           <Card elevation={0}>
-            {fetchedProoductsCount !== productsCount && (
-              <Button
-                onClick={() => {
-                  handleLoading100MoreReq();
-                }}
-                variant="contained"
-                color="primary"
-                disabled={load100RequestStatus !== "idle"}
-              >
-                {load100RequestStatus === "rejected"
-                  ? "Something went wrong (server error)"
-                  : "Load 100 More Products"}{" "}
-                &nbsp;&nbsp;{" "}
-                {load100RequestStatus === "pending" && (
-                  <CircularProgress size={8} />
-                )}
-              </Button>
-            )}
+            {fetchedProoductsCount !== productsCount &&
+              deleteRequestStatus !== "pending" &&
+              updateRequestStatus !== "pending" &&
+              creationReqStatus !== "pending" && (
+                <Button
+                  onClick={() => {
+                    handleLoading100MoreReq();
+                  }}
+                  variant="contained"
+                  color="primary"
+                  disabled={load100RequestStatus !== "idle"}
+                >
+                  {load100RequestStatus === "rejected"
+                    ? "Something went wrong (server error)"
+                    : "Load 100 More Products"}{" "}
+                  &nbsp;&nbsp;{" "}
+                  {load100RequestStatus === "pending" && (
+                    <CircularProgress size={8} />
+                  )}
+                </Button>
+              )}
           </Card>
           {selectedProductsNos.length !== 0 && (
             <Card elevation={0}>
-              <span style={{ color: "tomato" }}>danger zone: </span>
-              <Button
-                onClick={() => {
-                  handleDeletingReq();
-                }}
-                color="primary"
-                variant="outlined"
-                disabled={
-                  deleteRequestStatus === "pending" ||
-                  deleteRequestStatus === "rejected"
-                }
-              >
-                <DelIcon />
-                {deleteRequestStatus === "rejected"
-                  ? "Couldn't delete (server problem)"
-                  : "Delete Selected Products"}{" "}
-                &nbsp;{" "}
-                {deleteRequestStatus === "pending" && (
-                  <CircularProgress size={18} />
+              {updateRequestStatus !== "pending" &&
+                load100RequestStatus !== "pending" &&
+                creationReqStatus !== "pending" && (
+                  <Fragment>
+                    <span style={{ color: "tomato" }}>danger zone: </span>
+                    <Button
+                      onClick={() => {
+                        handleDeletingReq();
+                      }}
+                      color="primary"
+                      variant="outlined"
+                      disabled={
+                        deleteRequestStatus === "pending" ||
+                        deleteRequestStatus === "rejected"
+                      }
+                    >
+                      <DelIcon />
+                      {deleteRequestStatus === "rejected"
+                        ? "Couldn't delete (server problem)"
+                        : "Delete Selected Products"}{" "}
+                      &nbsp;{" "}
+                      {deleteRequestStatus === "pending" && (
+                        <CircularProgress size={18} />
+                      )}
+                    </Button>
+                  </Fragment>
                 )}
-              </Button>
             </Card>
           )}
         </div>
@@ -784,7 +836,8 @@ const ProductsTable: FC<{
       <div style={{ height: 466, width: "100%" }}>
         {deleteRequestStatus !== "pending" &&
         updateRequestStatus !== "pending" &&
-        load100RequestStatus !== "pending" ? (
+        load100RequestStatus !== "pending" &&
+        creationReqStatus !== "pending" ? (
           <DataGrid
             rows={products}
             columns={columns}
@@ -798,7 +851,18 @@ const ProductsTable: FC<{
               handleUpdatingParams(a);
             }}
           />
-        ) : null}
+        ) : (
+          <div
+            css={css`
+              margin-top: 120px;
+              margin-left: auto;
+              margin-right: auto;
+              text-align: center;
+            `}
+          >
+            <CircularProgress />
+          </div>
+        )}
       </div>
       {Object.keys(parametersForUpdate).length !== 0 ? (
         <div>
@@ -818,7 +882,9 @@ const ProductsTable: FC<{
                 ? "Error"
                 : "You changed some products!"}{" "}
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {updateRequestStatus !== "rejected" ? (
+              {updateRequestStatus !== "rejected" ||
+              (deleteRequestStatus !== "pending" &&
+                load100RequestStatus !== "pending") ? (
                 <Button
                   disabled={updateRequestStatus === "pending"}
                   onClick={(e) => {
