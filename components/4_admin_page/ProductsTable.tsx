@@ -386,38 +386,8 @@ const ProductsTable: FC<{
 
   //
 
-  //
+  // ___________________________________CREaTING NEW PRODUCT_______________________________
 
-  // TREBA CE TI SAVE DUGME NAKON EDITA (I TU CES DA UPDATE-UJES
-  // products I DA POSALJES REQUEST)
-
-  // STO SE TICE REQUESTA ZA LOADING-OM MORE PRODUCTS
-  // POSTOJECIM productsIMA CES PRIDODATI NOVE PRODUCTS
-
-  // MI CEMO DODATI DELETE DUGME
-  // KAD GA KORISNIK KLIKNE SALJEMO REQUEST SA selectedProducts IDS
-  // DA UKLANJAMO PRODUCTS
-
-  // VODI RACUNA O KURSORU PRI SVAKOM REQUESTU
-
-  // SVAKI PUT KADA ZATRAZIS PRODUCTS NAZAD NEKA TO BUDE BROJ PROIZVODA
-  // KOLIKO JE DO SADA USER LOAD-OVAO
-
-  // MORAMO DA RERENDER-UJEMO TABELU, NAKON SVAAKOG REQUESTA
-  // SA CIJIM PODACIMA POPULATE-UJEMO TABLE
-
-  // SPINNER MOGU DA POKAZUJEM UMESTO TABELE, ONDA KADA SE SALJE REQUEST
-
-  // API ROUTE MOZE DA BUDE ISTA ZA PRODUCTS ORDERS USERS
-
-  // KADA SE DELETE-UJE MORA DA SE REFETCH-UJE DO SADA UKUPNO LOADED PRODUCTS
-
-  // console.log({ prod: products[0] });
-
-  // ___________________________________CRETING NEW PRODUCT_______________________________
-  // __________________________________________________________________
-  // __________________________________________________________________
-  // __________________________________________________________________
   const [creationFields, setFields] = useState<{
     name: string;
     image: string;
@@ -515,10 +485,10 @@ const ProductsTable: FC<{
           price: 0,
         });
         setCreationReqStatus("idle");
-        console.log({ data });
+        // console.log({ data });
       } catch (err) {
         setCreationReqStatus("rejected");
-        console.log({ err });
+        console.error({ err });
         setTimeout(() => {
           setCreationReqStatus("idle");
         }, 3000);
@@ -571,7 +541,7 @@ const ProductsTable: FC<{
         }
       );
 
-      console.log({ data });
+      // console.log({ data });
 
       setCursor((data as Product[])[(data as Product[]).length - 1].productId);
 
@@ -614,11 +584,9 @@ const ProductsTable: FC<{
 
   // __________________________________________________________________
   // __________________________________________________________________
-  // __________________________________________________________________
-  // __________________________________________________________________
 
   // console.log({ selectedProductsNos: JSON.stringify(selectedProductsNos) });
-  console.log({ parametersForUpdate: parametersForUpdate });
+  // console.log({ parametersForUpdate: parametersForUpdate });
 
   /* useEffect(() => {
 
