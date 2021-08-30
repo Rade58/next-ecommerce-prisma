@@ -51,6 +51,8 @@ import {
 import type { AlertProps } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
 
+import type { Product } from "@prisma/client";
+
 import type { PropsI } from "../../pages/admin/[id]";
 
 export type UpdateProductsDataRecord = Record<
@@ -502,6 +504,23 @@ const ProductsTable: FC<{
         }
       );
 
+      console.log({ data });
+
+      setCursor((data as Product[])[(data as Product[]).length - 1].productId);
+
+      const newProducts = (data as Product[]).map((prod, i) => {
+        return {
+          ...prod,
+          createdAt: new Date(prod.createdAt).toISOString(),
+          updatedAt: new Date(prod.updatedAt).toISOString(),
+          id: products.length + i,
+        };
+      });
+
+      setProducts((prev) => {
+        return [...prev, ...newProducts];
+      });
+
       setLoad100RequestStatus("idle");
     } catch (err) {
       console.error(err);
@@ -510,7 +529,7 @@ const ProductsTable: FC<{
         setLoad100RequestStatus("idle");
       }, 3000);
     }
-  }, [cursor, session, loading]);
+  }, [cursor, session, loading, setCursor, products.length]);
 
   const buttonDisabled =
     !name ||

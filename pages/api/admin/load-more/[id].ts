@@ -16,7 +16,35 @@ handler.post(async (req, res) => {
 
   const body = req.body;
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
+
+  if (body.model === "product") {
+    try {
+      const data = await prismaClient.product.findMany({
+        take: 100,
+        skip: 1,
+        cursor: {
+          productId: body.cursor,
+        },
+        where: {
+          admin: {
+            is: {
+              id: id as string,
+            },
+          },
+        },
+      });
+
+      console.log({ data });
+      console.log({ len: data.length });
+
+      return res.status(200).send(data);
+    } catch (error) {
+      console.error(error);
+
+      return res.status(400).end();
+    }
+  }
 
   res.status(200).end();
 });
