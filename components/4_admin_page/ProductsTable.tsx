@@ -727,7 +727,7 @@ const ProductsTable: FC<{
               >
                 {load100RequestStatus === "rejected"
                   ? "Something went wrong (server error)"
-                  : "Load 100 More Products to manage"}{" "}
+                  : "Load 100 More Products"}{" "}
                 &nbsp;&nbsp;{" "}
                 {load100RequestStatus === "pending" && (
                   <CircularProgress size={8} />
