@@ -102,11 +102,6 @@ handler.put(async (req, res) => {
         for (const i in productNamePropNames) {
           const productName = productNamePropNames[i];
 
-          /* console.log(productName);
-          console.log(productNamePropNames);
-          console.log({ ob });
-          console.log(ob[productName]); */
-
           if (!productId) {
             productId = ob[productName].productId;
           }
@@ -135,22 +130,7 @@ handler.put(async (req, res) => {
         });
 
         console.log({ prodUpdated });
-
-        /* const resData = await prismaClient.product.update({
-          where: {
-            productId
-          }
-        }); 
-        resArr.push(resData);  */
       }
-
-      /* const allProductsCount = await prismaClient.product.count({
-        where: {
-          adminId: {
-            equals: id as string,
-          },
-        },
-      }); */
 
       // REFETCHING PRODUCTS
       const products = await prismaClient.product.findMany({
@@ -190,9 +170,71 @@ handler.post(async (req, res) => {
 
   const body = req.body;
 
-  // console.log(JSON.stringify({ id, body }, null, 2));
+  if (body.model === "product") {
+    const newProductData = body.data as {
+      name: string;
+      brand: string;
+      countInStock: number;
+      price: number;
+      description: string;
+      image: string;
+      category: string;
+    };
 
-  // res.status(200).end();
+    newProductData.countInStock = Number(newProductData.countInStock);
+    newProductData.price = Number(newProductData.price);
+
+    try {
+      const newProduct = await prismaClient.product.create({
+        data: {
+          admin: {
+            connect: {
+              id: id as string,
+            },
+          },
+          ...newProductData,
+        },
+      });
+
+      console.log({ newProduct });
+
+      const allProductsCount = await prismaClient.product.count({
+        where: {
+          adminId: {
+            equals: id as string,
+          },
+        },
+      });
+
+      // REFETCHING PRODUCTS
+      const products = await prismaClient.product.findMany({
+        where: {
+          admin: {
+            is: {
+              id: id as string,
+            },
+          },
+        },
+        take: (body.loadedProductCount as number) + 1,
+        orderBy: {
+          name: "asc",
+        },
+      });
+
+      return res.status(200).send({
+        // deleteCount: resArr.length,
+        allProductsCount,
+        products,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(400).end();
+    }
+  }
+
+  console.log(JSON.stringify({ id, body }, null, 2));
+
+  res.status(200).end();
 });
 
 export default handler;

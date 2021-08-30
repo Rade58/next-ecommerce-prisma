@@ -381,6 +381,7 @@ const ProductsTable: FC<{
     loading,
     setUpdateRequestStatus,
     setParametersForUpdate,
+    products.length,
   ]);
 
   //
@@ -475,11 +476,11 @@ const ProductsTable: FC<{
         // throw new Error("Hello world");
 
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
-        const res = await axios.post(
+        const { data } = await axios.post(
           `/api/admin/${(session as any).profile.id}`,
           {
             model: "product",
-            fields: {
+            data: {
               name,
               brand,
               countInStock,
@@ -488,8 +489,21 @@ const ProductsTable: FC<{
               price,
               category,
             },
+            loadedProductCount: products.length,
           }
         );
+
+        setProducts(
+          data.products.map((prod: Product, i: number) => {
+            return {
+              ...prod,
+              createdAt: new Date(prod.createdAt).toISOString(),
+              updatedAt: new Date(prod.updatedAt).toISOString(),
+              id: i + 1,
+            };
+          })
+        );
+        setProductsCount(data.allProductsCount);
 
         setFields({
           brand: "",
@@ -501,7 +515,7 @@ const ProductsTable: FC<{
           price: 0,
         });
         setCreationReqStatus("idle");
-        console.log(res.data);
+        console.log(data);
       } catch (err) {
         setCreationReqStatus("rejected");
         console.log({ err });
