@@ -202,7 +202,7 @@ const ProductsTable: FC<{
       const { data } = await axios.delete(
         `/api/admin/${(session as any).profile.id}`,
         {
-          data: { data: productsForDeletion, model: "products" },
+          data: { data: productsForDeletion, model: "product" },
         }
       );
 
@@ -321,7 +321,7 @@ const ProductsTable: FC<{
 
       const { data } = await axios.put(
         `/api/admin/${(session as any).profile.id}`,
-        parametersForUpdate
+        { data: parametersForUpdate, model: "product" }
       );
 
       setUpdateRequestStatus("idle");
@@ -498,7 +498,7 @@ const ProductsTable: FC<{
         `/api/admin/load-more/${(session as any).profile.id}`,
         {
           cursor: cursor,
-          model: "products",
+          model: "product",
         }
       );
 
