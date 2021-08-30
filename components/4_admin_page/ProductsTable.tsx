@@ -192,25 +192,23 @@ const ProductsTable: FC<{
     try {
       setDeleteRequestStatus("pending");
 
-      throw new Error("Hello World");
+      /* throw new Error("Hello World");
       setTimeout(() => {
         setSelectedProductsNos([]);
 
         setDeleteRequestStatus("idle");
-      }, 3000);
+      }, 3000); */
 
-      /* const {data} = await axios.delete(
+      const { data } = await axios.delete(
         `/api/admin/${(session as any).profile.id}`,
         {
-          data: productsForDeletion,
+          data: { data: productsForDeletion, model: "products" },
         }
-      ); 
-      
-      setDeleteRequestStatus("idle")
-      
-        setSelectedProductsNos([])
+      );
 
-      */
+      setDeleteRequestStatus("idle");
+
+      setSelectedProductsNos([]);
     } catch (err) {
       console.error(err);
       setDeleteRequestStatus("rejected");
@@ -315,11 +313,19 @@ const ProductsTable: FC<{
       // SIMULATING REQUEST
       setUpdateRequestStatus("pending");
 
-      throw new Error("Hello World");
+      /* throw new Error("Hello World");
       setTimeout(() => {
         setUpdateRequestStatus("idle");
         setParametersForUpdate({});
-      }, 3000);
+      }, 3000); */
+
+      const { data } = await axios.put(
+        `/api/admin/${(session as any).profile.id}`,
+        parametersForUpdate
+      );
+
+      setUpdateRequestStatus("idle");
+      setParametersForUpdate({});
     } catch (err) {
       console.error(err);
 
@@ -332,11 +338,6 @@ const ProductsTable: FC<{
 
       // setParametersForUpdate({});
     }
-
-    /* const { data } = await axios.put(
-      `/api/admin/${(session as any).profile.id}`,
-      parametersForUpdate
-    ); */
 
     // RESETING
   }, [
@@ -487,20 +488,21 @@ const ProductsTable: FC<{
     try {
       setLoad100RequestStatus("pending");
 
-      throw new Error("hello world");
+      /* throw new Error("hello world");
 
       setTimeout(() => {
         setLoad100RequestStatus("idle");
-      }, 3000);
+      }, 3000); */
 
-      /* 
-        const {data} = await axios.post(`/api/admin/load-more/${(session as any).profile.id}`, {
+      const { data } = await axios.post(
+        `/api/admin/load-more/${(session as any).profile.id}`,
+        {
           cursor: cursor,
-          model: "products"
-        })
+          model: "products",
+        }
+      );
 
-        setLoad100RequestStatus("idle")
- */
+      setLoad100RequestStatus("idle");
     } catch (err) {
       console.error(err);
       setLoad100RequestStatus("rejected");
