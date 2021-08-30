@@ -515,7 +515,7 @@ const ProductsTable: FC<{
           price: 0,
         });
         setCreationReqStatus("idle");
-        console.log(data);
+        console.log({ data });
       } catch (err) {
         setCreationReqStatus("rejected");
         console.log({ err });
@@ -535,6 +535,7 @@ const ProductsTable: FC<{
       image,
       category,
       setCreationReqStatus,
+      products.length,
     ]
   );
 
