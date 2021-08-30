@@ -67,8 +67,18 @@ const TabsView: FC<PropsI> = (props) => {
     setValue(newValue);
   };
 
+  if (!session) {
+    return null;
+  }
+
   return loading ? (
-    <CircularProgress size={38} />
+    <div
+      css={css`
+        margin-top: 200px;
+      `}
+    >
+      <CircularProgress size={38} />
+    </div>
   ) : (
     <Fragment>
       <h1

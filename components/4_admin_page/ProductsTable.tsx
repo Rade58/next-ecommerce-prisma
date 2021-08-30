@@ -135,6 +135,9 @@ const ProductsTable: FC<{
   const [deleteRequestStatus, setDeleteRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
+  const [load100RequestStatus, setLoad100RequestStatus] = useState<
+    "idle" | "pending" | "rejected"
+  >("idle");
 
   useEffect(() => {
     setCursor(products[products.length - 1].productId);
@@ -444,6 +447,43 @@ const ProductsTable: FC<{
       setCreationReqStatus,
     ]
   );
+
+  const handleLoading100MoreReq = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
+
+    try {
+      setLoad100RequestStatus("pending");
+
+      setTimeout(() => {
+        setLoad100RequestStatus("idle");
+      }, 3000);
+
+      /* 
+        const {data} = await axios.post(`/admin/load-more/${(session as any).profile.id}`, {
+          cursor: cursor,
+          model: "products"
+        })
+
+        setLoad100RequestStatus("idle")
+ */
+    } catch (err) {
+      console.error(err);
+      setLoad100RequestStatus("rejected");
+      setTimeout(() => {
+        setLoad100RequestStatus("idle");
+      }, 3000);
+    }
+  }, [cursor, session, loading]);
 
   const buttonDisabled =
     !name ||
