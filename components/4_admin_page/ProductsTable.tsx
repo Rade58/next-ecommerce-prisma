@@ -782,19 +782,23 @@ const ProductsTable: FC<{
         </div>
       </div>
       <div style={{ height: 466, width: "100%" }}>
-        <DataGrid
-          rows={products}
-          columns={columns}
-          pageSize={6}
-          checkboxSelection
-          disableSelectionOnClick
-          onSelectionModelChange={(a, b) => {
-            setSelectedProductsNos(a);
-          }}
-          onEditRowsModelChange={(a, b) => {
-            handleUpdatingParams(a);
-          }}
-        />
+        {deleteRequestStatus !== "pending" &&
+        updateRequestStatus !== "pending" &&
+        load100RequestStatus !== "pending" ? (
+          <DataGrid
+            rows={products}
+            columns={columns}
+            pageSize={6}
+            checkboxSelection
+            disableSelectionOnClick
+            onSelectionModelChange={(a, b) => {
+              setSelectedProductsNos(a);
+            }}
+            onEditRowsModelChange={(a, b) => {
+              handleUpdatingParams(a);
+            }}
+          />
+        ) : null}
       </div>
       {Object.keys(parametersForUpdate).length !== 0 ? (
         <div>
