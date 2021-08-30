@@ -118,47 +118,6 @@ const columns: GridColDef[] = [
   },
 ];
 
-interface QuickSearchToolbarProps {
-  clearSearch: () => void;
-  onChange: () => void;
-  value: string;
-}
-
-function QuickSearchToolbar(props: QuickSearchToolbarProps) {
-  return (
-    <div>
-      <div>
-        <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
-      </div>
-      <TextField
-        variant="standard"
-        value={props.value}
-        onChange={props.onChange}
-        placeholder="Search…"
-        InputProps={{
-          startAdornment: <SearchSharp fontSize="small" />,
-          endAdornment: (
-            <IconButton
-              title="Clear"
-              aria-label="Clear"
-              size="small"
-              style={{ visibility: props.value ? "visible" : "hidden" }}
-              onClick={props.clearSearch}
-            >
-              <ClearAll fontSize="small" />
-            </IconButton>
-          ),
-        }}
-      />
-    </div>
-  );
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
 const ProductsTable: FC<{
   initialProducts: PropsI["products"];
   productsCount: PropsI["productsCount"];
@@ -173,6 +132,15 @@ const ProductsTable: FC<{
   );
   const [products, setProducts] =
     useState<typeof initialProducts>(initialProducts);
+
+  // FOR SEARCH
+  const [rows, setRows] = useState<any[]>(products);
+
+  useEffect(() => {
+    setRows(products);
+  }, [products]);
+
+  //
 
   const [cursor, setCursor] = useState<string>(
     products[products.length - 1].productId
@@ -568,49 +536,9 @@ const ProductsTable: FC<{
 
   }, [updateUpdatingParams, updateSnackbarOpen]) */
 
-  // SEARCH
-
-  const [searchText, setSearchText] = useState("");
-
-  const requestSearch = (searchValue: string) => {
-    setSearchText(searchValue);
-    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
-    const filteredRows = products.filter((row: any) => {
-      return Object.keys(row).some((field: any) => {
-        return searchRegex.test(row[field].toString());
-      });
-    });
-    setProducts(filteredRows);
-  };
-
-  //
-
   return (
     <Fragment>
       <div>
-        <Paper elevation={2}>
-          <section
-            style={{
-              padding: "20px",
-            }}
-          >
-            <div>
-              total products manging:{" "}
-              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                {productsCount}{" "}
-              </span>
-            </div>
-
-            <div>
-              loaded products count :{" "}
-              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                {products.length}
-              </span>
-            </div>
-          </section>
-        </Paper>
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMore />}
@@ -753,6 +681,29 @@ const ProductsTable: FC<{
             </section>
           </AccordionDetails>
         </Accordion>
+        <Paper elevation={2}>
+          <section
+            style={{
+              padding: "20px",
+            }}
+          >
+            <div>
+              total products manging:{" "}
+              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {productsCount}{" "}
+              </span>
+            </div>
+
+            <div>
+              loaded products count :{" "}
+              <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {products.length}
+              </span>
+            </div>
+          </section>
+        </Paper>
         <div
           style={{
             width: "100%",
@@ -774,7 +725,7 @@ const ProductsTable: FC<{
               >
                 {load100RequestStatus === "rejected"
                   ? "Something went wrong (server error)"
-                  : "Load 100 More Products"}{" "}
+                  : "Load 100 More Products to manage"}{" "}
                 &nbsp;&nbsp;{" "}
                 {load100RequestStatus === "pending" && (
                   <CircularProgress size={8} />
@@ -816,15 +767,6 @@ const ProductsTable: FC<{
           pageSize={6}
           checkboxSelection
           disableSelectionOnClick
-          components={{ Toolbar: QuickSearchToolbar }}
-          componentsProps={{
-            toolbar: {
-              value: searchText,
-              // @ts-ignore
-              onChange: (event) => requestSearch(event.target.value),
-              clearSearch: () => requestSearch(""),
-            },
-          }}
           onSelectionModelChange={(a, b) => {
             setSelectedProductsNos(a);
           }}
