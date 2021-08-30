@@ -17,14 +17,23 @@ handler.delete(async (req, res) => {
   const body = req.body;
 
   if (body.model === "product") {
+    const productIdsArray = body.data as string[];
+
     try {
-      /* const a = await prismaClient.product.deleteMany({
-        where: {
-          adminId: id as string,
+      let resArr = [];
 
-        },
+      for (const productId of productIdsArray) {
+        const resData = await prismaClient.product.delete({
+          where: {
+            productId,
+          },
+        });
+        resArr.push(resData);
+      }
 
-      }) */
+      console.log(JSON.stringify(resArr, null, 2));
+
+      return res.status(200).send("deleted");
     } catch (err) {
       console.error(err);
       return res.status(400).end();
