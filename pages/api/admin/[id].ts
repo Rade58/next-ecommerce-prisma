@@ -81,7 +81,7 @@ handler.put(async (req, res) => {
 
   const body = req.body;
 
-  console.log(JSON.stringify({ id, body }, null, 2));
+  // console.log(JSON.stringify({ id, body }, null, 2));
 
   if (body.model === "product") {
     const upProdDataRec = body.data as UpdateProductsDataRecord;
@@ -98,7 +98,14 @@ handler.put(async (req, res) => {
 
         let productId: string = "";
 
-        for (const productName in productNamePropNames) {
+        for (const i in productNamePropNames) {
+          const productName = productNamePropNames[i];
+
+          console.log(productName);
+          console.log(productNamePropNames);
+          console.log({ ob });
+          console.log(ob[productName]);
+
           if (!productId) {
             productId = ob[productName].productId;
           }
