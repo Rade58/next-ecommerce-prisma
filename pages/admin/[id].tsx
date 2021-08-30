@@ -159,6 +159,9 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
           },
         },
         take: 200,
+        orderBy: {
+          name: "asc",
+        },
       })
     ).map((prod, i) => {
       return {

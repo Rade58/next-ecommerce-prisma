@@ -33,6 +33,9 @@ handler.post(async (req, res) => {
             },
           },
         },
+        orderBy: {
+          name: "asc",
+        },
       });
 
       console.log({ data });
