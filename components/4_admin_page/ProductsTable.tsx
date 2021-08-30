@@ -206,9 +206,25 @@ const ProductsTable: FC<{
       const { data } = await axios.delete(
         `/api/admin/${(session as any).profile.id}`,
         {
-          data: { data: productsForDeletion, model: "product" },
+          data: {
+            data: productsForDeletion,
+            model: "product",
+            loadedProductCount: products.length,
+          },
         }
       );
+
+      setProducts(
+        data.products.map((prod: Product, i: number) => {
+          return {
+            ...prod,
+            createdAt: new Date(prod.createdAt).toISOString(),
+            updatedAt: new Date(prod.updatedAt).toISOString(),
+            id: i + 1,
+          };
+        })
+      );
+      setProductsCount(data.allProductsCount);
 
       setDeleteRequestStatus("idle");
 
@@ -325,7 +341,22 @@ const ProductsTable: FC<{
 
       const { data } = await axios.put(
         `/api/admin/${(session as any).profile.id}`,
-        { data: parametersForUpdate, model: "product" }
+        {
+          data: parametersForUpdate,
+          model: "product",
+          loadedProductCount: products.length,
+        }
+      );
+
+      setProducts(
+        data.products.map((prod: Product, i: number) => {
+          return {
+            ...prod,
+            createdAt: new Date(prod.createdAt).toISOString(),
+            updatedAt: new Date(prod.updatedAt).toISOString(),
+            id: i + 1,
+          };
+        })
       );
 
       setUpdateRequestStatus("idle");
@@ -353,8 +384,6 @@ const ProductsTable: FC<{
   ]);
 
   //
-
-  // FOR DELETING
 
   //
 

@@ -5,6 +5,8 @@ import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
 
 import prismaClient from "../../../lib/prisma";
 
+import type { UpdateProductsDataRecord } from "../../../components/4_admin_page/ProductsTable";
+
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.use(verifyCurrentUser);
@@ -33,7 +35,34 @@ handler.delete(async (req, res) => {
 
       console.log(JSON.stringify(resArr, null, 2));
 
-      return res.status(200).send("deleted");
+      const allProductsCount = await prismaClient.product.count({
+        where: {
+          adminId: {
+            equals: id as string,
+          },
+        },
+      });
+
+      // REFETCHING PRODUCTS
+      const products = await prismaClient.product.findMany({
+        where: {
+          admin: {
+            is: {
+              id: id as string,
+            },
+          },
+        },
+        take: body.loadedProductCount as number,
+        orderBy: {
+          name: "asc",
+        },
+      });
+
+      return res.status(200).send({
+        // deleteCount: resArr.length,
+        allProductsCount,
+        products,
+      });
     } catch (err) {
       console.error(err);
       return res.status(400).end();
@@ -51,6 +80,61 @@ handler.put(async (req, res) => {
   if (!id) return res.status(403).send("unauthorized");
 
   const body = req.body;
+
+  if (body.model === "product") {
+    const upProdDataRec = body.data as UpdateProductsDataRecord;
+
+    try {
+      // console.log()
+
+      for (const key in upProdDataRec) {
+        const ob = upProdDataRec[key];
+
+        const productId = Object.keys(ob)[0];
+
+        const dataArr = ob[productId];
+
+        /*  const resData = await prismaClient.product.update({
+          where: {
+            productId
+          }
+        }); 
+        resArr.push(resData); */
+      }
+
+      /* const allProductsCount = await prismaClient.product.count({
+        where: {
+          adminId: {
+            equals: id as string,
+          },
+        },
+      });
+
+      // REFETCHING PRODUCTS
+      const products = await prismaClient.product.findMany({
+        where: {
+          admin: {
+            is: {
+              id: id as string,
+            },
+          },
+        },
+        take: body.loadedProductCount as number,
+        orderBy: {
+          name: "asc",
+        },
+      });
+
+      return res.status(200).send({
+        // deleteCount: resArr.length,
+        allProductsCount,
+        products,
+      }); */
+    } catch (err) {
+      console.error(err);
+      return res.status(400).end();
+    }
+  }
 
   // console.log(JSON.stringify({ id, body }, null, 2));
 
