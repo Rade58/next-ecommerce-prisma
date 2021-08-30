@@ -494,7 +494,7 @@ const ProductsTable: FC<{
       }, 3000);
 
       /* 
-        const {data} = await axios.post(`/admin/load-more/${(session as any).profile.id}`, {
+        const {data} = await axios.post(`/api/admin/load-more/${(session as any).profile.id}`, {
           cursor: cursor,
           model: "products"
         })
