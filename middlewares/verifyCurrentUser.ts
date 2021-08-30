@@ -12,13 +12,13 @@ const verifyCurrentUser: Middleware<NextApiRequest, NextApiResponse> = async (
 ) => {
   // TAKING ID FROM ROUTE
   const { id } = req.query;
-  console.log({ id });
+  // console.log({ id });
   // TAKING SESSION
   const session = (await getSession({ req })) as {
     profile: { id: string };
     userId: string;
   };
-  console.log({ session });
+  // console.log({ session });
   // CHECKING profile
   if (id !== session.profile.id) {
     return res.status(401).send("UNAUTHORIZED");
