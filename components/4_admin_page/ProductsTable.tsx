@@ -55,9 +55,9 @@ const columns: GridColDef[] = [
   {
     field: "productId",
     headerName: "Product Id",
-    width: 160,
+    width: 229,
     editable: false,
-    hide: true,
+    hide: false,
   },
   {
     field: "name",
@@ -169,8 +169,16 @@ const ProductsTable: FC<{
     const productsForDeletion = [];
 
     for (let no in selectedProductsNos) {
-      productsForDeletion.push(products[no].productId);
+      console.log({ no });
+
+      const item = selectedProductsNos[no];
+
+      console.log({ item });
+
+      productsForDeletion.push(products[Number(item) - 1].productId);
     }
+
+    console.log({ productsForDeletion });
 
     // MAKING REQUEST
 
@@ -583,6 +591,8 @@ const ProductsTable: FC<{
 
   }, [updateUpdatingParams, updateSnackbarOpen]) */
 
+  console.log({ selectedProductsNos });
+
   return (
     <Fragment>
       <div>
@@ -844,6 +854,8 @@ const ProductsTable: FC<{
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(a, b) => {
+              console.log(JSON.stringify({ a }, null, 2));
+
               setSelectedProductsNos(a);
             }}
             onEditRowsModelChange={(a, b) => {
