@@ -348,7 +348,9 @@ const ProductsTable: FC<{
         }
       );
 
-      setProducts(
+      console.log({ data });
+
+      /* setProducts(
         data.products.map((prod: Product, i: number) => {
           return {
             ...prod,
@@ -357,7 +359,7 @@ const ProductsTable: FC<{
             id: i + 1,
           };
         })
-      );
+      ); */
 
       setUpdateRequestStatus("idle");
       setParametersForUpdate({});
