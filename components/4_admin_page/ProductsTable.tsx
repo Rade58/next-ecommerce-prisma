@@ -2,25 +2,14 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type {
-  FC,
-  ChangeEventHandler,
-  FormEvent,
-  SyntheticEvent,
-  ChangeEvent,
-} from "react";
+import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
 
 import { useSession } from "next-auth/client";
 
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbarDensitySelector,
-  GridToolbarFilterButton,
-} from "@material-ui/data-grid";
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import type {
   GridSelectionModel,
   GridEditRowsModel,
@@ -40,13 +29,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 
-import {
-  DeleteSweep as DelIcon,
-  ExpandMore,
-  ExpandLess,
-  SearchSharp,
-  ClearAll,
-} from "@material-ui/icons";
+import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
 
 import type { AlertProps } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -135,7 +118,7 @@ const ProductsTable: FC<{
   const [products, setProducts] =
     useState<typeof initialProducts>(initialProducts);
 
-  // FOR SEARCH
+  // FOR SEARCH (YOU CAN TRY IMPLEMENTING THIS IN FUTURE)
   /*   const [rows, setRows] = useState<any[]>(products);
 
   useEffect(() => {
@@ -329,10 +312,10 @@ const ProductsTable: FC<{
     // SENDING REQUEST
 
     try {
-      // TESTING WITH ERROR
       // SIMULATING REQUEST
       setUpdateRequestStatus("pending");
 
+      // TESTING WITH ERROR
       /* throw new Error("Hello World");
       setTimeout(() => {
         setUpdateRequestStatus("idle");
@@ -373,8 +356,6 @@ const ProductsTable: FC<{
 
       // setParametersForUpdate({});
     }
-
-    // RESETING
   }, [
     parametersForUpdate,
     session,
@@ -386,7 +367,7 @@ const ProductsTable: FC<{
 
   //
 
-  // ___________________________________CREaTING NEW PRODUCT_______________________________
+  // ___________________________________CREATING NEW PRODUCT_______________________________
 
   const [creationFields, setFields] = useState<{
     name: string;
