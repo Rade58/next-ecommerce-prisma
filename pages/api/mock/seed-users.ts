@@ -8,47 +8,20 @@ import dummyUsersArr from "../../../dummy/mock/MOCK_DATA_USERS.json";
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
-  const user = await prismaClient.user.findUnique({
-    where: {
-      email: "ajovaska@protonmail.com",
-    },
-    select: {
-      profiles: {
-        select: {
-          id: true,
+  for (const item of dummyUsersArr) {
+    await prismaClient.user.create({
+      data: {
+        ...item,
+        profiles: {
+          create: {
+            role: "USER",
+          },
         },
       },
-    },
-  });
-
-  const profileId = user?.profiles[0].id;
-
-  if (!profileId) {
-    return res.status(400).send("Something went wrong");
-  }
-
-  const admin = await prismaClient.profile.findUnique({
-    where: {
-      id: profileId,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!admin) {
-    return res.status(400).send("No such admin");
-  }
-
-  for (const prod of dummyProdsArr) {
-    const product = await prismaClient.product.create({
-      data: { ...prod, admin: { connect: { id: admin.id } } },
     });
-
-    console.log({ product });
   }
 
-  return res.status(201).send("products created");
+  return res.status(201).send("created");
 });
 
 export default handler;
