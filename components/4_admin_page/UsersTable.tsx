@@ -202,7 +202,40 @@ const ProfilesTable: FC<{
     }
   }, [cursor, loading, session, setProfiles, profiles.length]);
 
-  const modalBody = <div>Modal Body</div>;
+  const modalBody = (
+    <div
+      css={css`
+        /* background-color: crimson; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border: black solid 2px;
+
+        & > * {
+          width: 60vw;
+
+          @media screen and (max-width: 800px) {
+            width: 80vw;
+            background-color: crimson;
+          }
+        }
+      `}
+    >
+      <Card>
+        <h2 id="simple-modal-title">Text in a modal</h2>
+        <p id="simple-modal-description">
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+        </p>
+      </Card>
+    </div>
+  );
 
   return (
     <Fragment>
