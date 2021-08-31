@@ -5,7 +5,7 @@ import { jsx, css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
 import type { FC } from "react";
 
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 import {
   AppBar,
@@ -32,6 +32,8 @@ import AdminButton from "./AdminButton";
 import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
 
 const Header: FC = () => {
+  const Router = useRouter();
+
   // SESSION
   const [session, loading] = useSession();
   //
@@ -56,10 +58,15 @@ const Header: FC = () => {
   const { logo } = useLogoStyles();
 
   useEffect(() => {
+    // console.log(Router.asPath);
+
     if ((session as unknown as any)?.profile?.role === "BANNED") {
+      if (Router.asPath === "/banned") {
+        return;
+      }
       Router.push("/banned");
     }
-  }, [session]);
+  }, [session, Router]);
 
   return (
     <AppBar position="sticky" color="primary">
