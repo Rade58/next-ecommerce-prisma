@@ -86,7 +86,73 @@ handler.put(async (req, res) => {
   if (body.model === "profile") {
     console.log({ body });
 
-    return res.status(200).json(body);
+    try {
+      const updatedProfile = await prismaClient.profile.update({
+        where: {
+          id: body.profileId as string,
+        },
+        data: {
+          role: body.newRole,
+        },
+      });
+
+      const profiles = (
+        await prismaClient.profile.findMany({
+          take: body.loadedProfilesNum as number,
+          where: {
+            role: {
+              not: "ADMIN",
+            },
+          },
+          select: {
+            createdAt: false,
+            updatedAt: false,
+
+            addrss: true,
+            city: true,
+            country: true,
+            id: true,
+            paymentMethod: true,
+            postalCode: true,
+            role: true,
+            taxPrice: true,
+
+            user: {
+              select: {
+                updatedAt: false,
+                createdAt: false,
+                email: true,
+                id: true,
+                name: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        })
+      ).map((prof, i) => {
+        // I NEED TO DO USER OBJECT NORMALIZATION
+        const data = {
+          ...prof,
+          profileId: prof.id,
+          ...prof.user,
+          userId: prof.user.id,
+          id: i + 1,
+        };
+
+        // @ts-ignore
+        data.user = "";
+
+        return data;
+      });
+
+      return res.status(200).json(profiles);
+    } catch (err) {
+      console.error(err);
+
+      return res.status(400).send("database problem");
+    }
   }
 
   if (body.model === "product") {

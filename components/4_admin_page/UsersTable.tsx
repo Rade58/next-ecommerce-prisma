@@ -206,6 +206,8 @@ const ProfilesTable: FC<{
 
       console.log({ data });
 
+      setProfiles(data);
+
       setChangeRoleRequestStatus("idle");
       handleModalClose();
 
