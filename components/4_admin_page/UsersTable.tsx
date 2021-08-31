@@ -185,7 +185,7 @@ const ProfilesTable: FC<{
 
     try {
       setChangeRoleRequestStatus("pending");
-      /*  const { data } = await axios.put(
+      const { data } = await axios.put(
         `/api/admin/${(session as any).profile.id}`,
         {
           profileId: selectedUser.profileId,
@@ -197,18 +197,17 @@ const ProfilesTable: FC<{
             "Content-Type": "application/json",
           },
         }
-      ); 
-      
-      console.log({ data });
-      
-      setChangeRoleRequestStatus("idle");
-      */
+      );
 
-      throw new Error("hello world");
-      setTimeout(() => {
+      console.log({ data });
+
+      setChangeRoleRequestStatus("idle");
+
+      // throw new Error("hello world");
+      /* setTimeout(() => {
         handleModalClose();
         setChangeRoleRequestStatus("idle");
-      }, 3000);
+      }, 3000); */
     } catch (err) {
       console.error(err);
 
