@@ -239,7 +239,7 @@ handler.post(async (req, res) => {
 
       return res.status(200).send({
         // deleteCount: resArr.length,
-        allProductsCount,
+        // allProductsCount,
         products,
       });
     } catch (err) {
