@@ -212,13 +212,13 @@ handler.post(async (req, res) => {
 
       console.log({ newProduct });
 
-      const allProductsCount = await prismaClient.product.count({
+      /* const allProductsCount = await prismaClient.product.count({
         where: {
           adminId: {
             equals: id as string,
           },
         },
-      });
+      }); */
 
       // REFETCHING PRODUCTS
       const products = await prismaClient.product.findMany({
