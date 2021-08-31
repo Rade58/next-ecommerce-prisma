@@ -83,6 +83,12 @@ handler.put(async (req, res) => {
 
   // console.log(JSON.stringify({ id, body }, null, 2));
 
+  if (body.model === "profile") {
+    console.log({ body });
+
+    return res.status(200).json(body);
+  }
+
   if (body.model === "product") {
     const upProdDataRec = body.data as UpdateProductsDataRecord;
 

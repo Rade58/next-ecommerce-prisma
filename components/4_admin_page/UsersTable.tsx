@@ -125,11 +125,15 @@ const ProfilesTable: FC<{
   const [profilesCount, setProfilesCount] =
     useState<number>(initialProfilesCount);
 
-  const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
-    initialProfiles.length
-  );
+  /* const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
+      initialProfiles.length
+      ); */
   const [profiles, setProfiles] =
     useState<typeof initialProfiles>(initialProfiles);
+
+  useEffect(() => {
+    setProfilesCount(profiles.length);
+  }, [profiles, setProfilesCount]);
 
   const [cursor, setCursor] = useState<string>(
     profiles[profiles.length - 1].profileId
@@ -191,6 +195,7 @@ const ProfilesTable: FC<{
           profileId: selectedUser.profileId,
           newRole: selectedUser.currentRole,
           model: "profile",
+          loadedProfilesNum: profilesCount,
         },
         {
           headers: {
@@ -218,7 +223,14 @@ const ProfilesTable: FC<{
         setChangeRoleRequestStatus("idle");
       }, 3000);
     }
-  }, [setChangeRoleRequestStatus, selectedUser, session, loading]);
+  }, [
+    setChangeRoleRequestStatus,
+    selectedUser,
+    session,
+    loading,
+    profilesCount,
+    handleModalClose,
+  ]);
 
   const handleLoading100MoreReq = useCallback(async () => {
     if (!session) {
