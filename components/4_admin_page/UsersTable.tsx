@@ -65,6 +65,9 @@ const ProfilesTable: FC<{
         pageSize={6}
         checkboxSelection
         disableSelectionOnClick
+        onRowClick={(a, b) => {
+          console.log({ a, b });
+        }}
       />
     </div>
   );
