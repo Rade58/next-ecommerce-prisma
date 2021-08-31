@@ -89,6 +89,7 @@ const TabsView: FC<PropsI> = (props) => {
 
           margin-bottom: 38px;
           margin-top: 48px;
+          margin-left: 8px;
 
           & > span {
             color: #5d4e9b;
