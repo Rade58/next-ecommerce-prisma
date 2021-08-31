@@ -170,6 +170,51 @@ const ProfilesTable: FC<{
     noNum: 0,
   });
 
+  const handleChangeRoleRequest = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
+
+    try {
+      setChangeRoleRequestStatus("pending");
+      /*  const { data } = await axios.put(
+        `/api/admin/${(session as any).profile.id}`,
+        {
+          profileId: selectedUser.profileId,
+          newRole: selectedUser.currentRole,
+          model: "profile",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ); 
+      
+      console.log({ data });
+      
+      setChangeRoleRequestStatus("idle");
+      */
+
+      setTimeout(() => {
+        handleModalClose();
+        setChangeRoleRequestStatus("idle");
+      }, 3000);
+    } catch (err) {
+      console.error(err);
+
+      setChangeRoleRequestStatus("rejected");
+    }
+  }, [setChangeRoleRequestStatus, selectedUser, session, loading]);
+
   const handleLoading100MoreReq = useCallback(async () => {
     if (!session) {
       return;
@@ -199,23 +244,6 @@ const ProfilesTable: FC<{
           model: "profile",
         }
       );
-
-      /* .map((prof, i) => {
-        const data = {
-          ...prof,
-          profileId: prof.id,
-          ...prof.user,
-          userId: prof.user.id,
-          id: i + 1,
-        };
-
-        // @ts-ignore
-        data.user = "";
-
-        return data;
-      }); */
-
-      // console.log({ data });
 
       const newProfiles = (data as any).map((prof: any, i: number) => {
         const data = {
@@ -446,12 +474,15 @@ const ProfilesTable: FC<{
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    setTimeout(() => {
-                      handleModalClose();
-                    }, 3000);
+                    handleChangeRoleRequest();
                   }}
                 >
                   Save
+                  {changeRoleRequestStatus === "pending" && (
+                    <span>
+                      &nbsp; <CircularProgress size={8} />
+                    </span>
+                  )}
                 </Button>
               </div>
             </Card>
