@@ -9,9 +9,10 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
   for (const item of dummyUsersArr) {
-    await prismaClient.user.create({
+    const newUser = await prismaClient.user.create({
       data: {
         ...item,
+        emailVerified: new Date(item.emailVerified),
         profiles: {
           create: {
             role: "USER",
@@ -19,6 +20,8 @@ handler.get(async (req, res) => {
         },
       },
     });
+
+    console.log({ newUser });
   }
 
   return res.status(201).send("created");
