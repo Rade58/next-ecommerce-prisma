@@ -2,7 +2,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
+import type {
+  FC,
+  ChangeEventHandler,
+  FormEvent,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
@@ -21,6 +27,9 @@ import {
   Paper,
   CircularProgress,
   Modal,
+  FormControl,
+  InputLabel,
+  Select,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -35,7 +44,8 @@ import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
 import type { AlertProps } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
 
-import type { User, Role, Profile } from "@prisma/client";
+import { Role } from "@prisma/client";
+import type { User, Profile } from "@prisma/client";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
@@ -126,6 +136,18 @@ const ProfilesTable: FC<{
     setModalOpened(false);
   }, [setModalOpened]);
 
+  const [selectedUser, setSelectedUser] = useState<{
+    noNum: number;
+    email: string;
+    profileId: string;
+    currentRole: Role;
+  }>({
+    email: "",
+    currentRole: "USER",
+    profileId: "",
+    noNum: 0,
+  });
+
   const handleLoading100MoreReq = useCallback(async () => {
     if (!session) {
       return;
@@ -201,41 +223,6 @@ const ProfilesTable: FC<{
       }, 3000);
     }
   }, [cursor, loading, session, setProfiles, profiles.length]);
-
-  const modalBody = (
-    <div
-      css={css`
-        /* background-color: crimson; */
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        border: black solid 2px;
-
-        & > * {
-          width: 60vw;
-
-          @media screen and (max-width: 800px) {
-            width: 80vw;
-            background-color: crimson;
-          }
-        }
-      `}
-    >
-      <Card>
-        <h2 id="simple-modal-title">Text in a modal</h2>
-        <p id="simple-modal-description">
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </p>
-      </Card>
-    </div>
-  );
 
   return (
     <Fragment>
@@ -314,10 +301,72 @@ const ProfilesTable: FC<{
         <Modal
           open={modalOpened}
           onClose={handleModalClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+          aria-labelledby="change-role-modal"
+          aria-describedby="change user role modal"
         >
-          {modalBody}
+          <div
+            css={css`
+              /* background-color: crimson; */
+              /* position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+              width: fit-content;
+              margin: 20vh auto;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              /* border: black solid 2px; */
+
+              & > * {
+                width: 60vw;
+
+                @media screen and (max-width: 800px) {
+                  width: 96vw;
+                  background-color: crimson;
+                }
+              }
+            `}
+          >
+            <Card>
+              <Button onClick={handleModalClose}>x</Button>
+              <h2 id="modal-email">User: {selectedUser.email}</h2>
+              <h3>Current role: {selectedUser.currentRole}</h3>
+              <h4>ChangeRole:</h4>
+              <FormControl>
+                <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+                <Select
+                  native
+                  value={selectedUser.currentRole}
+                  onChange={(e) => {
+                    //
+                    setSelectedUser((prev) => {
+                      return { ...prev, currentRole: e.target.value as Role };
+                    });
+                  }}
+                  inputProps={{
+                    name: "age",
+                    id: "age-native-simple",
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={Role.USER}>{Role.USER}</option>
+                  <option value={Role.BANNED}>{Role.BANNED}</option>
+                </Select>
+              </FormControl>
+              <Button
+                onClick={() => {
+                  setTimeout(() => {
+                    handleModalClose();
+                  }, 3000);
+                }}
+              >
+                Save
+              </Button>
+            </Card>
+          </div>
         </Modal>
       </div>
     </Fragment>
