@@ -125,15 +125,15 @@ const ProfilesTable: FC<{
   const [profilesCount, setProfilesCount] =
     useState<number>(initialProfilesCount);
 
-  /* const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
-      initialProfiles.length
-      ); */
+  const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
+    initialProfiles.length
+  );
   const [profiles, setProfiles] =
     useState<typeof initialProfiles>(initialProfiles);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setProfilesCount(profiles.length);
-  }, [profiles, setProfilesCount]);
+  }, [profiles, setProfilesCount]); */
 
   const [cursor, setCursor] = useState<string>(
     profiles[profiles.length - 1].profileId
@@ -195,7 +195,7 @@ const ProfilesTable: FC<{
           profileId: selectedUser.profileId,
           newRole: selectedUser.currentRole,
           model: "profile",
-          loadedProfilesNum: profilesCount,
+          loadedProfilesNum: profiles.length,
         },
         {
           headers: {
@@ -231,8 +231,8 @@ const ProfilesTable: FC<{
     selectedUser,
     session,
     loading,
-    profilesCount,
     handleModalClose,
+    profiles.length,
   ]);
 
   const handleLoading100MoreReq = useCallback(async () => {
