@@ -90,7 +90,8 @@ const TabsView: FC<PropsI> = (props) => {
           margin-bottom: 28px;
         `}
       >
-        👩‍💻 admin: {session?.user?.name || session?.user?.email}
+        👩‍💻 admin: {session?.user?.name || session?.user?.email} (
+        {session?.user?.name && session?.user?.email})
       </h1>
       <div
         css={css`

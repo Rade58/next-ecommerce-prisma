@@ -96,7 +96,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
 
     const profiles = (
       await prismaClient.profile.findMany({
-        take: 10,
+        take: 200,
         where: {
           role: {
             not: "ADMIN",
@@ -126,15 +126,23 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
           },
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
       })
     ).map((prof, i) => {
-      return {
+      // I NEED TO DO USER OBJECT NORMALIZATION
+      const data = {
         ...prof,
-        id: i + 1,
         profileId: prof.id,
+        ...prof.user,
+        userId: prof.user.id,
+        id: i + 1,
       };
+
+      // @ts-ignore
+      data.user = "";
+
+      return data;
     });
 
     const profilesCount = await prismaClient.profile.count({
