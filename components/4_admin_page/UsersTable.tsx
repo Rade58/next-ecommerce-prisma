@@ -65,7 +65,7 @@ const columns: GridColDef[] = [
   {
     field: "email",
     headerName: "Email",
-    width: 228,
+    width: 188,
     editable: false,
   },
   {
@@ -207,6 +207,7 @@ const ProfilesTable: FC<{
       console.log({ data });
 
       setChangeRoleRequestStatus("idle");
+      handleModalClose();
 
       // throw new Error("hello world");
       /* setTimeout(() => {
@@ -360,7 +361,7 @@ const ProfilesTable: FC<{
             className="my-data-grid"
             rows={profiles}
             columns={columns}
-            pageSize={10}
+            pageSize={9}
             checkboxSelection
             disableSelectionOnClick
             disableColumnMenu
@@ -432,7 +433,7 @@ const ProfilesTable: FC<{
 
                 @media screen and (max-width: 800px) {
                   width: 96vw;
-                  background-color: crimson;
+                  /* background-color: crimson; */
                 }
 
                 padding: 28px;
@@ -441,7 +442,7 @@ const ProfilesTable: FC<{
                 flex-direction: column;
 
                 & div.select-el {
-                  border: crimson solid 2px;
+                  /* border: crimson solid 2px; */
 
                   width: fit-content;
                   align-self: center;
