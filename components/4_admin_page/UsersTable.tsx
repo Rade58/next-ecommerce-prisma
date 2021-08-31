@@ -62,7 +62,7 @@ const ProfilesTable: FC<{
       <DataGrid
         rows={initialProfiles}
         columns={columns}
-        pageSize={5}
+        pageSize={6}
         checkboxSelection
         disableSelectionOnClick
       />
