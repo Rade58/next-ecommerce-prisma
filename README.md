@@ -1,6 +1,7 @@
-# ADMIN ROUTE HANDLERS
+# MOCKS FOR User RECORDS; USERS TABLE; CREATE, UPDATE, DELETE FOR USERS
 
-`pages/api/admin/[id].ts`
 
-`pages/api/admin/load-more/[id].ts`
+
+
+
 
