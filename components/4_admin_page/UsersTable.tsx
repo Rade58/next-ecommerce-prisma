@@ -34,7 +34,7 @@ import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
 import type { AlertProps } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
 
-import type { User, Role } from "@prisma/client";
+import type { User, Role, Profile } from "@prisma/client";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
@@ -96,13 +96,13 @@ const ProfilesTable: FC<{
 
   const [session, loading] = useSession();
 
-  const [productsCount, setProductsCount] =
+  const [profilesCount, setProfilesCount] =
     useState<number>(initialProfilesCount);
 
   const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
     initialProfiles.length
   );
-  const [profiles, setProducts] =
+  const [profiles, setProfiles] =
     useState<typeof initialProfiles>(initialProfiles);
 
   const [cursor, setCursor] = useState<string>(
@@ -147,21 +147,42 @@ const ProfilesTable: FC<{
         }
       );
 
+      /* .map((prof, i) => {
+        const data = {
+          ...prof,
+          profileId: prof.id,
+          ...prof.user,
+          userId: prof.user.id,
+          id: i + 1,
+        };
+
+        // @ts-ignore
+        data.user = "";
+
+        return data;
+      }); */
+
       // console.log({ data });
 
-      // setCursor(products[products.length - 1].productId);
-      /* const newProducts = (data as PropsI["profiles"]).map((prof, i) => {
-        return {
+      const newProfiles = (data as any).map((prof: any, i: number) => {
+        const data = {
           ...prof,
-
+          profileId: prof.id,
+          ...prof.user,
+          userId: prof.user.id,
           id: profiles.length - 1 + i + 1,
         };
+
+        // @ts-ignore
+        data.user = "";
+
+        return data;
       });
 
-      setProducts((prev) => {
-        return [...prev, ...newProducts];
+      setProfiles((prev) => {
+        return [...prev, ...newProfiles];
       });
- */
+
       setLoad100RequestStatus("idle");
     } catch (err) {
       console.error(err);
@@ -170,10 +191,33 @@ const ProfilesTable: FC<{
         setLoad100RequestStatus("idle");
       }, 3000);
     }
-  }, [cursor, loading, session, profiles.length]);
+  }, [cursor, loading, session, setProfiles, profiles.length]);
 
   return (
     <Fragment>
+      <Paper elevation={2}>
+        <section
+          style={{
+            padding: "20px",
+          }}
+        >
+          <div>
+            total users manging:{" "}
+            <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {profilesCount}{" "}
+            </span>
+          </div>
+
+          <div>
+            loaded users count :{" "}
+            <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {profiles.length}
+            </span>
+          </div>
+        </section>
+      </Paper>
       <Card elevation={0}>
         <Button
           onClick={() => {

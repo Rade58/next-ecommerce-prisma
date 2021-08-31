@@ -21,6 +21,53 @@ handler.post(async (req, res) => {
   if (body.model === "profile") {
     console.log({ body });
 
+    try {
+      const profiles = await prismaClient.profile.findMany({
+        where: {
+          role: {
+            not: "ADMIN",
+          },
+        },
+        select: {
+          createdAt: false,
+          updatedAt: false,
+
+          addrss: true,
+          city: true,
+          country: true,
+          id: true,
+          paymentMethod: true,
+          postalCode: true,
+          role: true,
+          taxPrice: true,
+
+          user: {
+            select: {
+              updatedAt: false,
+              createdAt: false,
+              email: true,
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+        cursor: {
+          id: body.cursor,
+        },
+        take: 100,
+        skip: 1,
+      });
+
+      return res.status(200).json(profiles);
+    } catch (err) {
+      console.error(err);
+
+      res.status(400).send("Something went wrong");
+    }
+
     return res.status(200).send({ body });
   }
 
