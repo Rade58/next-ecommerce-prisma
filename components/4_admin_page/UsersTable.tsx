@@ -19,12 +19,13 @@ import {
   Card,
   Button,
   Paper,
+  CircularProgress,
+  Modal,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
   TextField,
-  CircularProgress,
   Snackbar,
   IconButton,
 } from "@material-ui/core";
@@ -92,8 +93,6 @@ const ProfilesTable: FC<{
   initialProfiles: PropsI["profiles"];
   profilesCount: PropsI["profilesCount"];
 }> = ({ initialProfiles, profilesCount: initialProfilesCount }) => {
-  console.log({ initialProfiles });
-
   const [session, loading] = useSession();
 
   const [profilesCount, setProfilesCount] =
@@ -116,6 +115,16 @@ const ProfilesTable: FC<{
   useEffect(() => {
     setCursor(profiles[profiles.length - 1].profileId);
   }, [profiles, setCursor]);
+
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpened(true);
+  }, [setModalOpened]);
+
+  const handleModalClose = useCallback(() => {
+    setModalOpened(false);
+  }, [setModalOpened]);
 
   const handleLoading100MoreReq = useCallback(async () => {
     if (!session) {
@@ -193,6 +202,8 @@ const ProfilesTable: FC<{
     }
   }, [cursor, loading, session, setProfiles, profiles.length]);
 
+  const modalBody = <div>Modal Body</div>;
+
   return (
     <Fragment>
       <Paper elevation={2}>
@@ -235,21 +246,46 @@ const ProfilesTable: FC<{
         </Button>
       </Card>
 
-      <div style={{ height: 560, width: "100%", marginTop: "20px" }}>
-        {load100RequestStatus !== "pending" && (
+      <div style={{ height: 600, width: "100%", marginTop: "20px" }}>
+        {load100RequestStatus !== "pending" ? (
           <DataGrid
             rows={profiles}
             columns={columns}
-            pageSize={6}
+            pageSize={10}
             checkboxSelection
             disableSelectionOnClick
             onRowClick={(a, b) => {
               console.log({ a, b });
 
               console.log(a.getValue(a.id, "role"));
+
+              handleModalOpen();
             }}
           />
+        ) : (
+          <div
+            css={css`
+              text-align: center;
+
+              margin-top: 25px;
+              margin-left: auto;
+              margin-right: auto;
+              width: fit-content;
+            `}
+          >
+            <CircularProgress size={18} />
+          </div>
         )}
+      </div>
+      <div className="modal-stuff">
+        <Modal
+          open={modalOpened}
+          onClose={handleModalClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {modalBody}
+        </Modal>
       </div>
     </Fragment>
   );
