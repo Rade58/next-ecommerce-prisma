@@ -282,7 +282,7 @@ const ProfilesTable: FC<{
         >
           {load100RequestStatus === "rejected"
             ? "Something went wrong (server error)"
-            : "Load 100 More Profiles"}{" "}
+            : "Load 100 More Users"}{" "}
           &nbsp;&nbsp;{" "}
           {load100RequestStatus === "pending" && <CircularProgress size={8} />}
         </Button>
