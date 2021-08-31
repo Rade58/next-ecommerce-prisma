@@ -30,6 +30,7 @@ import {
   FormControl,
   InputLabel,
   Select,
+  makeStyles,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -39,7 +40,11 @@ import {
   IconButton,
 } from "@material-ui/core";
 
-import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
+import {
+  DeleteSweep as DelIcon,
+  ExpandMore,
+  CloseTwoTone,
+} from "@material-ui/icons";
 
 import type { AlertProps } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -50,7 +55,7 @@ import type { User, Profile } from "@prisma/client";
 import type { PropsI } from "../../pages/admin/[id]";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "id", headerName: "ID", width: 90, hide: true },
   {
     field: "name",
     headerName: "Name",
@@ -99,10 +104,22 @@ const columns: GridColDef[] = [
   user: "";
 }[]; */
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
 const ProfilesTable: FC<{
   initialProfiles: PropsI["profiles"];
   profilesCount: PropsI["profilesCount"];
 }> = ({ initialProfiles, profilesCount: initialProfilesCount }) => {
+  const classes = useStyles();
+
   const [session, loading] = useSession();
 
   const [profilesCount, setProfilesCount] =
@@ -119,6 +136,9 @@ const ProfilesTable: FC<{
   );
 
   const [load100RequestStatus, setLoad100RequestStatus] = useState<
+    "idle" | "pending" | "rejected"
+  >("idle");
+  const [changeRoleRequestStatus, setChangeRoleRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
 
@@ -141,9 +161,11 @@ const ProfilesTable: FC<{
     email: string;
     profileId: string;
     currentRole: Role;
+    previousRole: Role;
   }>({
     email: "",
     currentRole: "USER",
+    previousRole: "USER",
     profileId: "",
     noNum: 0,
   });
@@ -266,18 +288,37 @@ const ProfilesTable: FC<{
         </Button>
       </Card>
 
-      <div style={{ height: 600, width: "100%", marginTop: "20px" }}>
-        {load100RequestStatus !== "pending" ? (
+      <div style={{ height: 640, width: "100%", marginTop: "20px" }}>
+        {load100RequestStatus !== "pending" &&
+        changeRoleRequestStatus !== "pending" ? (
           <DataGrid
             rows={profiles}
             columns={columns}
             pageSize={10}
             checkboxSelection
             disableSelectionOnClick
+            disableColumnMenu
+            disableColumnSelector
+            disableDensitySelector
+            disableColumnFilter
             onRowClick={(a, b) => {
               console.log({ a, b });
 
-              console.log(a.getValue(a.id, "role"));
+              console.log(typeof a.id);
+
+              const id = (a.id as unknown as number) - 1;
+
+              const currentRole = a.getValue(a.id, "role");
+              const email = a.getValue(a.id, "email");
+              const profileId = profiles[id].profileId;
+
+              setSelectedUser({
+                currentRole: currentRole as Role,
+                previousRole: currentRole as Role,
+                email: email as unknown as string,
+                noNum: id,
+                profileId,
+              });
 
               handleModalOpen();
             }}
@@ -327,44 +368,92 @@ const ProfilesTable: FC<{
                   width: 96vw;
                   background-color: crimson;
                 }
+
+                padding: 28px;
+
+                display: flex;
+                flex-direction: column;
+
+                & div.select-el {
+                  border: crimson solid 2px;
+
+                  width: fit-content;
+                  align-self: center;
+
+                  margin-bottom: 26px;
+
+                  display: flex;
+
+                  & h4 {
+                    margin-right: 12px;
+                  }
+                }
+
+                & h3 {
+                  text-align: center;
+                }
               }
             `}
           >
             <Card>
-              <Button onClick={handleModalClose}>x</Button>
+              <div
+                css={css`
+                  text-align: center;
+                `}
+              >
+                <Button onClick={handleModalClose}>
+                  <CloseTwoTone />
+                </Button>
+              </div>
               <h2 id="modal-email">User: {selectedUser.email}</h2>
               <h3>Current role: {selectedUser.currentRole}</h3>
-              <h4>ChangeRole:</h4>
-              <FormControl>
-                <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-                <Select
-                  native
-                  value={selectedUser.currentRole}
-                  onChange={(e) => {
-                    //
-                    setSelectedUser((prev) => {
-                      return { ...prev, currentRole: e.target.value as Role };
-                    });
-                  }}
-                  inputProps={{
-                    name: "age",
-                    id: "age-native-simple",
+              <div className="select-el">
+                <h4>ChangeRole:</h4>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="age-native-simple">Role</InputLabel>
+                  <Select
+                    native
+                    value={selectedUser.currentRole}
+                    onChange={(e) => {
+                      //
+                      setSelectedUser((prev) => {
+                        return { ...prev, currentRole: e.target.value as Role };
+                      });
+                    }}
+                    inputProps={{
+                      name: "role",
+                      id: "age-native-simple",
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={Role.USER}>{Role.USER}</option>
+                    <option value={Role.BANNED}>{Role.BANNED}</option>
+                  </Select>
+                </FormControl>
+              </div>
+              <div
+                css={css`
+                  margin-left: auto;
+
+                  margin-top: 30px;
+                `}
+              >
+                <Button
+                  disabled={
+                    selectedUser.currentRole === selectedUser.previousRole ||
+                    changeRoleRequestStatus === "pending"
+                  }
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setTimeout(() => {
+                      handleModalClose();
+                    }, 3000);
                   }}
                 >
-                  <option aria-label="None" value="" />
-                  <option value={Role.USER}>{Role.USER}</option>
-                  <option value={Role.BANNED}>{Role.BANNED}</option>
-                </Select>
-              </FormControl>
-              <Button
-                onClick={() => {
-                  setTimeout(() => {
-                    handleModalClose();
-                  }, 3000);
-                }}
-              >
-                Save
-              </Button>
+                  Save
+                </Button>
+              </div>
             </Card>
           </div>
         </Modal>

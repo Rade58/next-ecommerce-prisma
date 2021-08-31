@@ -87,7 +87,8 @@ const TabsView: FC<PropsI> = (props) => {
           font-size: 1.36em;
           font-weight: 400;
 
-          margin-bottom: 28px;
+          margin-bottom: 38px;
+          margin-top: 48px;
 
           & > span {
             color: #5d4e9b;
@@ -124,21 +125,21 @@ const TabsView: FC<PropsI> = (props) => {
       >
         <Paper variant="outlined">
           <TabPanel value={value} index={0}>
-            Users:
+            {/* Users: */}
             <UsersTable
               initialProfiles={props.profiles}
               profilesCount={props.profilesCount}
             />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Products:
+            {/* Products: */}
             <ProductsTable
               initialProducts={props.products}
               productsCount={props.productsCount}
             />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Orders
+            {/* Orders */}
           </TabPanel>
         </Paper>
       </div>

@@ -853,6 +853,10 @@ const ProductsTable: FC<{
             pageSize={6}
             checkboxSelection
             disableSelectionOnClick
+            disableColumnMenu
+            disableColumnSelector
+            disableDensitySelector
+            disableColumnFilter
             onSelectionModelChange={(a, b) => {
               console.log(JSON.stringify({ a }, null, 2));
 
