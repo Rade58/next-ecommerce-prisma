@@ -59,19 +59,19 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Name",
-    width: 150,
+    width: 190,
     editable: false,
   },
   {
     field: "email",
     headerName: "Email",
-    width: 180,
+    width: 228,
     editable: false,
   },
   {
     field: "role",
     headerName: "Role",
-    width: 120,
+    width: 190,
     editable: false,
   },
 ];
@@ -333,10 +333,30 @@ const ProfilesTable: FC<{
         </Button>
       </Card>
 
-      <div style={{ height: 640, width: "100%", marginTop: "20px" }}>
+      <div
+        style={{ height: 640, width: "100%", marginTop: "20px" }}
+        css={css`
+          & .my-data-grid.my-data-grid input[type="checkbox"] {
+            visibility: hidden !important;
+          }
+
+          & .my-data-grid.my-data-grid svg {
+            visibility: hidden !important;
+          }
+
+          & * {
+            cursor: default !important;
+          }
+
+          & div[data-id] > div:nth-of-type(1) {
+            display: none;
+          }
+        `}
+      >
         {load100RequestStatus !== "pending" &&
         changeRoleRequestStatus !== "pending" ? (
           <DataGrid
+            className="my-data-grid"
             rows={profiles}
             columns={columns}
             pageSize={10}
