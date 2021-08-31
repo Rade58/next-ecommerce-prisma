@@ -17,17 +17,19 @@ import TabsView from "../../components/4_admin_page/TabsView";
 
 export interface PropsI {
   profiles: {
+    userId: string;
     id: number;
+    email: string | null;
+    name: string | null;
+    profileId: string;
     addrss: string | null;
     city: string | null;
     country: string | null;
-    profileId: string;
     paymentMethod: string | null;
     postalCode: string | null;
     role: Role;
     taxPrice: number | null;
-
-    user: { email: string; id: string; name: string };
+    user: "";
   }[];
   products: {
     id: number;

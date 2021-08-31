@@ -1,17 +1,48 @@
-import type { FC } from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridValueGetterParams,
+/* eslint jsx-a11y/anchor-is-valid: 1 */
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
+import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
+import { useState, Fragment, useCallback, useEffect } from "react";
+
+import axios from "axios";
+
+import { useSession } from "next-auth/client";
+
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import type {
+  GridSelectionModel,
+  GridEditRowsModel,
 } from "@material-ui/data-grid";
+
+import {
+  Card,
+  Button,
+  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  TextField,
+  CircularProgress,
+  Snackbar,
+  IconButton,
+} from "@material-ui/core";
+
+import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
+
+import type { AlertProps } from "@material-ui/lab";
+import MuiAlert from "@material-ui/lab/Alert";
+
+import type { User, Role } from "@prisma/client";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
-    field: "firstName",
-    headerName: "First name",
+    field: "name",
+    headerName: "Name",
     width: 150,
     editable: false,
   },
@@ -41,23 +72,142 @@ const columns: GridColDef[] = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ]; */
 
+/* export type ProfilesI = {
+  userId: string;
+  id: number;
+  email: string | null;
+  name: string | null;
+  profileId: string;
+  addrss: string | null;
+  city: string | null;
+  country: string | null;
+  paymentMethod: string | null;
+  postalCode: string | null;
+  role: Role;
+  taxPrice: number | null;
+  user: "";
+}[]; */
+
 const ProfilesTable: FC<{
   initialProfiles: PropsI["profiles"];
   profilesCount: PropsI["profilesCount"];
-}> = ({ initialProfiles, profilesCount }) => {
+}> = ({ initialProfiles, profilesCount: initialProfilesCount }) => {
+  console.log({ initialProfiles });
+
+  const [session, loading] = useSession();
+
+  const [productsCount, setProductsCount] =
+    useState<number>(initialProfilesCount);
+
+  const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
+    initialProfiles.length
+  );
+  const [profiles, setProducts] =
+    useState<typeof initialProfiles>(initialProfiles);
+
+  const [cursor, setCursor] = useState<string>(
+    profiles[profiles.length - 1].profileId
+  );
+
+  const [load100RequestStatus, setLoad100RequestStatus] = useState<
+    "idle" | "pending" | "rejected"
+  >("idle");
+
+  useEffect(() => {
+    setCursor(profiles[profiles.length - 1].profileId);
+  }, [profiles, setCursor]);
+
+  const handleLoading100MoreReq = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
+
+    try {
+      setLoad100RequestStatus("pending");
+
+      /* throw new Error("hello world");
+
+      setTimeout(() => {
+        setLoad100RequestStatus("idle");
+      }, 3000); */
+
+      const { data } = await axios.post(
+        `/api/admin/load-more/${(session as any).profile.id}`,
+        {
+          cursor: cursor,
+          model: "profile",
+        }
+      );
+
+      // console.log({ data });
+
+      // setCursor(products[products.length - 1].productId);
+      /* const newProducts = (data as PropsI["profiles"]).map((prof, i) => {
+        return {
+          ...prof,
+
+          id: profiles.length - 1 + i + 1,
+        };
+      });
+
+      setProducts((prev) => {
+        return [...prev, ...newProducts];
+      });
+ */
+      setLoad100RequestStatus("idle");
+    } catch (err) {
+      console.error(err);
+      setLoad100RequestStatus("rejected");
+      setTimeout(() => {
+        setLoad100RequestStatus("idle");
+      }, 3000);
+    }
+  }, [cursor, loading, session, profiles.length]);
+
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={initialProfiles}
-        columns={columns}
-        pageSize={6}
-        checkboxSelection
-        disableSelectionOnClick
-        onRowClick={(a, b) => {
-          console.log({ a, b });
-        }}
-      />
-    </div>
+    <Fragment>
+      <Card elevation={0}>
+        <Button
+          onClick={() => {
+            handleLoading100MoreReq();
+          }}
+          variant="contained"
+          color="primary"
+          disabled={load100RequestStatus !== "idle"}
+        >
+          {load100RequestStatus === "rejected"
+            ? "Something went wrong (server error)"
+            : "Load 100 More Profiles"}{" "}
+          &nbsp;&nbsp;{" "}
+          {load100RequestStatus === "pending" && <CircularProgress size={8} />}
+        </Button>
+      </Card>
+
+      <div style={{ height: 560, width: "100%", marginTop: "20px" }}>
+        {load100RequestStatus !== "pending" && (
+          <DataGrid
+            rows={profiles}
+            columns={columns}
+            pageSize={6}
+            checkboxSelection
+            disableSelectionOnClick
+            onRowClick={(a, b) => {
+              console.log({ a, b });
+
+              console.log(a.getValue(a.id, "role"));
+            }}
+          />
+        )}
+      </div>
+    </Fragment>
   );
 };
 

@@ -563,7 +563,7 @@ const ProductsTable: FC<{
         setLoad100RequestStatus("idle");
       }, 3000);
     }
-  }, [cursor, session, loading, setCursor, products]);
+  }, [cursor, session, loading, products]);
 
   const buttonDisabled =
     !name ||

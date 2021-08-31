@@ -18,6 +18,12 @@ handler.post(async (req, res) => {
 
   // console.log(JSON.stringify({ id, body }, null, 2));
 
+  if (body.model === "profile") {
+    console.log({ body });
+
+    return res.status(200).send({ body });
+  }
+
   if (body.model === "product") {
     try {
       const data = await prismaClient.product.findMany({

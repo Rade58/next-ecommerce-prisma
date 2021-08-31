@@ -88,10 +88,14 @@ const TabsView: FC<PropsI> = (props) => {
           font-weight: 400;
 
           margin-bottom: 28px;
+
+          & > span {
+            color: #5d4e9b;
+          }
         `}
       >
         👩‍💻 admin: {session?.user?.name || session?.user?.email} (
-        {session?.user?.name && session?.user?.email})
+        <span>{session?.user?.name && session?.user?.email})</span>
       </h1>
       <div
         css={css`
