@@ -55,6 +55,12 @@ const Header: FC = () => {
   const { butt } = useAppBarStyles();
   const { logo } = useLogoStyles();
 
+  useEffect(() => {
+    if ((session as unknown as any)?.profile?.role === "BANNED") {
+      Router.push("/banned");
+    }
+  }, [session]);
+
   return (
     <AppBar position="sticky" color="primary">
       <Toolbar color="primary">
