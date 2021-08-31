@@ -331,6 +331,7 @@ const ProfilesTable: FC<{
           &nbsp;&nbsp;{" "}
           {load100RequestStatus === "pending" && <CircularProgress size={8} />}
         </Button>
+        <p>Or click on the user you want to change</p>
       </Card>
 
       <div
