@@ -204,6 +204,7 @@ const ProfilesTable: FC<{
       setChangeRoleRequestStatus("idle");
       */
 
+      throw new Error("hello world");
       setTimeout(() => {
         handleModalClose();
         setChangeRoleRequestStatus("idle");
@@ -212,6 +213,11 @@ const ProfilesTable: FC<{
       console.error(err);
 
       setChangeRoleRequestStatus("rejected");
+
+      setTimeout(() => {
+        handleModalClose();
+        setChangeRoleRequestStatus("idle");
+      }, 3000);
     }
   }, [setChangeRoleRequestStatus, selectedUser, session, loading]);
 
@@ -485,6 +491,11 @@ const ProfilesTable: FC<{
                   )}
                 </Button>
               </div>
+              {changeRoleRequestStatus === "rejected" && (
+                <MuiAlert severity="error">
+                  Something wet wrong, couldn{"'"}t change role
+                </MuiAlert>
+              )}
             </Card>
           </div>
         </Modal>
