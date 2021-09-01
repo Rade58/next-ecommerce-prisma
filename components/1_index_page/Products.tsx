@@ -57,12 +57,16 @@ const LatestProducts: FC<{
     try {
       setRequestStatus("pending");
 
-      const { data } = await axios.post("/api/products", cursor, {
-        headers: {
-          "Content-Type": "application/json",
-          // Accept: "application/json",
-        },
-      });
+      const { data } = await axios.post(
+        "/api/products",
+        { cursor },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       console.log({ data });
 
