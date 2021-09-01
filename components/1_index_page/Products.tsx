@@ -76,6 +76,10 @@ const LatestProducts: FC<{
       console.error(error);
 
       setRequestStatus("rejected");
+
+      setTimeout(() => {
+        setRequestStatus("idle");
+      }, 3000);
     }
   }, [setProducts, cursor, setRequestStatus]);
 
@@ -90,7 +94,9 @@ const LatestProducts: FC<{
               document.documentElement.clientHeight) ===
           0
         ) {
-          console.log("fetch data");
+          // console.log("fetch data");
+
+          fetchNewProducts();
         }
       };
     }
@@ -98,7 +104,7 @@ const LatestProducts: FC<{
     return () => {
       window.onscroll = null;
     };
-  }, [requestStatusRef]);
+  }, [requestStatusRef, fetchNewProducts]);
 
   return (
     <div
