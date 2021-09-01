@@ -91,6 +91,7 @@ const LatestProducts: FC<{
     if (!window.onscroll) {
       window.onscroll = () => {
         console.log(requestStatusRef.current);
+        console.log(requestStatus);
 
         if (requestStatusRef.current === "pending") return;
 
@@ -117,7 +118,7 @@ const LatestProducts: FC<{
     return () => {
       window.onscroll = null;
     };
-  }, [requestStatusRef, fetchNewProducts]);
+  }, [requestStatusRef, fetchNewProducts, setRequestStatus, requestStatus]);
 
   return (
     <div
