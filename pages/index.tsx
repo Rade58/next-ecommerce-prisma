@@ -30,6 +30,21 @@ export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
           updatedAt: "asc",
         },
         take: 38,
+        select: {
+          productId: true,
+          adminId: true,
+          name: true,
+          image: true,
+          description: true,
+          brand: true,
+          category: true,
+          price: true,
+          countInStock: true,
+          rating: true,
+          numReviews: true,
+          /* createdAt: true,
+    updatedAt: true, */
+        },
       });
 
       return {

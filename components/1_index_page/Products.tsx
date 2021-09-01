@@ -59,6 +59,11 @@ const LatestProducts: FC<{
         & .gridCont > * {
           margin: 2px auto;
         }
+
+        & h6 {
+          margin-top: 20px;
+          margin-bottom: 12px;
+        }
       `}
     >
       <Typography variant="h2" component="h6">
