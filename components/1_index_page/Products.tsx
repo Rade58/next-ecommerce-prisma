@@ -120,6 +120,8 @@ const LatestProducts: FC<{
         & h6 {
           margin-top: 20px;
           margin-bottom: 12px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         display: flex;
@@ -132,10 +134,10 @@ const LatestProducts: FC<{
       <div
         css={css`
           border: crimson solid 1px;
-          width: 80%;
+          width: 75%;
 
-          @media screen and (max-width: 800px) {
-            width: 98%;
+          @media screen and (max-width: 600px) {
+            width: 94%;
           }
 
           margin: 20px auto;
@@ -145,9 +147,13 @@ const LatestProducts: FC<{
           display: flex;
           flex-wrap: wrap;
 
-          & > * {
+          & > div.my-card {
             flex-basis: 280px;
-            flex-grow: 0;
+            flex-grow: 1;
+            flex-shrink: 2;
+            /* border: pink solid 2px; */
+
+            margin: 16px;
           }
         `}
       >

@@ -29,9 +29,6 @@ import type { Products as ProductsType } from "../../pages/index";
 // import type { ProductType } from "../../dummy/products";
 
 const useStyles = makeStyles({
-  myCard: {
-    maxWidth: 345,
-  },
   rat: {
     marginTop: "10px",
   },
@@ -40,10 +37,10 @@ const useStyles = makeStyles({
 const Product: FC<{ product: ProductsType[0] }> = ({ product }) => {
   const { name, image, productId, rating, price, numReviews } = product;
 
-  const { myCard, rat } = useStyles();
+  const { rat } = useStyles();
 
   return (
-    <Grid className={myCard} item sm={12} md={6} lg={4} xl={4}>
+    <div className="my-card">
       <Paper>
         <Card>
           <CardActionArea onClick={() => Router.push(`/products/${productId}`)}>
@@ -84,7 +81,7 @@ const Product: FC<{ product: ProductsType[0] }> = ({ product }) => {
           </CardActions>
         </Card>
       </Paper>
-    </Grid>
+    </div>
   );
 };
 
