@@ -3,10 +3,17 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
-import { Grid, Typography, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  makeStyles,
+  CircularProgress,
+} from "@material-ui/core";
 // import type { Product as ProductType } from "@prisma/client";
+
+import { Alert } from "@material-ui/lab";
 
 import axios from "axios";
 
@@ -28,6 +35,12 @@ const LatestProducts: FC<{
 
   const [products, setProducts] = useState<typeof prods>(prods);
 
+  const [requestStatus, setRequestStatus] = useState<
+    "idle" | "pending" | "rejected"
+  >("idle");
+
+  const requestStatusRef = useRef<typeof requestStatus>(requestStatus);
+
   const [cursor, setCursor] = useState<string>(
     products[products.length - 1].productId
   );
@@ -38,24 +51,54 @@ const LatestProducts: FC<{
 
   const fetchNewProducts = useCallback(async () => {
     //
-  }, []);
+
+    try {
+      setRequestStatus("pending");
+
+      const { data } = await axios.post("/api/products", cursor, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      if (!data) {
+        setRequestStatus("idle");
+        return;
+      }
+
+      setProducts((prev) => {
+        return { ...prev, ...(data as typeof products) };
+      });
+
+      setRequestStatus("idle");
+    } catch (error) {
+      console.error(error);
+
+      setRequestStatus("rejected");
+    }
+  }, [setProducts, cursor, setRequestStatus]);
 
   useEffect(() => {
-    window.onscroll = () => {
-      if (
-        document.documentElement.scrollHeight -
-          (document.documentElement.scrollTop +
-            document.documentElement.clientHeight) ===
-        0
-      ) {
-        console.log("fetch data");
-      }
-    };
+    if (!window.onscroll) {
+      window.onscroll = () => {
+        if (requestStatusRef.current === "pending") return;
+
+        if (
+          document.documentElement.scrollHeight -
+            (document.documentElement.scrollTop +
+              document.documentElement.clientHeight) ===
+          0
+        ) {
+          console.log("fetch data");
+        }
+      };
+    }
 
     return () => {
       window.onscroll = null;
     };
-  }, []);
+  }, [requestStatusRef]);
 
   return (
     <div
@@ -92,6 +135,14 @@ const LatestProducts: FC<{
             />
           );
         })}
+        {requestStatus === "pending" && (
+          <CircularProgress color="primary" size={28} />
+        )}
+        {requestStatus === "rejected" && (
+          <Alert severity="error">
+            Could{"'"}t fetch products (server problem)
+          </Alert>
+        )}
       </Grid>
     </div>
   );
