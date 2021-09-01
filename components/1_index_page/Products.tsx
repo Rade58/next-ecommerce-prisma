@@ -76,7 +76,7 @@ const LatestProducts: FC<{
       }
 
       setProducts((prev) => {
-        return { ...prev, ...(data as typeof products) };
+        return [...prev, ...(data as typeof products)];
       });
 
       setRequestStatus("idle");
