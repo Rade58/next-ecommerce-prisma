@@ -22,7 +22,9 @@ import {
 
 import { Rating } from "@material-ui/lab";
 
-import type { ProductType } from "../../dummy/products";
+import type { Product as ProductType } from "@prisma/client";
+
+// import type { ProductType } from "../../dummy/products";
 
 const useStyles = makeStyles({
   myCard: {

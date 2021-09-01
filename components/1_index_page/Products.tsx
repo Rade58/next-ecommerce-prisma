@@ -3,11 +3,14 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { Grid, Typography, makeStyles } from "@material-ui/core";
+import type { Product as ProductType } from "@prisma/client";
 
-import type { ProductsListType } from "../../dummy/products";
+import axios from "axios";
+
+// import type { ProductsListType } from "../../dummy/products";
 
 import ProductCard from "./ProductCard";
 
@@ -18,9 +21,15 @@ const useStyles = makeStyles({
 });
 
 const LatestProducts: FC<{
-  products: ProductsListType;
-}> = ({ products }) => {
+  products: ProductType[];
+}> = ({ products: prods }) => {
   const { gridCont } = useStyles();
+
+  const [products, setProducts] = useState<typeof prods>(prods);
+
+  const fetchNewProducts = useCallback(async () => {
+    //
+  }, []);
 
   useEffect(() => {
     window.onscroll = () => {

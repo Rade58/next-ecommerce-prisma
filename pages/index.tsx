@@ -4,29 +4,49 @@ import type { NextPage as NP, GetStaticProps } from "next";
 
 import { useSession } from "next-auth/client";
 
+import type { Product } from "@prisma/client";
+
+import prismaClient from "../lib/prisma";
+
 import Lorem from "../components/Lorem";
 
 import Layout from "../components/1_index_page/Layout";
 
-import products from "../dummy/products";
-import type { ProductsListType } from "../dummy/products";
+// import products from "../dummy/products";
+// import type { ProductsListType } from "../dummy/products";
 
 interface PagePropsI {
-  products: ProductsListType;
+  products: Product[];
 }
 
-export const getStaticProps: GetStaticProps<PagePropsI> = async (ctx) => {
-  // FETCHING FOR ALL POSTS
-  // THIS IS DUMMY DATA THAT REPRESENTS FETCHING
-  const prods = products;
+export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
+  async (ctx) => {
+    // FETCHING FOR ALL POSTS
+    // THIS IS DUMMY DATA THAT REPRESENTS FETCHING
 
-  return {
-    props: {
-      products: prods,
-    },
-    revalidate: 1,
+    try {
+      const products = await prismaClient.product.findMany({
+        orderBy: {
+          updatedAt: "asc",
+        },
+      });
+
+      return {
+        props: {
+          products,
+        },
+        revalidate: 1,
+      };
+    } catch (err) {
+      console.error(err);
+
+      return {
+        props: {
+          products: [],
+        },
+      };
+    }
   };
-};
 
 const IndexPage: NP<PagePropsI> = ({ products }) => {
   console.log({ products });
