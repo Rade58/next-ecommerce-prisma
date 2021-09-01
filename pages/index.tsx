@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
         orderBy: {
           updatedAt: "asc",
         },
+        take: 38,
       });
 
       return {
