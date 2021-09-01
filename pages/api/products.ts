@@ -6,7 +6,7 @@ import prismaClient from "../../lib/prisma";
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
-  const { cursor } = req.body as { cursor: string };
+  const cursor = req.body as string;
 
   try {
     const products = await prismaClient.product.findMany({
@@ -32,11 +32,13 @@ handler.post(async (req, res) => {
       },
     });
 
-    res.status(200).json(products);
+    console.log({ products });
+
+    return res.status(200).json(products);
   } catch (err) {
     console.error(err);
 
-    res.status(200).send("something wen wrong");
+    return res.status(400).send("something wen wrong");
   }
 });
 

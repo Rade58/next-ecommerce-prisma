@@ -35,6 +35,8 @@ const LatestProducts: FC<{
 
   const [products, setProducts] = useState<typeof prods>(prods);
 
+  console.log({ products });
+
   const [requestStatus, setRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
@@ -58,7 +60,7 @@ const LatestProducts: FC<{
       const { data } = await axios.post("/api/products", cursor, {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
+          // Accept: "application/json",
         },
       });
 
