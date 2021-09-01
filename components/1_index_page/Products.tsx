@@ -3,6 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
+import { useEffect } from "react";
 
 import { Grid, Typography, makeStyles } from "@material-ui/core";
 
@@ -20,6 +21,23 @@ const LatestProducts: FC<{
   products: ProductsListType;
 }> = ({ products }) => {
   const { gridCont } = useStyles();
+
+  useEffect(() => {
+    window.onscroll = () => {
+      if (
+        document.documentElement.scrollHeight -
+          (document.documentElement.scrollTop +
+            document.documentElement.clientHeight) ===
+        0
+      ) {
+        console.log("fetch data");
+      }
+    };
+
+    return () => {
+      window.onscroll = null;
+    };
+  }, []);
 
   return (
     <div

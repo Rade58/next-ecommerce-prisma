@@ -40,7 +40,7 @@ const IndexPage: NP<PagePropsI> = ({ products }) => {
       <Layout products={products}>
         {/* you can add extra content (but i don;t need it so far) */}
       </Layout>
-      <Lorem />
+      {/* <Lorem /> */}
     </>
   );
 };
