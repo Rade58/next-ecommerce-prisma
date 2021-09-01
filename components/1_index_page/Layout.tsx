@@ -4,14 +4,14 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
-import type { Product as ProductType } from "@prisma/client";
+import type { Products as ProductsType } from "../../pages/index";
 
 import LatestProducts from "./Products";
 
 // import type { ProductsListType } from "../../dummy/products";
 
 const Layout: FC<{
-  products: ProductType[];
+  products: ProductsType;
 }> = ({ children, products }) => {
   return (
     <main

@@ -22,7 +22,9 @@ import {
 
 import { Rating } from "@material-ui/lab";
 
-import type { Product as ProductType } from "@prisma/client";
+// import type { Product as ProductType } from "@prisma/client";
+
+import type { Products as ProductsType } from "../../pages/index";
 
 // import type { ProductType } from "../../dummy/products";
 
@@ -35,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Product: FC<{ product: ProductType }> = ({ product }) => {
+const Product: FC<{ product: ProductsType[0] }> = ({ product }) => {
   const { name, image, productId, rating, price, numReviews } = product;
 
   const { myCard, rat } = useStyles();

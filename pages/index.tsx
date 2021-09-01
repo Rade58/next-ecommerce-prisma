@@ -15,8 +15,22 @@ import Layout from "../components/1_index_page/Layout";
 // import products from "../dummy/products";
 // import type { ProductsListType } from "../dummy/products";
 
+export type Products = {
+  productId: string;
+  adminId: string;
+  name: string;
+  image: string;
+  description: string;
+  brand: string;
+  category: string | null;
+  price: number;
+  countInStock: number;
+  rating: number;
+  numReviews: number;
+}[];
+
 interface PagePropsI {
-  products: Product[];
+  products: Products;
 }
 
 export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =

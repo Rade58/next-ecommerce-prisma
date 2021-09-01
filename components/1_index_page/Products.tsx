@@ -6,12 +6,13 @@ import type { FC } from "react";
 import { useEffect, useState, useCallback } from "react";
 
 import { Grid, Typography, makeStyles } from "@material-ui/core";
-import type { Product as ProductType } from "@prisma/client";
+// import type { Product as ProductType } from "@prisma/client";
 
 import axios from "axios";
 
 // import type { ProductsListType } from "../../dummy/products";
 
+import type { Products as ProductsType } from "../../pages/index";
 import ProductCard from "./ProductCard";
 
 const useStyles = makeStyles({
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
 });
 
 const LatestProducts: FC<{
-  products: ProductType[];
+  products: ProductsType;
 }> = ({ products: prods }) => {
   const { gridCont } = useStyles();
 
