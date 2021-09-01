@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState, Fragment } from "react";
+import { useState, Fragment, memo } from "react";
 import type { FC } from "react";
 
 import type { Role } from "@prisma/client";
@@ -57,6 +57,16 @@ function a11yProps(index: any) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const MemoUsersTable: FC<{
+  initialProfiles: PropsI["profiles"];
+  profilesCount: PropsI["profilesCount"];
+}> = memo((props) => <UsersTable {...props} />);
+
+const MemoProductsTable: FC<{
+  initialProducts: PropsI["products"];
+  productsCount: PropsI["productsCount"];
+}> = memo((props) => <ProductsTable {...props} />);
 
 const TabsView: FC<PropsI> = (props) => {
   const [session, loading] = useSession();
@@ -127,14 +137,14 @@ const TabsView: FC<PropsI> = (props) => {
         <Paper variant="outlined">
           <TabPanel value={value} index={0}>
             {/* Users: */}
-            <UsersTable
+            <MemoUsersTable
               initialProfiles={props.profiles}
               profilesCount={props.profilesCount}
             />
           </TabPanel>
           <TabPanel value={value} index={1}>
             {/* Products: */}
-            <ProductsTable
+            <MemoProductsTable
               initialProducts={props.products}
               productsCount={props.productsCount}
             />
