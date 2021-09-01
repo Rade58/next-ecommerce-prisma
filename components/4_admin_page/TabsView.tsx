@@ -114,7 +114,7 @@ const TabsView: FC<PropsI> = (props) => {
           >
             <Tab label="Users" {...a11yProps(0)} />
             <Tab label="Products" {...a11yProps(1)} />
-            <Tab label="Orders" {...a11yProps(2)} />
+            {/* <Tab label="Orders" {...a11yProps(2)} /> */}
           </Tabs>
         </Paper>
       </div>
@@ -139,9 +139,9 @@ const TabsView: FC<PropsI> = (props) => {
               productsCount={props.productsCount}
             />
           </TabPanel>
-          <TabPanel value={value} index={2}>
-            {/* Orders */}
-          </TabPanel>
+          {/* <TabPanel value={value} index={2}>
+            Orders
+          </TabPanel> */}
         </Paper>
       </div>
     </Fragment>
