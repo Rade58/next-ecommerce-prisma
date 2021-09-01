@@ -161,18 +161,24 @@ const LatestProducts: FC<{
           return (
             <ProductCard
               product={product}
-              key={`${product.productId}-${product.name}`}
+              key={`${product.productId}-${Math.random()}-${product.name}`}
             />
           );
         })}
         {requestStatus === "pending" && (
           <div
-            style={{
-              zIndex: 28,
-              marginTop: "-10vh",
-              display: "flex",
-              justifyContent: "center",
-            }}
+            css={css`
+              z-index: 4;
+              display: flex;
+              justify-content: center;
+              position: fixed;
+
+              bottom: 12vh;
+
+              & > * {
+                text-align: center;
+              }
+            `}
           >
             <CircularProgress color="primary" size={48} />
           </div>
