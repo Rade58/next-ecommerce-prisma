@@ -28,6 +28,14 @@ const LatestProducts: FC<{
 
   const [products, setProducts] = useState<typeof prods>(prods);
 
+  const [cursor, setCursor] = useState<string>(
+    products[products.length - 1].productId
+  );
+
+  useEffect(() => {
+    setCursor(products[products.length - 1].productId);
+  }, [products]);
+
   const fetchNewProducts = useCallback(async () => {
     //
   }, []);

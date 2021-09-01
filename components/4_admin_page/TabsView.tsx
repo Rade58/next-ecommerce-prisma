@@ -18,7 +18,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
-import type { PropsI as AdminPropsI } from "../../pages/admin/[id]";
+// import type { PropsI as AdminPropsI } from "../../pages/admin/[id]";
 
 import type { PropsI } from "../../pages/admin/[id]";
 
