@@ -2,6 +2,8 @@ import { useEffect, Fragment } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
+import { useRouter } from "next/router";
+
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
 // IMPORTED PROVIDER
@@ -13,6 +15,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { asPath } = useRouter();
+
   useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
 
@@ -35,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <CssBaseline />
           <Header />
           <Component {...pageProps} />
-          <Footer />
+          {asPath !== "/" && <Footer />}
         </ThemeProvider>
       </Provider>
     </Fragment>

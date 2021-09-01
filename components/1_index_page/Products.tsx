@@ -22,17 +22,9 @@ import axios from "axios";
 import type { Products as ProductsType } from "../../pages/index";
 import ProductCard from "./ProductCard";
 
-const useStyles = makeStyles({
-  gridCont: {
-    flexGrow: 1,
-  },
-});
-
 const LatestProducts: FC<{
   products: ProductsType;
 }> = ({ products: prods }) => {
-  const { gridCont } = useStyles();
-
   const [products, setProducts] = useState<typeof prods>(prods);
 
   // console.log({ products });
@@ -118,28 +110,46 @@ const LatestProducts: FC<{
     <div
       css={css`
         margin: 10px auto;
-        width: fit fit-content;
-        /* border: pink solid 1px; */
+        /* width: fit-content; */
         /* text-align: center; */
 
-        & .gridCont > * {
-          margin: 2px auto;
-        }
+        border: pink solid 1px;
+
+        width: 100%;
 
         & h6 {
           margin-top: 20px;
           margin-bottom: 12px;
         }
+
+        display: flex;
+        flex-direction: column;
       `}
     >
       <Typography variant="h2" component="h6">
         Latest Products
       </Typography>
-      <Grid
-        className={gridCont}
-        //
-        container
-        spacing={2}
+      <div
+        css={css`
+          border: crimson solid 1px;
+          width: 80%;
+
+          @media screen and (max-width: 800px) {
+            width: 98%;
+          }
+
+          margin: 20px auto;
+
+          justify-content: space-evenly;
+
+          display: flex;
+          flex-wrap: wrap;
+
+          & > * {
+            flex-basis: 280px;
+            flex-grow: 0;
+          }
+        `}
       >
         {products.map((product) => {
           return (
@@ -150,14 +160,23 @@ const LatestProducts: FC<{
           );
         })}
         {requestStatus === "pending" && (
-          <CircularProgress color="primary" size={28} />
+          <div
+            style={{
+              zIndex: 28,
+              marginTop: "-10vh",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress color="primary" size={48} />
+          </div>
         )}
         {requestStatus === "rejected" && (
           <Alert severity="error">
             Could{"'"}t fetch products (server problem)
           </Alert>
         )}
-      </Grid>
+      </div>
     </div>
   );
 };
