@@ -35,7 +35,7 @@ const LatestProducts: FC<{
 
   const [products, setProducts] = useState<typeof prods>(prods);
 
-  console.log({ products });
+  // console.log({ products });
 
   const [requestStatus, setRequestStatus] = useState<
     "idle" | "pending" | "rejected"
@@ -63,6 +63,8 @@ const LatestProducts: FC<{
           // Accept: "application/json",
         },
       });
+
+      console.log({ data });
 
       if (!data) {
         setRequestStatus("idle");
