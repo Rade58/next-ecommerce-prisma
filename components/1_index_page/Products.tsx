@@ -6,14 +6,15 @@ import type { FC } from "react";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 import {
-  Grid,
+  // Grid,
   Typography,
   makeStyles,
   CircularProgress,
+  Card,
 } from "@material-ui/core";
 // import type { Product as ProductType } from "@prisma/client";
 
-import { Alert } from "@material-ui/lab";
+import { Alert, Skeleton } from "@material-ui/lab";
 
 import axios from "axios";
 
@@ -140,11 +141,17 @@ const LatestProducts: FC<{
 
         console.log(perc); */
 
+        console.log(
+          (100 * document.documentElement.scrollTop) /
+            (document.documentElement.scrollHeight -
+              document.documentElement.clientHeight)
+        );
+
         if (
           (100 * document.documentElement.scrollTop) /
             (document.documentElement.scrollHeight -
               document.documentElement.clientHeight) >
-          68
+          82
         ) {
           fetchNewProducts();
         }
@@ -213,14 +220,34 @@ const LatestProducts: FC<{
             }
           `}
         >
-          {products.map((product) => {
-            return (
-              <ProductCard
-                product={product}
-                key={`${product.productId}-${Math.random()}-${product.name}`}
-              />
-            );
-          })}
+          {requestStatus !== "pending" &&
+            products.map((product) => {
+              return (
+                <ProductCard
+                  product={product}
+                  key={`${product.productId}-${Math.random()}-${product.name}`}
+                />
+              );
+            })}
+          {requestStatus === "pending" && (
+            <Skeleton
+              // key={`${product.adminId}-${product.name}-${i}`}
+              variant="rect"
+              width="100%"
+              height="100%"
+            >
+              {products.map((product, i) => {
+                return (
+                  <Card
+                    // height={210}
+                    key={`${product.productId}-${i + 4}`}
+                  >
+                    Hello World
+                  </Card>
+                );
+              })}
+            </Skeleton>
+          )}
           {requestStatus === "pending" && (
             <div
               css={css`
