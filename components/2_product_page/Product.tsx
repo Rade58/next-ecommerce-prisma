@@ -5,7 +5,8 @@ import { jsx, css } from "@emotion/react";
 import { Fragment } from "react";
 import type { FC } from "react";
 import { useRouter } from "next/router";
-import type { ProductType } from "../../dummy/products";
+// import type { ProductType } from "../../dummy/products";
+import type { ProductPageProps } from "../../pages/products/[prodId]";
 
 import {
   Button,
@@ -43,7 +44,9 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductSingle: FC<{ product: ProductType }> = ({ product }) => {
+const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
+  product,
+}) => {
   const { back } = useRouter();
   const { kont, pap, papin, upper, butti, inherColor } = useStyles();
 

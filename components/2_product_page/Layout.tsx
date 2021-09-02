@@ -6,12 +6,14 @@ import type { FC } from "react";
 
 import { Button } from "@material-ui/core";
 
-import type { ProductType } from "../../dummy/products";
+// import type { ProductType } from "../../dummy/products";
+
+import type { ProductPageProps } from "../../pages/products/[prodId]";
 
 import SingleProduct from "./Product";
 
 const ProductLayout: FC<{
-  product: ProductType;
+  product: ProductPageProps["product"];
 }> = ({ product, children }) => {
   return (
     <main
