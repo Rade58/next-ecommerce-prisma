@@ -14,6 +14,10 @@ THIS CAN BE HELPFUL TUTORIAL:
 yarn add multer
 ```
 
+```
+yarn add @types/multer
+```
+
 CREATING UPLOAD FOLDER
 
 ```
