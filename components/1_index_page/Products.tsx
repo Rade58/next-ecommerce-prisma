@@ -95,6 +95,8 @@ const LatestProducts: FC<{
       window.onscroll = () => {
         // console.log(requestStatus);
         console.log(requestStatus === "pending");
+
+        //
         if (requestStatus === "pending") return;
 
         /*
@@ -127,21 +129,24 @@ const LatestProducts: FC<{
           )
         ); */
 
-        const he = document.documentElement.scrollHeight;
+        /*  const he =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
 
         const to = document.documentElement.scrollTop;
 
         const perc = (100 * to) / he;
 
-        console.log(perc);
+        console.log(perc); */
 
-        /* if (
-          document.documentElement.scrollHeight / 3 >
-          document.documentElement.scrollHeight -
-            document.documentElement.scrollTop
+        if (
+          (100 * document.documentElement.scrollTop) /
+            (document.documentElement.scrollHeight -
+              document.documentElement.clientHeight) >
+          68
         ) {
           fetchNewProducts();
-        } */
+        }
       };
     }
 
