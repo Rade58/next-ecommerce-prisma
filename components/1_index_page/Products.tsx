@@ -151,7 +151,7 @@ const LatestProducts: FC<{
           (100 * document.documentElement.scrollTop) /
             (document.documentElement.scrollHeight -
               document.documentElement.clientHeight) >
-          82
+          90
         ) {
           fetchNewProducts();
         }
