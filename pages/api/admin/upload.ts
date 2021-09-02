@@ -4,16 +4,16 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 // WE WILL USE MULTER LIKE I SAID
 import multer from "multer";
-import express from "express";
-import type { Multer } from "multer";
-import type { Express } from "express";
+// import express from "express";
+// import type { Multer } from "multer";
+// import type { Express } from "express";
+
 //
-
-import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
-
-import prismaClient from "../../../lib/prisma";
-
-import type { UpdateProductsDataRecord } from "../../../components/4_admin_page/ProductsTable";
+// import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
+//
+// import prismaClient from "../../../lib/prisma";
+//
+// import type { UpdateProductsDataRecord } from "../../../components/4_admin_page/ProductsTable";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
@@ -78,14 +78,14 @@ function checkFileType(
 // SIMULATING __dirname (BECAUSE IT IS NOT AVAILABLE WHEN WE USE import/export (I ASUME))
 
 // MARKING STATIC FOLDER
-handler.use(
-  "/uploads",
-  express.static(
-    path.join(/* this argument is __dirname */ path.resolve(), "/uploads")
-  )
-);
-
-handler.use(verifyCurrentUser);
+// handler.use(
+// "/uploads",
+// express.static(
+// path.join(/* this argument is __dirname */ path.resolve(), "/uploads")
+// )
+// );
+//
+// handler.use(verifyCurrentUser);
 
 // ADDING MIDDLEWARE (FOR UPLOADING OF SINGLE FILE)
 // I ADDED NAME IMAGE AND THT MEANS WHEN WE UPLOAD FROM THE FRONT END
