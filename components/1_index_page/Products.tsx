@@ -94,6 +94,7 @@ const LatestProducts: FC<{
 
       window.onscroll = () => {
         // console.log(requestStatus);
+
         console.log(requestStatus === "pending");
 
         //
