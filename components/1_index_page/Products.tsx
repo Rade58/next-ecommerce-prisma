@@ -37,8 +37,6 @@ const LatestProducts: FC<{
     "idle" | "pending" | "rejected"
   >("idle");
 
-  const requestStatusRef = useRef<typeof requestStatus>(requestStatus);
-
   const [cursor, setCursor] = useState<string>(
     products[products.length - 1].productId
   );
@@ -46,6 +44,9 @@ const LatestProducts: FC<{
   useEffect(() => {
     setCursor(products[products.length - 1].productId);
   }, [products]);
+
+  const [listRenderingAllowed, setListRenderingAllowed] =
+    useState<boolean>(false);
 
   const fetchNewProducts = useCallback(async () => {
     //
@@ -89,36 +90,52 @@ const LatestProducts: FC<{
 
   useEffect(() => {
     if (!window.onscroll) {
-      window.onscroll = () => {
-        console.log(requestStatusRef.current);
-        console.log(requestStatus);
+      setListRenderingAllowed(true);
 
-        if (requestStatusRef.current === "pending") return;
+      window.onscroll = () => {
+        // console.log(requestStatus);
+        console.log(requestStatus === "pending");
+        if (requestStatus === "pending") return;
+
+        /* console.log(
+          JSON.stringify(
+            {
+              scrollHeight: document.documentElement.scrollHeight,
+              clientHeight: document.documentElement.clientHeight,
+              scrollTop: document.documentElement.scrollTop,
+              DIFF:
+                document.documentElement.scrollHeight -
+                document.documentElement.scrollTop,
+              ratio: Math.round(
+                document.documentElement.scrollHeight /
+                  document.documentElement.scrollTop
+              ),
+              halfScrollHeight: document.documentElement.scrollHeight / 2,
+            },
+            null,
+            2
+          )
+        ); */
 
         if (
+          document.documentElement.scrollHeight / 3 >
           document.documentElement.scrollHeight -
-            (document.documentElement.scrollTop +
-              document.documentElement.clientHeight) <
-          document.documentElement.clientHeight
+            document.documentElement.scrollTop
         ) {
-          // console.log("fetch data");
-
           fetchNewProducts();
         }
-        /* 
-        console.log(
-          document.documentElement.scrollHeight -
-            (document.documentElement.scrollTop +
-              document.documentElement.clientHeight) <
-            document.documentElement.clientHeight
-        ); */
       };
     }
 
     return () => {
       window.onscroll = null;
     };
-  }, [requestStatusRef, fetchNewProducts, setRequestStatus, requestStatus]);
+  }, [
+    fetchNewProducts,
+    setRequestStatus,
+    requestStatus,
+    setListRenderingAllowed,
+  ]);
 
   return (
     <div
@@ -145,7 +162,7 @@ const LatestProducts: FC<{
       <Typography variant="h2" component="h6">
         Latest Products
       </Typography>
-      {!loading && (
+      {!loading && listRenderingAllowed && (
         <div
           css={css`
             /* border: crimson solid 1px; */

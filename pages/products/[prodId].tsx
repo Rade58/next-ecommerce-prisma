@@ -3,8 +3,8 @@
 import type { GetStaticPaths, GetStaticProps, NextPage as NP } from "next";
 import { useRouter } from "next/router";
 
-import type { ProductType } from "../../dummy/products";
-import products from "../../dummy/products";
+// import type { ProductType } from "../../dummy/products";
+// import products from "../../dummy/products";
 
 import ProductLayout from "../../components/2_product_page/Layout";
 
