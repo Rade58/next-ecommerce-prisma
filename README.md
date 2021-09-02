@@ -19,3 +19,13 @@ CREATING UPLOAD FOLDER
 ```
 mkdir uploads && echo "upload" >> uploads/file.txt
 ```
+
+## CREATING ROUTE
+
+```
+touch pages/api/admin/upload.ts
+```
+
+```ts
+
+```
