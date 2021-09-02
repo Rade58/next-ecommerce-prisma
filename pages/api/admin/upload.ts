@@ -65,6 +65,8 @@ function checkFileType(
 
   if (correctExtname && correctMimeType) {
     return cb(null, true);
+  } else {
+    return cb(new Error("Wrong file type."));
   }
 }
 
