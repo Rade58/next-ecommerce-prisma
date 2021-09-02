@@ -97,6 +97,16 @@ const LatestProducts: FC<{
         console.log(requestStatus === "pending");
         if (requestStatus === "pending") return;
 
+        /*
+
+        x /100 = y / b
+        
+        x * b = 100 * y
+
+        b = (100 * y)/x
+
+        */
+
         /* console.log(
           JSON.stringify(
             {
@@ -117,13 +127,21 @@ const LatestProducts: FC<{
           )
         ); */
 
-        if (
+        const he = document.documentElement.scrollHeight;
+
+        const to = document.documentElement.scrollTop;
+
+        const perc = (100 * to) / he;
+
+        console.log(perc);
+
+        /* if (
           document.documentElement.scrollHeight / 3 >
           document.documentElement.scrollHeight -
             document.documentElement.scrollTop
         ) {
           fetchNewProducts();
-        }
+        } */
       };
     }
 
