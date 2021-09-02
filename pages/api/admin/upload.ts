@@ -82,6 +82,26 @@ handler.use(verifyCurrentUser);
 handler.use(upload.single("image"));
 
 handler.post(async (req, res) => {
+  // SO WE SHOULD HAVE ACCES OF THE IMAGE PATH IN HERE
+  // AN IT SHOULD BE ON REQUEST OBJECT LIKE THIS
+
+  interface File {
+    file: Express.Multer.File;
+  }
+
+  interface Req extends NextApiRequest, File {
+    //
+  }
+
+  // const imagePath = (req as unknown as {file: Express.Multer.File}).file.path
+
+  const imagePath = (req as Req).file.path;
+
+  // WE WILL SEND BACK IMAGE PATH
+  // BECAUSE WE ARE GOING TO STORE THAT PATH INSIDE Product RECORD
+
+  return res.status(201).send(imagePath);
+
   //
 });
 
