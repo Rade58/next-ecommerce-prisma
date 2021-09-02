@@ -47,7 +47,9 @@ const upload = multer({
   storage,
   // BUT E NEED TO RESTRICT SOME FILES FROM BEING UPLOADED
   // WE WANT JUST IMAGES
-  fileFilter: function (req, file, cb) {},
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
 });
 
 // BUILDING THAT FILTERING FUNCTION WE CALLED IN fileFlter CALLBACJ
@@ -73,6 +75,11 @@ function checkFileType(
 // -------------
 
 handler.use(verifyCurrentUser);
+
+// ADDING MIDDLEWARE (FOR UPLOADING OF SINGLE FILE)
+// I ADDED NAME IMAGE AND THT MEANS WHEN WE UPLOAD FROM THE FRONT END
+// WE NEED TO NAME IT image
+handler.use(upload.single("image"));
 
 handler.post(async (req, res) => {
   //
