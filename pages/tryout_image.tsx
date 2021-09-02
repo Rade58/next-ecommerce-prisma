@@ -73,6 +73,7 @@ const TryOutImagePage: NP = () => {
         type="file"
         onChange={(e) => {
           // e.target.files
+          sendRequest(e as ChangeEvent<HTMLInputElement>);
         }}
       />
       {uploadingStatus === "failed" && (
