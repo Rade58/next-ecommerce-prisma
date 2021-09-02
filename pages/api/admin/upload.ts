@@ -111,6 +111,8 @@ handler.post(async (req, res) => {
   // WE WILL SEND BACK IMAGE PATH
   // BECAUSE WE ARE GOING TO STORE THAT PATH INSIDE Product RECORD
 
+  console.log({ imagePath });
+
   return res.status(201).send(imagePath);
 
   //

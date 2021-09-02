@@ -44,6 +44,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 // WE WILL USE MULTER LIKE I SAID
 import multer from "multer";
+import express from "express";
 import type { Multer } from "multer";
 import type { Express } from "express";
 //
@@ -114,6 +115,16 @@ function checkFileType(
 
 // -------------
 
+// SIMULATING __dirname (BECAUSE IT IS NOT AVAILABLE WHEN WE USE import/export (I ASUME))
+
+// MARKING STATIC FOLDER
+handler.use(
+  "/uploads",
+  express.static(
+    path.join(/* this argument is __dirname */ path.resolve(), "/uploads")
+  )
+);
+
 handler.use(verifyCurrentUser);
 
 // ADDING MIDDLEWARE (FOR UPLOADING OF SINGLE FILE)
@@ -147,6 +158,9 @@ handler.post(async (req, res) => {
 
 export default handler;
 ```
+
+##  LETS TEST THIS BY CREATING SMOME TRYOUT PAGE AND WE WILL ADD INPUT TYPE FILE
+
 
 # LETS CREATE FRONT END PORTION
 
