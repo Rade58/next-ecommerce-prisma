@@ -6,11 +6,13 @@
 cat pages/api/mock/seed-orders.ts
 ```
 
+SEEDING ORDERS
+
 ```
 http GET :3000/api/mock/seed-orders
 ```
 
-CHECKING IF CREATED NY:
+CHECKING IF WE CREATED ORDERS:
 
 ```
 yarn prisma:studio
