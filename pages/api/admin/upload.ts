@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 // WE WILL USE MULTER LIKE I SAID
 import multer from "multer";
-// import express from "express";
+import express from "express";
 // import type { Multer } from "multer";
 // import type { Express } from "express";
 
@@ -15,7 +15,19 @@ import multer from "multer";
 //
 // import type { UpdateProductsDataRecord } from "../../../components/4_admin_page/ProductsTable";
 
-const handler = nc<NextApiRequest, NextApiResponse>();
+const handler = nc<NextApiRequest, NextApiResponse>({
+  onError(error, req, res) {
+    console.log(error);
+
+    res
+      .status(501)
+      .json({ error: `Sorry something Happened! ${error.message}` });
+  },
+  onNoMatch(req, res) {
+    // console.log(error);
+    res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
+  },
+});
 
 // THIS IS HOW WE INITIALIZE STORAGE ENGINE
 const storage = multer.diskStorage({
@@ -81,10 +93,10 @@ function checkFileType(
 // handler.use(
 // "/uploads",
 // express.static(
-// path.join(/* this argument is __dirname */ path.resolve(), "/uploads")
+// path.join(/* this argument is __dirname */ __dirname, "/uploads")
 // )
 // );
-//
+
 // handler.use(verifyCurrentUser);
 
 // ADDING MIDDLEWARE (FOR UPLOADING OF SINGLE FILE)
@@ -95,6 +107,8 @@ handler.use(upload.single("image"));
 handler.post(async (req, res) => {
   // SO WE SHOULD HAVE ACCES OF THE IMAGE PATH IN HERE
   // AN IT SHOULD BE ON REQUEST OBJECT LIKE THIS
+
+  console.log("POST IS WORKING");
 
   interface File {
     file: Express.Multer.File;
@@ -119,3 +133,9 @@ handler.post(async (req, res) => {
 });
 
 export default handler;
+
+export const config = {
+  api: {
+    bodyParser: false, // Disallow body parsing, consume as stream
+  },
+};

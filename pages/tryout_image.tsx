@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useState, useCallback } from "react";
 import type { ChangeEvent } from "react";
 
-import { Input } from "@material-ui/core";
+import { Input, Button } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import axios from "axios";
@@ -25,14 +25,20 @@ const TryOutImagePage: NP = () => {
 
       const file = files[0];
 
+      console.log({ file });
+
       if (!file) return;
+
+      const formData = new FormData();
+
+      formData.append("image", file);
 
       try {
         setUploadingStatus("uploading");
 
         const { data: imagePath } = await axios.post(
           "/api/admin/upload",
-          { image: file },
+          formData,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -76,6 +82,12 @@ const TryOutImagePage: NP = () => {
           sendRequest(e as ChangeEvent<HTMLInputElement>);
         }}
       />
+      <Button
+        disabled={uploadingStatus !== "idle"}
+        // onClick
+      >
+        Upload
+      </Button>
       {uploadingStatus === "failed" && (
         <Alert severity="error">Couldn{"'"}t upload (server error)</Alert>
       )}
