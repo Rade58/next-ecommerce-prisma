@@ -17,60 +17,51 @@ const TryOutImagePage: NP = () => {
   >("idle");
   const [uploadedImagePath, setUploadedImagePath] = useState<string>("");
 
-  const sendRequest = useCallback(
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      const files = e.target?.files;
+  const [fileForUpload, setFile] = useState<File | null>(null);
 
-      if (!files) return;
+  const sendUploadRequest = useCallback(async () => {
+    const formData = new FormData();
 
-      const file = files[0];
+    if (!fileForUpload) return;
 
-      console.log({ file });
+    formData.append("image", fileForUpload);
 
-      if (!file) return;
+    try {
+      setUploadingStatus("uploading");
 
-      const formData = new FormData();
+      const { data: imagePath } = await axios.post(
+        "/api/admin/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (ev) => {
+            console.log(ev);
 
-      formData.append("image", file);
+            const loadedVal = ev.loaded as number;
+            const maxVal = ev.total as number;
 
-      try {
-        setUploadingStatus("uploading");
+            const loadedPercents = (100 / maxVal) * loadedVal;
 
-        const { data: imagePath } = await axios.post(
-          "/api/admin/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            onUploadProgress: (ev) => {
-              console.log(ev);
+            console.log(JSON.stringify({ progress: loadedPercents }));
+          },
+        }
+      );
 
-              const loadedVal = ev.loaded as number;
-              const maxVal = ev.total as number;
+      setUploadedImagePath(imagePath as string);
 
-              const loadedPercents = (100 / maxVal) * loadedVal;
+      setUploadingStatus("idle");
+    } catch (error) {
+      setUploadingStatus("failed");
 
-              console.log(JSON.stringify({ progress: loadedPercents }));
-            },
-          }
-        );
+      console.error(error);
 
-        setUploadedImagePath(imagePath as string);
-
+      setTimeout(() => {
         setUploadingStatus("idle");
-      } catch (error) {
-        setUploadingStatus("failed");
-
-        console.error(error);
-
-        setTimeout(() => {
-          setUploadingStatus("idle");
-        }, 3000);
-      }
-    },
-    [setUploadingStatus, setUploadedImagePath]
-  );
+      }, 3000);
+    }
+  }, [setUploadingStatus, setUploadedImagePath, fileForUpload]);
 
   return (
     <div>
@@ -79,13 +70,22 @@ const TryOutImagePage: NP = () => {
         type="file"
         onChange={(e) => {
           // e.target.files
-          sendRequest(e as ChangeEvent<HTMLInputElement>);
+          const ev = e as unknown as ChangeEvent<HTMLInputElement>;
+
+          if (!ev) return;
+
+          const files = ev.target.files;
+
+          if (!files) return;
+
+          const file = files[0];
+
+          if (!file) return;
+
+          setFile(file);
         }}
       />
-      <Button
-        disabled={uploadingStatus !== "idle"}
-        // onClick
-      >
+      <Button disabled={uploadingStatus !== "idle"} onClick={() => {}}>
         Upload
       </Button>
       {uploadingStatus === "failed" && (
