@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
 //
 
-import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
+import verifyAdmin from "../../../middlewares/verifyAdmin";
 
 const handler = nc<NextApiRequest, NextApiResponse>({
   onError(error, req, res) {
@@ -82,9 +82,8 @@ function checkFileType(
   }
 }
 
-// -------------
-
-handler.use(verifyCurrentUser);
+//
+handler.use(verifyAdmin);
 
 // ADDING MIDDLEWARE (FOR UPLOADING ONLY OF SINGLE FILE)
 // I ADDED FIELD NAME: "image", BECAUSE THAT MEANS WHEN WE UPLOAD FROM THE FRONT END
