@@ -552,6 +552,10 @@ const ProductsTable: FC<{
           name: "",
           price: 0,
         });
+
+        setUploadedImagePath("");
+        setFile(null);
+
         setCreationReqStatus("idle");
         // console.log({ data });
       } catch (err) {
@@ -574,6 +578,8 @@ const ProductsTable: FC<{
       category,
       setCreationReqStatus,
       products,
+      setUploadedImagePath,
+      setFile,
     ]
   );
 
@@ -698,6 +704,13 @@ const ProductsTable: FC<{
                       display: flex;
                       justify-content: center;
                     }
+                    & div.file-input {
+                      /* margin-top: 10vh; */
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      margin-top: 22px;
+                    }
 
                     & button {
                       margin-top: 8vh;
@@ -763,7 +776,7 @@ const ProductsTable: FC<{
                         variant="filled"
                       />
                     </div>
-                    <div className="field file-input">
+                    <div className="file-input">
                       {/* <TextField
                         onChange={handleChangeForCreation}
                         value={image}
