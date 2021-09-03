@@ -57,7 +57,7 @@ const columns: GridColDef[] = [
     headerName: "Product Id",
     width: 229,
     editable: false,
-    hide: false,
+    hide: true,
   },
   {
     field: "name",
