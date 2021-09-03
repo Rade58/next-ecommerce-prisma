@@ -94,10 +94,11 @@ const TryOutImagePage: NP = () => {
         }}
       />
       <Button
-        disabled={uploadingStatus !== "idle"}
+        disabled={uploadingStatus !== "idle" || !fileForUpload}
         onClick={() => {
-          sendUploadRequest;
+          sendUploadRequest();
         }}
+        variant="contained"
       >
         Upload{" "}
         {uploadingStatus === "uploading" ? <CircularProgress size={8} /> : ""}
