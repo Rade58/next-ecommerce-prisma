@@ -46,7 +46,7 @@ handler.get(async (req, res) => {
 
   const orderIds: string[] = [];
 
-  for (let i = 20; i <= 20; i++) {
+  for (let i = 0; i <= 20; i++) {
     const order = await prismaClient.order.create({
       data: {
         buyer: {
@@ -67,6 +67,33 @@ handler.get(async (req, res) => {
   // WE BUILD SCHEMA LIKE THAT
   // WE ARE GOING TO LINK Order TO OrderElement
   // BUT WE ARE GOING TO SPECIFY AMOUNT ON OrderElement AND LINK Product TO OrderElement
+  // THAT'S WHY WE ARE GOING TO LOOP THROUGH ORDER IDS
+
+  for (let i = 0; i < orderIds.length; i++) {
+    // WE NEED TO CREATE SOME AMOUT OF OrderElement RECORDS
+    // FOR SOME ORDER
+
+    for (let j = 0; j < products.length + 1; j++) {
+      //
+
+      await prismaClient.orderElement.create({
+        data: {
+          order: {
+            connect: {
+              id: orderIds[i],
+            },
+          },
+          product: {
+            connect: {
+              productId: products[i].productId,
+            },
+          },
+          // LET'S RANDOMIZE QUANTITY A BIT
+          quantity: Math.round(Math.random() * 10) + 1,
+        },
+      });
+    }
+  }
 
   return res.status(201).send("orders created");
 });
