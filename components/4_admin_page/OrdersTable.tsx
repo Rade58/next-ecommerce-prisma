@@ -123,9 +123,34 @@ const OrdersTable: FC<{
 
   const [ordersCount, setOrdersCount] = useState<number>(orders.length);
 
+  const [deliveredStatus, setDeliveredSttus] = useState<"idle"| true |false>("idle")
+
+
   const [markDeliveredRequestStatus, setMarkDeliveredRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
+
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpened(true);
+  }, [setModalOpened]);
+
+  const handleModalClose = useCallback(() => {
+    setModalOpened(false);
+  }, [setModalOpened]);
+
+  const [selectedOrder, setSelectedOrder] = useState<{
+    noNum: number;
+    orderId: string;
+    isDeliveredCurrent: boolean;
+    isDeliveredPrevious: boolean
+  }>({
+    noNum: 0,
+    orderId: "",
+    isDeliveredCurrent: false,
+    isDeliveredPrevious: false
+  });
 
   const handleMarkDeliveredRequest = useCallback(async () => {
     if (!session) {
@@ -237,13 +262,23 @@ const OrdersTable: FC<{
 
               console.log(typeof a.id);
 
-              const id = (a.id as unknown as number) - 1;
+              const noNum = (a.id as unknown as number) - 1;
 
-              const isDelivered = a.getValue(a.id, "isDelivered");
+              const isDeliveredCurrent = a.getValue(a.id, "isDelivered")? true : false;
               // const email = a.getValue(a.id, "deliveredAt");
-              const orderId = orders[id].id;
+              const orderId = orders[noNum].orderId;
 
-              console.log({ isDelivered, orderId });
+              console.log({ isDeliveredCurrent, orderId });
+
+              setSelectedOrder({
+                orderId,
+                isDeliveredCurrent,
+                isDeliveredPrevious: isDeliveredCurrent,
+                noNum
+              })
+
+              handleModalOpen()
+
             }}
           />
         ) : (
@@ -260,6 +295,140 @@ const OrdersTable: FC<{
             <CircularProgress size={18} />
           </div>
         )}
+      </div>
+      <div className="modal-stuff">
+        <Modal
+          open={modalOpened}
+          onClose={handleModalClose}
+          aria-labelledby="change-delivered-modal"
+          aria-describedby="change delivered status modal"
+        >
+          <div
+            css={css`
+              /* background-color: crimson; */
+              /* position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+              width: fit-content;
+              margin: 20vh auto;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              /* border: black solid 2px; */
+
+              & > * {
+                width: 60vw;
+
+                @media screen and (max-width: 800px) {
+                  width: 96vw;
+                  /* background-color: crimson; */
+                }
+
+                padding: 28px;
+
+                display: flex;
+                flex-direction: column;
+
+                & div.select-el {
+                  /* border: crimson solid 2px; */
+
+                  width: fit-content;
+                  align-self: center;
+
+                  margin-bottom: 26px;
+
+                  display: flex;
+
+                  & h4 {
+                    margin-right: 12px;
+                  }
+                }
+
+                & h3 {
+                  text-align: center;
+                }
+              }
+            `}
+          >
+            <Card>
+              <div
+                css={css`
+                  text-align: center;
+                `}
+              >
+                <Button onClick={handleModalClose}>
+                  <CloseTwoTone />
+                </Button>
+              </div>
+              <h2 id="modal-order">Order: {selectedOrder.orderId}</h2>
+              <h3>
+                Order is {selectedOrder.isDeliveredCurrent ? "" : "NOT"} delivered
+              </h3>
+              <div className="select-el">
+                <h4>Mark it delivered or not:</h4>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="age-native-simple">Delivered Status</InputLabel>
+                  <Select
+                    native
+                    value={selectedOrder.isDeliveredCurrent}
+                    onChange={(e) => {
+                      //
+
+                      const val:boolean = (e.target.value as "yes" | "no") === "no" ? false: true
+
+
+                      setSelectedOrder((prev) => {
+                        return { ...prev, isDeliveredCurrent: val };
+                      });
+                    }}
+                    inputProps={{
+                      name: "role",
+                      id: "age-native-simple",
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={"yes"}>Deleivered<option>
+                    <option value={"no"}>NOT Delivered</option>
+                  </Select>
+                </FormControl>
+              </div>
+              <div
+                css={css`
+                  margin-left: auto;
+
+                  margin-top: 30px;
+                `}
+              >
+                <Button
+                  disabled={
+                    
+                    markDeliveredRequestStatus === "pending"
+                  }
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    handleMarkDeliveredRequest()
+                  }}
+                >
+                  Save
+                  {markDeliveredRequestStatus === "pending" && (
+                    <span>
+                      &nbsp; <CircularProgress size={8} />
+                    </span>
+                  )}
+                </Button>
+              </div>
+              {markDeliveredRequestStatus === "rejected" && (
+                <MuiAlert severity="error">
+                  Something wet wrong, couldn{"'"}t change role
+                </MuiAlert>
+              )}
+            </Card>
+          </div>
+        </Modal>
       </div>
     </Fragment>
   );
