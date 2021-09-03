@@ -24,6 +24,11 @@ const verifyCurrentUser: Middleware<NextApiRequest, NextApiResponse> = async (
     return res.status(401).send("UNAUTHORIZED");
   }
 
+  // @ts-ignore
+  if (session.profile.role !== "ADMIN") {
+    return res.status(401).send("UNAUTHORIZED");
+  }
+
   // OBTAINING USER
   const user = await prismaClient.user.findUnique({
     where: {
