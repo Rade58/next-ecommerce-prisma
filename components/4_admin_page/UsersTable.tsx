@@ -344,7 +344,7 @@ const ProfilesTable: FC<{
             visibility: hidden !important;
           }
 
-          & .my-data-grid.my-data-grid svg {
+          & .my-data-grid.my-data-grid input[type="checkbox"] svg {
             visibility: hidden !important;
           }
 
