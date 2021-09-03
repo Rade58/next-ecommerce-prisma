@@ -2,7 +2,16 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, ChangeEventHandler, FormEvent, SyntheticEvent } from "react";
+
+import Image from "next/image";
+
+import type {
+  FC,
+  ChangeEventHandler,
+  FormEvent,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
 import axios from "axios";
@@ -27,6 +36,8 @@ import {
   CircularProgress,
   Snackbar,
   IconButton,
+  Input,
+  LinearProgress,
 } from "@material-ui/core";
 
 import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
@@ -126,6 +137,63 @@ const ProductsTable: FC<{
   }, [products]); */
 
   //
+  // IMAGE UPLOADING STUFF
+
+  const [uploadingStatus, setUploadingStatus] = useState<
+    "idle" | "uploading" | "failed"
+  >("idle");
+  const [uploadedImagePath, setUploadedImagePath] = useState<string>("");
+
+  const [fileForUpload, setFile] = useState<File | null>(null);
+
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const sendUploadRequest = useCallback(async () => {
+    const formData = new FormData();
+
+    if (!fileForUpload) return;
+
+    formData.append("image", fileForUpload);
+
+    try {
+      setUploadingStatus("uploading");
+
+      const { data: imagePath } = await axios.post(
+        "/api/admin/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (ev) => {
+            console.log(ev);
+
+            const loadedVal = ev.loaded as number;
+            const maxVal = ev.total as number;
+
+            const loadedPercents = Math.round((100 / maxVal) * loadedVal);
+
+            // console.log(JSON.stringify({ progress: loadedPercents }));
+            setUploadProgress(loadedPercents);
+          },
+        }
+      );
+
+      setUploadedImagePath(imagePath as string);
+
+      setUploadingStatus("idle");
+    } catch (error) {
+      setUploadingStatus("failed");
+
+      console.error(error);
+
+      setTimeout(() => {
+        setUploadingStatus("idle");
+      }, 3000);
+    }
+  }, [setUploadingStatus, setUploadedImagePath, fileForUpload]);
+
+  // ------------------------------------
 
   const [cursor, setCursor] = useState<string>(
     products[products.length - 1].productId
@@ -402,6 +470,12 @@ const ProductsTable: FC<{
   const { name, brand, countInStock, description, image, price, category } =
     creationFields;
 
+  useEffect(() => {
+    setFields((prev) => {
+      return { ...prev, image: uploadedImagePath };
+    });
+  }, [uploadedImagePath, setFields]);
+
   const [creationReqStatus, setCreationReqStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
@@ -571,6 +645,7 @@ const ProductsTable: FC<{
     !countInStock ||
     !description ||
     !price ||
+    !image ||
     creationReqStatus === "pending"
       ? true
       : false;
@@ -688,8 +763,8 @@ const ProductsTable: FC<{
                         variant="filled"
                       />
                     </div>
-                    <div className="field">
-                      <TextField
+                    <div className="field file-input">
+                      {/* <TextField
                         onChange={handleChangeForCreation}
                         value={image}
                         name="image"
@@ -697,7 +772,73 @@ const ProductsTable: FC<{
                         label="Image Url"
                         placeholder="Image Url"
                         variant="filled"
+                        // type="file"
+                      /> */}
+                      <Input
+                        disabled={uploadingStatus !== "idle"}
+                        type="file"
+                        onChange={(e) => {
+                          // e.target.files
+                          const ev =
+                            e as unknown as ChangeEvent<HTMLInputElement>;
+
+                          if (!ev) return;
+
+                          const files = ev.target.files;
+
+                          if (!files) return;
+
+                          const file = files[0];
+
+                          if (!file) return;
+
+                          setFile(file);
+                        }}
                       />
+                      <Button
+                        disabled={uploadingStatus !== "idle" || !fileForUpload}
+                        onClick={() => {
+                          sendUploadRequest();
+                        }}
+                        variant="contained"
+                      >
+                        Upload{" "}
+                        {uploadingStatus === "uploading" ? (
+                          <CircularProgress size={8} />
+                        ) : (
+                          ""
+                        )}
+                      </Button>
+                      {uploadingStatus === "failed" && (
+                        <Alert severity="error">
+                          Couldn{"'"}t upload (server error)
+                        </Alert>
+                      )}
+                      {uploadedImagePath && (
+                        <div
+                          style={{
+                            width: "200px",
+                            height: "180px",
+                            margin: "28px",
+                          }}
+                        >
+                          <Image
+                            src={uploadedImagePath}
+                            layout="responsive"
+                            width="100px"
+                            height="68px"
+                            alt="uploaded image"
+                          />
+                        </div>
+                      )}
+                      {uploadingStatus === "uploading" && (
+                        <div>
+                          <LinearProgress
+                            variant="determinate"
+                            value={uploadProgress}
+                          />
+                        </div>
+                      )}
                     </div>
                     <div
                       className="field"
