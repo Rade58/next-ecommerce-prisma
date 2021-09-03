@@ -1,0 +1,1 @@
+# in this folder we are uploading images
