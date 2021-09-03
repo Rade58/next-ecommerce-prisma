@@ -49,6 +49,27 @@ export interface PropsI {
   }[];
   productsCount: number;
   profilesCount: number;
+  orders: {
+    createdAt: string;
+    deliveredAt: string | undefined;
+    orderId: string;
+    id: number;
+    isDelivered: boolean;
+    payedAt: string | null;
+    buyer: {
+      id: string;
+      user: {
+        email: string | null;
+        name: string | null;
+      };
+    };
+    items: {
+      quantity: number;
+      product: {
+        price: number;
+      };
+    }[];
+  }[];
 }
 
 type paramsType = {
@@ -188,6 +209,51 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
           equals: profile.id,
         },
       },
+    });
+
+    const orders = (
+      await prismaClient.order.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          buyer: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  email: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          items: {
+            select: {
+              quantity: true,
+              product: {
+                select: {
+                  price: true,
+                },
+              },
+            },
+          },
+          isDelivered: true,
+          createdAt: true,
+          deliveredAt: true,
+          payedAt: true,
+          id: true,
+        },
+      })
+    ).map((order, i) => {
+      return {
+        ...order,
+        createdAt: order.createdAt.toISOString(),
+        deliveredAt: order.deliveredAt?.toISOString(),
+        payedAt: order.payedAt?.toISOString(),
+        orderId: order.id,
+        id: i + 1,
+      };
     });
 
     return {

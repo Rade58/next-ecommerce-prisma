@@ -24,6 +24,7 @@ import type { PropsI } from "../../pages/admin/[id]";
 
 import UsersTable from "./UsersTable";
 import ProductsTable from "./ProductsTable";
+import OrdersTable from "./OrdersTable";
 
 interface TabPanelPropsI {
   children?: React.ReactNode;
@@ -124,6 +125,7 @@ const TabsView: FC<PropsI> = (props) => {
           >
             <Tab label="Users" {...a11yProps(0)} />
             <Tab label="Products" {...a11yProps(1)} />
+            <Tab label="Orders" {...a11yProps(2)} />
             {/* <Tab label="Orders" {...a11yProps(2)} /> */}
           </Tabs>
         </Paper>
@@ -137,6 +139,9 @@ const TabsView: FC<PropsI> = (props) => {
         <Paper variant="outlined">
           <TabPanel value={value} index={0}>
             {/* Users: */}
+            {/* THIS MEMOIZATION WAS IN VAIN
+            (IT WORKS BUT NATURE OF MY COMPONENTS IS DIFFERENT
+            MEMOIZATION CAN'T HELP ) */}
             <MemoUsersTable
               initialProfiles={props.profiles}
               profilesCount={props.profilesCount}
@@ -149,9 +154,9 @@ const TabsView: FC<PropsI> = (props) => {
               productsCount={props.productsCount}
             />
           </TabPanel>
-          {/* <TabPanel value={value} index={2}>
-            Orders
-          </TabPanel> */}
+          <TabPanel value={value} index={2}>
+            <OrdersTable />
+          </TabPanel>
         </Paper>
       </div>
     </Fragment>
