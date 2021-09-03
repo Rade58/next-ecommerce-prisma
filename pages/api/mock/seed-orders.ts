@@ -44,15 +44,29 @@ handler.get(async (req, res) => {
 
   // WE WILL CREATE SOME AMOUNT OF Order RECORDS
 
-  const orders = await prismaClient.order.create({
-    data: {
-      buyer: {
-        connect: {
-          id: user.profiles[0].id,
+  const orderIds: string[] = [];
+
+  for (let i = 20; i <= 20; i++) {
+    const order = await prismaClient.order.create({
+      data: {
+        buyer: {
+          connect: {
+            id: user.profiles[0].id,
+          },
         },
       },
-    },
-  });
+      select: {
+        id: true,
+      },
+    });
+
+    orderIds.push(order.id);
+  }
+
+  // NOW LETS CREATE RELATED OrderElement RECORD FOR EVERY ORDER
+  // WE BUILD SCHEMA LIKE THAT
+  // WE ARE GOING TO LINK Order TO OrderElement
+  // BUT WE ARE GOING TO SPECIFY AMOUNT ON OrderElement AND LINK Product TO OrderElement
 
   return res.status(201).send("orders created");
 });
