@@ -313,3 +313,5 @@ const TryOutImagePage: NP = () => {
 export default TryOutImagePage;
 ```
 
+I TRIED TO UPLOAD IMGE AND IT WORKS LIKE IT SHOULD
+
