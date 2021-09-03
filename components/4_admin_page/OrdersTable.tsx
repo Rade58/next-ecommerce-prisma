@@ -115,66 +115,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrdersTable: FC<{
-  initialProfiles: PropsI["profiles"];
-  profilesCount: PropsI["profilesCount"];
-}> = ({ initialProfiles, profilesCount: initialProfilesCount }) => {
+  orders: PropsI["orders"];
+}> = ({ orders }) => {
   const classes = useStyles();
 
   const [session, loading] = useSession();
 
-  const [profilesCount, setProfilesCount] =
-    useState<number>(initialProfilesCount);
+  const [ordersCount, setOrdersCount] = useState<number>(orders.length);
 
-  const [fetchedProfilesCount, setFetchedProfilesCount] = useState<number>(
-    initialProfiles.length
-  );
-  const [profiles, setProfiles] =
-    useState<typeof initialProfiles>(initialProfiles);
-
-  /* useEffect(() => {
-    setProfilesCount(profiles.length);
-  }, [profiles, setProfilesCount]); */
-
-  const [cursor, setCursor] = useState<string>(
-    profiles[profiles.length - 1].profileId
-  );
-
-  const [load100RequestStatus, setLoad100RequestStatus] = useState<
-    "idle" | "pending" | "rejected"
-  >("idle");
-  const [changeRoleRequestStatus, setChangeRoleRequestStatus] = useState<
+  const [markDeliveredRequestStatus, setMarkDeliveredRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
 
-  useEffect(() => {
-    setCursor(profiles[profiles.length - 1].profileId);
-  }, [profiles, setCursor]);
-
-  const [modalOpened, setModalOpened] = useState<boolean>(false);
-
-  const handleModalOpen = useCallback(() => {
-    setModalOpened(true);
-  }, [setModalOpened]);
-
-  const handleModalClose = useCallback(() => {
-    setModalOpened(false);
-  }, [setModalOpened]);
-
-  const [selectedUser, setSelectedUser] = useState<{
-    noNum: number;
-    email: string;
-    profileId: string;
-    currentRole: Role;
-    previousRole: Role;
-  }>({
-    email: "",
-    currentRole: "USER",
-    previousRole: "USER",
-    profileId: "",
-    noNum: 0,
-  });
-
-  const handleChangeRoleRequest = useCallback(async () => {
+  const handleMarkDeliveredRequest = useCallback(async () => {
     if (!session) {
       return;
     }
@@ -188,14 +141,11 @@ const OrdersTable: FC<{
     }
 
     try {
-      setChangeRoleRequestStatus("pending");
+      setMarkDeliveredRequestStatus("pending");
       const { data } = await axios.put(
         `/api/admin/${(session as any).profile.id}`,
         {
-          profileId: selectedUser.profileId,
-          newRole: selectedUser.currentRole,
-          model: "profile",
-          loadedProfilesNum: profiles.length,
+          data: "",
         },
         {
           headers: {
@@ -206,93 +156,23 @@ const OrdersTable: FC<{
 
       console.log({ data });
 
-      setProfiles(data);
-
-      setChangeRoleRequestStatus("idle");
-      handleModalClose();
+      setMarkDeliveredRequestStatus("idle");
 
       // throw new Error("hello world");
       /* setTimeout(() => {
         handleModalClose();
-        setChangeRoleRequestStatus("idle");
+        setMarkDeliveredRequestStatus("idle");
       }, 3000); */
     } catch (err) {
       console.error(err);
 
-      setChangeRoleRequestStatus("rejected");
+      setMarkDeliveredRequestStatus("rejected");
 
       setTimeout(() => {
-        handleModalClose();
-        setChangeRoleRequestStatus("idle");
+        setMarkDeliveredRequestStatus("idle");
       }, 3000);
     }
-  }, [
-    setChangeRoleRequestStatus,
-    selectedUser,
-    session,
-    loading,
-    handleModalClose,
-    profiles.length,
-  ]);
-
-  const handleLoading100MoreReq = useCallback(async () => {
-    if (!session) {
-      return;
-    }
-
-    if (loading) {
-      return;
-    }
-
-    if (!session.profile || !(session as any).profile.id) {
-      return;
-    }
-
-    try {
-      setLoad100RequestStatus("pending");
-
-      /* throw new Error("hello world");
-
-      setTimeout(() => {
-        setLoad100RequestStatus("idle");
-      }, 3000); */
-
-      const { data } = await axios.post(
-        `/api/admin/load-more/${(session as any).profile.id}`,
-        {
-          cursor: cursor,
-          model: "profile",
-        }
-      );
-
-      const newProfiles = (data as any).map((prof: any, i: number) => {
-        const data = {
-          ...prof,
-          profileId: prof.id,
-          ...prof.user,
-          userId: prof.user.id,
-          id: profiles.length - 1 + i + 1,
-        };
-
-        // @ts-ignore
-        data.user = "";
-
-        return data;
-      });
-
-      setProfiles((prev) => {
-        return [...prev, ...newProfiles];
-      });
-
-      setLoad100RequestStatus("idle");
-    } catch (err) {
-      console.error(err);
-      setLoad100RequestStatus("rejected");
-      setTimeout(() => {
-        setLoad100RequestStatus("idle");
-      }, 3000);
-    }
-  }, [cursor, loading, session, setProfiles, profiles.length]);
+  }, [setMarkDeliveredRequestStatus, session, loading]);
 
   return (
     <Fragment>
@@ -303,40 +183,23 @@ const OrdersTable: FC<{
           }}
         >
           <div>
-            total users manging:{" "}
+            total orders manging:{" "}
             <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {profilesCount}{" "}
+              {ordersCount}{" "}
             </span>
           </div>
 
           <div>
-            loaded users count :{" "}
+            loaded orders count :{" "}
             <span style={{ fontSize: "1.4em", fontWeight: 400 }}>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {profiles.length}
+              {orders.length}
             </span>
           </div>
         </section>
       </Paper>
-      <Card elevation={0}>
-        <Button
-          onClick={() => {
-            handleLoading100MoreReq();
-          }}
-          variant="contained"
-          color="primary"
-          disabled={load100RequestStatus !== "idle"}
-        >
-          {load100RequestStatus === "rejected"
-            ? "Something went wrong (server error)"
-            : "Load 100 More Users"}{" "}
-          &nbsp;&nbsp;{" "}
-          {load100RequestStatus === "pending" && <CircularProgress size={8} />}
-        </Button>
-        <p>Or click on the user you want to change</p>
-      </Card>
-
+      <h2>Click on order row to make order delivered.</h2>
       <div
         style={{ height: 640, width: "100%", marginTop: "20px" }}
         css={css`
@@ -357,11 +220,10 @@ const OrdersTable: FC<{
           }
         `}
       >
-        {load100RequestStatus !== "pending" &&
-        changeRoleRequestStatus !== "pending" ? (
+        {markDeliveredRequestStatus !== "pending" ? (
           <DataGrid
             className="my-data-grid"
-            rows={profiles}
+            rows={orders}
             columns={columns}
             pageSize={9}
             checkboxSelection
@@ -377,19 +239,11 @@ const OrdersTable: FC<{
 
               const id = (a.id as unknown as number) - 1;
 
-              const currentRole = a.getValue(a.id, "role");
-              const email = a.getValue(a.id, "email");
-              const profileId = profiles[id].profileId;
+              const isDelivered = a.getValue(a.id, "isDelivered");
+              // const email = a.getValue(a.id, "deliveredAt");
+              const orderId = orders[id].id;
 
-              setSelectedUser({
-                currentRole: currentRole as Role,
-                previousRole: currentRole as Role,
-                email: email as unknown as string,
-                noNum: id,
-                profileId,
-              });
-
-              handleModalOpen();
+              console.log({ isDelivered, orderId });
             }}
           />
         ) : (
@@ -406,134 +260,6 @@ const OrdersTable: FC<{
             <CircularProgress size={18} />
           </div>
         )}
-      </div>
-      <div className="modal-stuff">
-        <Modal
-          open={modalOpened}
-          onClose={handleModalClose}
-          aria-labelledby="change-role-modal"
-          aria-describedby="change user role modal"
-        >
-          <div
-            css={css`
-              /* background-color: crimson; */
-              /* position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0; */
-              width: fit-content;
-              margin: 20vh auto;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-
-              /* border: black solid 2px; */
-
-              & > * {
-                width: 60vw;
-
-                @media screen and (max-width: 800px) {
-                  width: 96vw;
-                  /* background-color: crimson; */
-                }
-
-                padding: 28px;
-
-                display: flex;
-                flex-direction: column;
-
-                & div.select-el {
-                  /* border: crimson solid 2px; */
-
-                  width: fit-content;
-                  align-self: center;
-
-                  margin-bottom: 26px;
-
-                  display: flex;
-
-                  & h4 {
-                    margin-right: 12px;
-                  }
-                }
-
-                & h3 {
-                  text-align: center;
-                }
-              }
-            `}
-          >
-            <Card>
-              <div
-                css={css`
-                  text-align: center;
-                `}
-              >
-                <Button onClick={handleModalClose}>
-                  <CloseTwoTone />
-                </Button>
-              </div>
-              <h2 id="modal-email">User: {selectedUser.email}</h2>
-              <h3>Current role: {selectedUser.currentRole}</h3>
-              <div className="select-el">
-                <h4>ChangeRole:</h4>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="age-native-simple">Role</InputLabel>
-                  <Select
-                    native
-                    value={selectedUser.currentRole}
-                    onChange={(e) => {
-                      //
-                      setSelectedUser((prev) => {
-                        return { ...prev, currentRole: e.target.value as Role };
-                      });
-                    }}
-                    inputProps={{
-                      name: "role",
-                      id: "age-native-simple",
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={Role.USER}>{Role.USER}</option>
-                    <option value={Role.BANNED}>{Role.BANNED}</option>
-                  </Select>
-                </FormControl>
-              </div>
-              <div
-                css={css`
-                  margin-left: auto;
-
-                  margin-top: 30px;
-                `}
-              >
-                <Button
-                  disabled={
-                    selectedUser.currentRole === selectedUser.previousRole ||
-                    changeRoleRequestStatus === "pending"
-                  }
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    handleChangeRoleRequest();
-                  }}
-                >
-                  Save
-                  {changeRoleRequestStatus === "pending" && (
-                    <span>
-                      &nbsp; <CircularProgress size={8} />
-                    </span>
-                  )}
-                </Button>
-              </div>
-              {changeRoleRequestStatus === "rejected" && (
-                <MuiAlert severity="error">
-                  Something wet wrong, couldn{"'"}t change role
-                </MuiAlert>
-              )}
-            </Card>
-          </div>
-        </Modal>
       </div>
     </Fragment>
   );

@@ -262,6 +262,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         products,
         productsCount,
         profilesCount,
+        orders,
       },
     };
   };

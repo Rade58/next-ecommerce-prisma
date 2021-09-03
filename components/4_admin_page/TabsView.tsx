@@ -155,7 +155,7 @@ const TabsView: FC<PropsI> = (props) => {
             />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <OrdersTable />
+            <OrdersTable orders={props.orders} />
           </TabPanel>
         </Paper>
       </div>
