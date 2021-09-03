@@ -123,7 +123,12 @@ handler.post(async (req, res) => {
 
   // const imagePath = (req as unknown as {file: Express.Multer.File}).file.path
 
-  const imagePath = (req as Req).file.path;
+  let imagePath = (req as Req).file.path;
+
+  const toCutString = "public";
+  const val = toCutString.length;
+
+  imagePath = imagePath.slice(val, imagePath.length);
 
   // WE WILL SEND BACK IMAGE PATH
   // BECAUSE WE ARE GOING TO STORE THAT PATH INSIDE Product RECORD
