@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
     cb(
       null,
       // SECOND ARGUMENT IS OUR FOLDER WE CREATED NOT LONG AGO
-      "uploads/"
+      "./public/uploads/"
     );
   },
   // FILENAME CALLBACK
@@ -91,9 +91,12 @@ function checkFileType(
 
 // MARKING STATIC FOLDER
 // handler.use(
-// "/uploads",
+// "/public/uploads",
 // express.static(
-// path.join(/* this argument is __dirname */ __dirname, "/uploads")
+// path.join(
+// /* this argument is __dirname */ /*__dirname*/ path.resolve(),
+// "/public/uploads"
+// )
 // )
 // );
 

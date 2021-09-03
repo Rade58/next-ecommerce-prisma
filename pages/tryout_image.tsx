@@ -94,8 +94,10 @@ const TryOutImagePage: NP = () => {
       {uploadedImagePath && (
         <div style={{ width: "200px", height: "180px", margin: "28px" }}>
           <Image
-            src={uploadedImagePath}
+            src={"/" + uploadedImagePath}
             layout="responsive"
+            width="200px"
+            height="180px"
             alt="uploaded image"
           />
         </div>
