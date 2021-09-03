@@ -46,10 +46,13 @@ touch pages/api/admin/upload.ts
 
 ```
 
-##  LETS TEST THIS BY CREATING SMOME TRYOUT PAGE AND WE WILL ADD INPUT TYPE FILE
+## LETS TEST THIS, BUT BEFORE THAT WE WILL CREATE SOME TRYOUT PAGE AND WE WILL ADD `Input` FIELD WHICH `type` IS `"file"`; AND ALL THE LOGIC THAT GOES WITH IT
 
+```
+touch pages/tryout_upload.tsx
+```
 
-# LETS CREATE FRONT END PORTION
+```tsx
 
-
+```
 
