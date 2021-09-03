@@ -169,7 +169,7 @@ model Order {
   // WE WILL UPDATE THIS
   // WHEN WE FIND OUT STATUS FROM paymentResult
   // OR MAYBE WE WILL REMOVE THIS IN THE FUTURE
-  status      OrderStatus
+  status      OrderStatus    @default(PENDING)
   isDelivered Boolean        @default(false)
 
   // PAYPAL RELATED

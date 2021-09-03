@@ -31,10 +31,28 @@ handler.get(async (req, res) => {
   }
 
   // NOW WE CAN QUERY FOR SOME AMOUNT OF PRODUCTS
-
+  // WE DON'T NEED TO GET CREAZY WITH THIS QUERY
+  // 10 PRODUCTS SHOULD BE ENOUGH
   //
 
-  //
+  const products = await prismaClient.product.findMany({
+    select: {
+      productId: true,
+    },
+    take: 10,
+  });
+
+  // WE WILL CREATE SOME AMOUNT OF Order RECORDS
+
+  const orders = await prismaClient.order.create({
+    data: {
+      buyer: {
+        connect: {
+          id: user.profiles[0].id,
+        },
+      },
+    },
+  });
 
   return res.status(201).send("orders created");
 });
