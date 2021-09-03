@@ -6,7 +6,12 @@ import Image from "next/image";
 import { useState, useCallback } from "react";
 import type { ChangeEvent } from "react";
 
-import { Input, Button } from "@material-ui/core";
+import {
+  Input,
+  Button,
+  LinearProgress,
+  CircularProgress,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import axios from "axios";
@@ -18,6 +23,8 @@ const TryOutImagePage: NP = () => {
   const [uploadedImagePath, setUploadedImagePath] = useState<string>("");
 
   const [fileForUpload, setFile] = useState<File | null>(null);
+
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const sendUploadRequest = useCallback(async () => {
     const formData = new FormData();
@@ -42,9 +49,10 @@ const TryOutImagePage: NP = () => {
             const loadedVal = ev.loaded as number;
             const maxVal = ev.total as number;
 
-            const loadedPercents = (100 / maxVal) * loadedVal;
+            const loadedPercents = Math.round((100 / maxVal) * loadedVal);
 
-            console.log(JSON.stringify({ progress: loadedPercents }));
+            // console.log(JSON.stringify({ progress: loadedPercents }));
+            setUploadProgress(loadedPercents);
           },
         }
       );
@@ -85,8 +93,14 @@ const TryOutImagePage: NP = () => {
           setFile(file);
         }}
       />
-      <Button disabled={uploadingStatus !== "idle"} onClick={() => {}}>
-        Upload
+      <Button
+        disabled={uploadingStatus !== "idle"}
+        onClick={() => {
+          sendUploadRequest;
+        }}
+      >
+        Upload{" "}
+        {uploadingStatus === "uploading" ? <CircularProgress size={8} /> : ""}
       </Button>
       {uploadingStatus === "failed" && (
         <Alert severity="error">Couldn{"'"}t upload (server error)</Alert>
@@ -100,6 +114,11 @@ const TryOutImagePage: NP = () => {
             height="180px"
             alt="uploaded image"
           />
+        </div>
+      )}
+      {uploadingStatus === "uploading" && (
+        <div>
+          <LinearProgress variant="determinate" value={uploadProgress} />
         </div>
       )}
     </div>
