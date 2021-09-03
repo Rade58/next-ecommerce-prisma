@@ -160,16 +160,18 @@ model PaymentResult {
 //
 
 model Order {
-  id              String         @id @default(cuid())
-  buyer           Profile        @relation(fields: [buyerId], references: [id])
-  buyerId         String
-  items           OrderElement[]
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id          String         @id @default(cuid())
+  buyer       Profile        @relation(fields: [buyerId], references: [id])
+  buyerId     String
+  items       OrderElement[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   // WE WILL UPDATE THIS
   // WHEN WE FIND OUT STATUS FROM paymentResult
   // OR MAYBE WE WILL REMOVE THIS IN THE FUTURE
-  status          OrderStatus
+  status      OrderStatus
+  isDelivered Boolean        @default(false)
+
   // PAYPAL RELATED
   paymentResult   PaymentResult? @relation(fields: [paymentResultId], references: [paymentId])
   //
@@ -179,7 +181,6 @@ model Order {
 
   payedAt DateTime?
 
-  isDelivered Boolean @default(false)
 
   deliveredAt DateTime?
 
