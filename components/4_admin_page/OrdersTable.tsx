@@ -123,8 +123,9 @@ const OrdersTable: FC<{
 
   const [ordersCount, setOrdersCount] = useState<number>(orders.length);
 
-  const [deliveredStatus, setDeliveredSttus] = useState<"idle"| true |false>("idle")
-
+  const [deliveredStatus, setDeliveredSttus] = useState<"idle" | true | false>(
+    "idle"
+  );
 
   const [markDeliveredRequestStatus, setMarkDeliveredRequestStatus] = useState<
     "idle" | "pending" | "rejected"
@@ -144,12 +145,12 @@ const OrdersTable: FC<{
     noNum: number;
     orderId: string;
     isDeliveredCurrent: boolean;
-    isDeliveredPrevious: boolean
+    isDeliveredPrevious: boolean;
   }>({
     noNum: 0,
     orderId: "",
     isDeliveredCurrent: false,
-    isDeliveredPrevious: false
+    isDeliveredPrevious: false,
   });
 
   const handleMarkDeliveredRequest = useCallback(async () => {
@@ -224,7 +225,7 @@ const OrdersTable: FC<{
           </div>
         </section>
       </Paper>
-      <h2>Click on order row to make order delivered.</h2>
+      {/* <h2>Click on order row to make order delivered.</h2> */}
       <div
         style={{ height: 640, width: "100%", marginTop: "20px" }}
         css={css`
@@ -264,7 +265,9 @@ const OrdersTable: FC<{
 
               const noNum = (a.id as unknown as number) - 1;
 
-              const isDeliveredCurrent = a.getValue(a.id, "isDelivered")? true : false;
+              const isDeliveredCurrent = a.getValue(a.id, "isDelivered")
+                ? true
+                : false;
               // const email = a.getValue(a.id, "deliveredAt");
               const orderId = orders[noNum].orderId;
 
@@ -274,11 +277,10 @@ const OrdersTable: FC<{
                 orderId,
                 isDeliveredCurrent,
                 isDeliveredPrevious: isDeliveredCurrent,
-                noNum
-              })
+                noNum,
+              });
 
-              handleModalOpen()
-
+              handleModalOpen();
             }}
           />
         ) : (
@@ -365,20 +367,25 @@ const OrdersTable: FC<{
               </div>
               <h2 id="modal-order">Order: {selectedOrder.orderId}</h2>
               <h3>
-                Order is {selectedOrder.isDeliveredCurrent ? "" : "NOT"} delivered
+                Order is {selectedOrder.isDeliveredCurrent ? "" : "NOT"}{" "}
+                delivered
               </h3>
               <div className="select-el">
                 <h4>Mark it delivered or not:</h4>
                 <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="age-native-simple">Delivered Status</InputLabel>
+                  <InputLabel htmlFor="age-native-simple">
+                    Delivered Status
+                  </InputLabel>
                   <Select
                     native
                     value={selectedOrder.isDeliveredCurrent}
                     onChange={(e) => {
                       //
 
-                      const val:boolean = (e.target.value as "yes" | "no") === "no" ? false: true
-
+                      const val: boolean =
+                        (e.target.value as "yes" | "not") === "not"
+                          ? false
+                          : true;
 
                       setSelectedOrder((prev) => {
                         return { ...prev, isDeliveredCurrent: val };
@@ -390,8 +397,8 @@ const OrdersTable: FC<{
                     }}
                   >
                     <option aria-label="None" value="" />
-                    <option value={"yes"}>Deleivered<option>
-                    <option value={"no"}>NOT Delivered</option>
+                    <option value="yes">Delivered</option>
+                    <option value="not">NOT Delivered</option>
                   </Select>
                 </FormControl>
               </div>
@@ -403,14 +410,11 @@ const OrdersTable: FC<{
                 `}
               >
                 <Button
-                  disabled={
-                    
-                    markDeliveredRequestStatus === "pending"
-                  }
+                  disabled={markDeliveredRequestStatus === "pending"}
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    handleMarkDeliveredRequest()
+                    handleMarkDeliveredRequest();
                   }}
                 >
                   Save
