@@ -40,7 +40,7 @@ AND WE NEED TO EXTEND A BITI REVIEWS PART OF QUERY, TO INCLUDE PROFILE DATA OF T
 touch components/2_product_page/Product.tsx
 ```
 
-
+`https://i.pravatar.cc/100`
 
 
 # PODSETNIK

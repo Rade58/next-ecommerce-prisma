@@ -7,6 +7,7 @@ import type { FC } from "react";
 import { useRouter } from "next/router";
 // import type { ProductType } from "../../dummy/products";
 import type { ProductPageProps } from "../../pages/products/[prodId]";
+import { formatDistanceToNow } from "date-fns";
 
 import {
   Button,
@@ -19,6 +20,8 @@ import {
   CardMedia,
   Paper,
   CircularProgress,
+  List,
+  ListItem,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
@@ -191,15 +194,24 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
       <Fragment>
         <section className="reviews-list">
           {/* {JSON.stringify({ productId, reviews, profileId }, null, 2)} */}
+          <List component="ul" aria-label="reviews list">
+            {reviews.map(({ comment, updatedAt, rating, user: profile }, i) => {
+              //
+              //
+              //
+              //
+              const { user: prof } = profile;
+              const { email } = prof;
 
-          {reviews.map(({ comment, updatedAt, rating }, i) => {
-            return (
-              <Paper key={`${i}-rating`}>
-                {i}
-                {comment}
-              </Paper>
-            );
-          })}
+              return (
+                <ListItem key={`${i}-rating`}>
+                  <Paper>{email}</Paper>
+                  <Paper>{comment}</Paper>
+                  <Paper>{formatDistanceToNow(updatedAt)}</Paper>
+                </ListItem>
+              );
+            })}
+          </List>
         </section>
         <section className="add-new-review"></section>
       </Fragment>
