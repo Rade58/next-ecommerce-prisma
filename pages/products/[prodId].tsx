@@ -64,7 +64,24 @@ export const getServerSideProps: GetServerSideProps<
         countInStock: true,
         rating: true,
         numReviews: true,
-        reviews: true, // LIST OF REVIEWS
+        // EXTENDING THIS QUERY
+        reviews: {
+          select: {
+            comment: true,
+            rating: true,
+            updatedAt: true,
+            user: {
+              select: {
+                id: true,
+                user: {
+                  select: {
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
