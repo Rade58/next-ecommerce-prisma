@@ -39,3 +39,8 @@ touch components/2_product_page/Reviews.tsx
 ```
 
 
+# PODSETNIK
+
+POKAZI
+
+[superjson](https://github.com/blitz-js/superjson)
