@@ -9,7 +9,7 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
   // LETS QUERY FOR TWO USERS
-  // HE IS GOING TO LEAVE ALL THE REVIEWS
+  // THEY RE EACH GOING TO LEAVE A REVIEW
 
   const profile1 = (
     await prismaClient.profile.findMany({
@@ -36,9 +36,10 @@ handler.get(async (req, res) => {
   )[12];
 
   // FIRST LETS QUERY FOR SOME PRODUCTS
-  // FIRST 5 PRODUCTS WILL DO THE TRICK
+  // 80 PRODUCTS WILL DO THE TRICK
 
-  // AT THE ENN OF SEEDING WE SHOULD HAVE 80 REVIEWS FOR 80 PRODUCTS
+  // AT THE END OF SEEDING WE SHOULD HAVE 80 REVIEWS FOR 80 PRODUCTS
+  // FOR EVERY OF TWO USERS
 
   const products = await prismaClient.product.findMany({
     orderBy: {
