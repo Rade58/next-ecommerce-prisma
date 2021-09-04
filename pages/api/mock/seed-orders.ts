@@ -76,7 +76,7 @@ handler.get(async (req, res) => {
     for (let j = 0; j < products.length + 1; j++) {
       //
 
-      const order = await prismaClient.orderElement.create({
+      const orderEl = await prismaClient.orderElement.create({
         data: {
           order: {
             connect: {
@@ -93,7 +93,7 @@ handler.get(async (req, res) => {
         },
       });
 
-      console.log(order);
+      console.log(orderEl);
     }
   }
 

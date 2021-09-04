@@ -11,7 +11,7 @@ handler.get(async (req, res) => {
   // LETS QUERY FOR ONLY ONE USER
   // HE IS GOING TO LEAVE ALL THE REVIEWS
 
-  const user = (
+  const profile = (
     await prismaClient.profile.findMany({
       where: {
         user: {
@@ -27,11 +27,52 @@ handler.get(async (req, res) => {
   )[0];
 
   // FIRST LETS QUERY FOR SOME PRODUCTS
-  // FIRST 20 PRODUCTS WILL DO THE TRICK
+  // FIRST 5 PRODUCTS WILL DO THE TRICK
+
+  const products = await prismaClient.product.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    take: 5,
+    select: {
+      productId: true,
+    },
+  });
 
   // LETS CREATE ORDERS FOR THAT PRODUCTS
 
-  // LETS MARK ORDERS AS DELIVERED
+  let orderIds: string[] = [];
+
+  for (let i = 0; i < 30; i++) {
+    const order = await prismaClient.order.create({
+      data: {
+        buyerId: profile.id,
+        isDelivered: true,
+        // LETS MARK ORDER AS DELIVERED
+        deliveredAt: new Date(Date.now()),
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    orderIds.push(order.id);
+  }
+
+  // LETS CREATE ORDER ELEMENTS
+
+  for (let i = 0; i < orderIds.length; i++) {
+    for (let j = 0; j < products.length; j++) {
+      const orderEls = await prismaClient.orderElement.create({
+        data: {
+          productId: products[j].productId,
+          orderId: orderIds[i],
+          //
+          quantity: Math.round(Math.random() * 10) + 1,
+        },
+      });
+    }
+  }
 
   // AND NOW WE CAN CREATE REVIEWS
 
