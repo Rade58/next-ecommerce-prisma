@@ -3,7 +3,7 @@ import nc from "next-connect";
 
 import prismaClient from "../../../lib/prisma";
 
-import dummyProdsArr from "../../../dummy/mock/MOCK_DATA_PRODUCTS.json";
+import dummyReviews from "../../../dummy/mock/MOCK_DATA_REVIEWS.json";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
