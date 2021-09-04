@@ -57,6 +57,12 @@ import type { PropsI } from "../../pages/admin/[id]";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, hide: true },
   {
+    field: "orderId",
+    headerName: "Order Id",
+    width: 280,
+    editable: false,
+  },
+  {
     field: "buyer",
     headerName: "Buyer",
     width: 280,
@@ -407,8 +413,7 @@ const OrdersTable: FC<{
               </div>
               <h2 id="modal-order">Order: {selectedOrder.orderId}</h2>
               <h3>
-                Order is {selectedOrder.isDeliveredCurrent ? "" : "NOT"}{" "}
-                delivered
+                Marked {selectedOrder.isDeliveredCurrent ? "" : "NOT"} DELIVERED
               </h3>
               <div className="select-el">
                 <h4>Mark it delivered or not:</h4>
@@ -450,7 +455,11 @@ const OrdersTable: FC<{
                 `}
               >
                 <Button
-                  disabled={markDeliveredRequestStatus === "pending"}
+                  disabled={
+                    markDeliveredRequestStatus === "pending" ||
+                    selectedOrder.isDeliveredCurrent ===
+                      selectedOrder.isDeliveredPrevious
+                  }
                   variant="contained"
                   color="primary"
                   onClick={() => {
