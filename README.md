@@ -33,3 +33,7 @@ AND ALSO YOU SHOULD DISPLAY user EMAIL, DATE OF ORDER CREATION, TOTAL PRICE
 ```
 cat components/4_admin_page/OrdersTable.tsx
 ```
+
+```
+cat pages/api/admin/[id].ts
+```
