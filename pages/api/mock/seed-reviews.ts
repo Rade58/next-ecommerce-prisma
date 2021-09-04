@@ -79,7 +79,7 @@ handler.get(async (req, res) => {
   // AND NOW WE CAN CREATE REVIEWS
 
   for (let i = 0; i < dummyReviews.length; i++) {
-    const review = prismaClient.review.create({
+    const review = await prismaClient.review.create({
       data: {
         userId: profile.id,
         productId: products[i].productId,
