@@ -9,7 +9,11 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
   // FIRST LETS QUERY FOR SOME PRODUCTS
-  // FIRST 10 PRODUCTS WILL DO THE TRICK
+  // FIRST 20 PRODUCTS WILL DO THE TRICK
+
+  /* const products = await prismaClient.product.findMany({
+
+  }) */
 
   return res.status(201).send("orders created");
 });
