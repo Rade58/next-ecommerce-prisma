@@ -25,7 +25,17 @@ export interface ProductPageProps {
     countInStock: number;
     rating: number;
     numReviews: number;
-    reviews: Review[];
+    reviews: {
+      comment: string;
+      rating: number;
+      updatedAt: Date | null;
+      user: {
+        id: string;
+        user: {
+          email: string;
+        };
+      };
+    }[];
   };
 }
 
@@ -97,7 +107,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: {
-        product,
+        product: product as unknown as ProductPageProps["product"],
       },
     };
   } catch (err) {
