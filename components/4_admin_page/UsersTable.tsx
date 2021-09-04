@@ -442,10 +442,10 @@ const ProfilesTable: FC<{
             css={css`
               /* background-color: crimson; */
               /* position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0; */
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0; */
               width: fit-content;
               margin: 20vh auto;
               display: flex;

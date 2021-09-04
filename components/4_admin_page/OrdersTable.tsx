@@ -193,7 +193,9 @@ const OrdersTable: FC<{
       const { data } = await axios.put(
         `/api/admin/${(session as any).profile.id}`,
         {
-          data: "",
+          model: "order",
+          orderId: selectedOrder.orderId,
+          markDelivered: selectedOrder.isDeliveredCurrent,
         },
         {
           headers: {
@@ -220,7 +222,13 @@ const OrdersTable: FC<{
         setMarkDeliveredRequestStatus("idle");
       }, 3000);
     }
-  }, [setMarkDeliveredRequestStatus, session, loading]);
+  }, [
+    setMarkDeliveredRequestStatus,
+    session,
+    loading,
+    selectedOrder,
+    setOrders,
+  ]);
 
   return (
     <Fragment>
@@ -355,10 +363,10 @@ const OrdersTable: FC<{
             css={css`
               /* background-color: crimson; */
               /* position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0; */
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0; */
               width: fit-content;
               margin: 20vh auto;
               display: flex;
