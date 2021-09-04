@@ -32,7 +32,11 @@ const Page: NP<PropsI> = (props) => {
 
   console.log(props);
 
-  return <div>Order ID: {query.siteId}</div>;
+  return (
+    <div>
+      <h1>Order ID: {query.siteId}</h1>
+    </div>
+  );
 };
 
 export default Page;

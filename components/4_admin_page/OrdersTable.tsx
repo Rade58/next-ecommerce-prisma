@@ -425,24 +425,31 @@ const OrdersTable: FC<{
                   <CloseTwoTone />
                 </Button>
               </div>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  Router.push(`/order/${selectedOrder.orderId}`);
-                }}
-              >
-                Visit Orders Page
-              </Button>
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    Router.push(`/order/${selectedOrder.orderId}`);
+                  }}
+                >
+                  Visit Page Of This Order
+                </Button>
+              </div>
               <h2 id="modal-order">Order: {selectedOrder.orderId}</h2>
               <h3>
                 Marked {selectedOrder.isDeliveredCurrent ? "" : "NOT"} DELIVERED
               </h3>
-              <div className="select-el">
+              <div
+                className="select-el"
+                css={css`
+                  display: flex;
+                  align-items: center;
+                `}
+              >
                 <h4>Mark it delivered or not:</h4>
                 <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="age-native-simple">
-                    Delivered Status
-                  </InputLabel>
+                  <InputLabel htmlFor="age-native-simple">status</InputLabel>
                   <Select
                     native
                     value={selectedOrder.isDeliveredCurrent}
