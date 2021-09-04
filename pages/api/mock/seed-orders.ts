@@ -76,7 +76,7 @@ handler.get(async (req, res) => {
     for (let j = 0; j < products.length + 1; j++) {
       //
 
-      await prismaClient.orderElement.create({
+      const order = await prismaClient.orderElement.create({
         data: {
           order: {
             connect: {
@@ -92,6 +92,8 @@ handler.get(async (req, res) => {
           quantity: Math.round(Math.random() * 10) + 1,
         },
       });
+
+      console.log(order);
     }
   }
 
