@@ -50,25 +50,17 @@ export interface PropsI {
   productsCount: number;
   profilesCount: number;
   orders: {
-    createdAt: string;
-    deliveredAt: string | undefined;
-    orderId: string;
+    buyer: string | null;
+    buyerProfileId: string;
     id: number;
-    isDelivered: boolean;
+    user: null;
+    price: number;
+    items: null;
+    createdAt: string;
+    deliveredAt: string | null;
     payedAt: string | null;
-    buyer: {
-      id: string;
-      user: {
-        email: string | null;
-        name: string | null;
-      };
-    };
-    items: {
-      quantity: number;
-      product: {
-        price: number;
-      };
-    }[];
+    orderId: string;
+    isDelivered: boolean;
   }[];
 }
 
@@ -246,13 +238,33 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         },
       })
     ).map((order, i) => {
+      const { items } = order;
+
+      let price = 0;
+
+      for (let item of items) {
+        const { product, quantity } = item;
+
+        price = price + product.price * quantity;
+      }
+
       return {
         ...order,
         createdAt: order.createdAt.toISOString(),
-        deliveredAt: order.deliveredAt?.toISOString(),
-        payedAt: order.payedAt?.toISOString(),
+        deliveredAt: order.deliveredAt?.toISOString()
+          ? order.deliveredAt?.toISOString()
+          : null,
+        payedAt: order.payedAt?.toISOString()
+          ? order.payedAt?.toISOString()
+          : null,
         orderId: order.id,
+        ...order.buyer,
+        buyer: order.buyer.user.name || order.buyer.user.email,
+        buyerProfileId: order.buyer.id,
         id: i + 1,
+        user: null,
+        price,
+        items: null,
       };
     });
 

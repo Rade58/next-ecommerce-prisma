@@ -57,20 +57,36 @@ import type { PropsI } from "../../pages/admin/[id]";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, hide: true },
   {
-    field: "name",
-    headerName: "Name",
+    field: "buyer",
+    headerName: "Buyer",
+    width: 190,
+    editable: false,
+  },
+
+  {
+    field: "createdAt",
+    headerName: "Created At",
+    width: 190,
+    editable: false,
+    valueParser: (val) => {
+      return new Date(val as unknown as Date).getDate();
+    },
+  },
+  {
+    field: "deliveredAt",
+    headerName: "Delivered At",
     width: 190,
     editable: false,
   },
   {
-    field: "email",
-    headerName: "Email",
-    width: 188,
+    field: "payedAt",
+    headerName: "Payed At",
+    width: 190,
     editable: false,
   },
   {
-    field: "role",
-    headerName: "Role",
+    field: "isDelivered",
+    headerName: "Is Delivered",
     width: 190,
     editable: false,
   },
@@ -88,8 +104,12 @@ const useStyles = makeStyles((theme) => ({
 
 const OrdersTable: FC<{
   orders: PropsI["orders"];
-}> = ({ orders }) => {
+}> = ({ orders: ords }) => {
   const classes = useStyles();
+
+  const [orders, setOrders] = useState(ords);
+
+  console.log({ orders });
 
   const [session, loading] = useSession();
 
