@@ -83,6 +83,93 @@ handler.put(async (req, res) => {
 
   // console.log(JSON.stringify({ id, body }, null, 2));
 
+  if (body.model === "order") {
+    try {
+      const updatedOrder = await prismaClient.order.update({
+        where: {
+          id: body.orderId as string,
+        },
+        data: {
+          deliveredAt: (body.markDelivered as boolean)
+            ? new Date(Date.now())
+            : null,
+          isDelivered: (body.markDelivered as boolean) ? true : false,
+        },
+      });
+
+      const orders = (
+        await prismaClient.order.findMany({
+          orderBy: {
+            createdAt: "desc",
+          },
+          select: {
+            buyer: {
+              select: {
+                id: true,
+                user: {
+                  select: {
+                    email: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+            items: {
+              select: {
+                quantity: true,
+                product: {
+                  select: {
+                    price: true,
+                  },
+                },
+              },
+            },
+            isDelivered: true,
+            createdAt: true,
+            deliveredAt: true,
+            payedAt: true,
+            id: true,
+          },
+        })
+      ).map((order, i) => {
+        const { items } = order;
+
+        let price = 0;
+
+        for (let item of items) {
+          const { product, quantity } = item;
+
+          price = price + product.price * quantity;
+        }
+
+        return {
+          ...order,
+          createdAt: order.createdAt.toISOString(),
+          deliveredAt: order.deliveredAt?.toISOString()
+            ? order.deliveredAt?.toISOString()
+            : null,
+          payedAt: order.payedAt?.toISOString()
+            ? order.payedAt?.toISOString()
+            : null,
+          orderId: order.id,
+          ...order.buyer,
+          buyer: order.buyer.user.name || order.buyer.user.email,
+          buyerProfileId: order.buyer.id,
+          id: i + 1,
+          user: null,
+          price,
+          items: null,
+        };
+      });
+
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error(error);
+
+      res.status(400).send("Something went wrong");
+    }
+  }
+
   if (body.model === "profile") {
     console.log({ body });
 

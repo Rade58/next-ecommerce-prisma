@@ -206,7 +206,10 @@ const OrdersTable: FC<{
 
       console.log({ data });
 
+      setOrders(data);
+
       setMarkDeliveredRequestStatus("idle");
+      handleModalClose();
 
       // throw new Error("hello world");
       /* setTimeout(() => {
@@ -228,6 +231,7 @@ const OrdersTable: FC<{
     loading,
     selectedOrder,
     setOrders,
+    handleModalClose,
   ]);
 
   return (
@@ -484,7 +488,7 @@ const OrdersTable: FC<{
               </div>
               {markDeliveredRequestStatus === "rejected" && (
                 <MuiAlert severity="error">
-                  Something wet wrong, couldn{"'"}t change role
+                  Something wet wrong, couldn{"'"}t change delivery status
                 </MuiAlert>
               )}
             </Card>
