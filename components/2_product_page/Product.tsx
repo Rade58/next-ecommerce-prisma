@@ -205,6 +205,8 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
               if (updatedAt instanceof Date) {
                 time = updatedAt;
+              } else if (typeof updatedAt === "string") {
+                time = new Date(updatedAt);
               } else {
                 time = new Date();
               }
@@ -216,7 +218,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 <li key={`${i}-rating`}>
                   <Paper>{email}</Paper>
                   <Paper>{comment}</Paper>
-                  <Paper>{formatDistanceToNow(new Date(updatedAt))}</Paper>
+                  <Paper>{formatDistanceToNow(time)}</Paper>
                 </li>
               );
             })}
