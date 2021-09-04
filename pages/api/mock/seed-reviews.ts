@@ -29,6 +29,8 @@ handler.get(async (req, res) => {
   // FIRST LETS QUERY FOR SOME PRODUCTS
   // FIRST 5 PRODUCTS WILL DO THE TRICK
 
+  // AT THE ENN OF SEEDING WE SHOULD HAVE 80 REVIEWS FOR 80 PRODUCTS
+
   const products = await prismaClient.product.findMany({
     orderBy: {
       updatedAt: "desc",
