@@ -33,7 +33,7 @@ handler.get(async (req, res) => {
     orderBy: {
       updatedAt: "desc",
     },
-    take: 5,
+    take: dummyReviews.length,
     select: {
       productId: true,
     },
@@ -43,7 +43,7 @@ handler.get(async (req, res) => {
 
   let orderIds: string[] = [];
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 20; i++) {
     const order = await prismaClient.order.create({
       data: {
         buyerId: profile.id,
@@ -63,7 +63,7 @@ handler.get(async (req, res) => {
 
   for (let i = 0; i < orderIds.length; i++) {
     for (let j = 0; j < products.length; j++) {
-      const orderEls = await prismaClient.orderElement.create({
+      const orderEl = await prismaClient.orderElement.create({
         data: {
           productId: products[j].productId,
           orderId: orderIds[i],
@@ -76,9 +76,18 @@ handler.get(async (req, res) => {
 
   // AND NOW WE CAN CREATE REVIEWS
 
-  /* const products = await prismaClient.product.findMany({
+  for (let i = 0; i < dummyReviews.length; i++) {
+    const review = prismaClient.review.create({
+      data: {
+        userId: profile.id,
+        productId: products[i].productId,
+        comment: dummyReviews[i].comment,
+        rating: dummyReviews[i].rating,
+      },
+    });
 
-  }) */
+    console.log(review);
+  }
 
   return res.status(201).send("orders created");
 });
