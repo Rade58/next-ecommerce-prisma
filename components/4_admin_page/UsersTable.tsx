@@ -347,13 +347,37 @@ const ProfilesTable: FC<{
           & .my-data-grid.my-data-grid input svg {
             visibility: hidden !important;
           }
+          & > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) svg {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            input {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            svg:hover {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            input:hover {
+            visibility: hidden !important;
+          }
 
           & * {
             cursor: default !important;
           }
 
           & div[data-id] > div:nth-of-type(1) {
-            display: none;
+            visibility: hidden;
           }
         `}
       >

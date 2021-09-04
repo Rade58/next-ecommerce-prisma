@@ -59,30 +59,54 @@ const columns: GridColDef[] = [
   {
     field: "buyer",
     headerName: "Buyer",
-    width: 190,
+    width: 280,
     editable: false,
   },
 
   {
-    field: "createdAt",
+    field: "time",
     headerName: "Created At",
     width: 190,
     editable: false,
-    valueParser: (val) => {
-      return new Date(val as unknown as Date).getDate();
+    valueGetter: (params) => {
+      if (!params.getValue(params.id, "createdAt")) {
+        return "undefinden";
+      }
+
+      return new Date(
+        params.getValue(params.id, "createdAt") as string
+      ).toDateString();
     },
   },
   {
-    field: "deliveredAt",
+    field: "deliver_time",
     headerName: "Delivered At",
     width: 190,
     editable: false,
+    valueGetter: (params) => {
+      if (!params.getValue(params.id, "deliveredAt")) {
+        return "not delivered yet";
+      }
+
+      return new Date(
+        params.getValue(params.id, "deliveredAt") as string
+      ).toDateString();
+    },
   },
   {
-    field: "payedAt",
+    field: "payed_at",
     headerName: "Payed At",
     width: 190,
     editable: false,
+    valueGetter: (params) => {
+      if (!params.getValue(params.id, "payedAt")) {
+        return "not payed yet";
+      }
+
+      return new Date(
+        params.getValue(params.id, "payedAt") as string
+      ).toDateString();
+    },
   },
   {
     field: "isDelivered",
@@ -228,13 +252,37 @@ const OrdersTable: FC<{
           & .my-data-grid.my-data-grid input svg {
             visibility: hidden !important;
           }
+          & > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) svg {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            input {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            svg:hover {
+            visibility: hidden !important;
+          }
+          &
+            > div:nth-of-type(1)
+            > div:nth-of-type(2)
+            > div:nth-of-type(1)
+            input:hover {
+            visibility: hidden !important;
+          }
 
           & * {
             cursor: default !important;
           }
 
           & div[data-id] > div:nth-of-type(1) {
-            display: none;
+            visibility: hidden;
           }
         `}
       >
