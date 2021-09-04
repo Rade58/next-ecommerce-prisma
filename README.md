@@ -22,7 +22,7 @@ yarn prisma:studio
 
 LOOKS LIKE WE DID
 
-# WE CAN THEN, BUILD A ORDERS TABLE
+# WE CAN THEN, BUILD A ORDERS TABLE (ALSO WE NEED TO EXTEND OUR API ROUTE (`pages/api/admin/[id].ts`) (FOR `PUT`, FOR `order` MODEL) )
 
 TWO FIELDS SHOULD BE EDITABLE: `delivered` AND `deliveredAt`
 
