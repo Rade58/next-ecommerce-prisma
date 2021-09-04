@@ -11,6 +11,8 @@ import type {
 } from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
+import Router from "next/router";
+
 import axios from "axios";
 
 import { useSession } from "next-auth/client";
@@ -423,6 +425,14 @@ const OrdersTable: FC<{
                   <CloseTwoTone />
                 </Button>
               </div>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  Router.push(`/order/${selectedOrder.orderId}`);
+                }}
+              >
+                Visit Orders Page
+              </Button>
               <h2 id="modal-order">Order: {selectedOrder.orderId}</h2>
               <h3>
                 Marked {selectedOrder.isDeliveredCurrent ? "" : "NOT"} DELIVERED
