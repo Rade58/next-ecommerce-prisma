@@ -21,7 +21,8 @@ import {
   Paper,
   CircularProgress,
   List,
-  ListItem,
+  Divider,
+  Avatar,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
@@ -192,7 +193,35 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
       </Fragment>
       {/* -------- REVIEWS -------- */}
       <Fragment>
-        <section className="reviews-list">
+        <section
+          className="reviews-list"
+          css={css`
+            & li {
+              display: flex;
+              flex-direction: column;
+
+              & time {
+                display: flex;
+                margin-top: 18px;
+                margin-left: auto;
+                font-size: 1.2em;
+                color: #9e3f77;
+                width: fit-content;
+              }
+
+              & h4 {
+                color: #455f77;
+                margin-left: 12px;
+              }
+
+              & .avat {
+                display: flex;
+                align-items: center;
+                margin-left: 12px;
+              }
+            }
+          `}
+        >
           {/* {JSON.stringify({ productId, reviews, profileId }, null, 2)} */}
           <List component="ul" aria-label="reviews list">
             {reviews.map(({ comment, updatedAt, rating, user: profile }, i) => {
@@ -216,9 +245,20 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
               return (
                 <li key={`${i}-rating`}>
-                  <Paper>{email}</Paper>
+                  <Paper>
+                    <div className="avat">
+                      <Avatar alt={email} src={"https://i.pravatar.cc/100"} />
+                      <h4>{email}</h4>
+                    </div>
+                  </Paper>
+                  <Paper>
+                    <Rating name="rate-prod" value={rating} readOnly />
+                  </Paper>
                   <Paper>{comment}</Paper>
-                  <Paper>{formatDistanceToNow(time)}</Paper>
+                  <Paper>
+                    <time>{formatDistanceToNow(time)}</time>
+                  </Paper>
+                  <Divider light />
                 </li>
               );
             })}
