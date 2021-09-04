@@ -30,3 +30,10 @@ WE ARE QUERYING Review RECORDS TIED TO SINGLE PRODUCT, OFCOURSE (WE ALREADY DID 
 cat pages/products/[prodId].tsx
 ```
 
+## NOW WE WILL CREATE AND HOOK UP `Reviews` COMPONENT
+
+```
+touch components/2_product_page/Reviews.tsx
+```
+
+
