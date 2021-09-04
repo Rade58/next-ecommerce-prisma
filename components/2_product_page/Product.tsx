@@ -200,15 +200,21 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
               //
               //
               //
+
+              console.log(updatedAt);
+              console.log(updatedAt instanceof Date);
+
+              // const
+
               const { user: prof } = profile;
               const { email } = prof;
 
               return (
-                <ListItem key={`${i}-rating`}>
+                <li key={`${i}-rating`}>
                   <Paper>{email}</Paper>
                   <Paper>{comment}</Paper>
-                  <Paper>{formatDistanceToNow(updatedAt)}</Paper>
-                </ListItem>
+                  {/* <Paper>{formatDistanceToNow(new Date(updatedAt ))}</Paper> */}
+                </li>
               );
             })}
           </List>
