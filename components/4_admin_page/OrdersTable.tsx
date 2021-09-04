@@ -247,7 +247,7 @@ const OrdersTable: FC<{
           </div>
         </section>
       </Paper>
-      {/* <h2>Click on order row to make order delivered.</h2> */}
+      <h2>Click on order row to mark order delivered.</h2>
       <div
         style={{ height: 640, width: "100%", marginTop: "20px" }}
         css={css`
