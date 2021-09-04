@@ -11,7 +11,6 @@ import { Button } from "@material-ui/core";
 import type { ProductPageProps } from "../../pages/products/[prodId]";
 
 import SingleProduct from "./Product";
-import Reviews from "./Reviews";
 
 const ProductLayout: FC<{
   product: ProductPageProps["product"];
@@ -39,7 +38,7 @@ const ProductLayout: FC<{
       >
         <SingleProduct product={product} />
       </section>
-      <Reviews productId={product.productId} reviews={product.reviews} />
+
       {children}
     </main>
   );

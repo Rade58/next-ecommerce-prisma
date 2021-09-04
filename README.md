@@ -32,11 +32,13 @@ cat pages/products/[prodId].tsx
 
 BUT WE NEED TO FIX PASSING DATES AS PROPS (BECAUSE OF SERIALIZATION)
 
-## NOW WE WILL CREATE AND HOOK UP `Reviews` COMPONENT
+## NOW, WE WILL CREATE AND HOOK UP `Reviews` COMPONENT
 
 ```
 touch components/2_product_page/Reviews.tsx
 ```
+
+
 
 
 # PODSETNIK
