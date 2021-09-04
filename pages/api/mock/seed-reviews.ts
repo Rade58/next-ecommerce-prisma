@@ -11,6 +11,21 @@ handler.get(async (req, res) => {
   // LETS QUERY FOR ONLY ONE USER
   // HE IS GOING TO LEAVE ALL THE REVIEWS
 
+  const user = (
+    await prismaClient.profile.findMany({
+      where: {
+        user: {
+          email: {
+            equals: "bajic.rade2@gmail.com",
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
+    })
+  )[0];
+
   // FIRST LETS QUERY FOR SOME PRODUCTS
   // FIRST 20 PRODUCTS WILL DO THE TRICK
 
