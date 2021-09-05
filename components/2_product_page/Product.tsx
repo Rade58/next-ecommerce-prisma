@@ -134,7 +134,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
         }, 3000);
       }
     },
-    [stars, revComment, setReqStatus, setReviews]
+    [stars, revComment, setReqStatus, setReviews, product.productId]
   );
 
   console.log(
