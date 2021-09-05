@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
+      backgroundColor: " #938dc9",
+      // border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
@@ -81,7 +81,7 @@ const Search: FC = () => {
         }}
       >
         <Fade in={open}>
-          <div>
+          <div className={classes.paper}>
             <TextField
               id="outlined-basic"
               label="Outlined"
