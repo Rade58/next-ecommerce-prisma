@@ -77,6 +77,15 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
   useEffect(() => {
     //
+
+    if (!reviews) return;
+
+    console.log({ reviews });
+
+    let aver: number;
+
+    for (const rev of reviews) {
+    }
   }, [setAverageProductRating, reviews]);
 
   if (loading) {
@@ -186,8 +195,13 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 <Typography variant="body1" component="p">
                   {description}
                 </Typography>
-
-                <Rating name="read-only" value={rating} precision={0.5} />
+                Average Rating:
+                <Rating
+                  name="read-only"
+                  value={0.75}
+                  precision={averageProductRating}
+                  readOnly
+                />
                 <Typography variant="caption" component="i">
                   {numReviews} reviews
                 </Typography>
