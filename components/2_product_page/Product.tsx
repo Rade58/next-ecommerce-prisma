@@ -117,7 +117,10 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
       try {
         //
+
         setReqStatus("pending");
+
+        // throw new Error();
 
         const { data } = await axios.post(`/api/review/${productId}`, {
           profileId,
@@ -331,10 +334,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
               disabled={reqStatus !== "idle"}
               variant="contained"
             >
-              Save{" "}
-              {!session && reqStatus !== "idle" && (
-                <CircularProgress size={9} />
-              )}
+              Save {reqStatus === "pending" && <CircularProgress size={8} />}
             </Button>
           </div>
           {reqStatus === "failed" && (
