@@ -23,6 +23,8 @@ import {
   List,
   Divider,
   Avatar,
+  Box,
+  TextField,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
@@ -70,6 +72,12 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
       }
     }
   }, [session]);
+
+  const [averageProductRating, setAverageProductRating] = useState(0);
+
+  useEffect(() => {
+    //
+  }, [setAverageProductRating, reviews]);
 
   if (loading) {
     return (
@@ -193,6 +201,27 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
       </Fragment>
       {/* -------- REVIEWS -------- */}
       <Fragment>
+        <section className="add-new-review">
+          <Box
+            component="form"
+            css={css`
+              & > :not(style) {
+                margin: 18px;
+                display: flex;
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+              }
+            `}
+          >
+            <TextField
+              id="review-field"
+              label="Leave a Review"
+              variant="outlined"
+            />
+          </Box>
+        </section>
+
         <section
           className="reviews-list"
           css={css`
@@ -218,6 +247,16 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 display: flex;
                 align-items: center;
                 margin-left: 12px;
+              }
+
+              & .rate {
+                margin-left: 12px;
+              }
+
+              & .comm {
+                padding: 10px;
+                padding-top: 4px;
+                padding-bottom: 4px;
               }
             }
           `}
@@ -252,9 +291,13 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                     </div>
                   </Paper>
                   <Paper>
-                    <Rating name="rate-prod" value={rating} readOnly />
+                    <div className="rate">
+                      <Rating name="rate-prod" value={rating} readOnly />
+                    </div>
                   </Paper>
-                  <Paper>{comment}</Paper>
+                  <Paper>
+                    <p className="comm">{comment}</p>
+                  </Paper>
                   <Paper>
                     <time>{formatDistanceToNow(time)}</time>
                   </Paper>
@@ -264,7 +307,6 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
             })}
           </List>
         </section>
-        <section className="add-new-review"></section>
       </Fragment>
     </Fragment>
   );

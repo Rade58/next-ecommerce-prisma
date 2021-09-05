@@ -34,17 +34,17 @@ BUT WE NEED TO FIX PASSING DATES AS PROPS (BECAUSE OF SERIALIZATION)
 
 AND WE NEED TO EXTEND A BITI REVIEWS PART OF QUERY, TO INCLUDE PROFILE DATA OF THE PERSON WHO LEFT REVIEW
 
-## NOW, WE WILL CREATE LOGIC FOR REVIEWS INSIDE ``
+## NOW, WE WILL CREATE LOGIC FOR REVIEWS INSIDE Product COMPONENT ON P
+INDIVIDAL PRODUCT PAGE
 
 ```
-touch components/2_product_page/Product.tsx
+cat components/2_product_page/Product.tsx
 ```
-
-`https://i.pravatar.cc/100`
-
 
 # PODSETNIK
 
 POKAZI
 
 [superjson](https://github.com/blitz-js/superjson)
+
+`https://i.pravatar.cc/100`
