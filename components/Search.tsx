@@ -133,6 +133,7 @@ const Search: FC = () => {
           <IconButton aria-label="search" className="se" onClick={handleOpen}>
             <SearchIcon />
           </IconButton>
+          <kbd>Ctrl</kbd> + <kbd>K</kbd>
           <Divider orientation="vertical" />
         </section>
       </div>

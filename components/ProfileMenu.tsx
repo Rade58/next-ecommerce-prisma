@@ -58,7 +58,10 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
       >
         <span>
           {` ${
-            name || email?.slice(0, email.indexOf("@")) || "profile"
+            name ||
+            email?.slice(0, email.indexOf(".")) ||
+            email?.slice(0, email.indexOf("@")) ||
+            "profile"
           }`.toLowerCase()}
         </span>
         <ExpandMore />
