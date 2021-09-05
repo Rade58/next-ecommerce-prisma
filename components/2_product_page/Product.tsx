@@ -198,8 +198,8 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 Average Rating:
                 <Rating
                   name="read-only"
-                  value={0.75}
-                  precision={averageProductRating}
+                  value={averageProductRating}
+                  precision={0.5}
                   readOnly
                 />
                 <Typography variant="caption" component="i">
