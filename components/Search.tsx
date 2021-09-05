@@ -66,6 +66,24 @@ const Search: FC = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (window) {
+      window.onkeydown = (e) => {
+        e.preventDefault();
+
+        if (e.ctrlKey) {
+          if (e.key === "k" || e.key === "K") {
+            setOpen(true);
+          }
+        }
+      };
+    }
+
+    return () => {
+      window.onkeydown = null;
+    };
+  }, [setOpen]);
+
   return (
     <Fragment>
       <Modal
