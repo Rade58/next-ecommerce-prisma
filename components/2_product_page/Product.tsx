@@ -339,7 +339,8 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
           </div>
           {reqStatus === "failed" && (
             <Alert severity="error">
-              Server error (can{"'"}t make a review)
+              Server error (can{"'"}t make a review) Maybe you already left a
+              review
             </Alert>
           )}
         </section>
