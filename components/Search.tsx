@@ -100,7 +100,18 @@ const Search: FC = () => {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <div
+            className={classes.paper}
+            css={css`
+              display: flex;
+              align-items: center;
+              /* justify-content: space-between; */
+              & svg {
+                margin-right: 12px;
+              }
+            `}
+          >
+            <SearchIcon />
             <TextField
               value={searchValue}
               onChange={(e) => {
