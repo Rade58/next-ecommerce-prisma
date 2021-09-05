@@ -5,17 +5,17 @@ import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
-handler.get(async (req, res) => {
-  const { cursor } = req.body as { cursor: string };
+handler.post(async (req, res) => {
+  const { text } = req.body as { text: string };
 
   try {
     const slugs = await prismaClient.$queryRaw<
       { value: string; label: string }[]
     >(/* sql */ `
-      SELECT "public"."Product"."productId" AS value, name AS label FROM "public"."Product";
+      SELECT "public"."Product"."productId" AS value,
+            name AS label FROM "public"."Product"
+      WHERE to_tsvector(name) @@ to_tsquery(${text});
     `);
-
-    console.log({ slugs });
 
     return res.status(200).json(slugs);
   } catch (err) {

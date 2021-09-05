@@ -25,6 +25,8 @@ import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
 
 import Select from "react-select";
 
+import axios from "axios";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -60,6 +62,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Search: FC = () => {
   const { push: rPush } = useRouter();
+
+  const [slugs, setSlugs] = useState<{ value: string; label: string }[]>([]);
+
+  useEffect(() => {
+    if (!slugs.length) {
+      axios.get("/api/products/slugs").then(({ data }) => {
+        setSlugs(data);
+      });
+    }
+  }, [setSlugs, slugs.length]);
 
   const options = [
     { value: "ckt4op9tq0228ojuoh3k2bp63", label: "Playstation" },
@@ -154,7 +166,7 @@ const Search: FC = () => {
               /> */}
               <Select
                 label="Single select"
-                options={options}
+                options={slugs}
                 classNamePrefix="Products"
                 autoFocus
                 isSearchable
@@ -177,85 +189,87 @@ const Search: FC = () => {
           </div>
         </Fade>
       </Modal>
-      <div
-        css={css`
-          position: relative;
-          margin-left: auto;
-        `}
-      >
-        <section
-          onClick={handleOpen}
-          aria-label="search button"
-          role="button"
-          className="search-box"
+      {slugs.length && (
+        <div
           css={css`
-            cursor: pointer;
+            position: relative;
+            margin-left: auto;
+          `}
+        >
+          <section
+            onClick={handleOpen}
+            aria-label="search button"
+            role="button"
+            className="search-box"
+            css={css`
+              cursor: pointer;
 
-            border: #413436 solid 1px;
+              border: #413436 solid 1px;
 
-            padding-right: 4px;
-            border-radius: 4px;
-
-            & .se {
-              margin-top: 2px;
-            }
-
-            & .se::after {
-              content: "Search";
-              display: inline;
-              font-size: 16px;
-              /* border: #413436 solid 1px; */
-              /* padding: 4px; */
+              padding-right: 4px;
               border-radius: 4px;
-            }
-
-            @media screen and (max-width: 500px) {
-              border-width: 0;
-
-              & kbd,
-              & > span {
-                display: none;
-              }
-
-              position: fixed;
-              top: 62px;
-              right: 10px;
 
               & .se {
-                color: #57a5c9cc;
-                background-color: #130e0eea;
+                margin-top: 2px;
               }
 
               & .se::after {
-                content: "";
+                content: "Search";
                 display: inline;
                 font-size: 16px;
-                border: #413436 solid 0px;
-                padding: 0px;
-                border-radius: 0px;
+                /* border: #413436 solid 1px; */
+                /* padding: 4px; */
+                border-radius: 4px;
               }
-            }
 
-            & kbd {
-              box-shadow: 1px 1px 1px 1px white;
-              padding: 2px;
-              margin: 0;
-              font-size: 12px;
-              user-select: none;
-            }
+              @media screen and (max-width: 500px) {
+                border-width: 0;
 
-            & button {
-              padding: 4px;
-            }
-          `}
-        >
-          <IconButton aria-label="search" className="se">
-            <SearchIcon />
-          </IconButton>
-          <kbd>Ctrl</kbd> <span>+</span> <kbd>K</kbd>
-          <Divider orientation="vertical" />
-        </section>
-      </div>
+                & kbd,
+                & > span {
+                  display: none;
+                }
+
+                position: fixed;
+                top: 62px;
+                right: 10px;
+
+                & .se {
+                  color: #57a5c9cc;
+                  background-color: #130e0eea;
+                }
+
+                & .se::after {
+                  content: "";
+                  display: inline;
+                  font-size: 16px;
+                  border: #413436 solid 0px;
+                  padding: 0px;
+                  border-radius: 0px;
+                }
+              }
+
+              & kbd {
+                box-shadow: 1px 1px 1px 1px white;
+                padding: 2px;
+                margin: 0;
+                font-size: 12px;
+                user-select: none;
+              }
+
+              & button {
+                padding: 4px;
+              }
+            `}
+          >
+            <IconButton aria-label="search" className="se">
+              <SearchIcon />
+            </IconButton>
+            <kbd>Ctrl</kbd> <span>+</span> <kbd>K</kbd>
+            <Divider orientation="vertical" />
+          </section>
+        </div>
+      )}
     </Fragment>
   );
 };

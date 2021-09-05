@@ -26,6 +26,7 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@prisma/client": "^2.30.3",
     "@sendgrid/mail": "^7.4.6",
+    "@supabase/supabase-js": "^1.22.5",
     "@types/multer": "^1.4.7",
     "@types/react-select": "^4.0.17",
     "axios": "^0.21.1",
