@@ -56,7 +56,11 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
         onClick={handleClick}
         color="secondary"
       >
-        <span>{` ${name || email || "profile"}`.toLowerCase()}</span>
+        <span>
+          {` ${
+            name || email?.slice(0, email.indexOf("@")) || "profile"
+          }`.toLowerCase()}
+        </span>
         <ExpandMore />
       </Button>
       <Menu
