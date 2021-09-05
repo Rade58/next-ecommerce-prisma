@@ -60,6 +60,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
   const { kont, pap, papin, upper, butti, inherColor } = useStyles();
 
   const [reviews, setReviews] = useState(product.reviews);
+  const [numReviews, setNumReviews] = useState(product.reviews.length);
 
   const [session, loading] = useSession();
 
@@ -88,6 +89,12 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
     }
   }, [setAverageProductRating, reviews]);
 
+  useEffect(() => {
+    if (!reviews) return;
+
+    setNumReviews(reviews.length);
+  }, [reviews, setNumReviews]);
+
   if (loading) {
     return (
       <div
@@ -111,7 +118,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
     name,
     price,
     rating,
-    numReviews,
+    // numReviews,
     productId,
     description,
     countInStock,
@@ -225,12 +232,19 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 width: 80%;
                 margin-left: auto;
                 margin-right: auto;
+
+                & h3 {
+                  margin-left: 48px;
+                  color: crimson;
+                }
               }
             `}
           >
+            <h3>Rate Our Product:</h3>
+            <Rating name="size-large" defaultValue={2} size="large" />
             <TextField
               id="review-field"
-              label="Leave a Review"
+              label="And Leave a Review"
               variant="outlined"
             />
           </Box>
@@ -272,9 +286,14 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 padding-top: 4px;
                 padding-bottom: 4px;
               }
+
+              & h2 {
+                margin-top: 18px;
+              }
             }
           `}
         >
+          <h2>Some of our satisfied customers</h2>
           {/* {JSON.stringify({ productId, reviews, profileId }, null, 2)} */}
           <List component="ul" aria-label="reviews list">
             {reviews.map(({ comment, updatedAt, rating, user: profile }, i) => {
