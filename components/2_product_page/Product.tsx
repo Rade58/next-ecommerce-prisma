@@ -83,10 +83,15 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
     console.log({ reviews });
 
-    let aver: number;
+    let aver: number = 0;
 
     for (const rev of reviews) {
+      console.log({ rat: rev.rating });
+
+      aver = aver + rev.rating;
     }
+
+    setAverageProductRating(aver / reviews.length);
   }, [setAverageProductRating, reviews]);
 
   useEffect(() => {
@@ -206,7 +211,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 <Rating
                   name="read-only"
                   value={averageProductRating}
-                  precision={0.5}
+                  precision={1}
                   readOnly
                 />
                 <Typography variant="caption" component="i">
@@ -234,14 +239,19 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 margin-right: auto;
 
                 & h3 {
-                  margin-left: 48px;
+                  margin-left: 28px;
                   color: crimson;
                 }
               }
             `}
           >
             <h3>Rate Our Product:</h3>
-            <Rating name="size-large" defaultValue={2} size="large" />
+            <Rating
+              name="size-large"
+              defaultValue={2.5}
+              size="large"
+              precision={1}
+            />
             <TextField
               id="review-field"
               label="And Leave a Review"
@@ -286,14 +296,13 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                 padding-top: 4px;
                 padding-bottom: 4px;
               }
-
-              & h2 {
-                margin-top: 18px;
-              }
+            }
+            & h2.htwo {
+              margin-top: 38px;
             }
           `}
         >
-          <h2>Some of our satisfied customers</h2>
+          <h2 className="htwo">Some of our satisfied customers</h2>
           {/* {JSON.stringify({ productId, reviews, profileId }, null, 2)} */}
           <List component="ul" aria-label="reviews list">
             {reviews.map(({ comment, updatedAt, rating, user: profile }, i) => {
@@ -325,7 +334,12 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                   </Paper>
                   <Paper>
                     <div className="rate">
-                      <Rating name="rate-prod" value={rating} readOnly />
+                      <Rating
+                        name="rate-prod"
+                        value={rating}
+                        readOnly
+                        precision={1}
+                      />
                     </div>
                   </Paper>
                   <Paper>
