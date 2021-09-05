@@ -102,7 +102,7 @@ const Search: FC = () => {
           <div className={classes.paper}>
             <TextField
               id="outlined-basic"
-              label="Outlined"
+              label="Search Products"
               variant="outlined"
               autoFocus
             />
@@ -142,6 +142,13 @@ const Search: FC = () => {
             }
 
             @media screen and (max-width: 500px) {
+              border-width: 0;
+
+              & kbd,
+              & > span {
+                display: none;
+              }
+
               position: fixed;
               top: 62px;
               right: 10px;
@@ -177,7 +184,7 @@ const Search: FC = () => {
           <IconButton aria-label="search" className="se">
             <SearchIcon />
           </IconButton>
-          <kbd>Ctrl</kbd> + <kbd>K</kbd>
+          <kbd>Ctrl</kbd> <span>+</span> <kbd>K</kbd>
           <Divider orientation="vertical" />
         </section>
       </div>
