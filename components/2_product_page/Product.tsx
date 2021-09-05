@@ -119,7 +119,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
         //
         setReqStatus("pending");
 
-        const { data } = await axios.post(`/review/${productId}`, {
+        const { data } = await axios.post(`/api/review/${productId}`, {
           profileId,
           rating: stars,
           comment: revComment,
