@@ -119,7 +119,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
         //
         setReqStatus("pending");
 
-        const { data } = await axios.post(`/review/${product.productId}`);
+        const { data } = await axios.post(`/review/${productId}`);
 
         setReviews(data);
 
@@ -134,7 +134,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
         }, 3000);
       }
     },
-    [stars, revComment, setReqStatus, setReviews, product.productId]
+    [stars, revComment, setReqStatus, setReviews]
   );
 
   console.log(
