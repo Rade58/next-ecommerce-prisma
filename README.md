@@ -7,3 +7,11 @@ PROBLEM IS WHAN PRISMA QUERIES DATES, IT IS GIVING YOU `Date` INSTANCES BACK, AN
 [superjson](https://github.com/blitz-js/superjson)
 
 [_____](https://github.com/blitz-js/superjson#using-with-nextjs)
+
+I HAD TO INSTALL TWO PACKAGES
+
+AND TO ADD BABEL CONFIGURATION
+
+```
+cat .babelrc
+```
