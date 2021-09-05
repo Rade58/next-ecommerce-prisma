@@ -41,6 +41,13 @@ INDIVIDAL PRODUCT PAGE
 cat components/2_product_page/Product.tsx
 ```
 
+# AND WE WILL CRETE ROUTE
+
+```
+cat pages/api/review/[prodId].ts
+```
+
+
 # PODSETNIK
 
 POKAZI
