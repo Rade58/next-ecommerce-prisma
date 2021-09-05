@@ -324,10 +324,24 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
               margin-left: 70%;
             `}
           >
-            <Button disabled={reqStatus !== "idle"} variant="contained">
-              Save {reqStatus !== "idle" && <CircularProgress size={9} />}
+            <Button
+              onClick={() => {
+                makeReview(product.productId, profileId);
+              }}
+              disabled={reqStatus !== "idle"}
+              variant="contained"
+            >
+              Save{" "}
+              {!session && reqStatus !== "idle" && (
+                <CircularProgress size={9} />
+              )}
             </Button>
           </div>
+          {reqStatus === "failed" && (
+            <Alert severity="error">
+              Server error (can{"'"}t make a review)
+            </Alert>
+          )}
         </section>
 
         <section
