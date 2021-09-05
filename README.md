@@ -47,11 +47,6 @@ cat components/2_product_page/Product.tsx
 cat pages/api/review/[prodId].ts
 ```
 
+## I HAVE TRIED IT OUT
 
-# PODSETNIK
-
-POKAZI
-
-[superjson](https://github.com/blitz-js/superjson)
-
-`https://i.pravatar.cc/100`
+AND EVERYTHING SEEMS TO WORK CORRECTLY
