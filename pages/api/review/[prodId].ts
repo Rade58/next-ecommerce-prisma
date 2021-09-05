@@ -1,7 +1,7 @@
 import nc from "next-connect";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import prismaClient from "../../lib/prisma";
+import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 

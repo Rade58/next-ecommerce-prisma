@@ -117,11 +117,24 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
       try {
         //
+        setReqStatus("pending");
+
+        const { data } = await axios.post(`/review/${product.productId}`);
+
+        setReviews(data);
+
+        setReqStatus("idle");
       } catch (err) {
         console.error(err);
+
+        setReqStatus("failed");
+
+        setTimeout(() => {
+          setReqStatus("idle");
+        }, 3000);
       }
     },
-    [stars, revComment]
+    [stars, revComment, setReqStatus, setReviews]
   );
 
   console.log(
