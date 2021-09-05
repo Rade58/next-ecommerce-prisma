@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { Fragment, useState, useRef, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -56,6 +56,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Search: FC = () => {
   const classes = useStyles();
 
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -69,10 +71,9 @@ const Search: FC = () => {
   useEffect(() => {
     if (window) {
       window.onkeydown = (e) => {
-        e.preventDefault();
-
         if (e.ctrlKey) {
           if (e.key === "k" || e.key === "K") {
+            e.preventDefault();
             setOpen(true);
           }
         }
@@ -101,6 +102,10 @@ const Search: FC = () => {
         <Fade in={open}>
           <div className={classes.paper}>
             <TextField
+              value={searchValue}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+              }}
               id="outlined-basic"
               label="Search Products"
               variant="outlined"
