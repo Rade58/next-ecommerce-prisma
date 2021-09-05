@@ -103,25 +103,34 @@ const Search: FC = () => {
           <div
             className={classes.paper}
             css={css`
-              display: flex;
-              align-items: center;
+              & form {
+                display: flex;
+                align-items: center;
+              }
               /* justify-content: space-between; */
               & svg {
                 margin-right: 12px;
               }
             `}
           >
-            <SearchIcon />
-            <TextField
-              value={searchValue}
-              onChange={(e) => {
-                setSearchValue(e.target.value);
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("submitting");
               }}
-              id="outlined-basic"
-              label="Search Products"
-              variant="outlined"
-              autoFocus
-            />
+            >
+              <SearchIcon />
+              <TextField
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
+                id="outlined-basic"
+                label="Search Products"
+                variant="outlined"
+                autoFocus
+              />
+            </form>
           </div>
         </Fade>
       </Modal>
