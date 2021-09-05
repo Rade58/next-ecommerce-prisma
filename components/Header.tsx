@@ -29,6 +29,8 @@ import ProfileMenu from "./ProfileMenu";
 
 import AdminButton from "./AdminButton";
 
+import Search from "./Search";
+
 import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
 
 const Header: FC = () => {
@@ -113,6 +115,7 @@ const Header: FC = () => {
             </span>
           </Typography>
         </IconButton>
+        <Search />
         {/* <Typography variant="h6">Hello World</Typography> */}
         <nav
           css={css`
