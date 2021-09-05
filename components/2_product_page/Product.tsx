@@ -2,12 +2,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
 import { useRouter } from "next/router";
 // import type { ProductType } from "../../dummy/products";
-import type { ProductPageProps } from "../../pages/products/[prodId]";
 import { formatDistanceToNow } from "date-fns";
+
+import axios from "axios";
 
 import {
   Button,
@@ -26,9 +27,11 @@ import {
   Box,
   TextField,
 } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
+import { Rating, Alert } from "@material-ui/lab";
 
 import { useSession } from "next-auth/client";
+
+import type { ProductPageProps } from "../../pages/products/[prodId]";
 
 const useStyles = makeStyles({
   kont: {
@@ -66,6 +69,15 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
   const [profileId, setProfileId] = useState<string>("");
 
+  const [stars, setStars] = useState<number>(0);
+
+  const [revComment, setRevComment] = useState<string>("");
+  const [averageProductRating, setAverageProductRating] = useState(0);
+
+  const [reqStatus, setReqStatus] = useState<"idle" | "pending" | "failed">(
+    "idle"
+  );
+
   useEffect(() => {
     if (session) {
       if (session.profile && (session as any).profile.id) {
@@ -73,8 +85,6 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
       }
     }
   }, [session]);
-
-  const [averageProductRating, setAverageProductRating] = useState(0);
 
   useEffect(() => {
     //
@@ -99,6 +109,27 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
     setNumReviews(reviews.length);
   }, [reviews, setNumReviews]);
+
+  const makeReview = useCallback(
+    async (productId: string, profileId: string) => {
+      if (!stars) return;
+      if (!revComment) return;
+
+      try {
+        //
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [stars, revComment]
+  );
+
+  console.log(
+    JSON.stringify({
+      stars,
+      revComment,
+    })
+  );
 
   if (loading) {
     return (
@@ -251,13 +282,35 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
               defaultValue={2.5}
               size="large"
               precision={1}
+              onChange={(e) => {
+                // @ts-ignore
+                if (!e.target?.value) return;
+                // @ts-ignore
+                const val = parseInt(e.target.value);
+
+                setStars(val);
+              }}
             />
             <TextField
               id="review-field"
               label="And Leave a Review"
               variant="outlined"
+              onChange={(e) => {
+                const comment = e.target.value;
+
+                setRevComment(comment);
+              }}
             />
           </Box>
+          <div
+            css={css`
+              margin-left: 70%;
+            `}
+          >
+            <Button disabled={reqStatus !== "idle"} variant="contained">
+              Save {reqStatus !== "idle" && <CircularProgress size={9} />}
+            </Button>
+          </div>
         </section>
 
         <section
