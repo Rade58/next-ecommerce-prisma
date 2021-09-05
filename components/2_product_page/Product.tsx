@@ -173,9 +173,9 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
     image,
     name,
     price,
-    rating,
+    // rating,
     // numReviews,
-    productId,
+    // productId,
     description,
     countInStock,
   } = product;
