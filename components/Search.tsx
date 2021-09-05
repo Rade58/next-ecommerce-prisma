@@ -5,6 +5,8 @@ import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 import { Fragment, useState, useEffect } from "react";
 
+import { useRouter } from "next/router";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import {
@@ -20,6 +22,8 @@ import {
 } from "@material-ui/core";
 
 import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
+
+import Select from "react-select";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,6 +59,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Search: FC = () => {
+  const { push: rPush } = useRouter();
+
+  const options = [
+    { value: "ckt4op9tq0228ojuoh3k2bp63", label: "Playstation" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+
   const classes = useStyles();
 
   const [productsAndPaths, setProductsAndPaths] = useState([]);
@@ -109,6 +121,10 @@ const Search: FC = () => {
               & form {
                 display: flex;
                 align-items: center;
+
+                & > div {
+                  width: 220px;
+                }
               }
               /* justify-content: space-between; */
               & svg {
@@ -125,7 +141,7 @@ const Search: FC = () => {
               <Button type="submit">
                 <SearchIcon />
               </Button>
-              <TextField
+              {/* <TextField
                 value={searchValue}
                 onChange={(e) => {
                   setSearchValue(e.target.value);
@@ -135,6 +151,27 @@ const Search: FC = () => {
                 variant="outlined"
                 autoFocus
                 multiline
+              /> */}
+              <Select
+                label="Single select"
+                options={options}
+                classNamePrefix="Products"
+                autoFocus
+                isSearchable
+                placeholder="Search For Products..."
+                isClearable
+                onChange={(a) => {
+                  if (!a) {
+                    return;
+                  }
+
+                  if (!a.value) return;
+                  console.log({ a });
+
+                  handleClose();
+
+                  rPush(`/products/${a?.value}`);
+                }}
               />
             </form>
           </div>

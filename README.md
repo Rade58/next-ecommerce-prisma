@@ -4,4 +4,18 @@ WE CAN IMPLEMENT THIS BY USING [THIS FROM MATERIAL UI](https://material-ui.com/c
 
 BUT LETS CUSTOMIZE IT A LITTLE BIT
 
-I DECIDED TO TRY OUT [react-autosuggest](https://github.com/moroshko/react-autosuggest#installation)
+I DECIDED TO TRY OUT [react-select](https://react-select.com/home#getting-started)
+
+## I DEVELOPED THIS FOR FRONTEND
+
+```
+cat components/Search.tsx
+```
+
+## AND THESE ARE API ROUTES
+
+```
+cat
+```
+
+
