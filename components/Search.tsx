@@ -16,6 +16,7 @@ import {
   Modal,
   Fade,
   Backdrop,
+  Button,
 } from "@material-ui/core";
 
 import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
@@ -119,7 +120,9 @@ const Search: FC = () => {
                 console.log("submitting");
               }}
             >
-              <SearchIcon />
+              <Button type="submit">
+                <SearchIcon />
+              </Button>
               <TextField
                 value={searchValue}
                 onChange={(e) => {
