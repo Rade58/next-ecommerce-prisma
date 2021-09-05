@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -77,13 +77,17 @@ const Search: FC = () => {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 50,
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="spring-modal-title">Spring modal</h2>
-            <p id="spring-modal-description">react-spring animates me.</p>
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              autoFocus
+            />
           </div>
         </Fade>
       </Modal>
