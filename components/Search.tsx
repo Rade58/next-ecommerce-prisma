@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2px 4px",
       display: "flex",
       alignItems: "center",
-      width: 400,
+      width: 20,
     },
     input: {
       marginLeft: theme.spacing(1),
@@ -41,24 +41,51 @@ const useStyles = makeStyles((theme: Theme) =>
 const Search: FC = () => {
   const classes = useStyles();
   return (
-    <section className="search-box">
-      {/* <TextField /> */}
-      <Paper component="form" className={classes.root}>
-        <InputBase
-          className={classes.input}
-          placeholder="Search Products"
-          inputProps={{ "aria-label": "search google maps" }}
-        />
-        <IconButton
-          type="submit"
-          className={classes.iconButton}
-          aria-label="search"
-        >
+    <div
+      css={css`
+        position: relative;
+        margin-left: auto;
+      `}
+    >
+      <section
+        className="search-box"
+        css={css`
+          & .se::after {
+            content: "Search";
+            display: inline;
+            font-size: 16px;
+            border: #413436 solid 1px;
+            padding: 4px;
+            border-radius: 4px;
+          }
+
+          @media screen and (max-width: 500px) {
+            position: fixed;
+            top: 62px;
+            right: 10px;
+
+            & .se {
+              color: #57a5c9cc;
+              background-color: #130e0eea;
+            }
+
+            & .se::after {
+              content: "";
+              display: inline;
+              font-size: 16px;
+              border: #413436 solid 0px;
+              padding: 0px;
+              border-radius: 0px;
+            }
+          }
+        `}
+      >
+        <IconButton aria-label="search" className="se">
           <SearchIcon />
         </IconButton>
-        <Divider className={classes.divider} orientation="vertical" />
-      </Paper>
-    </section>
+        <Divider orientation="vertical" />
+      </section>
+    </div>
   );
 };
 

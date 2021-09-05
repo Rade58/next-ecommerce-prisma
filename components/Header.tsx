@@ -162,7 +162,8 @@ const Header: FC = () => {
             onClick={() => Router.push("/cart")}
             color="secondary"
             variant="contained"
-            className={butt}
+            // className={butt}
+            size="small"
           >
             <ShopIcon />
           </Button>

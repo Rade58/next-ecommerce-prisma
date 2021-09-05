@@ -18,7 +18,7 @@ const Layout: FC<{
       className="index-page-content"
       css={css`
         /* border: pink solid 2px; */
-        margin: 0px auto;
+        margin: 20px auto;
         position: relative;
         display: flex;
         justify-content: center;
