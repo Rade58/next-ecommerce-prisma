@@ -1,16 +1,18 @@
 import nc from "next-connect";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import prismaClient from "../../lib/prisma";
+import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
-handler.post(async (req, res) => {
+handler.get(async (req, res) => {
   const { cursor } = req.body as { cursor: string };
 
   try {
-    const slugs = await prismaClient.$queryRaw(/* sql */ `
-      SELECT productId AS value, name AS label FROM products;
+    const slugs = await prismaClient.$queryRaw<
+      { value: string; label: string }[]
+    >(/* sql */ `
+      SELECT "public"."Product"."productId" AS value, name AS label FROM "public"."Product";
     `);
 
     console.log({ slugs });
