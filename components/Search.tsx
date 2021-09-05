@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Search: FC = () => {
   const classes = useStyles();
 
+  const [productsAndPaths, setProductsAndPaths] = useState([]);
+
   const [searchValue, setSearchValue] = useState<string>("");
 
   const [open, setOpen] = useState(false);
@@ -132,6 +134,7 @@ const Search: FC = () => {
                 label="Search Products"
                 variant="outlined"
                 autoFocus
+                multiline
               />
             </form>
           </div>
