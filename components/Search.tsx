@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 20,
     },
     input: {
-      marginLeft: theme.spacing(1),
+      // marginLeft: theme.spacing(1),
       flex: 1,
     },
     iconButton: {
@@ -98,14 +98,28 @@ const Search: FC = () => {
         `}
       >
         <section
+          onClick={handleOpen}
+          aria-label="search button"
+          role="button"
           className="search-box"
           css={css`
+            cursor: pointer;
+
+            border: #413436 solid 1px;
+
+            padding-right: 4px;
+            border-radius: 4px;
+
+            & .se {
+              margin-top: 2px;
+            }
+
             & .se::after {
               content: "Search";
               display: inline;
               font-size: 16px;
-              border: #413436 solid 1px;
-              padding: 4px;
+              /* border: #413436 solid 1px; */
+              /* padding: 4px; */
               border-radius: 4px;
             }
 
@@ -128,9 +142,21 @@ const Search: FC = () => {
                 border-radius: 0px;
               }
             }
+
+            & kbd {
+              box-shadow: 1px 1px 1px 1px white;
+              padding: 2px;
+              margin: 0;
+              font-size: 12px;
+              user-select: none;
+            }
+
+            & button {
+              padding: 4px;
+            }
           `}
         >
-          <IconButton aria-label="search" className="se" onClick={handleOpen}>
+          <IconButton aria-label="search" className="se">
             <SearchIcon />
           </IconButton>
           <kbd>Ctrl</kbd> + <kbd>K</kbd>
