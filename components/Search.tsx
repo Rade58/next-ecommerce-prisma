@@ -61,31 +61,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Search: FC = () => {
+  const classes = useStyles();
+
   const { push: rPush } = useRouter();
 
   const [slugs, setSlugs] = useState<{ value: string; label: string }[]>([]);
-
-  /*  useEffect(() => {
-    if (!slugs.length) {
-      axios.get("/api/products/slugs").then(({ data }) => {
-        setSlugs(data);
-      });
-    }
-  }, [setSlugs, slugs.length]); */
-
-  const options = [
-    { value: "ckt4op9tq0228ojuoh3k2bp63", label: "Playstation" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
-  const classes = useStyles();
-
-  /* const [productsAndPaths, setProductsAndPaths] = useState<
-    { value: string; label: string }[]
-  >([]); */
-
-  const [searchValue, setSearchValue] = useState<string>("");
 
   const [open, setOpen] = useState(false);
 
@@ -112,7 +92,7 @@ const Search: FC = () => {
     return () => {
       window.onkeydown = null;
     };
-  }, [setOpen, searchValue]);
+  }, [setOpen]);
 
   const [searchReqStatus, setSearchReqStatus] = useState<
     "idle" | "pending" | "failed"
@@ -182,18 +162,9 @@ const Search: FC = () => {
               <Button type="submit">
                 <SearchIcon />
               </Button>
-              {/* <TextField
-                value={searchValue}
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                }}
-                id="outlined-basic"
-                label="Search Products"
-                variant="outlined"
-                autoFocus
-                multiline
-              /> */}
+
               <Select
+                isLoading={searchReqStatus === "pending"}
                 label="Single select"
                 options={slugs}
                 classNamePrefix="Products"

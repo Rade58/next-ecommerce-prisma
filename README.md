@@ -1,23 +1,10 @@
 # SEARCH FOR PRODUCTS
 
-WE WON'T BE DOING AUTOCOMPLETE
+WE WILL BE DOING AUTOCOMPLETE
 
-WHICH CAN IMPLEMENT THIS BY USING [THIS FROM MATERIAL UI](https://material-ui.com/components/autocomplete/#autocomplete), OR ON OUR OWN (IF YOU WANT TO TRY ON YOUR OWN, CHECK THIS OUT <https://www.digitalocean.com/community/tutorials/react-react-autocomplete>) ([code sndbox](https://codesandbox.io/s/8lyp733pj0?file=/src/Autocomplete.jsx))
+**BUT WE WON'T USE MATERIAL UI SOLUTIION** WHICH WE CAN IMPLEMENT BY USING [THIS FROM MATERIAL UI](https://material-ui.com/components/autocomplete/#autocomplete), OR WE CAN DO IT COMPLETELY BY OURSELF (IF YOU WANT TO TRY ON YOUR OWN, CHECK THIS OUT <https://www.digitalocean.com/community/tutorials/react-react-autocomplete>) ([code sndbox](https://codesandbox.io/s/8lyp733pj0?file=/src/Autocomplete.jsx))
 
-<!-- 
-**BUT FOR OUR PROJECT WE ARE JUST GOING TO HAVE SEARCH BOX AND WE WON'T HAVE LIST OF POSSIBLE RESULTS** (WE WILL SEARCH JUST BY ENTERING TEXT AND PRESSING ENTER)
-
-***
-
-ALSO I DIDN'T MENTIONED THAT FULL THEST SEARCH WHEN WE TALK ABOUT POSTGRES AND SUPABASE AND PRISMA ISN'T THAT SIMPLE
-
-***
-
-***
-
-**IN OUR EXAMPLE WE WILL RELY ON POSTGRES FILTERING CAPABILITIES** (**WE ARE GOING TO USE POSTGRES `contains` METHOD**)
-
-*** -->
+FOR AUTOCOMPLETE COMPONENT WE WILL USE [react-select](https://react-select.com/)
 
 ## I DEVELOPED THIS FOR FRONTEND
 
@@ -28,21 +15,10 @@ cat components/Search.tsx
 MOST IMPORTANT THING FROM THIS IS 
 
 
-## AND THIS IS API ROUTE FOR GETTING ALL PRODUCT NAMES, AND FOR GETTING ALL SLUGS
-
-***
-
-I DIDN
-
-
-***
-
+## THIS IS API ROUTE FOR SEARCHING WE DEVELOPED
 
 ```
-cat pages/api/products/slugs.ts
+mkdir pages/api/products/search && touch "pages/api/products/search/[text].ts"
 ```
 
-WE ARE HITTING THIS ROUTE ONLY WHEN HEADER MOUNTS
-
-I THINK RESOULT FROM THIS ROUTE NEEDS TO BE IN LOCAL STORAG OR SOMETHING (I DON'T HAVE TIME FOR THAT RIGHT NOW)
-
+AS YOU CAN SEE FROM THE ROUTE, WE ARE NOT USING TEXT SEARCH, WE ARE USING FILTERING (WE ARE QUERYING AND USING `contains` METHOD)
