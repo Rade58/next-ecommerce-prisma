@@ -11,3 +11,7 @@ THAT SHOULD TAKE USER TO TO THE `/products/p/[pageNumber]` PAGE
 ```
 mkdir pages/products/p && touch "pages/products/p/[page].tsx"
 ```
+
+AND FOR THIS PAGE WE WILL DEFINE LINKS FOR PAGINATION
+
+AS YOU KNOW WE NEED TO PAY TTENTION TO CURSOR
