@@ -85,9 +85,9 @@ const LatestProducts: FC<{
           flex-direction: column;
         `}
       >
-        <Typography variant="h2" component="h6">
+        {/* <Typography variant="h2" component="h6">
           Latest Products
-        </Typography>
+        </Typography> */}
         {!loading /* && listRenderingAllowed */ && (
           <div
             css={css`

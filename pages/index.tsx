@@ -8,7 +8,7 @@ import type { Product } from "@prisma/client";
 
 import prismaClient from "../lib/prisma";
 
-import Lorem from "../components/Lorem";
+// import Lorem from "../components/Lorem";
 
 import Layout from "../components/1_index_page/Layout";
 

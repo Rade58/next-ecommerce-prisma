@@ -5,12 +5,15 @@ import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 import { useEffect, useState, useCallback, useRef } from "react";
 
+import Link from "next/link";
+
 import {
   // Grid,
   Typography,
   makeStyles,
   CircularProgress,
   Card,
+  Link as MuiLink,
 } from "@material-ui/core";
 // import type { Product as ProductType } from "@prisma/client";
 
@@ -152,6 +155,11 @@ const LatestProducts: FC<{
       <Typography variant="h2" component="h6">
         Latest Products
       </Typography>
+      <div>
+        <Link href="/products/p/1" passHref>
+          <MuiLink>More products</MuiLink>
+        </Link>
+      </div>
       {!loading /* && listRenderingAllowed */ && (
         <div
           css={css`

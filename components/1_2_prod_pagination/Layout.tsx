@@ -6,7 +6,7 @@ import type { FC } from "react";
 
 import type { Products as ProductsType } from "../../pages/index";
 
-import LatestProducts from "./Products";
+import Products from "./Products";
 
 // import type { ProductsListType } from "../../dummy/products";
 
@@ -27,7 +27,7 @@ const Layout: FC<{
     >
       {children}
 
-      <LatestProducts products={products} />
+      <Products products={products} />
     </main>
   );
 };
