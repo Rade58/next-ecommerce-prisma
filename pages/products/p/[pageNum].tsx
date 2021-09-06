@@ -6,8 +6,22 @@ import prismaClient from "../../../lib/prisma";
 
 import Layout from "../../../components/1_2_prod_pagination/Layout";
 
+export type ProductI = {
+  productId: string;
+  adminId: string;
+  name: string;
+  image: string;
+  description: string;
+  brand: string;
+  category: string | null;
+  price: number;
+  countInStock: number;
+  rating: number;
+  numReviews: number;
+};
+
 interface PropsI {
-  products: string[];
+  products: ProductI[];
 }
 
 type paramsType = {
@@ -74,16 +88,27 @@ export const getServerSideProps: GetServerSideProps<
     orderBy: {
       updatedAt: "desc",
     },
+    select: {
+      productId: true,
+      adminId: true,
+      name: true,
+      image: true,
+      description: true,
+      brand: true,
+      category: true,
+      price: true,
+      countInStock: true,
+      rating: true,
+      numReviews: true,
+      /* createdAt: true,
+      updatedAt: true, */
+    },
   });
   // --------------------------------------------
 
-  /* const cursor = prismaClient.product.findUnique({
-
-    }) */
-
   return {
     props: {
-      products: [],
+      products,
     },
   };
 };
@@ -95,7 +120,7 @@ const ProductPage: NP<PropsI> = (props) => {
 
   return (
     <>
-      <Layout>{/*  */}</Layout>
+      <Layout products={props.products}>{/*  */}</Layout>
     </>
   );
 };
