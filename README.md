@@ -6,6 +6,8 @@ INDEX PAGE SHOULD HAVE ONLY 10 MOST POPULAR PRODUCTS
 
 AND IT SHOULD HAVE LINK FOR `SEE MORE PRODUCTS`
 
-THAT SHOULD TAKE USER TO TO THE `/products/pages/[pageNumber]` PAGE
+THAT SHOULD TAKE USER TO TO THE `/products/p/[pageNumber]` PAGE
 
-
+```
+mkdir pages/products/p && touch "pages/products/p/[page].tsx"
+```
