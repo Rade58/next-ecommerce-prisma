@@ -139,6 +139,12 @@ const LatestProducts: FC<{
           margin-right: auto;
         }
 
+        @media screen and (max-width: 800px) {
+          & h6 {
+            font-size: 3em;
+          }
+        }
+
         display: flex;
         flex-direction: column;
       `}
