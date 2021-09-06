@@ -56,12 +56,7 @@ const Product: FC<{ product: ProductsType[0] }> = ({ product }) => {
                 {name}
               </Typography>
 
-              <Rating
-                name="read-only"
-                value={rating}
-                precision={0.5}
-                readOnly
-              />
+              <Rating name="read-only" value={rating} precision={1} readOnly />
               <Typography variant="caption" component="i">
                 {numReviews} reviews
               </Typography>
