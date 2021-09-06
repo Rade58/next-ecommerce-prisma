@@ -27,13 +27,11 @@ import ProductCard from "./ProductCard";
 
 const LatestProducts: FC<{
   products: ProductsType;
-}> = ({ products: prods }) => {
-  const [products, setProducts] = useState<typeof prods>(prods);
-
-  // console.log({ products });
-
+}> = ({ products /* : prods */ }) => {
   const [session, loading] = useSession();
 
+  /* const [products, setProducts] = useState<typeof prods>(prods);
+  
   const [requestStatus, setRequestStatus] = useState<
     "idle" | "pending" | "rejected"
   >("idle");
@@ -94,52 +92,9 @@ const LatestProducts: FC<{
       setListRenderingAllowed(true);
 
       window.onscroll = () => {
-        // console.log(requestStatus);
-
         console.log(requestStatus === "pending");
 
-        //
         if (requestStatus === "pending") return;
-
-        /*
-
-        x /100 = y / b
-        
-        x * b = 100 * y
-
-        b = (100 * y)/x
-
-        */
-
-        /* console.log(
-          JSON.stringify(
-            {
-              scrollHeight: document.documentElement.scrollHeight,
-              clientHeight: document.documentElement.clientHeight,
-              scrollTop: document.documentElement.scrollTop,
-              DIFF:
-                document.documentElement.scrollHeight -
-                document.documentElement.scrollTop,
-              ratio: Math.round(
-                document.documentElement.scrollHeight /
-                  document.documentElement.scrollTop
-              ),
-              halfScrollHeight: document.documentElement.scrollHeight / 2,
-            },
-            null,
-            2
-          )
-        ); */
-
-        /*  const he =
-          document.documentElement.scrollHeight -
-          document.documentElement.clientHeight;
-
-        const to = document.documentElement.scrollTop;
-
-        const perc = (100 * to) / he;
-
-        console.log(perc); */
 
         console.log(
           (100 * document.documentElement.scrollTop) /
@@ -166,16 +121,12 @@ const LatestProducts: FC<{
     setRequestStatus,
     requestStatus,
     setListRenderingAllowed,
-  ]);
+  ]); */
 
   return (
     <div
       css={css`
         margin: 10px auto;
-        /* width: fit-content; */
-        /* text-align: center; */
-
-        /* border: pink solid 1px; */
 
         width: 100%;
 
@@ -193,10 +144,9 @@ const LatestProducts: FC<{
       <Typography variant="h2" component="h6">
         Latest Products
       </Typography>
-      {!loading && listRenderingAllowed && (
+      {!loading /* && listRenderingAllowed */ && (
         <div
           css={css`
-            /* border: crimson solid 1px; */
             width: 75%;
 
             @media screen and (max-width: 600px) {
@@ -214,63 +164,51 @@ const LatestProducts: FC<{
               flex-basis: 280px;
               flex-grow: 1;
               flex-shrink: 2;
-              /* border: pink solid 2px; */
-
               margin: 16px;
             }
           `}
         >
-          {requestStatus !== "pending" &&
-            products.map((product) => {
+          {/* {requestStatus !== "pending" && */}
+          {products.map((product) => {
+            return (
+              <ProductCard
+                product={product}
+                key={`${product.productId}-${Math.random()}-${product.name}`}
+              />
+            );
+          })}
+          {/* {requestStatus === "pending" && ( */}
+          <Skeleton variant="rect" width="100%" height="100%">
+            {products.map((product, i) => {
               return (
-                <ProductCard
-                  product={product}
-                  key={`${product.productId}-${Math.random()}-${product.name}`}
-                />
+                <Card key={`${product.productId}-${i + 4}`}>Hello World</Card>
               );
             })}
-          {requestStatus === "pending" && (
-            <Skeleton
-              // key={`${product.adminId}-${product.name}-${i}`}
-              variant="rect"
-              width="100%"
-              height="100%"
-            >
-              {products.map((product, i) => {
-                return (
-                  <Card
-                    // height={210}
-                    key={`${product.productId}-${i + 4}`}
-                  >
-                    Hello World
-                  </Card>
-                );
-              })}
-            </Skeleton>
-          )}
-          {requestStatus === "pending" && (
-            <div
-              css={css`
-                z-index: 4;
-                display: flex;
-                justify-content: center;
-                position: fixed;
+          </Skeleton>
+          ){/* } */}
+          {/* {requestStatus === "pending" && ( */}
+          <div
+            css={css`
+              z-index: 4;
+              display: flex;
+              justify-content: center;
+              position: fixed;
 
-                bottom: 12vh;
+              bottom: 12vh;
 
-                & > * {
-                  text-align: center;
-                }
-              `}
-            >
-              <CircularProgress color="primary" size={48} />
-            </div>
-          )}
-          {requestStatus === "rejected" && (
-            <Alert severity="error">
-              Could{"'"}t fetch products (server problem)
-            </Alert>
-          )}
+              & > * {
+                text-align: center;
+              }
+            `}
+          >
+            <CircularProgress color="primary" size={48} />
+          </div>
+          {/* )} */}
+          {/* {requestStatus === "rejected" && ( */}
+          <Alert severity="error">
+            Could{"'"}t fetch products (server problem)
+          </Alert>
+          {/* )} */}
         </div>
       )}
     </div>
