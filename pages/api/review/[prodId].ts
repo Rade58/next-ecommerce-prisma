@@ -130,6 +130,22 @@ handler.post(async (req, res) => {
     },
   });
 
+  let rateSum = 0;
+
+  revs.forEach((rev) => {
+    rateSum = rateSum + rev.rating;
+  });
+
+  // UPDATE AVERAGE
+  const updatedProduct = await prismaClient.product.update({
+    where: {
+      productId: prodId,
+    },
+    data: {
+      rating: rateSum / revs.length,
+    },
+  });
+
   return res.status(200).json(revs);
 });
 
