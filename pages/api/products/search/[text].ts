@@ -6,24 +6,26 @@ import { supabase as supaClient } from "../../../lib/supabase";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
-handler.post(async (req, res) => {
-  const { text } = req.body as { text: string };
+handler.get(async (req, res) => {
+  const text = req.query.text as string;
 
   try {
-    const slugs = await prismaClient.product.findMany({
-      where: {
-        name: {
-          contains: text,
-          mode: "insensitive",
+    const slugs = (
+      await prismaClient.product.findMany({
+        where: {
+          name: {
+            contains: text,
+            mode: "insensitive",
+          },
         },
-      },
-      select: {
-        name: true,
-        productId: true,
-      },
-    });
+        select: {
+          name: true,
+          productId: true,
+        },
+      })
+    ).map((prod) => ({ value: prod.productId, label: prod.name }));
 
-    console.log({ slugs, text });
+    // console.log({ slugs, text });
 
     return res.status(200).json(slugs);
   } catch (err) {
