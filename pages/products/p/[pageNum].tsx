@@ -18,19 +18,44 @@ export const getServerSideProps: GetServerSideProps<
   PropsI | any[],
   paramsType
 > = async (ctx) => {
-  const { params } = ctx;
+  // LETS FIRST CREATE SKIP VALUE
+  // THAT WILL BE THE NUMBER OF PRODUCTS DISPLAYED ON THE PAGE
+  const numOfProductsPerPage = 10;
+  //
+  //
 
+  const { params, res } = ctx;
+
+  // AND THIS NUMBER (QUERY PARMAETER) WILL BE NUMBER WE MULTIPPLY OUR
+  // numOfProductsPerPage
   const pageNum = params?.pageNum; //
 
   if (!pageNum) {
+    res.writeHead(302, { Location: "/" });
     return {
       props: {
         products: [],
       },
     };
   }
-
   if (typeof parseInt(pageNum) !== "number") {
+    res.writeHead(302, { Location: "/" });
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
+  if (!(parseInt(pageNum) % parseFloat(pageNum))) {
+    res.writeHead(302, { Location: "/" });
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
+  if (parseInt(pageNum) === 0) {
+    res.writeHead(302, { Location: "/" });
     return {
       props: {
         products: [],
@@ -38,7 +63,19 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const cursorNumber = parseInt(pageNum);
+  // ---------------- skip value ----------------
+  const pageNumVal = parseInt(pageNum);
+
+  const skipVal = numOfProductsPerPage * (pageNumVal - 1);
+
+  const products = await prismaClient.product.findMany({
+    take: pageNumVal,
+    skip: skipVal,
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+  // --------------------------------------------
 
   /* const cursor = prismaClient.product.findUnique({
 
