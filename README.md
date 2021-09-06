@@ -2,9 +2,17 @@
 
 WE WON'T BE DOING AUTOCOMPLETE
 
-WHICH CAN IMPLEMENT THIS BY USING [THIS FROM MATERIAL UI](https://material-ui.com/components/autocomplete/#autocomplete), OR ON OUR OWN (IF YOU WANT TO TRY ON YOUR OWN, CHECK THIS OUT <https://www.digitalocean.com/community/tutorials/react-react-autocomplete>)
+WHICH CAN IMPLEMENT THIS BY USING [THIS FROM MATERIAL UI](https://material-ui.com/components/autocomplete/#autocomplete), OR ON OUR OWN (IF YOU WANT TO TRY ON YOUR OWN, CHECK THIS OUT <https://www.digitalocean.com/community/tutorials/react-react-autocomplete>) ([code sndbox](https://codesandbox.io/s/8lyp733pj0?file=/src/Autocomplete.jsx))
 
 **BUT FOR OUR PROJECT WE ARE JUST GOING TO HAVE SEARCH BOX AND WE WON'T HAVE LIST OF POSSIBLE RESULTS** (WE WILL SEARCH JUST BY ENTERING TEXT AND PRESSING ENTER)
+
+***
+
+ALSO I DIDN'T MENTIONED THAT FULL THEST SEARCH WHEN WE TALK ABOUT POSTGRES AND SUPABASE AND PRISMA ISN'T THAT SIMPLE
+
+
+
+***
 
 ## I DEVELOPED THIS FOR FRONTEND
 
