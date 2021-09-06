@@ -14,6 +14,7 @@ handler.post(async (req, res) => {
       where: {
         name: {
           contains: text,
+          mode: "insensitive",
         },
       },
       select: {
@@ -22,7 +23,9 @@ handler.post(async (req, res) => {
       },
     });
 
-    return res.status(200).json("some");
+    console.log({ slugs, text });
+
+    return res.status(200).json(slugs);
   } catch (err) {
     console.error(err);
 
