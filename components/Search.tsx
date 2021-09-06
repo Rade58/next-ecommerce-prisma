@@ -170,7 +170,7 @@ const Search: FC = () => {
                 classNamePrefix="Products"
                 autoFocus
                 isSearchable
-                placeholder="Search For Products..."
+                placeholder="Search Products..."
                 isClearable
                 onInputChange={(a) => {
                   console.log(JSON.stringify({ a }, null, 2));

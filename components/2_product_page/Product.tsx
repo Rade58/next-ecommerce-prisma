@@ -54,13 +54,16 @@ const useStyles = makeStyles({
   inherColor: {
     backgroundColor: "inherit",
   },
+  goBack: {
+    marginBottom: "20px",
+  },
 });
 
 const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
   product,
 }) => {
   const { back } = useRouter();
-  const { kont, pap, papin, upper, butti, inherColor } = useStyles();
+  const { kont, pap, papin, upper, butti, inherColor, goBack } = useStyles();
 
   const [reviews, setReviews] = useState(product.reviews);
   const [numReviews, setNumReviews] = useState(product.reviews.length);
@@ -186,7 +189,11 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
         <Grid container className={upper}>
           <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
             <section>
-              <Button color="primary" onClick={() => back()}>
+              <Button
+                classes={{ root: goBack }}
+                color="primary"
+                onClick={() => back()}
+              >
                 Go Back
               </Button>
             </section>
