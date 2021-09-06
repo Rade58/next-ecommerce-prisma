@@ -123,6 +123,8 @@ const LatestProducts: FC<{
     setListRenderingAllowed,
   ]); */
 
+  console.log({ products });
+
   return (
     <div
       css={css`
@@ -178,36 +180,40 @@ const LatestProducts: FC<{
             );
           })}
           {/* {requestStatus === "pending" && ( */}
-          <Skeleton variant="rect" width="100%" height="100%">
-            {products.map((product, i) => {
-              return (
-                <Card key={`${product.productId}-${i + 4}`}>Hello World</Card>
-              );
-            })}
-          </Skeleton>
-          ){/* } */}
+          {loading && (
+            <Skeleton variant="rect" width="100%" height="100%">
+              {products.map((product, i) => {
+                return (
+                  <Card key={`${product.productId}-${i + 4}`}>Hello World</Card>
+                );
+              })}
+            </Skeleton>
+          )}
+          {/* } */}
           {/* {requestStatus === "pending" && ( */}
-          <div
-            css={css`
-              z-index: 4;
-              display: flex;
-              justify-content: center;
-              position: fixed;
+          {loading && (
+            <div
+              css={css`
+                z-index: 4;
+                display: flex;
+                justify-content: center;
+                position: fixed;
 
-              bottom: 12vh;
+                bottom: 12vh;
 
-              & > * {
-                text-align: center;
-              }
-            `}
-          >
-            <CircularProgress color="primary" size={48} />
-          </div>
+                & > * {
+                  text-align: center;
+                }
+              `}
+            >
+              <CircularProgress color="primary" size={48} />
+            </div>
+          )}
           {/* )} */}
           {/* {requestStatus === "rejected" && ( */}
-          <Alert severity="error">
+          {/* <Alert severity="error">
             Could{"'"}t fetch products (server problem)
-          </Alert>
+          </Alert> */}
           {/* )} */}
         </div>
       )}

@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
       const products = await prismaClient.product.findMany({
         orderBy: {
           rating: "desc",
-          updatedAt: "desc",
+          // updatedAt: "desc",
         },
         take: 8,
         select: {
@@ -61,6 +61,8 @@ export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
     updatedAt: true, */
         },
       });
+
+      console.log({ products });
 
       return {
         props: {
