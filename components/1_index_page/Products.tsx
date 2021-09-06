@@ -149,7 +149,7 @@ const LatestProducts: FC<{
       {!loading /* && listRenderingAllowed */ && (
         <div
           css={css`
-            width: 75%;
+            width: 80%;
 
             @media screen and (max-width: 600px) {
               width: 94%;
@@ -163,9 +163,9 @@ const LatestProducts: FC<{
             flex-wrap: wrap;
 
             & > div.my-card {
-              flex-basis: 280px;
+              flex-basis: 220px;
               flex-grow: 1;
-              flex-shrink: 2;
+              flex-shrink: 1;
               margin: 16px;
             }
           `}
