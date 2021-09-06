@@ -9,7 +9,7 @@ AND IT SHOULD HAVE LINK FOR `SEE MORE PRODUCTS`
 THAT SHOULD TAKE USER TO TO THE `/products/p/[pageNumber]` PAGE
 
 ```
-mkdir pages/products/p && touch "pages/products/p/[page].tsx"
+mkdir pages/products/p && touch "pages/products/p/[pageNum].tsx"
 ```
 
 AND FOR THIS PAGE WE WILL DEFINE LINKS FOR PAGINATION
