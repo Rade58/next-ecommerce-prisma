@@ -12,9 +12,6 @@ FOR AUTOCOMPLETE COMPONENT WE WILL USE [react-select](https://react-select.com/)
 cat components/Search.tsx
 ```
 
-MOST IMPORTANT THING FROM THIS IS 
-
-
 ## THIS IS API ROUTE FOR SEARCHING WE DEVELOPED
 
 ```
