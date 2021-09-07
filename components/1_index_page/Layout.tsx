@@ -14,20 +14,28 @@ const Layout: FC<{
   products: ProductsType;
 }> = ({ children, products }) => {
   return (
-    <main
-      className="index-page-content"
-      css={css`
-        /* border: pink solid 2px; */
-        margin: 20px auto;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      `}
-    >
-      {children}
-      <Carousel />
-      <LatestProducts products={products} />
+    <main>
+      <div
+        css={css`
+          position: relative;
+        `}
+      >
+        <Carousel />
+      </div>
+      <section
+        className="index-page-content"
+        css={css`
+          /* border: pink solid 2px; */
+          margin: 20px auto;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        `}
+      >
+        {children}
+        <LatestProducts products={products} />
+      </section>
     </main>
   );
 };

@@ -12,6 +12,8 @@ import Car from "react-material-ui-carousel";
 
 import { Paper, Button } from "@material-ui/core";
 
+const placeholderImage = "https://placeimg.com/640/480/any";
+
 const CarItem: FC<{
   item: {
     name: string;
@@ -20,12 +22,17 @@ const CarItem: FC<{
   };
 }> = (props) => {
   return (
-    <Paper>
+    <section
+      css={css`
+        width: 80%;
+        border: crimson solid 1px;
+      `}
+    >
       <h2>{props.item.name}</h2>
       <p>{props.item.description}</p>
 
       <Button className="CheckButton">Check it out!</Button>
-    </Paper>
+    </section>
   );
 };
 
@@ -34,13 +41,13 @@ const Carousel: FC = () => {
     {
       name: "Random Name #1",
       description: "Probably the most random thing you have ever seen!",
-      image: "",
+      image: placeholderImage,
       src: "",
     },
     {
       name: "Random Name #2",
       description: "Hello World!",
-      image: "",
+      image: placeholderImage,
       src: "",
     },
   ];
@@ -48,11 +55,7 @@ const Carousel: FC = () => {
   return (
     <Car>
       {items.map((item, i) => (
-        <Link href="/prods/1" key={`${i}-${item.name}`}>
-          <a>
-            <CarItem key={i} item={item} />
-          </a>
-        </Link>
+        <CarItem key={i} item={item} />
       ))}
     </Car>
   );
