@@ -35,99 +35,6 @@ const LatestProducts: FC<{
 }> = ({ products /* : prods */ }) => {
   const [session, loading] = useSession();
 
-  /* const [products, setProducts] = useState<typeof prods>(prods);
-  
-  const [requestStatus, setRequestStatus] = useState<
-    "idle" | "pending" | "rejected"
-  >("idle");
-
-  const [cursor, setCursor] = useState<string>(
-    products[products.length - 1].productId
-  );
-
-  useEffect(() => {
-    setCursor(products[products.length - 1].productId);
-  }, [products]);
-
-  const [listRenderingAllowed, setListRenderingAllowed] =
-    useState<boolean>(false);
-
-  const fetchNewProducts = useCallback(async () => {
-    //
-
-    try {
-      setRequestStatus("pending");
-
-      const { data } = await axios.post(
-        "/api/products",
-        { cursor },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
-
-      console.log({ data });
-
-      if (!data) {
-        setRequestStatus("idle");
-        return;
-      }
-
-      setProducts((prev) => {
-        return [...prev, ...(data as typeof products)];
-      });
-
-      setRequestStatus("idle");
-    } catch (error) {
-      console.error(error);
-
-      setRequestStatus("rejected");
-
-      setTimeout(() => {
-        setRequestStatus("idle");
-      }, 3000);
-    }
-  }, [setProducts, cursor, setRequestStatus]);
-
-  useEffect(() => {
-    if (!window.onscroll) {
-      setListRenderingAllowed(true);
-
-      window.onscroll = () => {
-        console.log(requestStatus === "pending");
-
-        if (requestStatus === "pending") return;
-
-        console.log(
-          (100 * document.documentElement.scrollTop) /
-            (document.documentElement.scrollHeight -
-              document.documentElement.clientHeight)
-        );
-
-        if (
-          (100 * document.documentElement.scrollTop) /
-            (document.documentElement.scrollHeight -
-              document.documentElement.clientHeight) >
-          90
-        ) {
-          fetchNewProducts();
-        }
-      };
-    }
-
-    return () => {
-      window.onscroll = null;
-    };
-  }, [
-    fetchNewProducts,
-    setRequestStatus,
-    requestStatus,
-    setListRenderingAllowed,
-  ]); */
-
   console.log({ products });
 
   return (
@@ -248,9 +155,11 @@ const LatestProducts: FC<{
           }
         `}
       >
-        <Link href="/prods/1" passHref>
-          <MuiLink>See More products</MuiLink>
-        </Link>
+        {products.length !== 0 && (
+          <Link href="/prods/1" passHref>
+            <MuiLink>See More products</MuiLink>
+          </Link>
+        )}
       </div>
     </div>
   );
