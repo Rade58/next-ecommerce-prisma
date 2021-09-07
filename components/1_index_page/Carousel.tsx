@@ -28,14 +28,12 @@ var placeholderItems: ProductItemI[] = [
     name: "Random Name #1",
     description: "Probably the most random thing you have ever seen!",
     image: placeholderImage,
-    src: placeholderImage,
     prodId: "",
   },
   {
     name: "Random Name #2",
     description: "Hello World!",
     image: placeholderImage,
-    src: placeholderImage,
     prodId: "",
   },
 ];
