@@ -157,11 +157,7 @@ const LatestProducts: FC<{
       <Typography variant="h2" component="h6">
         Latest Products
       </Typography>
-      <div>
-        <Link href="/prods/1" passHref>
-          <MuiLink>More products</MuiLink>
-        </Link>
-      </div>
+
       {/* <Button
         onClick={() => {
           Router.push("/prods/1");
@@ -238,6 +234,20 @@ const LatestProducts: FC<{
             Could{"'"}t fetch products (server problem)
           </Alert> */}
           {/* )} */}
+          <div
+            css={css`
+              margin-top: 2em;
+
+              & a {
+                font-size: 2em;
+                color: #4f3b75;
+              }
+            `}
+          >
+            <Link href="/prods/1" passHref>
+              <MuiLink>See More products</MuiLink>
+            </Link>
+          </div>
         </div>
       )}
     </div>

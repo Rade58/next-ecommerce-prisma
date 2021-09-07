@@ -9,6 +9,11 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import {
+  ArrowBackIos as ArrB,
+  ArrowForwardIos as ArrF,
+} from "@material-ui/icons";
+
+import {
   // Grid,
   Typography,
   makeStyles,
@@ -50,18 +55,6 @@ const LatestProducts: FC<{
 
   return (
     <Fragment>
-      <div>
-        {pageNum - 1 > 0 && (
-          <Link href={`/prods/${pageNum - 1}`} passHref>
-            <MuLink>Prev</MuLink>
-          </Link>
-        )}
-
-        <Link href={`/prods/${pageNum + 1}`} passHref>
-          <MuLink>Next</MuLink>
-        </Link>
-      </div>
-
       <div
         css={css`
           margin: 10px auto;
@@ -106,12 +99,65 @@ const LatestProducts: FC<{
 
               & > div.my-card {
                 flex-basis: 220px;
-                flex-grow: 1;
+                flex-grow: 0;
                 flex-shrink: 1;
                 margin: 16px;
               }
+
+              & > div > div > div > button > img {
+                /* border: crimson solid 4px; */
+
+                width: 100%;
+                height: auto;
+                max-height: 240px;
+              }
+
+              @media screen and (max-width: 600px) {
+                width: 100%;
+                margin-left: 1vw;
+                margin-right: 1vw;
+                padding-right: 0;
+                padding-left: 0;
+
+                & > div.my-card {
+                  flex-basis: 280px;
+                  flex-grow: 1;
+                  flex-shrink: 1;
+                  margin: 4px;
+                }
+              }
             `}
           >
+            <div
+              css={css`
+                width: 100%;
+                /* border: pink solid 4px; */
+                margin-top: 2em;
+                margin-bottom: 2em;
+                display: flex;
+                justify-content: space-around;
+
+                & a {
+                  font-size: 1.3em;
+                  display: flex;
+                  align-items: center;
+                }
+              `}
+            >
+              {pageNum - 1 > 0 && (
+                <Link href={`/prods/${pageNum - 1}`} passHref>
+                  <MuLink>
+                    <ArrB /> Prev Page{" "}
+                  </MuLink>
+                </Link>
+              )}
+
+              <Link href={`/prods/${pageNum + 1}`} passHref>
+                <MuLink>
+                  Next Page <ArrF />
+                </MuLink>
+              </Link>
+            </div>
             {/* {requestStatus !== "pending" && */}
             {products.map((product) => {
               return (
@@ -133,6 +179,36 @@ const LatestProducts: FC<{
                 })}
               </Skeleton>
             )}
+            <div
+              css={css`
+                width: 100%;
+                /* border: pink solid 4px; */
+                margin-top: 2em;
+                margin-bottom: 2em;
+                display: flex;
+                justify-content: space-around;
+
+                & a {
+                  font-size: 1.3em;
+                  display: flex;
+                  align-items: center;
+                }
+              `}
+            >
+              {pageNum - 1 > 0 && (
+                <Link href={`/prods/${pageNum - 1}`} passHref>
+                  <MuLink>
+                    <ArrB /> Prev Page{" "}
+                  </MuLink>
+                </Link>
+              )}
+
+              <Link href={`/prods/${pageNum + 1}`} passHref>
+                <MuLink>
+                  Next Page <ArrF />
+                </MuLink>
+              </Link>
+            </div>
             {/* } */}
             {/* {requestStatus === "pending" && ( */}
             {loading && (
