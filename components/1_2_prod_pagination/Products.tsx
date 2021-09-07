@@ -52,12 +52,12 @@ const LatestProducts: FC<{
     <Fragment>
       <div>
         {pageNum - 1 && (
-          <Link href={`/products/p/${pageNum - 1}`} passHref>
+          <Link href={`/prods/${pageNum - 1}`} passHref>
             <MuLink>Prev</MuLink>
           </Link>
         )}
 
-        <Link href={`/products/p/${pageNum + 1}`} passHref>
+        <Link href={`/prods/${pageNum + 1}`} passHref>
           <MuLink>Next</MuLink>
         </Link>
       </div>

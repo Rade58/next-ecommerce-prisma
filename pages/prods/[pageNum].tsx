@@ -2,9 +2,9 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
-import prismaClient from "../../../lib/prisma";
+import prismaClient from "../../lib/prisma";
 
-import Layout from "../../../components/1_2_prod_pagination/Layout";
+import Layout from "../../components/1_2_prod_pagination/Layout";
 
 export type ProductI = {
   productId: string;
@@ -44,6 +44,8 @@ export const getServerSideProps: GetServerSideProps<
   // numOfProductsPerPage
   const pageNum = params?.pageNum; //
 
+  console.log({ pageNum, type: typeof pageNum });
+
   if (!pageNum) {
     res.writeHead(302, { Location: "/" });
     return {
@@ -52,6 +54,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
+  console.log("1 defined");
   if (typeof parseInt(pageNum) !== "number") {
     res.writeHead(302, { Location: "/" });
     return {
@@ -60,7 +63,8 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
-  if (!(parseInt(pageNum) % parseFloat(pageNum))) {
+  console.log("2 is number");
+  if (parseInt(pageNum) % parseFloat(pageNum)) {
     res.writeHead(302, { Location: "/" });
     return {
       props: {
@@ -68,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
+  console.log("3 is not decimal");
   if (parseInt(pageNum) === 0) {
     res.writeHead(302, { Location: "/" });
     return {
@@ -76,6 +81,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
+  console.log("4 is not zero");
 
   // ---------------- skip value ----------------
   const pageNumVal = parseInt(pageNum);
@@ -83,10 +89,11 @@ export const getServerSideProps: GetServerSideProps<
   const skipVal = numOfProductsPerPage * (pageNumVal - 1);
 
   const products = await prismaClient.product.findMany({
-    take: pageNumVal,
+    take: numOfProductsPerPage,
     skip: skipVal,
     orderBy: {
-      updatedAt: "desc",
+      // updatedAt: "desc",
+      rating: "desc",
     },
     select: {
       productId: true,

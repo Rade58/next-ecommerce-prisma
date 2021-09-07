@@ -6,6 +6,7 @@ import type { FC } from "react";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 import Link from "next/link";
+import Router from "next/router";
 
 import {
   // Grid,
@@ -14,6 +15,7 @@ import {
   CircularProgress,
   Card,
   Link as MuiLink,
+  Button,
 } from "@material-ui/core";
 // import type { Product as ProductType } from "@prisma/client";
 
@@ -156,10 +158,17 @@ const LatestProducts: FC<{
         Latest Products
       </Typography>
       <div>
-        <Link href="/products/p/1" passHref>
+        <Link href="/prods/1" passHref>
           <MuiLink>More products</MuiLink>
         </Link>
       </div>
+      {/* <Button
+        onClick={() => {
+          Router.push("/prods/1");
+        }}
+      >
+        More
+      </Button> */}
       {!loading /* && listRenderingAllowed */ && (
         <div
           css={css`
