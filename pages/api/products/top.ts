@@ -6,8 +6,6 @@ import prismaClient from "../../../lib/prisma";
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
-  const { cursor } = req.body as { cursor: string };
-
   try {
     const products = await prismaClient.product.findMany({
       take: 6,
