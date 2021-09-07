@@ -39,13 +39,25 @@ const CarItem: FC<{
   return (
     <section
       css={css`
-        width: 80%;
-        border: crimson solid 1px;
+        /* border: crimson solid 1px; */
+        margin-top: -18px;
+
+        & .prod-desc {
+          background-image: linear-gradient(
+            68.3deg,
+            rgba(245, 177, 97, 1) 0.4%,
+            rgba(236, 54, 110, 1) 100.2%
+          );
+
+          width: 50%;
+        }
       `}
     >
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-      <Button className="CheckButton">Check it out!</Button>
+      <div className="prod-desc">
+        <h2>{props.item.name}</h2>
+        <p>{props.item.description}</p>
+        <Button className="CheckButton">Check it out!</Button>
+      </div>
     </section>
   );
 };
