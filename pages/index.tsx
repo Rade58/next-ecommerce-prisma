@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps<PagePropsI | { products: [] }> =
           rating: true,
           numReviews: true,
           /* createdAt: true,
-    updatedAt: true, */
+          updatedAt: true, */
         },
       });
 
