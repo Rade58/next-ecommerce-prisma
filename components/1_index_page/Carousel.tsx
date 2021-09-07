@@ -46,7 +46,7 @@ const Carousel: FC = () => {
   ];
 
   return (
-    <Carousel>
+    <Car>
       {items.map((item, i) => (
         <Link href="/prods/1" key={`${i}-${item.name}`}>
           <a>
@@ -54,7 +54,7 @@ const Carousel: FC = () => {
           </a>
         </Link>
       ))}
-    </Carousel>
+    </Car>
   );
 };
 
