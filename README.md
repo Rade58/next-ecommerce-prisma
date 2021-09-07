@@ -7,3 +7,9 @@ WE ARE GOING TO USE PACKAGE: [react-material-ui-carousel](https://www.npmjs.com/
 ```
 yarn add react-material-ui-carousel
 ```
+
+# COMPONENT WE BUILT AND WE HOOKED UP
+
+```
+cat components/1_index_page/Carousel.tsx
+```
