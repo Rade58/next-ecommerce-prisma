@@ -6,13 +6,14 @@ import type { FC } from "react";
 import { useState, useCallback, useEffect, Fragment } from "react";
 
 import Router from "next/router";
-import Link from "next/link";
 
 import Image from "next/image";
 
-import Car from "react-material-ui-carousel";
+import axios from "axios";
 
-import { Paper, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+
+import Car from "react-material-ui-carousel";
 
 const placeholderImage = "https://placeimg.com/640/480/any";
 
@@ -20,7 +21,7 @@ interface ProductItemI {
   name: string;
   description: string;
   image: string;
-  prodId: string;
+  productId: string;
 }
 
 var placeholderItems: ProductItemI[] = [
@@ -28,13 +29,13 @@ var placeholderItems: ProductItemI[] = [
     name: "Random Name #1",
     description: "Probably the most random thing you have ever seen!",
     image: placeholderImage,
-    prodId: "",
+    productId: "",
   },
   {
     name: "Random Name #2",
     description: "Hello World!",
     image: placeholderImage,
-    prodId: "",
+    productId: "",
   },
 ];
 
@@ -154,7 +155,7 @@ const CarItem: FC<{
             variant="contained"
             color="secondary"
             onClick={() => {
-              Router.push(`/products/${props.item.prodId}`);
+              Router.push(`/products/${props.item.productId}`);
             }}
           >
             Check it out!
@@ -194,14 +195,23 @@ const Carousel: FC = () => {
     }
   }, [setMounted, mounted]);
 
-  useCallback(async () => {
+  const handleRequest = useCallback(async () => {
     try {
+      setReqStatus("pending");
+
+      const { data: prods }: { data: ProductItemI[] } = await axios.get(
+        "/api/products/top"
+      );
+
+      setProducts(prods);
+
+      setReqStatus("idle");
     } catch (error) {
       console.error(error);
 
       setReqStatus("failed");
     }
-  }, [setReqStatus]);
+  }, [setReqStatus, setProducts]);
 
   return (
     <Fragment>

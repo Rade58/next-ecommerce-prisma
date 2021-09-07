@@ -11,5 +11,11 @@ yarn add react-material-ui-carousel
 # COMPONENT WE BUILT AND WE HOOKED UP
 
 ```
-cat components/1_index_page/Carousel.tsx
+touch components/1_index_page/Carousel.tsx
+```
+
+# API ROUTE FOR GETTING 6 MOST HIGHER RATD PRODUCTS
+
+```
+touch pages/api/products/top.ts
 ```
