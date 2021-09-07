@@ -8,6 +8,8 @@ import { useState, useCallback, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import Image from "next/image";
+
 import Car from "react-material-ui-carousel";
 
 import { Paper, Button } from "@material-ui/core";
@@ -19,13 +21,13 @@ var items = [
     name: "Random Name #1",
     description: "Probably the most random thing you have ever seen!",
     image: placeholderImage,
-    src: "",
+    src: placeholderImage,
   },
   {
     name: "Random Name #2",
     description: "Hello World!",
     image: placeholderImage,
-    src: "",
+    src: placeholderImage,
   },
 ];
 
@@ -41,6 +43,9 @@ const CarItem: FC<{
       css={css`
         /* border: crimson solid 1px; */
         margin-top: -18px;
+        /* height: 62vh; */
+
+        display: flex;
 
         & .prod-desc {
           background-image: linear-gradient(
@@ -48,15 +53,48 @@ const CarItem: FC<{
             rgba(245, 177, 97, 1) 0.4%,
             rgba(236, 54, 110, 1) 100.2%
           );
+          display: inline-block;
+          width: 36%;
+          height: 60vh;
+        }
 
-          width: 50%;
+        & .prod-image {
+          /* border: crimson solid 2px; */
+          width: 64%;
+          display: inline-block;
+
+          overflow: hidden;
+
+          & > div {
+            width: 100%;
+            position: relative;
+            height: 60vh;
+
+            /* border: tomato solid 4px; */
+          }
         }
       `}
     >
       <div className="prod-desc">
         <h2>{props.item.name}</h2>
         <p>{props.item.description}</p>
-        <Button className="CheckButton">Check it out!</Button>
+        <Button variant="outlined" color="secondary">
+          Check it out!
+        </Button>
+      </div>
+      <div className="prod-image">
+        <div>
+          <Image
+            src={props.item.image}
+            alt="product image"
+            layout="fill"
+            objectFit="contain"
+            // objectPosition="center center"
+            objectPosition="20 20"
+            // width="100"
+            // height="100"
+          />
+        </div>
       </div>
     </section>
   );
