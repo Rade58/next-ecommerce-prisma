@@ -94,7 +94,7 @@ const CarItem: FC<{
             margin-top: 20px;
             position: absolute;
             top: 38%;
-            left: 60%;
+            left: 50%;
             max-width: 40%;
             z-index: 200;
             color: #95dfcfef;
@@ -103,7 +103,7 @@ const CarItem: FC<{
               sans-serif;
             font-size: 1.2em;
 
-            margin-right: 20px;
+            margin-right: 60px;
             background-color: #6d79a021;
             text-align: center;
             border-radius: 2px;
