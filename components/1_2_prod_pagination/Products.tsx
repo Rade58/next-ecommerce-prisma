@@ -141,20 +141,44 @@ const LatestProducts: FC<{
                   font-size: 1.3em;
                   display: flex;
                   align-items: center;
+                  color: #4f3b75;
+                  user-select: none;
+                }
+                & span:not(.fr) {
+                  color: #904be0;
+                  font-size: 1.9em;
+                  cursor: default;
+                  user-select: none;
+
+                  border-radius: 12px;
+                  /* border: crimson solid 1px; */
+                }
+
+                & span.fr {
+                  display: flex;
+                  align-items: center;
+                  font-size: 1.3em;
+                  color: #514d58a9;
+                  cursor: default;
+                  user-select: none;
                 }
               `}
             >
-              {pageNum - 1 > 0 && (
+              {pageNum - 1 > 0 ? (
                 <Link href={`/prods/${pageNum - 1}`} passHref>
                   <MuLink>
-                    <ArrB /> Prev Page{" "}
+                    <ArrB /> {pageNum - 1}{" "}
                   </MuLink>
                 </Link>
+              ) : (
+                <span className="fr">
+                  <ArrB /> {0}{" "}
+                </span>
               )}
-
+              <span> {pageNum}</span>
               <Link href={`/prods/${pageNum + 1}`} passHref>
                 <MuLink>
-                  Next Page <ArrF />
+                  {pageNum + 1} <ArrF />
                 </MuLink>
               </Link>
             </div>
@@ -192,20 +216,41 @@ const LatestProducts: FC<{
                   font-size: 1.3em;
                   display: flex;
                   align-items: center;
+                  color: #4f3b75;
+                  user-select: none;
+                }
+                & span:not(.fr) {
+                  color: #904be0;
+                  font-size: 1.9em;
+                  cursor: default;
+                  user-select: none;
+                }
+
+                & span.fr {
+                  display: flex;
+                  align-items: center;
+                  font-size: 1.3em;
+                  color: #514d58a9;
+                  cursor: default;
+                  user-select: none;
                 }
               `}
             >
-              {pageNum - 1 > 0 && (
+              {pageNum - 1 > 0 ? (
                 <Link href={`/prods/${pageNum - 1}`} passHref>
                   <MuLink>
-                    <ArrB /> Prev Page{" "}
+                    <ArrB /> {pageNum - 1}{" "}
                   </MuLink>
                 </Link>
+              ) : (
+                <span className="fr">
+                  <ArrB /> {0}{" "}
+                </span>
               )}
-
+              <span> {pageNum}</span>
               <Link href={`/prods/${pageNum + 1}`} passHref>
                 <MuLink>
-                  Next Page <ArrF />
+                  {pageNum + 1} <ArrF />
                 </MuLink>
               </Link>
             </div>

@@ -234,22 +234,24 @@ const LatestProducts: FC<{
             Could{"'"}t fetch products (server problem)
           </Alert> */}
           {/* )} */}
-          <div
-            css={css`
-              margin-top: 2em;
-
-              & a {
-                font-size: 2em;
-                color: #4f3b75;
-              }
-            `}
-          >
-            <Link href="/prods/1" passHref>
-              <MuiLink>See More products</MuiLink>
-            </Link>
-          </div>
         </div>
       )}
+      <div
+        css={css`
+          margin-top: 2em;
+          display: flex;
+          justify-content: center;
+
+          & a {
+            font-size: 2em;
+            color: #4f3b75;
+          }
+        `}
+      >
+        <Link href="/prods/1" passHref>
+          <MuiLink>See More products</MuiLink>
+        </Link>
+      </div>
     </div>
   );
 };
