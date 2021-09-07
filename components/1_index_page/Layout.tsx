@@ -15,11 +15,7 @@ const Layout: FC<{
 }> = ({ children, products }) => {
   return (
     <main>
-      <div
-        css={css`
-          position: relative;
-        `}
-      >
+      <div className="carausel">
         <Carousel />
       </div>
       <section
