@@ -15,7 +15,7 @@ import { Button } from "@material-ui/core";
 
 import Car from "react-material-ui-carousel";
 
-const placeholderImage = "https://placeimg.com/640/480/any";
+const placeholderImage = "https://picsum.photos/300/200";
 
 interface ProductItemI {
   name: string;
@@ -212,6 +212,10 @@ const Carousel: FC = () => {
       setReqStatus("failed");
     }
   }, [setReqStatus, setProducts]);
+
+  useEffect(() => {
+    handleRequest();
+  }, [handleRequest]);
 
   return (
     <Fragment>
