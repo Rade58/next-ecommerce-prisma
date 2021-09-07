@@ -51,7 +51,7 @@ const LatestProducts: FC<{
   return (
     <Fragment>
       <div>
-        {pageNum - 1 && (
+        {pageNum - 1 > 0 && (
           <Link href={`/prods/${pageNum - 1}`} passHref>
             <MuLink>Prev</MuLink>
           </Link>
