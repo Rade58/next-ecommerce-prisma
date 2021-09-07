@@ -88,9 +88,9 @@ const CarItem: FC<{
             src={props.item.image}
             alt="product image"
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             // objectPosition="center center"
-            objectPosition="20 20"
+            // objectPosition="20 20"
             // width="100"
             // height="100"
           />
