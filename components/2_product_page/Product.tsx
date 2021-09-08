@@ -84,7 +84,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
 
   // ----------------- CART THINGS ---------------------------------------
 
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(1);
 
   const [productCartObject, setProductCartObject] = useState<{
     productId: string;
@@ -269,16 +269,39 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                       ? "Stock Exceded"
                       : "Add To Cart"}
                   </Button>
-                  <Input
+                </CardActions>
+                <div
+                  css={css`
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    padding: 0 10px;
+                    & h4 {
+                      margin-right: 18px;
+                      user-select: none;
+                    }
+                    /* 
+                    & > input {
+
+                    } */
+                  `}
+                >
+                  <h4>Amount:</h4>
+                  <TextField
+                    size="medium"
+                    color="secondary"
                     type="number"
                     value={amount}
                     onChange={(e) => {
                       if (!e.target.value) return;
+                      if (parseInt(e.target.value) < 1) return;
 
                       setAmount(parseInt(e.target.value as string));
                     }}
                   />
-                </CardActions>
+                </div>
               </Card>
             </Paper>
           </Grid>

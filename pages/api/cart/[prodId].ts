@@ -13,7 +13,7 @@ handler.get(async (req, res) => {
   console.log({ prodId });
 
   try {
-    const product = prismaClient.product.findUnique({
+    const product = await prismaClient.product.findUnique({
       where: {
         productId: prodId as string,
       },
