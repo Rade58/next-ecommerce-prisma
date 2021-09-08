@@ -81,7 +81,7 @@ const cartMachine = createMachine<
   machineFiniteStatesGenericType
 >({
   id: "main_machine",
-  initial: fse.idle,
+  initial: fse.mounting_the_cart,
   context: {
     cart: {},
   },
@@ -105,6 +105,17 @@ const cartMachine = createMachine<
       entry: [
         assign({
           cart: (ctx, ev) => {
+            Cookies.set("cart", {
+              someprodid: {
+                amound: 10,
+                prodId: "someprodid",
+              },
+            });
+
+            const cart = Cookies.get("cart");
+
+            console.log(cart);
+
             return {
               placeholder: {
                 amount: 0,

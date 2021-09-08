@@ -22,6 +22,10 @@ import { ShoppingCart as ShopIcon } from "@material-ui/icons";
 
 import { useSession } from "next-auth/client";
 
+import { useActor } from "@xstate/react";
+
+import { cartService } from "../machines/cart-machine";
+
 import ProfileMenu from "./ProfileMenu";
 
 import AdminButton from "./AdminButton";
@@ -66,30 +70,15 @@ function TemporaryDrawer() {
       setState({ ...state, [anchor]: open });
     };
 
-  const list = (anchor = "top") => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === "top" || anchor === "bottom",
-      })}
-      role="presentation"
-      onClick={toggleDrawer("top", false)}
-      onKeyDown={toggleDrawer("top", false)}
-    >
-      <List>
-        <ListItem button>
-          <ListItemIcon>Content</ListItemIcon>
-          <ListItemText primary={"something"} />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button>
-          <ListItemIcon>Content</ListItemIcon>
-          <ListItemText primary={"something"} />
-        </ListItem>
-      </List>
-    </div>
-  );
+  const [xState, dispatch] = useActor(cartService);
+
+  useEffect(() => {
+    if (!cartService.initialized) {
+      cartService.start();
+    }
+  }, []);
+
+  const anchor = "top";
 
   return (
     <div>
@@ -107,7 +96,28 @@ function TemporaryDrawer() {
           open={state["top"]}
           onClose={toggleDrawer("top", false)}
         >
-          {list("top")}
+          <div
+            className={clsx(classes.list, {
+              [classes.fullList]: anchor === "top" || anchor === "bottom",
+            })}
+            role="presentation"
+            onClick={toggleDrawer("top", false)}
+            onKeyDown={toggleDrawer("top", false)}
+          >
+            <List>
+              <ListItem button>
+                <ListItemIcon>Content</ListItemIcon>
+                <ListItemText primary={"something"} />
+              </ListItem>
+            </List>
+            <Divider />
+            <List>
+              <ListItem button>
+                <ListItemIcon>Content</ListItemIcon>
+                <ListItemText primary={"something"} />
+              </ListItem>
+            </List>
+          </div>
         </Drawer>
       </Fragment>
     </div>
