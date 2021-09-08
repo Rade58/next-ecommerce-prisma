@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
 
+const CART = "cart";
+
 interface ItemIn {
   productId: string;
   amount: number;
@@ -8,11 +10,11 @@ interface ItemIn {
 type CartRecord = Record<string, ItemIn>;
 
 export const setCartItem = ({ amount, productId }: ItemIn) => {
-  const prevCartString = Cookies.get("cart");
+  const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
     Cookies.set(
-      "cart",
+      CART,
       JSON.stringify({
         [productId]: {
           productId,
@@ -28,7 +30,31 @@ export const setCartItem = ({ amount, productId }: ItemIn) => {
 
   prevCart[productId] = { productId, amount };
 
-  Cookies.set("cart", JSON.stringify(prevCart));
+  Cookies.set(CART, JSON.stringify(prevCart));
 
   return prevCart as CartRecord;
+};
+
+export const removeCartItem = (productId: string) => {
+  const prevCartString = Cookies.get(CART);
+
+  if (!prevCartString) {
+    Cookies.set(CART, JSON.stringify({}));
+
+    return {};
+  }
+
+  const prevCart = JSON.parse(prevCartString);
+
+  if (!prevCart[productId]) {
+    Cookies.set(CART, JSON.stringify(prevCart));
+
+    return prevCart;
+  }
+
+  delete prevCart[productId];
+
+  Cookies.set(CART, JSON.stringify(prevCart));
+
+  return prevCart;
 };
