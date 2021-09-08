@@ -13,7 +13,13 @@ handler.get(async (req, res) => {
   console.log({ prodId });
 
   try {
-    return res.status(200).send("hello world");
+    const product = prismaClient.product.findUnique({
+      where: {
+        productId: prodId as string,
+      },
+    });
+
+    return res.status(200).send(product);
   } catch (err) {
     console.error(err);
     return res.status(400).send("Something went wrong");
