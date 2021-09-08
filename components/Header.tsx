@@ -13,33 +13,26 @@ import {
   IconButton,
   Typography,
   Button,
+  Drawer,
+  List,
+  Divider,
+  ListItem,
 } from "@material-ui/core";
-import {
-  Menu as MenuIcon,
-  ShoppingCart as ShopIcon,
-  EmojiObjectsTwoTone,
-} from "@material-ui/icons";
+import { Menu as MenuIcon, ShoppingCart as ShopIcon } from "@material-ui/icons";
 
-// I NEED SESSION
 import { useSession } from "next-auth/client";
-//
-// AND I NEED PROFILE MENU
+
 import ProfileMenu from "./ProfileMenu";
-//
 
 import AdminButton from "./AdminButton";
 
 import Search from "./Search";
 
-import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
+import { useAppBarStyles, useLogoStyles } from "../theme";
 
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-// import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
+
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
@@ -126,15 +119,6 @@ const Header: FC = () => {
 
   // SESSION
   const [session, loading] = useSession();
-  //
-  //  WE NEED PROFILE ID FROM THE SESSION
-  /* let profileId;
-
-  if (session?.profile) {
-    profileId = (session?.profile as { id: string }).id as string;
-  } else {
-    profileId = "";
-  } */
 
   const [profId, setProfId] = useState<string>("");
 
@@ -148,8 +132,6 @@ const Header: FC = () => {
   const { logo } = useLogoStyles();
 
   useEffect(() => {
-    // console.log(Router.asPath);
-
     if ((session as unknown as any)?.profile?.role === "BANNED") {
       if (Router.asPath === "/banned") {
         return;
@@ -204,7 +186,7 @@ const Header: FC = () => {
           </Typography>
         </IconButton>
         <Search />
-        {/* <Typography variant="h6">Hello World</Typography> */}
+
         <nav
           css={css`
             /* border: pink solid 1px; */
@@ -218,8 +200,6 @@ const Header: FC = () => {
             }
           `}
         >
-          {/* IF SESSION IS HERE SHOW PROFILE MENU */}
-          {/* OTHERWISE SHOW LOGIN BUTTON */}
           {session ? (
             <ProfileMenu
               // IT IS IMPORTANT TO PASS ID
@@ -230,20 +210,16 @@ const Header: FC = () => {
           ) : (
             <Button
               className="signin"
-              // INSTEAD OF THIS
-              // onClick={() => Router.push("/api/auth/signin")}
-              // THIS
               onClick={() => Router.push("/signin")}
               color="secondary"
               variant="contained"
               disabled={loading}
               size="small"
-              // className={butt}
             >
               Login
             </Button>
           )}
-          {/* IF PROFILE IS WITH ROLE ADMIN WE CAN RENDER THIS BUTTON */}
+
           {session &&
             (session as unknown as any)?.profile?.role === "ADMIN" && (
               <AdminButton
@@ -251,19 +227,9 @@ const Header: FC = () => {
                 isAdmin={(session as unknown as any)?.profile?.role === "ADMIN"}
               />
             )}
-          {/* ------------------------------------------------- */}
+          {/* -------------------------DRAWER (SHOPPING CART)------------------------ */}
 
           <TemporaryDrawer />
-
-          {/* <Button
-            onClick={() => Router.push("/cart")}
-            color="secondary"
-            variant="contained"
-            // className={butt}
-            size="small"
-          >
-            <ShopIcon />
-          </Button> */}
         </nav>
       </Toolbar>
     </AppBar>
