@@ -18,7 +18,7 @@ import {
   Divider,
   ListItem,
 } from "@material-ui/core";
-import { Menu as MenuIcon, ShoppingCart as ShopIcon } from "@material-ui/icons";
+import { ShoppingCart as ShopIcon } from "@material-ui/icons";
 
 import { useSession } from "next-auth/client";
 
@@ -45,12 +45,12 @@ const useStyles = makeStyles({
   },
 });
 
-type Anchor = "right";
+type Anchor = "top";
 
 function TemporaryDrawer() {
   const classes = useStyles();
   const [state, setState] = useState({
-    right: false,
+    top: false,
   });
 
   const toggleDrawer =
@@ -66,14 +66,14 @@ function TemporaryDrawer() {
       setState({ ...state, [anchor]: open });
     };
 
-  const list = (anchor = "right") => (
+  const list = (anchor = "top") => (
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === "top" || anchor === "bottom",
       })}
       role="presentation"
-      onClick={toggleDrawer("right", false)}
-      onKeyDown={toggleDrawer("right", false)}
+      onClick={toggleDrawer("top", false)}
+      onKeyDown={toggleDrawer("top", false)}
     >
       <List>
         <ListItem button>
@@ -98,16 +98,16 @@ function TemporaryDrawer() {
           color="secondary"
           variant="contained"
           size="small"
-          onClick={toggleDrawer("right", true)}
+          onClick={toggleDrawer("top", true)}
         >
           <ShopIcon />
         </Button>
         <Drawer
-          anchor={"right"}
-          open={state["right"]}
-          onClose={toggleDrawer("right", false)}
+          anchor={"top"}
+          open={state["top"]}
+          onClose={toggleDrawer("top", false)}
         >
-          {list("right")}
+          {list("top")}
         </Drawer>
       </Fragment>
     </div>
@@ -227,7 +227,7 @@ const Header: FC = () => {
                 isAdmin={(session as unknown as any)?.profile?.role === "ADMIN"}
               />
             )}
-          {/* -------------------------DRAWER (SHOPPING CART)------------------------ */}
+          {/* -------------------------DRAWER ()------------------------ */}
 
           <TemporaryDrawer />
         </nav>

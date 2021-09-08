@@ -27,11 +27,14 @@
     "@prisma/client": "^2.30.3",
     "@sendgrid/mail": "^7.4.6",
     "@supabase/supabase-js": "^1.22.5",
+    "@types/js-cookie": "^2.2.7",
     "@types/multer": "^1.4.7",
     "@types/react-select": "^4.0.17",
+    "@xstate/react": "^1.6.1",
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "express": "^4.17.1",
+    "js-cookie": "^3.0.1",
     "multer": "^1.4.3",
     "next": "11.1.2",
     "next-auth": "^3.28.0",
@@ -40,7 +43,8 @@
     "react-dom": "^17.0.2",
     "react-material-ui-carousel": "^2.3.1",
     "react-select": "^4.3.1",
-    "superjson": "^1.7.5"
+    "superjson": "^1.7.5",
+    "xstate": "^4.23.4"
   },
   "devDependencies": {
     "@types/react": "17.0.18",
