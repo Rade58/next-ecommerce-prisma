@@ -40,6 +40,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
+cartService.start();
+
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -73,9 +75,9 @@ function TemporaryDrawer() {
   const [xState, dispatch] = useActor(cartService);
 
   useEffect(() => {
-    if (!cartService.initialized) {
+    /* if (!cartService.initialized) {
       cartService.start();
-    }
+    } */
   }, []);
 
   const anchor = "top";

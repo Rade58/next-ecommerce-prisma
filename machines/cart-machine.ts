@@ -105,23 +105,25 @@ const cartMachine = createMachine<
       entry: [
         assign({
           cart: (ctx, ev) => {
-            Cookies.set("cart", {
-              someprodid: {
-                amound: 10,
-                prodId: "someprodid",
-              },
-            });
+            Cookies.set(
+              "cart",
+              JSON.stringify({
+                someprodid: {
+                  amound: 10,
+                  prodId: "someprodid",
+                },
+              })
+            );
 
             const cart = Cookies.get("cart");
 
+            if (!cart) {
+              return {};
+            }
+
             console.log(cart);
 
-            return {
-              placeholder: {
-                amount: 0,
-                productId: "",
-              },
-            };
+            return JSON.parse(cart) as CartRecord;
           },
         }),
       ],
