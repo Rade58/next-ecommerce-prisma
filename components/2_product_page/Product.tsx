@@ -266,7 +266,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                     }
                   >
                     {productCartObject.amount > productCartObject.countInStock
-                      ? "Stock Exceded"
+                      ? "Stock Exceeded"
                       : "Add To Cart"}
                   </Button>
                 </CardActions>

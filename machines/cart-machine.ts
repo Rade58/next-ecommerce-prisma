@@ -2,6 +2,8 @@ import { createMachine, assign, interpret } from "xstate";
 
 import Cookies from "js-cookie";
 
+type CardRecord = Record<string, { productId: string; amount: number }>;
+
 /**
  * @description finite states enum
  */
