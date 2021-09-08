@@ -13,7 +13,7 @@ import theme from "../theme";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Cart from "../components/Cart";
+// import Cart from "../components/Cart";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { asPath } = useRouter();
@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Header />
-          <Cart />
+          {/* <Cart /> */}
           <Component {...pageProps} />
           {asPath !== "/" && <Footer />}
         </ThemeProvider>

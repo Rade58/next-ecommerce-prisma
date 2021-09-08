@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
-import type { FC } from "react";
+import type { FC, MouseEvent, KeyboardEvent } from "react";
 
 import { useRouter } from "next/router";
 
@@ -32,6 +32,104 @@ import AdminButton from "./AdminButton";
 import Search from "./Search";
 
 import { useAppBarStyles, useLogoStyles, colors_enum } from "../theme";
+
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+// import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: "auto",
+  },
+});
+
+type Anchor = "right";
+
+function TemporaryDrawer() {
+  const classes = useStyles();
+  const [state, setState] = useState({
+    right: false,
+  });
+
+  const toggleDrawer =
+    (anchor: Anchor, open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
+
+  const list = (anchor = "right") => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === "top" || anchor === "bottom",
+      })}
+      role="presentation"
+      onClick={toggleDrawer("right", false)}
+      onKeyDown={toggleDrawer("right", false)}
+    >
+      <List>
+        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["All mail", "Trash", "Spam"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  return (
+    <div>
+      <Fragment>
+        <Button
+          color="secondary"
+          variant="contained"
+          size="small"
+          onClick={toggleDrawer("right", true)}
+        >
+          <ShopIcon />
+        </Button>
+        <Drawer
+          anchor={"right"}
+          open={state["right"]}
+          onClose={toggleDrawer("right", false)}
+        >
+          {list("right")}
+        </Drawer>
+      </Fragment>
+    </div>
+  );
+}
 
 const Header: FC = () => {
   const Router = useRouter();
@@ -124,6 +222,10 @@ const Header: FC = () => {
             justify-content: space-evenly;
             margin-left: auto;
             min-width: 150px;
+
+            & .signin {
+              margin-right: 10px;
+            }
           `}
         >
           {/* IF SESSION IS HERE SHOW PROFILE MENU */}
@@ -137,6 +239,7 @@ const Header: FC = () => {
             />
           ) : (
             <Button
+              className="signin"
               // INSTEAD OF THIS
               // onClick={() => Router.push("/api/auth/signin")}
               // THIS
@@ -144,6 +247,7 @@ const Header: FC = () => {
               color="secondary"
               variant="contained"
               disabled={loading}
+              size="small"
               // className={butt}
             >
               Login
@@ -158,7 +262,10 @@ const Header: FC = () => {
               />
             )}
           {/* ------------------------------------------------- */}
-          <Button
+
+          <TemporaryDrawer />
+
+          {/* <Button
             onClick={() => Router.push("/cart")}
             color="secondary"
             variant="contained"
@@ -166,7 +273,7 @@ const Header: FC = () => {
             size="small"
           >
             <ShopIcon />
-          </Button>
+          </Button> */}
         </nav>
       </Toolbar>
     </AppBar>
