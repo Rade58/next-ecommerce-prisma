@@ -9,7 +9,7 @@ interface ItemIn {
 
 type CartRecord = Record<string, ItemIn>;
 
-export const setCartItem = ({ amount, productId }: ItemIn) => {
+const setCartItem = ({ amount, productId }: ItemIn) => {
   const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
@@ -35,7 +35,7 @@ export const setCartItem = ({ amount, productId }: ItemIn) => {
   return prevCart as CartRecord;
 };
 
-export const removeCartItem = (productId: string) => {
+const removeCartItem = (productId: string) => {
   const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
@@ -58,3 +58,17 @@ export const removeCartItem = (productId: string) => {
 
   return prevCart;
 };
+
+const clearCart = () => {
+  Cookies.set(CART, JSON.stringify({}));
+
+  return {};
+};
+
+const Cart = {
+  setCartItem,
+  removeCartItem,
+  clearCart,
+};
+
+export default Cart;
