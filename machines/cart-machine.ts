@@ -2,7 +2,7 @@ import { createMachine, assign, interpret } from "xstate";
 
 import Cookies from "js-cookie";
 
-type CardRecord = Record<string, { productId: string; amount: number }>;
+type CartRecord = Record<string, { productId: string; amount: number }>;
 
 /**
  * @description finite states enum
@@ -21,37 +21,27 @@ export enum fse {
  * @description EVENTS ENUM
  */
 export enum EE {
-  PLACEHOLDING_ONE = "PLACEHOLDING_ONE",
-  PLACEHOLDING_TWO = "PLACEHOLDING_TWO",
-  CHECK_CURRENT_DARK_MODE = "CHECK_CURRENT_DARK_MODE",
+  GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
 
 export interface MachineContextGenericI {
-  isDarkMode: boolean;
-  random: number;
+  cart: CartRecord;
 }
 
-export type machineEventsGenericType =
-  | {
-      type: EE.CHECK_CURRENT_DARK_MODE;
-      payload: {
-        isDark: boolean;
-      };
-    }
-  | {
+export type machineEventsGenericType = {
+  type: EE.GET_CART_ON_MOUNT;
+  payload: {
+    cart: CartRecord;
+  };
+};
+/* | {
       type: EE.PLACEHOLDING_ONE;
       payload: {
         placeholder: number;
       };
-    }
-  | {
-      type: EE.PLACEHOLDING_TWO;
-      payload: {
-        placeholder: string;
-      };
-    };
+    } */
 
 export type machineFiniteStatesGenericType =
   | {
@@ -93,12 +83,11 @@ const cartMachine = createMachine<
   id: "main_machine",
   initial: fse.idle,
   context: {
-    isDarkMode: false,
-    random: 2,
+    cart: {},
   },
   // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
   on: {
-    [EE.CHECK_CURRENT_DARK_MODE]: {
+    /* [EE.CHECK_CURRENT_DARK_MODE]: {
       actions: [
         assign((ctx, event) => {
           const { isDark } = event.payload;
@@ -108,11 +97,24 @@ const cartMachine = createMachine<
           };
         }),
       ],
-    },
+    }, */
   },
   // -------------------------------------------------------------------
   states: {
-    [fse.mounting_the_cart]: {},
+    [fse.mounting_the_cart]: {
+      entry: [
+        assign({
+          cart: (ctx, ev) => {
+            return {
+              placeholder: {
+                amount: 0,
+                productId: "",
+              },
+            };
+          },
+        }),
+      ],
+    },
     [fse.idle]: {},
   },
 });
@@ -121,6 +123,6 @@ export const cartService = interpret(cartMachine);
 
 cartService.onTransition((state, event) => {
   //
-  console.log({ isDarkMode: state.context.isDarkMode });
+  console.log({ cart: state.context.cart });
   console.log("TRANSITION");
 });
