@@ -26,6 +26,7 @@ import {
   Avatar,
   Box,
   TextField,
+  Input,
 } from "@material-ui/core";
 import { Rating, Alert } from "@material-ui/lab";
 
@@ -80,6 +81,30 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
   const [reqStatus, setReqStatus] = useState<"idle" | "pending" | "failed">(
     "idle"
   );
+
+  // ----------------- CART THINGS ---------------------------------------
+
+  const [amount, setAmount] = useState<number>(0);
+
+  const [productCartObject, setProductCartObject] = useState<{
+    productId: string;
+    amount: number;
+    price: number;
+    countInStock: number;
+  }>({
+    productId: product.productId,
+    amount: amount,
+    price: product.price,
+    countInStock: product.countInStock,
+  });
+
+  useEffect(() => {
+    if (amount) {
+      setProductCartObject((prev) => ({ ...prev, amount }));
+    }
+  }, [amount, setProductCartObject]);
+
+  // ---------------------------------------------------------------------
 
   useEffect(() => {
     if (session) {
@@ -236,9 +261,23 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
                     size="large"
                     color="primary"
                     onClick={() => {}}
+                    disabled={
+                      productCartObject.amount > productCartObject.countInStock
+                    }
                   >
-                    Add To Cart
+                    {productCartObject.amount > productCartObject.countInStock
+                      ? "Stock Exceded"
+                      : "Add To Cart"}
                   </Button>
+                  <Input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => {
+                      if (!e.target.value) return;
+
+                      setAmount(parseInt(e.target.value as string));
+                    }}
+                  />
                 </CardActions>
               </Card>
             </Paper>
