@@ -37,7 +37,10 @@ handler.put(async (req, res) => {
     return res.status(400).send("to many query params");
   }
 
-  const { amount } = req.body as { amount: number };
+  const { amount, type } = req.body as {
+    amount: number;
+    type: "cart-add" | "cart-remove";
+  };
 
   try {
     const product = await prismaClient.product.findUnique({
@@ -53,20 +56,41 @@ handler.put(async (req, res) => {
       return res.status(400).send("no product");
     }
 
-    if (amount >= product.countInStock || amount <= 0) {
-      return res.status(400).send("stock exceeded");
+    if (type === "cart-add") {
+      if (amount >= product.countInStock) {
+        return res
+          .status(400)
+          .send("stock exceeded (higher than in stock value)");
+      }
+
+      const updatedProduct = await prismaClient.product.update({
+        where: {
+          productId: prodId,
+        },
+        data: {
+          countInStock: product.countInStock - amount,
+        },
+      });
+
+      return res.status(200).send(updatedProduct);
     }
 
-    const updatedProduct = await prismaClient.product.update({
-      where: {
-        productId: prodId,
-      },
-      data: {
-        countInStock: product.countInStock - amount,
-      },
-    });
+    if (type === "cart-remove") {
+      if (amount < 0) {
+        return res.status(400).send("stock exceeded (lower than 0)");
+      }
 
-    return res.status(200).send(updatedProduct);
+      const updatedProduct = await prismaClient.product.update({
+        where: {
+          productId: prodId,
+        },
+        data: {
+          countInStock: product.countInStock + amount,
+        },
+      });
+
+      return res.status(200).send(updatedProduct);
+    }
   } catch (error) {
     console.error(error);
 
