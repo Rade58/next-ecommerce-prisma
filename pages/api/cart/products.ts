@@ -57,8 +57,8 @@ handler.put(async (req, res) => {
   return res.status(200).send("count updated");
 });
 
-handler.get(async (req, res) => {
+/* handler.get(async (req, res) => {
   return res.status(200).send("FROM /PRODUCTS");
-});
+}); */
 
 export default handler;
