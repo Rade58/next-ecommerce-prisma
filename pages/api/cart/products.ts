@@ -6,7 +6,7 @@ import prismaClient from "../../../lib/prisma";
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 // JUST FOR TRYPUT ************
-handler.post(async (req, res) => {
+/* handler.post(async (req, res) => {
   const body = req.body;
 
   console.log({ body });
@@ -17,7 +17,7 @@ handler.post(async (req, res) => {
     console.error(err);
     return res.status(400).send("Something went wrong");
   }
-});
+}); */
 // *****************************
 
 handler.put(async (req, res) => {
