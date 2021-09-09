@@ -136,6 +136,11 @@ const cartMachine = createMachine<
             },
           }),
         ],
+
+        cond: (ctx, ev) => {
+          return ctx.expired;
+        },
+        target: fse.cart_expired,
       },
     },
     // -------------------------------------------------------------------
@@ -331,6 +336,14 @@ const cartMachine = createMachine<
           TWOSECONDSTOIDLE: {
             target: fse.idle,
           },
+        },
+      },
+      [fse.cart_expired]: {
+        entry: (ctx) => {
+          // *********
+          // *********
+          // *********
+          // YOU NEED TO CLEAR CART AND CLEAR TIMER
         },
       },
     },
