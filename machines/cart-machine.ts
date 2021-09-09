@@ -5,6 +5,8 @@ import axios from "axios";
 import CartStore from "../lib/cart-cookies";
 import type { CartRecord, ItemIn } from "../lib/cart-cookies";
 
+import { afterDate, elapsed } from "../lib/date";
+
 // type CartRecord = Record<string, { productId: string; amount: number }>;
 
 /**
@@ -21,6 +23,7 @@ export enum fse {
   // WE DON'T NEED THIS BECAUSE WE ARE HANDLING THIS BACKEND
   // stock_exceed = "stock_exceed",
   request_failed = "request_failed",
+  cart_expired = "cart_expired",
 }
 
 /**
@@ -32,6 +35,7 @@ export enum EE {
   REMOVE_ITEM = "REMOVE_ITEM",
   ERASE_EVERYTHING = "ERASE_EVERYTHING",
   // SERVER_RESPONDED = "SERVER_RESSPONDED",
+  TICK = "TICK",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -39,8 +43,8 @@ export enum EE {
 export interface MachineContextGenericI {
   cart: CartRecord;
   lastItemId: string;
-  time: number;
-  timeThreshold: number;
+  clock: number;
+  clockOffset: number;
 }
 
 export type machineEventsGenericType =
@@ -61,13 +65,13 @@ export type machineEventsGenericType =
       payload: {
         productId: string;
       };
-    };
-/* | {
-      type: EE.SERVER_RESPONDED;
+    }
+  | {
+      type: EE.TICK;
       payload: {
         productId: string;
       };
-    } */
+    };
 
 export type machineFiniteStatesGenericType =
   | {
@@ -90,10 +94,10 @@ export type machineFiniteStatesGenericType =
       value: fse.stock_exceed;
       context: MachineContextGenericI;
     } */
-  /* | {
-      value: fse.moving_to_checkout;
+  | {
+      value: fse.cart_expired;
       context: MachineContextGenericI;
-    } */
+    }
   | {
       value: fse.erasing_everything;
       context: MachineContextGenericI;
@@ -112,23 +116,21 @@ const cartMachine = createMachine<
     context: {
       cart: CartStore.getCart(),
       lastItemId: "",
-      time: 0,
+      clock: 0,
       // 24 HOURS
-      timeThreshold: 86400000,
+      clockOffset: 1000 * 60 * 60 * 8, // 8 hours
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
-      /* [EE.CHECK_CURRENT_DARK_MODE]: {
-      actions: [
-        assign((ctx, event) => {
-          const { isDark } = event.payload;
-
-          return {
-            isDarkMode: isDark,
-          };
-        }),
-      ],
-    }, */
+      [EE.TICK]: {
+        actions: [
+          assign({
+            clock: (_, __) => {
+              return 0;
+            },
+          }),
+        ],
+      },
     },
     // -------------------------------------------------------------------
     states: {
