@@ -39,6 +39,8 @@ export enum EE {
 export interface MachineContextGenericI {
   cart: CartRecord;
   lastItemId: string;
+  time: number;
+  timeThreshold: number;
 }
 
 export type machineEventsGenericType =
@@ -110,6 +112,9 @@ const cartMachine = createMachine<
     context: {
       cart: CartStore.getCart(),
       lastItemId: "",
+      time: 0,
+      // 24 HOURS
+      timeThreshold: 86400000,
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
