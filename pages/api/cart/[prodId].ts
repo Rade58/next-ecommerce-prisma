@@ -59,10 +59,6 @@ handler.put(async (req, res) => {
       where: {
         productId: prodId,
       },
-
-      select: {
-        countInStock: true,
-      },
     });
 
     if (!product) {
@@ -71,9 +67,11 @@ handler.put(async (req, res) => {
 
     if (type === "cart-add") {
       if (amount >= product.countInStock) {
-        return res
-          .status(400)
-          .send("stock exceeded (higher than in stock value)");
+        // WE WON'T BE SENDING ERRORS
+        // BUT LETS NOT UPDATE ANYTHING
+        // LETS JUST SEND A RECORD BACK
+
+        return res.status(200).json(product);
       }
 
       const updatedProduct = await prismaClient.product.update({
@@ -83,7 +81,7 @@ handler.put(async (req, res) => {
         data: {
           countInStock: product.countInStock - amount,
         },
-        // DON'T CHERRY PICK
+        // DON'T CHERRY-PICK
         // TAKE ENTIRE RECORD (I DID)
       });
 
@@ -92,7 +90,11 @@ handler.put(async (req, res) => {
 
     if (type === "cart-remove") {
       if (amount < 0) {
-        return res.status(400).send("stock exceeded (lower than 0)");
+        // WE WON'T BE SENDING ERRORS
+        // BUT LETS NOT UPDATE ANYTHING
+        // LETS JUST SEND A RECORD BACK
+
+        return res.status(200).json(product);
       }
 
       const updatedProduct = await prismaClient.product.update({
@@ -105,7 +107,7 @@ handler.put(async (req, res) => {
         // TAKING ENTIRE PRODUCT HERE TOO
       });
 
-      return res.status(200).send(updatedProduct);
+      return res.status(200).json(updatedProduct);
     }
   } catch (error) {
     console.error(error);
