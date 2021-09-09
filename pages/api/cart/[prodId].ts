@@ -16,6 +16,10 @@ handler.get(async (req, res) => {
     return res.status(400).send("to many query params");
   }
 
+  if (prodId === "products") {
+    return res.status(400).send("wrong route");
+  }
+
   try {
     const product = await prismaClient.product.findUnique({
       where: {
