@@ -1,4 +1,4 @@
-export const after24Date = (milisecs?: number) => {
+export const afterDate = (milisecs?: number) => {
   //
   let ms = milisecs ? milisecs : /* 24h -> */ 1000 * 60 * 60 * 24;
 
