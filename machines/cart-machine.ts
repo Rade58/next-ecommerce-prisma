@@ -15,9 +15,11 @@ export enum fse {
   idle = "idle",
   adding_item = "adding_item",
   removing_item = "removing_item",
-  moving_to_checkout = "moving_to_checkout",
+  // I DON'T THINK THIS IS RELEVENT TO CART
+  // moving_to_checkout = "moving_to_checkout",
   erasing_everything = "erasing_everything",
-  stock_exceed = "stock_exceed",
+  // WE DON'T NEED THIS BECAUSE WE ARE HANDLING THIS BACKEND
+  // stock_exceed = "stock_exceed",
   request_failed = "request_failed",
 }
 
@@ -82,14 +84,14 @@ export type machineFiniteStatesGenericType =
       value: fse.removing_item;
       context: MachineContextGenericI;
     }
-  | {
+  /* | {
       value: fse.stock_exceed;
       context: MachineContextGenericI;
-    }
-  | {
+    } */
+  /* | {
       value: fse.moving_to_checkout;
       context: MachineContextGenericI;
-    }
+    } */
   | {
       value: fse.erasing_everything;
       context: MachineContextGenericI;
