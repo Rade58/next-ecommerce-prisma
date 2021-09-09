@@ -112,8 +112,13 @@ const cartMachine = createMachine<
           },
         }),
       ],
+      always: {
+        target: fse.idle,
+      },
     },
-    [fse.idle]: {},
+    [fse.idle]: {
+      //
+    },
   },
 });
 
