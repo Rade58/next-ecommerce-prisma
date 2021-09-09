@@ -5,11 +5,12 @@ const CART = "cart";
 export interface ItemIn {
   productId: string;
   amount: number;
+  countInStock: number;
 }
 
 export type CartRecord = Record<string, ItemIn>;
 
-const setCartItem = ({ amount, productId }: ItemIn) => {
+const setCartItem = ({ amount, productId, countInStock }: ItemIn) => {
   const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
@@ -19,16 +20,17 @@ const setCartItem = ({ amount, productId }: ItemIn) => {
         [productId]: {
           productId,
           amount,
+          countInStock,
         },
       })
     );
 
-    return { [productId]: { productId, amount } } as CartRecord;
+    return { [productId]: { productId, amount, countInStock } } as CartRecord;
   }
 
   const prevCart = JSON.parse(prevCartString);
 
-  prevCart[productId] = { productId, amount };
+  prevCart[productId] = { productId, amount, countInStock };
 
   Cookies.set(CART, JSON.stringify(prevCart));
 
