@@ -5,18 +5,19 @@ import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
+// HIT THIS ON EVERY
+// 'ADD TO CART UI' MOUNTING
 handler.get(async (req, res) => {
-  //
   const { prodId } = req.query;
-  //
 
-  console.log({ prodId });
+  // console.log({ prodId });
 
   if (typeof prodId === "object") {
     return res.status(400).send("to many query params");
   }
 
   if (prodId === "products") {
+    // THIS WILL NEVER HAPPEN (BUT I MANAGE IT)
     return res.status(400).send("wrong route");
   }
 
@@ -27,6 +28,7 @@ handler.get(async (req, res) => {
       },
     });
 
+    // RETURNING ENTIRE PRODUCT RECORD
     return res.status(200).send(product);
   } catch (err) {
     console.error(err);
@@ -34,11 +36,17 @@ handler.get(async (req, res) => {
   }
 });
 
+// HIT THIS EVERY TIME THERE IS YOU MAKE UPDATE
 handler.put(async (req, res) => {
   const { prodId } = req.query;
 
   if (typeof prodId === "object") {
     return res.status(400).send("to many query params");
+  }
+
+  if (prodId === "products") {
+    // THIS WILL NEVER HAPPEN (BUT I MANAGE IT)
+    return res.status(400).send("wrong route");
   }
 
   const { amount, type } = req.body as {
@@ -51,6 +59,7 @@ handler.put(async (req, res) => {
       where: {
         productId: prodId,
       },
+
       select: {
         countInStock: true,
       },
@@ -74,6 +83,8 @@ handler.put(async (req, res) => {
         data: {
           countInStock: product.countInStock - amount,
         },
+        // DON'T CHERRY PICK
+        // TAKE ENTIRE RECORD (I DID)
       });
 
       return res.status(200).send(updatedProduct);
@@ -91,6 +102,7 @@ handler.put(async (req, res) => {
         data: {
           countInStock: product.countInStock + amount,
         },
+        // TAKING ENTIRE PRODUCT HERE TOO
       });
 
       return res.status(200).send(updatedProduct);
