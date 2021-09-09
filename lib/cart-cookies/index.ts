@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 
 const CART = "cart";
 
-interface ItemIn {
+export interface ItemIn {
   productId: string;
   amount: number;
 }

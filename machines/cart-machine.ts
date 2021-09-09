@@ -1,7 +1,7 @@
 import { createMachine, assign, interpret } from "xstate";
 
 import CartStore from "../lib/cart-cookies";
-import type { CartRecord } from "../lib/cart-cookies";
+import type { CartRecord, ItemIn } from "../lib/cart-cookies";
 
 // type CartRecord = Record<string, { productId: string; amount: number }>;
 
@@ -22,7 +22,8 @@ export enum fse {
  * @description EVENTS ENUM
  */
 export enum EE {
-  GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
+  // GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
+  ADD_ITEM = "ADD_ITEM",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -32,9 +33,9 @@ export interface MachineContextGenericI {
 }
 
 export type machineEventsGenericType = {
-  type: EE.GET_CART_ON_MOUNT;
+  type: EE.ADD_ITEM;
   payload: {
-    cart: CartRecord;
+    item: ItemIn;
   };
 };
 /* | {
@@ -117,6 +118,31 @@ const cartMachine = createMachine<
       },
     },
     [fse.idle]: {
+      //
+      on: {
+        [EE.ADD_ITEM]: {
+          actions: [
+            assign({
+              cart: (_, ev) => {
+                const {
+                  item: { amount, productId },
+                } = ev.payload;
+
+                return CartStore.setCartItem({
+                  amount,
+                  productId,
+                });
+              },
+            }),
+          ],
+          target: fse.adding_item,
+        },
+      },
+    },
+    [fse.adding_item]: {
+      //
+    },
+    [fse.removing_item]: {
       //
     },
   },
