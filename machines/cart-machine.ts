@@ -105,7 +105,7 @@ const cartMachine = createMachine<
     [fse.mounting_the_cart]: {
       entry: [
         assign({
-          cart: (ctx, ev) => {
+          cart: (_, __) => {
             const currentCart = CartStore.getCart();
 
             return currentCart;
