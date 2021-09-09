@@ -32,6 +32,7 @@ export enum EE {
 
 export interface MachineContextGenericI {
   cart: CartRecord;
+  lastItemId: string | undefined;
 }
 
 export type machineEventsGenericType =
@@ -95,6 +96,7 @@ const cartMachine = createMachine<
   initial: fse.mounting_the_cart,
   context: {
     cart: CartStore.getCart(),
+    lastItemId: undefined,
   },
   // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
   on: {
@@ -142,6 +144,9 @@ const cartMachine = createMachine<
                   productId,
                 });
               },
+              lastItemId: (_, ev) => {
+                return ev.payload.item.productId;
+              },
             }),
           ],
           target: fse.adding_item,
@@ -153,6 +158,9 @@ const cartMachine = createMachine<
                 const { productId } = ev.payload;
 
                 return CartStore.removeCartItem(productId);
+              },
+              lastItemId: (_, ev) => {
+                return ev.payload.productId;
               },
             }),
           ],
@@ -172,6 +180,11 @@ const cartMachine = createMachine<
     },
     [fse.adding_item]: {
       //
+
+      /* invoke: {
+
+      }, */
+
       always: {
         target: fse.idle,
       },
