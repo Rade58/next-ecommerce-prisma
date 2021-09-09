@@ -24,6 +24,7 @@ export enum fse {
 export enum EE {
   // GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
   ADD_ITEM = "ADD_ITEM",
+  REMOVE_ITEM = "REMOVE_ITEM",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -32,18 +33,19 @@ export interface MachineContextGenericI {
   cart: CartRecord;
 }
 
-export type machineEventsGenericType = {
-  type: EE.ADD_ITEM;
-  payload: {
-    item: ItemIn;
-  };
-};
-/* | {
-      type: EE.PLACEHOLDING_ONE;
+export type machineEventsGenericType =
+  | {
+      type: EE.ADD_ITEM;
       payload: {
-        placeholder: number;
+        item: ItemIn;
       };
-    } */
+    }
+  | {
+      type: EE.REMOVE_ITEM;
+      payload: {
+        productId: string;
+      };
+    };
 
 export type machineFiniteStatesGenericType =
   | {
@@ -137,13 +139,31 @@ const cartMachine = createMachine<
           ],
           target: fse.adding_item,
         },
+        [EE.REMOVE_ITEM]: {
+          actions: [
+            assign({
+              cart: (_, ev) => {
+                const { productId } = ev.payload;
+
+                return CartStore.removeCartItem(productId);
+              },
+            }),
+          ],
+          target: fse.removing_item,
+        },
       },
     },
     [fse.adding_item]: {
       //
+      always: {
+        target: fse.idle,
+      },
     },
     [fse.removing_item]: {
       //
+      always: {
+        target: fse.idle,
+      },
     },
   },
 });
