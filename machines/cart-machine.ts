@@ -7,7 +7,13 @@ import type { CartRecord, ItemIn } from "../lib/cart-cookies";
 
 import { afterDate, elapsed } from "../lib/date";
 
-// type CartRecord = Record<string, { productId: string; amount: number }>;
+// ACTION NAMES
+enum AA {
+  EXPIRATION_MANIPULATION = " EXPIRATION_MANIPULATION",
+  CLEAR_TIMER = "CLEAR_TIMER",
+}
+
+//
 
 /**
  * @description finite states enum
@@ -43,7 +49,7 @@ export enum EE {
 export interface MachineContextGenericI {
   cart: CartRecord;
   lastItemId: string;
-  clock: number;
+  expired: boolean;
   clockOffset: number;
 }
 
@@ -116,7 +122,7 @@ const cartMachine = createMachine<
     context: {
       cart: CartStore.getCart(),
       lastItemId: "",
-      clock: 0,
+      expired: false,
       // 24 HOURS
       clockOffset: 1000 * 60 * 60 * 8, // 8 hours
     },
@@ -125,8 +131,8 @@ const cartMachine = createMachine<
       [EE.TICK]: {
         actions: [
           assign({
-            clock: (_, __) => {
-              return 0;
+            expired: (ctx, __) => {
+              return CartStore.timeExpired();
             },
           }),
         ],
@@ -153,6 +159,7 @@ const cartMachine = createMachine<
         on: {
           [EE.ADD_ITEM]: {
             actions: [
+              AA.EXPIRATION_MANIPULATION,
               assign({
                 cart: (_, ev) => {
                   const {
@@ -175,6 +182,7 @@ const cartMachine = createMachine<
           },
           [EE.REMOVE_ITEM]: {
             actions: [
+              AA.EXPIRATION_MANIPULATION,
               assign({
                 cart: (_, ev) => {
                   const { productId } = ev.payload;
@@ -190,6 +198,7 @@ const cartMachine = createMachine<
           },
           [EE.ERASE_EVERYTHING]: {
             actions: [
+              AA.CLEAR_TIMER,
               assign({
                 lastItemId: (_, ev) => {
                   return "";
@@ -329,6 +338,14 @@ const cartMachine = createMachine<
   {
     delays: {
       TWOSECONDSTOIDLE: 2000,
+    },
+    actions: {
+      [AA.EXPIRATION_MANIPULATION]: (ctx, ev) => {
+        CartStore.setExpirationTime(ctx.clockOffset);
+      },
+      [AA.CLEAR_TIMER]: (ctx, ev) => {
+        CartStore.clearTimer();
+      },
     },
   }
 );

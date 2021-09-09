@@ -96,10 +96,14 @@ const timeExpired = () => {
   const timestring = Cookies.get(EXP_TIME);
 
   if (!timestring) {
-    return true;
+    return false;
   }
 
   return elapsed(new Date(timestring));
+};
+
+const clearTimer = () => {
+  Cookies.remove(EXP_TIME);
 };
 
 const CartStore = {
@@ -110,6 +114,7 @@ const CartStore = {
   //
   setExpirationTime,
   timeExpired,
+  clearTimer,
 };
 
 export default CartStore;
