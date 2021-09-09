@@ -180,9 +180,6 @@ const cartMachine = createMachine<
           [EE.ERASE_EVERYTHING]: {
             actions: [
               assign({
-                cart: (_, __) => {
-                  return CartStore.clearCart();
-                },
                 lastItemId: (_, ev) => {
                   return "";
                 },
@@ -278,8 +275,35 @@ const cartMachine = createMachine<
       },
       [fse.erasing_everything]: {
         //
-        always: {
-          target: fse.idle,
+        invoke: {
+          id: "erase_everything",
+          src: (ctx, event) => {
+            const { cart } = ctx;
+
+            const data = Object.values(cart);
+
+            return axios.put("/api/cart/products", data);
+          },
+          onDone: {
+            target: fse.idle,
+            actions: [
+              assign({
+                cart: (_, ev) => {
+                  console.log(ev.data.data);
+
+                  return CartStore.clearCart();
+                },
+              }),
+            ],
+          },
+          onError: {
+            target: fse.request_failed,
+            actions: [
+              (ctx, event) => {
+                console.log(event.data.error);
+              },
+            ],
+          },
         },
       },
       [fse.request_failed]: {
