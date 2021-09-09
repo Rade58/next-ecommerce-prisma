@@ -233,9 +233,10 @@ const cartMachine = createMachine<
             actions: [
               (ctx, event) => {
                 // ERROR IS HERE (ALSO ON .data)
+                // BUT SINCE WE USE AXIOS ERROR IS ON .error
                 console.log(
                   //
-                  event.data
+                  event.data.error
                   //
                 );
               },
@@ -269,7 +270,7 @@ const cartMachine = createMachine<
             target: fse.request_failed,
             actions: [
               (ctx, event) => {
-                console.log(event.data);
+                console.log(event.data.error);
               },
             ],
           },
