@@ -13,9 +13,9 @@ export enum fse {
   idle = "idle",
   adding_item = "adding_item",
   removing_item = "removing_item",
-  stock_exceed = "stock_exceed",
   moving_to_checkout = "moving_to_checkout",
   erasing_everything = "erasing_everything",
+  stock_exceed = "stock_exceed",
 }
 
 /**
@@ -25,6 +25,7 @@ export enum EE {
   // GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
   ADD_ITEM = "ADD_ITEM",
   REMOVE_ITEM = "REMOVE_ITEM",
+  ERASE_EVERYTHING = "ERASE_EVERYTHING",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -42,6 +43,12 @@ export type machineEventsGenericType =
     }
   | {
       type: EE.REMOVE_ITEM;
+      payload: {
+        productId: string;
+      };
+    }
+  | {
+      type: EE.ERASE_EVERYTHING;
       payload: {
         productId: string;
       };
@@ -151,6 +158,16 @@ const cartMachine = createMachine<
           ],
           target: fse.removing_item,
         },
+        [EE.ERASE_EVERYTHING]: {
+          actions: [
+            assign({
+              cart: (_, __) => {
+                return CartStore.clearCart();
+              },
+            }),
+          ],
+          target: fse.erasing_everything,
+        },
       },
     },
     [fse.adding_item]: {
@@ -160,6 +177,12 @@ const cartMachine = createMachine<
       },
     },
     [fse.removing_item]: {
+      //
+      always: {
+        target: fse.idle,
+      },
+    },
+    [fse.erasing_everything]: {
       //
       always: {
         target: fse.idle,
