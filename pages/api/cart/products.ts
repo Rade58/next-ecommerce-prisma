@@ -21,7 +21,11 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 // *****************************
 
 handler.put(async (req, res) => {
-  const products = req.body as { productId: string; amount: number }[];
+  const products = req.body as {
+    productId: string;
+    amount: number;
+    countInStock: number;
+  }[];
 
   if (!products) {
     return res.status(400).send("body is no good");
@@ -37,6 +41,8 @@ handler.put(async (req, res) => {
       },
       select: {
         countInStock: true,
+        productId: true,
+        price: true,
       },
     });
 

@@ -147,13 +147,14 @@ const cartMachine = createMachine<
               assign({
                 cart: (_, ev) => {
                   const {
-                    item: { amount, productId, countInStock },
+                    item: { amount, productId, countInStock, price },
                   } = ev.payload;
 
                   return CartStore.setCartItem({
                     amount,
                     productId,
                     countInStock,
+                    price,
                   });
                 },
                 lastItemId: (_, ev) => {
