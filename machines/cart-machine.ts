@@ -1,8 +1,9 @@
 import { createMachine, assign, interpret } from "xstate";
 
-import Cookies from "js-cookie";
+import CartStore from "../lib/cart-cookies";
+import type { CartRecord } from "../lib/cart-cookies";
 
-type CartRecord = Record<string, { productId: string; amount: number }>;
+// type CartRecord = Record<string, { productId: string; amount: number }>;
 
 /**
  * @description finite states enum
@@ -83,7 +84,7 @@ const cartMachine = createMachine<
   id: "main_machine",
   initial: fse.mounting_the_cart,
   context: {
-    cart: {},
+    cart: CartStore.getCart(),
   },
   // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
   on: {
@@ -105,25 +106,9 @@ const cartMachine = createMachine<
       entry: [
         assign({
           cart: (ctx, ev) => {
-            Cookies.set(
-              "cart",
-              JSON.stringify({
-                someprodid: {
-                  amound: 10,
-                  prodId: "someprodid",
-                },
-              })
-            );
+            const currentCart = CartStore.getCart();
 
-            const cart = Cookies.get("cart");
-
-            if (!cart) {
-              return {};
-            }
-
-            console.log(cart);
-
-            return JSON.parse(cart) as CartRecord;
+            return currentCart;
           },
         }),
       ],

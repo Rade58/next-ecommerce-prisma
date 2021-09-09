@@ -7,7 +7,7 @@ interface ItemIn {
   amount: number;
 }
 
-type CartRecord = Record<string, ItemIn>;
+export type CartRecord = Record<string, ItemIn>;
 
 const setCartItem = ({ amount, productId }: ItemIn) => {
   const prevCartString = Cookies.get(CART);
@@ -77,11 +77,11 @@ const getCart = () => {
   return JSON.parse(cartString) as CartRecord;
 };
 
-const Cart = {
+const CartStore = {
   setCartItem,
   removeCartItem,
   clearCart,
   getCart,
 };
 
-export default Cart;
+export default CartStore;
