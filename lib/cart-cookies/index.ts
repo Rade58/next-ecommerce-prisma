@@ -49,14 +49,14 @@ const removeCartItem = (productId: string) => {
   if (!prevCart[productId]) {
     Cookies.set(CART, JSON.stringify(prevCart));
 
-    return prevCart;
+    return prevCart as CartRecord;
   }
 
   delete prevCart[productId];
 
   Cookies.set(CART, JSON.stringify(prevCart));
 
-  return prevCart;
+  return prevCart as CartRecord;
 };
 
 const clearCart = () => {
@@ -65,10 +65,23 @@ const clearCart = () => {
   return {};
 };
 
+const getCart = () => {
+  const cartString = Cookies.get(CART);
+
+  if (!cartString) {
+    Cookies.set(CART, {});
+
+    return {};
+  }
+
+  return JSON.parse(cartString) as CartRecord;
+};
+
 const Cart = {
   setCartItem,
   removeCartItem,
   clearCart,
+  getCart,
 };
 
 export default Cart;
