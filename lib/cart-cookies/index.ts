@@ -35,9 +35,29 @@ const setCartItem = ({ amount, productId, countInStock, price }: ItemIn) => {
     } as CartRecord;
   }
 
+  if (!Object.keys(JSON.parse(prevCartString))) {
+    Cookies.set(
+      CART,
+      JSON.stringify({
+        [productId]: {
+          productId,
+          amount,
+          countInStock,
+          price,
+        },
+      })
+    );
+
+    return {
+      [productId]: { productId, amount, countInStock, price },
+    } as CartRecord;
+  }
+
   const prevCart = JSON.parse(prevCartString);
 
   prevCart[productId] = { productId, amount, countInStock, price };
+
+  console.log({ prevCart });
 
   Cookies.set(CART, JSON.stringify(prevCart));
 
@@ -47,13 +67,13 @@ const setCartItem = ({ amount, productId, countInStock, price }: ItemIn) => {
 const removeCartItem = (productId: string) => {
   const prevCartString = Cookies.get(CART);
 
-  if (!prevCartString) {
+  if (prevCartString === undefined) {
     Cookies.set(CART, JSON.stringify({}));
-
-    return {};
   }
 
-  const prevCart = JSON.parse(prevCartString);
+  const cartString = prevCartString || "";
+
+  const prevCart = JSON.parse(cartString);
 
   if (!prevCart[productId]) {
     Cookies.set(CART, JSON.stringify(prevCart));
@@ -77,7 +97,15 @@ const clearCart = () => {
 const getCart = () => {
   const cartString = Cookies.get(CART);
 
+  console.log({ cartString });
+
   if (!cartString) {
+    Cookies.set(CART, JSON.stringify({}));
+
+    return {};
+  }
+
+  if (!Object.keys(JSON.parse(cartString))) {
     Cookies.set(CART, JSON.stringify({}));
 
     return {};

@@ -47,7 +47,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
 
   const { cart } = context;
 
-  let amount: number = 1;
+  let amount: number = 0;
   let countInStock: number = initialProductLoaded.countInStock;
   const price: number = initialProductLoaded.price;
   const productId = initialProductLoaded.productId;
@@ -152,7 +152,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   align-items: center;
 
                   padding: 0 10px;
-                  & h4 {
+                  & h5 {
                     margin-right: 18px;
                     user-select: none;
                   }
@@ -173,17 +173,19 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     {countInStock}
                   </span>
                 </h5>
-                <h5>
-                  Added To Cart:{" "}
-                  <span
-                    css={css`
-                      color: #5f3483;
-                      font-size: 1.3em;
-                    `}
-                  >
-                    {amount}
-                  </span>
-                </h5>
+                {amount > 0 && (
+                  <h5>
+                    Added To Cart:{" "}
+                    <span
+                      css={css`
+                        color: #5f3483;
+                        font-size: 1.3em;
+                      `}
+                    >
+                      {amount}
+                    </span>
+                  </h5>
+                )}
               </div>
             </Card>
           </Paper>

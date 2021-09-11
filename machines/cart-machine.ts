@@ -251,24 +251,26 @@ const cartMachine = createMachine<
               // },
               assign({
                 cart: (ctx, ev) => {
-                  const prevCart = ctx.cart;
+                  const cart = ctx.cart;
 
                   const updatedProduct = ev.data.data as Product;
 
                   let amount = 1;
 
-                  if (prevCart[updatedProduct.productId]) {
-                    amount = amount + prevCart[updatedProduct.productId].amount;
+                  if (cart[updatedProduct.productId]) {
+                    amount = amount + cart[updatedProduct.productId].amount;
                   }
 
-                  prevCart[updatedProduct.productId] = {
+                  cart[updatedProduct.productId] = {
                     amount,
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
                   };
 
-                  return prevCart;
+                  CartStore.setCartItem(cart[updatedProduct.productId]);
+
+                  return cart;
                 },
               }),
             ],
@@ -311,24 +313,26 @@ const cartMachine = createMachine<
               // },
               assign({
                 cart: (ctx, ev) => {
-                  const prevCart = ctx.cart;
+                  const cart = ctx.cart;
 
                   const updatedProduct = ev.data.data as Product;
 
                   let amount = 1;
 
-                  if (prevCart[updatedProduct.productId]) {
-                    amount = amount + prevCart[updatedProduct.productId].amount;
+                  if (cart[updatedProduct.productId]) {
+                    amount = amount + cart[updatedProduct.productId].amount;
                   }
 
-                  prevCart[updatedProduct.productId] = {
+                  cart[updatedProduct.productId] = {
                     amount,
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
                   };
 
-                  return prevCart;
+                  CartStore.setCartItem(cart[updatedProduct.productId]);
+
+                  return cart;
                 },
               }),
             ],
