@@ -163,28 +163,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 <h4>DATA:</h4>
 
                 <h5>Count in Stck: {countInStock}</h5>
-
-                <h5>Amount taken: {amount}</h5>
-
-                {/* TWO BUTTONS
-              ONE FOR ADDING TO CART AND OTHER FOR REMOVING
-            */}
-
-                {/* 
-            <TextField
-              size="medium"
-              color="secondary"
-              type="number"
-              value={amount}
-              onChange={(e) => {
-                if (!e.target.value) return;
-                if (parseInt(e.target.value) < 1) return;
-
-                // setAmount(parseInt(e.target.value as string));
-
-                
-              }}
-            /> */}
               </div>
             </Card>
           </Paper>
