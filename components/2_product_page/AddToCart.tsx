@@ -92,12 +92,16 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     & span.red {
                       color: crimson;
                     }
+                    & span.green {
+                      color: #387e61;
+                      font-weight: bold;
+                    }
                   `}
                 >
                   <Typography variant="body1">status:</Typography>
                   <Typography variant="body1">
                     {countInStock ? (
-                      "In Stock"
+                      <span className="green">In Stock</span>
                     ) : (
                       <span className="red">Out Of Stock</span>
                     )}
