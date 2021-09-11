@@ -8,6 +8,7 @@ import type { CartRecord, ItemIn } from "../lib/cart-cookies";
 import { afterDate, elapsed } from "../lib/date";
 
 // IMPORT TYPE FROM PRISMA
+import type { Product } from "@prisma/client";
 
 // ACTION NAMES
 enum AA {
@@ -252,9 +253,14 @@ const cartMachine = createMachine<
                 cart: (ctx, ev) => {
                   const prevCart = ctx.cart;
 
-                  const updatedProduct = ev.data.data as ItemIn;
+                  const updatedProduct = ev.data.data as Product;
 
-                  prevCart[updatedProduct.productId] = updatedProduct;
+                  prevCart[updatedProduct.productId] = {
+                    amount: prevCart[updatedProduct.productId].amount,
+                    countInStock: updatedProduct.countInStock,
+                    price: updatedProduct.price,
+                    productId: updatedProduct.productId,
+                  };
 
                   return prevCart;
                 },
@@ -301,9 +307,14 @@ const cartMachine = createMachine<
                 cart: (ctx, ev) => {
                   const prevCart = ctx.cart;
 
-                  const updatedProduct = ev.data.data as ItemIn;
+                  const updatedProduct = ev.data.data as Product;
 
-                  prevCart[updatedProduct.productId] = updatedProduct;
+                  prevCart[updatedProduct.productId] = {
+                    amount: prevCart[updatedProduct.productId].amount,
+                    countInStock: updatedProduct.countInStock,
+                    price: updatedProduct.price,
+                    productId: updatedProduct.productId,
+                  };
 
                   return prevCart;
                 },
