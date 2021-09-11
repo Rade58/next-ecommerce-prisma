@@ -14,7 +14,7 @@ export interface ItemIn {
 
 export type CartRecord = Record<string, ItemIn>;
 
-const setCartItem = ({ amount, productId, countInStock, price }: ItemIn) => {
+const setCartItem = ({ productId, countInStock, price, amount }: ItemIn) => {
   const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
