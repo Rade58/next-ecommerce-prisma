@@ -48,6 +48,7 @@ export enum EE {
 
 export interface MachineContextGenericI {
   cart: CartRecord;
+  lastItem: ItemIn | null;
   lastItemId: string;
   expired: boolean;
   clockOffset: number;
@@ -63,7 +64,7 @@ export type machineEventsGenericType =
   | {
       type: EE.REMOVE_ITEM;
       payload: {
-        productId: string;
+        item: ItemIn;
       };
     }
   | {
@@ -121,6 +122,7 @@ const cartMachine = createMachine<
     initial: fse.mounting_the_cart,
     context: {
       cart: CartStore.getCart(),
+      lastItem: null,
       lastItemId: "",
       expired: false,
       //
@@ -166,18 +168,11 @@ const cartMachine = createMachine<
             actions: [
               AA.EXPIRATION_MANIPULATION,
               assign({
-                cart: (_, ev) => {
-                  const {
-                    item: { amount, productId, countInStock, price },
-                  } = ev.payload;
-
-                  return CartStore.setCartItem({
-                    amount,
-                    productId,
-                    countInStock,
-                    price,
-                  });
+                lastItem: (_, ev) => {
+                  return ev.payload.item;
                 },
+              }),
+              assign({
                 lastItemId: (_, ev) => {
                   return ev.payload.item.productId;
                 },
@@ -189,13 +184,13 @@ const cartMachine = createMachine<
             actions: [
               AA.EXPIRATION_MANIPULATION,
               assign({
-                cart: (_, ev) => {
-                  const { productId } = ev.payload;
-
-                  return CartStore.removeCartItem(productId);
+                lastItem: (_, ev) => {
+                  return ev.payload.item;
                 },
+              }),
+              assign({
                 lastItemId: (_, ev) => {
-                  return ev.payload.productId;
+                  return ev.payload.item.productId;
                 },
               }),
             ],
@@ -204,6 +199,11 @@ const cartMachine = createMachine<
           [EE.ERASE_EVERYTHING]: {
             actions: [
               AA.CLEAR_TIMER,
+              assign({
+                lastItem: (_, ev) => {
+                  return null;
+                },
+              }),
               assign({
                 lastItemId: (_, ev) => {
                   return "";
@@ -219,12 +219,10 @@ const cartMachine = createMachine<
         invoke: {
           id: "add_item",
           src: (ctx, event) => {
-            const { lastItemId, cart } = ctx;
-
-            const data = cart[lastItemId];
+            const { lastItem, cart, lastItemId } = ctx;
 
             return axios.put(`/api/cart/${lastItemId}`, {
-              amount: data.amount,
+              amount: lastItem?.amount || 0,
               type: "cart-add",
             });
             // JUST TO SAY (DATA SHOUD BE INSIDE
@@ -240,14 +238,25 @@ const cartMachine = createMachine<
             // DATA SHOULD BE ACCESSIBLE HERE
             // AND SINCE WE USEaxios DATA SHOUD BE IN   {data}
             actions: [
-              (ctx, event) => {
-                // LIKE I SAID DATA IS HERE
-                console.log(
-                  //
-                  event.data.data
-                  //
-                );
-              },
+              // (ctx, event) => {
+              // LIKE I SAID DATA IS HERE
+              // console.log(
+
+              // event.data.data
+
+              // );
+              // },
+              assign({
+                cart: (ctx, ev) => {
+                  const prevCart = ctx.cart;
+
+                  const updatedItem = ev.data.data as ItemIn;
+
+                  prevCart[updatedItem.productId] = updatedItem;
+
+                  return prevCart;
+                },
+              }),
             ],
           },
           onError: {
@@ -271,7 +280,7 @@ const cartMachine = createMachine<
         invoke: {
           id: "remove_item",
           src: (ctx, event) => {
-            const { cart, lastItemId } = ctx;
+            const { cart, lastItem, lastItemId } = ctx;
 
             const data = cart[lastItemId];
 
@@ -283,9 +292,20 @@ const cartMachine = createMachine<
           onDone: {
             target: fse.idle,
             actions: [
-              (ctx, event) => {
-                console.log(event.data.data);
-              },
+              // (ctx, event) => {
+              // console.log(event.data.data);
+              // },
+              assign({
+                cart: (ctx, ev) => {
+                  const prevCart = ctx.cart;
+
+                  const updatedItem = ev.data.data as ItemIn;
+
+                  prevCart[updatedItem.productId] = updatedItem;
+
+                  return prevCart;
+                },
+              }),
             ],
           },
           onError: {

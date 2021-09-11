@@ -85,6 +85,8 @@ handler.put(async (req, res) => {
         // TAKE ENTIRE RECORD (I DID)
       });
 
+      console.log({ updatedProduct });
+
       return res.status(200).send(updatedProduct);
     }
 
@@ -106,6 +108,8 @@ handler.put(async (req, res) => {
         },
         // TAKING ENTIRE PRODUCT HERE TOO
       });
+
+      console.log(updatedProduct);
 
       return res.status(200).json(updatedProduct);
     }

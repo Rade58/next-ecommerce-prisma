@@ -132,7 +132,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                       },
                     });
                   }}
-                  disabled={amount > countInStock}
+                  disabled={amount >= countInStock}
                 >
                   {amount > countInStock ? "Stock Exceeded" : "Add To Cart"}
                 </Button>
