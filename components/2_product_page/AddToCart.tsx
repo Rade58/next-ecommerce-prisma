@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import { Rating, Alert } from "@material-ui/lab";
 
-import { useSession } from "next-auth/client";
+// import { useSession } from "next-auth/client";
 
 import { cartService, fse, EE } from "../../machines/cart-machine";
 
@@ -59,7 +59,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
     countInStock = cart[productId].countInStock;
   }
 
-  const [productCartObject, setProductCartObject] = useState<{
+  /* const [productCartObject, setProductCartObject] = useState<{
     productId: string;
     price: number;
     countInStock: number;
@@ -68,7 +68,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
     price: initialProductLoaded.price,
     countInStock: initialProductLoaded.countInStock,
   });
-
+ */
   const loading =
     state.value === fse.adding_item ||
     state.value === fse.removing_item ||
@@ -140,8 +140,11 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   }}
                   disabled={countInStock <= 0 || loading}
                 >
-                  {amount < 1 ? "Add To Cart" : "Add One More"}{" "}
-                  {loading && <CircularProgress size={9} />}
+                  {countInStock === 0
+                    ? "Out Of Stock"
+                    : amount < 1
+                    ? "Add To Cart"
+                    : "Add One More"}{" "}
                 </Button>
 
                 {amount > 0 && (
@@ -165,15 +168,27 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     }}
                     disabled={/* amount >= countInStock || */ loading}
                   >
-                    Remove One {loading && <CircularProgress size={9} />}
+                    Remove One
                   </Button>
                 )}
               </CardActions>
+
+              <div
+                className="circ-prog"
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  height: 16px;
+                `}
+              >
+                {loading && <CircularProgress size={19} color="primary" />}
+              </div>
+
               {/* I DON NEED THIS IT IS TOO MUCH
-            AMOUT SHOULD BE ONLY AVAILABLE TO ADD OR REMOVE IN CART
-            // BUT WE CAN ADD REMOVE FROM CART LOGIC
+              AMOUT SHOULD BE ONLY AVAILABLE TO ADD OR REMOVE IN CART
+              // BUT WE CAN ADD REMOVE FROM CART LOGIC
             
-          */}
+              */}
               <div
                 css={css`
                   width: 100%;
