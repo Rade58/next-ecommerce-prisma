@@ -7,6 +7,8 @@ import type { CartRecord, ItemIn } from "../lib/cart-cookies";
 
 import { afterDate, elapsed } from "../lib/date";
 
+// IMPORT TYPE FROM PRISMA
+
 // ACTION NAMES
 enum AA {
   EXPIRATION_MANIPULATION = " EXPIRATION_MANIPULATION",
@@ -250,9 +252,9 @@ const cartMachine = createMachine<
                 cart: (ctx, ev) => {
                   const prevCart = ctx.cart;
 
-                  const updatedItem = ev.data.data as ItemIn;
+                  const updatedProduct = ev.data.data as ItemIn;
 
-                  prevCart[updatedItem.productId] = updatedItem;
+                  prevCart[updatedProduct.productId] = updatedProduct;
 
                   return prevCart;
                 },
@@ -299,9 +301,9 @@ const cartMachine = createMachine<
                 cart: (ctx, ev) => {
                   const prevCart = ctx.cart;
 
-                  const updatedItem = ev.data.data as ItemIn;
+                  const updatedProduct = ev.data.data as ItemIn;
 
-                  prevCart[updatedItem.productId] = updatedItem;
+                  prevCart[updatedProduct.productId] = updatedProduct;
 
                   return prevCart;
                 },

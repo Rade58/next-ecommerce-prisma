@@ -53,6 +53,8 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
   const productId = initialProductLoaded.productId;
 
   if (cart[productId]) {
+    console.log({ DATA: cart[productId] });
+
     amount = cart[productId].amount;
     countInStock = cart[productId].countInStock;
   }
@@ -160,9 +162,28 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
           } */
                 `}
               >
-                <h4>DATA:</h4>
-
-                <h5>Count in Stck: {countInStock}</h5>
+                <h5>
+                  Products in Stck:{" "}
+                  <span
+                    css={css`
+                      color: #5f3483;
+                      font-size: 1.3em;
+                    `}
+                  >
+                    {countInStock}
+                  </span>
+                </h5>
+                <h5>
+                  Added To Cart:{" "}
+                  <span
+                    css={css`
+                      color: #5f3483;
+                      font-size: 1.3em;
+                    `}
+                  >
+                    {amount}
+                  </span>
+                </h5>
               </div>
             </Card>
           </Paper>
