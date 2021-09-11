@@ -317,7 +317,7 @@ const cartMachine = createMachine<
 
                   const updatedProduct = ev.data.data as Product;
 
-                  let amount = 1;
+                  let amount = -1;
 
                   if (cart[updatedProduct.productId]) {
                     amount = amount + cart[updatedProduct.productId].amount;

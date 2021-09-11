@@ -136,8 +136,33 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   }}
                   disabled={amount >= countInStock}
                 >
-                  {amount > countInStock ? "Stock Exceeded" : "Add To Cart"}
+                  Add To Cart
                 </Button>
+
+                {amount > 0 && (
+                  <Button
+                    className={butti}
+                    variant="contained"
+                    size="large"
+                    color="secondary"
+                    onClick={() => {
+                      dispatch({
+                        type: EE.REMOVE_ITEM,
+                        payload: {
+                          item: {
+                            amount: 1,
+                            countInStock,
+                            price,
+                            productId,
+                          },
+                        },
+                      });
+                    }}
+                    disabled={amount >= countInStock}
+                  >
+                    Remove Frrom Cart
+                  </Button>
+                )}
               </CardActions>
               {/* I DON NEED THIS IT IS TOO MUCH
             AMOUT SHOULD BE ONLY AVAILABLE TO ADD OR REMOVE IN CART
