@@ -123,7 +123,7 @@ const cartMachine = createMachine<
       cart: CartStore.getCart(),
       lastItemId: "",
       expired: false,
-      // 24 HOURS
+      //
       clockOffset: 1000 * 60 * 60 * 8, // 8 hours
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
@@ -331,19 +331,23 @@ const cartMachine = createMachine<
           },
         },
       },
+      [fse.cart_expired]: {
+        // YOU NEED TO CLEAR CART AND CLEAR TIMER
+        entry: [
+          assign({
+            cart: (ctx, ev) => {
+              CartStore.clearTimer();
+
+              return CartStore.clearCart();
+            },
+          }),
+        ],
+      },
       [fse.request_failed]: {
         after: {
           TWOSECONDSTOIDLE: {
             target: fse.idle,
           },
-        },
-      },
-      [fse.cart_expired]: {
-        entry: (ctx) => {
-          // *********
-          // *********
-          // *********
-          // YOU NEED TO CLEAR CART AND CLEAR TIMER
         },
       },
     },
