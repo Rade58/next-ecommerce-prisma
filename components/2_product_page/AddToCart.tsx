@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, Fragment } from "react";
 import type { FC } from "react";
 
 import { useActor } from "@xstate/react";
@@ -81,94 +81,96 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
   }, []);
 
   return (
-    <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-      <Paper>
-        <Card>
-          <CardContent>
-            <div
-              css={css`
-                display: flex;
-                justify-content: space-between;
-                border: #19181a solid 1px;
-                border-bottom: transparent;
-                padding: 4px;
-              `}
-            >
-              <Typography variant="body1">status:</Typography>
-              <Typography variant="body1">
-                {countInStock ? "In Stock" : "Out Of Stock"}
-              </Typography>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                justify-content: space-between;
-                border: #19181a solid 1px;
-                padding: 4px;
-              `}
-            >
-              <Typography variant="body1">price:</Typography>
-              <Typography variant="body1">${price}</Typography>
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button
-              className={butti}
-              variant="contained"
-              size="large"
-              color="primary"
-              onClick={() => {
-                dispatch({
-                  type: EE.ADD_ITEM,
-                  payload: {
-                    item: {
-                      amount: 1,
-                      countInStock,
-                      price,
-                      productId,
-                    },
-                  },
-                });
-              }}
-              disabled={amount > countInStock}
-            >
-              {amount > countInStock ? "Stock Exceeded" : "Add To Cart"}
-            </Button>
-          </CardActions>
-          {/* I DON NEED THIS IT IS TOO MUCH
+    <Fragment>
+      {cartService.initialized && (
+        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+          <Paper>
+            <Card>
+              <CardContent>
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                    border: #19181a solid 1px;
+                    border-bottom: transparent;
+                    padding: 4px;
+                  `}
+                >
+                  <Typography variant="body1">status:</Typography>
+                  <Typography variant="body1">
+                    {countInStock ? "In Stock" : "Out Of Stock"}
+                  </Typography>
+                </div>
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                    border: #19181a solid 1px;
+                    padding: 4px;
+                  `}
+                >
+                  <Typography variant="body1">price:</Typography>
+                  <Typography variant="body1">${price}</Typography>
+                </div>
+              </CardContent>
+              <CardActions>
+                <Button
+                  className={butti}
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  onClick={() => {
+                    dispatch({
+                      type: EE.ADD_ITEM,
+                      payload: {
+                        item: {
+                          amount: 1,
+                          countInStock,
+                          price,
+                          productId,
+                        },
+                      },
+                    });
+                  }}
+                  disabled={amount > countInStock}
+                >
+                  {amount > countInStock ? "Stock Exceeded" : "Add To Cart"}
+                </Button>
+              </CardActions>
+              {/* I DON NEED THIS IT IS TOO MUCH
             AMOUT SHOULD BE ONLY AVAILABLE TO ADD OR REMOVE IN CART
             // BUT WE CAN ADD REMOVE FROM CART LOGIC
-          
+            
           */}
-          <div
-            css={css`
-              width: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
+              <div
+                css={css`
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
 
-              padding: 0 10px;
-              & h4 {
-                margin-right: 18px;
-                user-select: none;
-              }
-              /* 
-          & > input {
+                  padding: 0 10px;
+                  & h4 {
+                    margin-right: 18px;
+                    user-select: none;
+                  }
+                  /* 
+              & > input {
 
           } */
-            `}
-          >
-            <h4>DATA:</h4>
+                `}
+              >
+                <h4>DATA:</h4>
 
-            <h5>Count in Stck: {countInStock}</h5>
+                <h5>Count in Stck: {countInStock}</h5>
 
-            <h5>Amount taken: {amount}</h5>
+                <h5>Amount taken: {amount}</h5>
 
-            {/* TWO BUTTONS
+                {/* TWO BUTTONS
               ONE FOR ADDING TO CART AND OTHER FOR REMOVING
             */}
 
-            {/* 
+                {/* 
             <TextField
               size="medium"
               color="secondary"
@@ -180,13 +182,15 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
 
                 // setAmount(parseInt(e.target.value as string));
 
-
+                
               }}
             /> */}
-          </div>
-        </Card>
-      </Paper>
-    </Grid>
+              </div>
+            </Card>
+          </Paper>
+        </Grid>
+      )}
+    </Fragment>
   );
 };
 
