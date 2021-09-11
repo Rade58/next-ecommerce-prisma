@@ -59,16 +59,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
     countInStock = cart[productId].countInStock;
   }
 
-  /* const [productCartObject, setProductCartObject] = useState<{
-    productId: string;
-    price: number;
-    countInStock: number;
-  }>({
-    productId: initialProductLoaded.productId,
-    price: initialProductLoaded.price,
-    countInStock: initialProductLoaded.countInStock,
-  });
- */
   const loading =
     state.value === fse.adding_item ||
     state.value === fse.removing_item ||
@@ -184,11 +174,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 {loading && <CircularProgress size={19} color="primary" />}
               </div>
 
-              {/* I DON NEED THIS IT IS TOO MUCH
-              AMOUT SHOULD BE ONLY AVAILABLE TO ADD OR REMOVE IN CART
-              // BUT WE CAN ADD REMOVE FROM CART LOGIC
-            
-              */}
               <div
                 css={css`
                   width: 100%;
@@ -230,6 +215,42 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                       {amount}
                     </span>
                   </h5>
+                )}
+              </div>
+            </Card>
+            <Card>
+              <div
+                style={{
+                  borderColor: amount > 0 ? "crimson" : "olive",
+                }}
+                css={css`
+                  border: solid 2px;
+                  border-radius: 5px;
+                `}
+              >
+                {amount > 0 && (
+                  <Button
+                    className={butti}
+                    variant="contained"
+                    size="small"
+                    color="secondary"
+                    onClick={() => {
+                      dispatch({
+                        type: EE.REMOVE_ITEM,
+                        payload: {
+                          item: {
+                            amount: 1,
+                            countInStock,
+                            price,
+                            productId,
+                          },
+                        },
+                      });
+                    }}
+                    disabled={loading}
+                  >
+                    Clear Product From Cart
+                  </Button>
                 )}
               </div>
             </Card>
