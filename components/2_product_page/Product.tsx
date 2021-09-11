@@ -12,10 +12,8 @@ import axios from "axios";
 
 import {
   Button,
-  Card,
   Grid,
   makeStyles,
-  CardActions,
   Typography,
   CardContent,
   CardMedia,
@@ -26,7 +24,6 @@ import {
   Avatar,
   Box,
   TextField,
-  Input,
 } from "@material-ui/core";
 import { Rating, Alert } from "@material-ui/lab";
 
@@ -34,13 +31,9 @@ import { useSession } from "next-auth/client";
 
 import type { ProductPageProps } from "../../pages/products/[prodId]";
 
+import AddToCart from "./AddToCart";
+
 const useStyles = makeStyles({
-  kont: {
-    height: "20vh",
-  },
-  pap: {
-    height: "40vh",
-  },
   papin: {
     height: "100%",
   },
@@ -64,7 +57,7 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
   product,
 }) => {
   const { back } = useRouter();
-  const { kont, pap, papin, upper, butti, inherColor, goBack } = useStyles();
+  const { papin, upper, inherColor, goBack } = useStyles();
 
   const [reviews, setReviews] = useState(product.reviews);
   const [numReviews, setNumReviews] = useState(product.reviews.length);
@@ -224,87 +217,9 @@ const ProductSingle: FC<{ product: ProductPageProps["product"] }> = ({
             </section>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-            <Paper>
-              <Card>
-                <CardContent>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: space-between;
-                      border: #19181a solid 1px;
-                      border-bottom: transparent;
-                      padding: 4px;
-                    `}
-                  >
-                    <Typography variant="body1">status:</Typography>
-                    <Typography variant="body1">
-                      {countInStock ? "In Stock" : "Out Of Stock"}
-                    </Typography>
-                  </div>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: space-between;
-                      border: #19181a solid 1px;
-                      padding: 4px;
-                    `}
-                  >
-                    <Typography variant="body1">price:</Typography>
-                    <Typography variant="body1">${price}</Typography>
-                  </div>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    className={butti}
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    onClick={() => {}}
-                    disabled={
-                      productCartObject.amount > productCartObject.countInStock
-                    }
-                  >
-                    {productCartObject.amount > productCartObject.countInStock
-                      ? "Stock Exceeded"
-                      : "Add To Cart"}
-                  </Button>
-                </CardActions>
-                <div
-                  css={css`
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    padding: 0 10px;
-                    & h4 {
-                      margin-right: 18px;
-                      user-select: none;
-                    }
-                    /* 
-                    & > input {
-
-                    } */
-                  `}
-                >
-                  <h4>Amount:</h4>
-                  <TextField
-                    size="medium"
-                    color="secondary"
-                    type="number"
-                    value={amount}
-                    onChange={(e) => {
-                      if (!e.target.value) return;
-                      if (parseInt(e.target.value) < 1) return;
-
-                      setAmount(parseInt(e.target.value as string));
-                    }}
-                  />
-                </div>
-              </Card>
-            </Paper>
-          </Grid>
+          {/* ADD TO CART */}
+          <AddToCart initialProductLoaded={product} />
+          {/* ------------------ */}
         </Grid>
         <Grid container className={papin}>
           <Grid item xs={12} sm={12} md={6} xl={7} className={papin}>
