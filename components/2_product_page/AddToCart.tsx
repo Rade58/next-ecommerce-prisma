@@ -69,18 +69,10 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
     countInStock: initialProductLoaded.countInStock,
   });
 
-  const getProductData = useCallback(() => {
-    // GETTING DATA
-    // COUNT IN STOCK IS IMPORTANT
-    // THIS SHOULD BE EXECUTED EVERY TIME USER ITERACTS WITH
-    // ANYTHING
-    // -------- EVERY TIME HE MAKES REQUEST OT ADD TO CART OR REMOVE FROM CART
-    // BUT I THINK WE COVERED THAT LOGIC INSIDE MACHINE
-  }, []);
-
-  useEffect(() => {
-    // MAKE REQUSET TO GET COUNT IN STOCK
-  }, []);
+  const loading =
+    state.value === fse.adding_item ||
+    state.value === fse.removing_item ||
+    state.value === fse.erasing_everything;
 
   return (
     <Fragment>
@@ -96,11 +88,19 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     border: #19181a solid 1px;
                     border-bottom: transparent;
                     padding: 4px;
+
+                    & span.red {
+                      color: crimson;
+                    }
                   `}
                 >
                   <Typography variant="body1">status:</Typography>
                   <Typography variant="body1">
-                    {countInStock ? "In Stock" : "Out Of Stock"}
+                    {countInStock ? (
+                      "In Stock"
+                    ) : (
+                      <span className="red">Out Of Stock</span>
+                    )}
                   </Typography>
                 </div>
                 <div
@@ -134,9 +134,10 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                       },
                     });
                   }}
-                  disabled={amount >= countInStock}
+                  disabled={countInStock <= 0 || loading}
                 >
-                  Add To Cart
+                  {amount < 1 ? "Add To Cart" : "Add One More"}{" "}
+                  {loading && <CircularProgress size={9} />}
                 </Button>
 
                 {amount > 0 && (
@@ -158,9 +159,9 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                         },
                       });
                     }}
-                    disabled={amount >= countInStock}
+                    disabled={/* amount >= countInStock || */ loading}
                   >
-                    Remove Frrom Cart
+                    Remove One {loading && <CircularProgress size={9} />}
                   </Button>
                 )}
               </CardActions>
@@ -188,7 +189,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 `}
               >
                 <h5>
-                  Products in Stck:{" "}
+                  Left Products In Stock:{" "}
                   <span
                     css={css`
                       color: #5f3483;
@@ -200,7 +201,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 </h5>
                 {amount > 0 && (
                   <h5>
-                    Added To Cart:{" "}
+                    Added To Your Cart:{" "}
                     <span
                       css={css`
                         color: #5f3483;

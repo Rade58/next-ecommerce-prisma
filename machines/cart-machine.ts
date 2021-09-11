@@ -301,7 +301,7 @@ const cartMachine = createMachine<
             const data = cart[lastItemId];
 
             return axios.put(`/api/cart/${lastItemId}`, {
-              amount: data.amount,
+              amount: 1,
               type: "cart-remove",
             });
           },
@@ -317,10 +317,10 @@ const cartMachine = createMachine<
 
                   const updatedProduct = ev.data.data as Product;
 
-                  let amount = -1;
+                  let amount = 1;
 
                   if (cart[updatedProduct.productId]) {
-                    amount = amount + cart[updatedProduct.productId].amount;
+                    amount = cart[updatedProduct.productId].amount - 1;
                   }
 
                   cart[updatedProduct.productId] = {

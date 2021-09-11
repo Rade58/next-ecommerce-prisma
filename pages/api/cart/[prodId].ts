@@ -66,7 +66,7 @@ handler.put(async (req, res) => {
     }
 
     if (type === "cart-add") {
-      if (amount >= product.countInStock) {
+      if (product.countInStock === 0) {
         // WE WON'T BE SENDING ERRORS
         // BUT LETS NOT UPDATE ANYTHING
         // LETS JUST SEND A RECORD BACK
