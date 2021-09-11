@@ -255,8 +255,14 @@ const cartMachine = createMachine<
 
                   const updatedProduct = ev.data.data as Product;
 
+                  let amount = 1;
+
+                  if (prevCart[updatedProduct.productId]) {
+                    amount = amount + prevCart[updatedProduct.productId].amount;
+                  }
+
                   prevCart[updatedProduct.productId] = {
-                    amount: prevCart[updatedProduct.productId].amount,
+                    amount,
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
@@ -309,8 +315,14 @@ const cartMachine = createMachine<
 
                   const updatedProduct = ev.data.data as Product;
 
+                  let amount = 1;
+
+                  if (prevCart[updatedProduct.productId]) {
+                    amount = amount + prevCart[updatedProduct.productId].amount;
+                  }
+
                   prevCart[updatedProduct.productId] = {
-                    amount: prevCart[updatedProduct.productId].amount,
+                    amount,
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
