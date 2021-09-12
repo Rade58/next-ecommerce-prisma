@@ -64,21 +64,20 @@ const ShoppingCart: FC<PropsI> = ({}) => {
       `}
     >
       <h1>Shopping Cart</h1>
-      {disabled && (
-        <div
-          css={css`
-            display: flex;
-            justify-content: center;
-            height: 28px;
-          `}
-        >
-          <CircularProgress color="primary" size={26} />
-        </div>
-      )}
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+          height: 28px;
+          /* border: tomato solid 2px; */
+        `}
+      >
+        {disabled && <CircularProgress color="primary" size={24} />}
+      </div>
 
       <List>
         {cartKeys.map((key) => {
-          const { amount, countInStock, price } = cart[key];
+          const { amount, countInStock, price, product, productId } = cart[key];
 
           const { image, name, brand } = cart[key].product;
 
@@ -190,7 +189,19 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         <Button
                           disabled={disabled}
                           onClick={() => {
-                            console.log("something");
+                            // console.log("something");
+                            dispatch({
+                              type: EE.REMOVE_ITEM,
+                              payload: {
+                                item: {
+                                  amount: 1,
+                                  countInStock,
+                                  price,
+                                  productId,
+                                  product,
+                                },
+                              },
+                            });
                           }}
                         >
                           <Remove />
@@ -198,9 +209,21 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         <span>{amount}</span>
 
                         <Button
-                          disabled={disabled}
+                          disabled={countInStock <= 0 || disabled}
                           onClick={() => {
-                            console.log("something");
+                            // console.log("something");
+                            dispatch({
+                              type: EE.ADD_ITEM,
+                              payload: {
+                                item: {
+                                  amount: 1,
+                                  countInStock,
+                                  price,
+                                  productId,
+                                  product,
+                                },
+                              },
+                            });
                           }}
                         >
                           <Add />

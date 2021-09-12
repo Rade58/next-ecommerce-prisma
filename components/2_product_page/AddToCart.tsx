@@ -122,6 +122,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                           countInStock,
                           price,
                           productId,
+                          product: cart[productId].product,
                         },
                       },
                     });
@@ -150,6 +151,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
+                            product: cart[productId].product,
                           },
                         },
                       });
@@ -248,6 +250,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
+                            product: cart[productId].product,
                           },
                         },
                       });
