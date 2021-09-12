@@ -25,33 +25,40 @@ handler.put(async (req, res) => {
     return res.status(400).send("empty cart");
   }
 
-  for (const key in cart) {
-    const item = cart[key];
+  try {
+    for (const key in cart) {
+      const item = cart[key];
 
-    const product = await prismaClient.product.findUnique({
-      where: {
-        productId: item.productId,
-      },
-      select: {
-        countInStock: true,
-      },
-    });
+      if (item && item?.productId) {
+        const product = await prismaClient.product.findUnique({
+          where: {
+            productId: item.productId,
+          },
+          select: {
+            countInStock: true,
+          },
+        });
 
-    if (!product) {
-      return res.status(400).send("something wen wrong");
+        if (!product) {
+          return res.status(400).send("something wen wrong");
+        }
+
+        await prismaClient.product.update({
+          where: {
+            productId: item.productId,
+          },
+          data: {
+            countInStock: product.countInStock + item.amount,
+          },
+        });
+      }
     }
 
-    await prismaClient.product.update({
-      where: {
-        productId: item.productId,
-      },
-      data: {
-        countInStock: product.countInStock + item.amount,
-      },
-    });
+    return res.status(200).send("cart cleared");
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(err);
   }
-
-  return res.status(200).send("cart cleared");
 });
 
 export default handler;

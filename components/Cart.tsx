@@ -246,8 +246,18 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           disabled={disabled}
                           onClick={() => {
                             //
-
-                            console.log("something");
+                            dispatch({
+                              type: EE.CLEAR_PRODUCT,
+                              payload: {
+                                item: {
+                                  amount,
+                                  countInStock,
+                                  price,
+                                  productId,
+                                  product,
+                                },
+                              },
+                            });
                           }}
                         >
                           <DeleteForever />
@@ -272,10 +282,23 @@ const ShoppingCart: FC<PropsI> = ({}) => {
           }
         `}
       >
-        <Button disabled={disabled}>
-          <span>Empty Your Cart</span>
-          <DeleteOutlineRounded />
-        </Button>
+        {Object.values(cart).map((val) => {
+          if (val.amount > 0) {
+            return 1;
+          }
+        }).length > 1 && (
+          <Button
+            disabled={disabled}
+            onClick={() => {
+              dispatch({
+                type: EE.CLEAR_CART,
+              });
+            }}
+          >
+            <span>Empty Your Cart</span>
+            <DeleteOutlineRounded />
+          </Button>
+        )}
       </div>
       <Divider />
       {/* <List>

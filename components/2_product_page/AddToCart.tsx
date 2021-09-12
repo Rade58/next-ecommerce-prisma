@@ -115,6 +115,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   color="primary"
                   onClick={() => {
                     dispatch({
+                      // @ts-ignore
                       type: EE.ADD_ITEM,
                       payload: {
                         item: {
@@ -122,7 +123,11 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                           countInStock,
                           price,
                           productId,
-                          product: cart[productId].product,
+
+                          // @ts-ignore
+                          product: cart[productId]
+                            ? cart[productId].product
+                            : initialProductLoaded,
                         },
                       },
                     });
@@ -144,6 +149,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     color="primary"
                     onClick={() => {
                       dispatch({
+                        // @ts-ignore
                         type: EE.REMOVE_ITEM,
                         payload: {
                           item: {
@@ -151,7 +157,11 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
-                            product: cart[productId].product,
+
+                            // @ts-ignore
+                            product: cart[productId]
+                              ? cart[productId].product
+                              : initialProductLoaded,
                           },
                         },
                       });
@@ -243,6 +253,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     color="secondary"
                     onClick={() => {
                       dispatch({
+                        // @ts-ignore
                         type: EE.CLEAR_PRODUCT,
                         payload: {
                           item: {
@@ -250,7 +261,11 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
-                            product: cart[productId].product,
+
+                            // @ts-ignore
+                            product: cart[productId]
+                              ? cart[productId].product
+                              : initialProductLoaded,
                           },
                         },
                       });
