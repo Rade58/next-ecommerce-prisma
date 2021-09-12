@@ -18,7 +18,7 @@ import {
   Divider,
   ListItem,
 } from "@material-ui/core";
-import { ShoppingCart as ShopIcon } from "@material-ui/icons";
+import { ShoppingCart as ShopIcon, CloseOutlined } from "@material-ui/icons";
 
 import { useSession } from "next-auth/client";
 
@@ -110,7 +110,7 @@ function TemporaryDrawer() {
             onClick={toggleDrawer("top", false)}
             onKeyDown={toggleDrawer("top", false)}
           >
-            <List>
+            {/* <List>
               <ListItem button>
                 <ListItemIcon>Content</ListItemIcon>
                 <ListItemText primary={"something"} />
@@ -121,6 +121,34 @@ function TemporaryDrawer() {
               <ListItem button>
                 <ListItemIcon>Content</ListItemIcon>
                 <ListItemText primary={"something"} />
+              </ListItem>
+            </List> */}
+            <Divider />
+            <List>
+              <ListItem button>
+                <div
+                  css={css`
+                    border: pink solid 1px;
+                    display: flex;
+                    justify-content: center;
+                    /* width: 100%; */
+                    align-items: center;
+                    margin: 0 auto;
+                    padding: 0 6px;
+                    border-radius: 4px;
+                    color: white;
+                    background-color: #1e688b9b;
+
+                    &:hover {
+                      background-color: #335c5c9b;
+                    }
+                  `}
+                >
+                  <ListItemIcon>
+                    <CloseOutlined color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary={"Close"} />
+                </div>
               </ListItem>
             </List>
           </div>
