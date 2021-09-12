@@ -258,6 +258,32 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   </Button>
                 )}
               </div>
+              <div
+                style={{
+                  borderColor: amount > 0 ? "crimson" : "#56bec5",
+                }}
+                css={css`
+                  border: solid 2px;
+                  border-radius: 5px;
+                `}
+              >
+                {amount > 0 && (
+                  <Button
+                    className={butti}
+                    variant="contained"
+                    size="small"
+                    color="secondary"
+                    onClick={() => {
+                      dispatch({
+                        type: EE.CLEAR_CART,
+                      });
+                    }}
+                    disabled={loading}
+                  >
+                    Clear Cart
+                  </Button>
+                )}
+              </div>
             </Card>
           </Paper>
         </Grid>
