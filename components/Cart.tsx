@@ -13,19 +13,33 @@ import {
   Divider,
 } from "@material-ui/core";
 
-import type { Anchor } from "./Header";
+import { useActor } from "@xstate/react";
+
+import { cartService, fse, EE } from "../machines/cart-machine";
 
 interface PropsI {
   placeholder?: string;
 }
 
 const ShoppingCart: FC<PropsI> = ({}) => {
+  const [state, dispatch] = useActor(cartService);
+
+  const { cart } = state.context;
+
+  const cartKeys = Object.keys(cart);
+
   return (
     <div>
       <h1>Hello Shopping Cart</h1>
       <div></div>
 
-      {/* <List>
+      <List>
+        {cartKeys.map((key) => (
+          <ListItem key={key} button>
+            {cart[key].productId}
+          </ListItem>
+        ))}
+
         <ListItem button>
           <ListItemIcon>Content</ListItemIcon>
           <ListItemText primary={"something"} />
@@ -37,7 +51,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
           <ListItemIcon>Content</ListItemIcon>
           <ListItemText primary={"something"} />
         </ListItem>
-      </List> */}
+      </List>
     </div>
   );
 };

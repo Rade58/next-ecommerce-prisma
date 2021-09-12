@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
 
+import type { Product } from "@prisma/client";
+
 import { afterDate, elapsed } from "../date";
 
 const CART = "cart";
@@ -10,11 +12,18 @@ export interface ItemIn {
   amount: number;
   countInStock: number;
   price: number;
+  product: Product;
 }
 
 export type CartRecord = Record<string, ItemIn>;
 
-const setCartItem = ({ productId, countInStock, price, amount }: ItemIn) => {
+const setCartItem = ({
+  productId,
+  countInStock,
+  price,
+  amount,
+  product,
+}: ItemIn) => {
   const prevCartString = Cookies.get(CART);
 
   if (!prevCartString) {
@@ -26,12 +35,13 @@ const setCartItem = ({ productId, countInStock, price, amount }: ItemIn) => {
           amount,
           countInStock,
           price,
+          product,
         },
       })
     );
 
     return {
-      [productId]: { productId, amount, countInStock, price },
+      [productId]: { productId, amount, countInStock, price, product },
     } as CartRecord;
   }
 
@@ -44,18 +54,19 @@ const setCartItem = ({ productId, countInStock, price, amount }: ItemIn) => {
           amount,
           countInStock,
           price,
+          product,
         },
       })
     );
 
     return {
-      [productId]: { productId, amount, countInStock, price },
+      [productId]: { productId, amount, countInStock, price, product },
     } as CartRecord;
   }
 
   const prevCart = JSON.parse(prevCartString);
 
-  prevCart[productId] = { productId, amount, countInStock, price };
+  prevCart[productId] = { productId, amount, countInStock, price, product };
 
   console.log({ prevCart });
 

@@ -243,6 +243,7 @@ const cartMachine = createMachine<
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
+                    product: updatedProduct,
                   };
 
                   CartStore.setCartItem(cart[updatedProduct.productId]);
@@ -305,6 +306,7 @@ const cartMachine = createMachine<
                     countInStock: updatedProduct.countInStock,
                     price: updatedProduct.price,
                     productId: updatedProduct.productId,
+                    product: updatedProduct,
                   };
 
                   CartStore.setCartItem(cart[updatedProduct.productId]);
@@ -353,6 +355,7 @@ const cartMachine = createMachine<
                     countInStock: data.countInStock,
                     productId: data.productId,
                     price: data.price,
+                    product: data,
                   };
 
                   //
@@ -405,6 +408,7 @@ const cartMachine = createMachine<
                       countInStock: item.countInStock,
                       price: item.price,
                       productId: item.productId,
+                      product: item,
                     };
                   }
 
