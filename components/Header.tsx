@@ -137,7 +137,7 @@ function TemporaryDrawer() {
                     padding: 0 6px;
                     border-radius: 4px;
                     color: white;
-                    background-color: #1e688b9b;
+                    background-color: #8f6291;
 
                     &:hover {
                       background-color: #335c5c9b;

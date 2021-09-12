@@ -46,6 +46,9 @@ const ShoppingCart: FC<PropsI> = ({}) => {
         & li {
           cursor: default;
         }
+        & li:hover {
+          background-color: #6a658555;
+        }
       `}
     >
       <h1>Shopping Cart</h1>
@@ -61,15 +64,16 @@ const ShoppingCart: FC<PropsI> = ({}) => {
             <Fragment key={key}>
               {" "}
               {amount !== 0 ? (
-                <ListItem button>
+                <ListItem>
                   <div
                     css={css`
                       display: flex;
                       justify-content: space-between;
                       align-items: center;
-                      border-left: #df5470 solid 4px;
+                      border-left: #8f6291 solid 4px;
+                      border-radius: 4px;
                       width: 100%;
-                      padding-left: 5px;
+                      padding-left: 15px;
                       flex-wrap: wrap;
 
                       & h5 {
@@ -97,6 +101,11 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           /* align-self: flex-end; */
                           width: 50%;
                         }
+
+                        & button,
+                        & span.am {
+                          border-bottom: #8f6291 solid 2px;
+                        }
                       }
                     `}
                   >
@@ -111,6 +120,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        /* border-bottom: crimson solid 2px; */
                       `}
                     >
                       <Button
