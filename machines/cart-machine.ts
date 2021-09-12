@@ -390,7 +390,25 @@ const cartMachine = createMachine<
                 cart: (_, ev) => {
                   console.log(ev.data.data);
 
-                  return CartStore.clearCart();
+                  CartStore.clearCart();
+                  // THIS IS ONLY
+                  // IF USER VIEWING PRODUCT THAT IS BEING CLEARED FROM CART
+                  // TOGETHER WITH EVERY PRODUCT
+
+                  const data = ev.data.data as Product[];
+
+                  const cart: Record<string, ItemIn> = {};
+
+                  for (let item of data) {
+                    cart[item.productId] = {
+                      amount: 0,
+                      countInStock: item.countInStock,
+                      price: item.price,
+                      productId: item.productId,
+                    };
+                  }
+
+                  return cart;
                 },
               }),
             ],
