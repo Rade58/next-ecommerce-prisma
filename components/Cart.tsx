@@ -11,6 +11,7 @@ import {
   ListItemText,
   ListItemIcon,
   Divider,
+  Avatar,
 } from "@material-ui/core";
 
 import { useActor } from "@xstate/react";
@@ -30,28 +31,32 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
   return (
     <div>
-      <h1>Hello Shopping Cart</h1>
+      <h1>Shopping Cart</h1>
       <div></div>
 
       <List>
-        {cartKeys.map((key) => (
-          <ListItem key={key} button>
-            {cart[key].product.brand}
-          </ListItem>
-        ))}
+        {cartKeys.map((key) => {
+          const { image } = cart[key].product;
 
-        <ListItem button>
-          <ListItemIcon>Content</ListItemIcon>
-          <ListItemText primary={"something"} />
-        </ListItem>
+          return (
+            <ListItem key={key} button>
+              {/* {cart[key].product.brand} */}
+              <Avatar src={image} />
+            </ListItem>
+          );
+        })}
       </List>
       <Divider />
-      <List>
+      {/* <List>
         <ListItem button>
           <ListItemIcon>Content</ListItemIcon>
           <ListItemText primary={"something"} />
         </ListItem>
-      </List>
+        <ListItem button>
+          <ListItemIcon>Content</ListItemIcon>
+          <ListItemText primary={"something"} />
+        </ListItem>
+      </List> */}
     </div>
   );
 };
