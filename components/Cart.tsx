@@ -16,7 +16,12 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import { DeleteForever, Add, Remove } from "@material-ui/icons";
+import {
+  DeleteForever,
+  Add,
+  Remove,
+  DeleteOutlineRounded,
+} from "@material-ui/icons";
 
 import { useActor } from "@xstate/react";
 
@@ -165,6 +170,10 @@ const ShoppingCart: FC<PropsI> = ({}) => {
           );
         })}
       </List>
+      <Button>
+        <span>Empty Your Cart</span>
+        <DeleteOutlineRounded />
+      </Button>
       <Divider />
       {/* <List>
         <ListItem button>
