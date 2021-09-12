@@ -120,7 +120,15 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         }
 
                         & .nome {
-                          width: 120px;
+                          text-align: center;
+                          padding: 0 16px;
+
+                          min-width: 120px;
+                          @media screen and (max-width: 900px) {
+                            /* justify-self: flex-end; */
+                            /* align-self: flex-end; */
+                            /* width: 100px; */
+                          }
                         }
 
                         & .ex,
@@ -165,7 +173,18 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           display: flex;
                           justify-content: center;
                           align-items: center;
+                          min-width: 136px;
                           /* border-bottom: crimson solid 2px; */
+                          @media screen and (max-width: 458px) {
+                            /* justify-self: flex-end; */
+                            /* align-self: flex-end; */
+                            width: 300px;
+                          }
+                          @media screen and (max-width: 596px) {
+                            /* justify-self: flex-end; */
+                            /* align-self: flex-end; */
+                            margin-left: auto;
+                          }
                         `}
                       >
                         <Button
@@ -193,6 +212,11 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           display: flex;
                           justify-content: center;
                           align-items: center;
+
+                          @media screen and (max-width: 935px) {
+                            margin-left: auto;
+                            /* width: 220px; */
+                          }
                         `}
                       >
                         <Button
@@ -218,6 +242,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
       <div
         css={css`
           display: flex;
+          margin-top: 10px;
+          margin-bottom: 10px;
           & button {
             margin-left: auto;
           }
