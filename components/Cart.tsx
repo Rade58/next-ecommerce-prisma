@@ -3,6 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
+import { Fragment } from "react";
 
 import {
   Button,
@@ -12,6 +13,7 @@ import {
   ListItemIcon,
   Divider,
   Avatar,
+  Typography,
 } from "@material-ui/core";
 
 import { useActor } from "@xstate/react";
@@ -36,13 +38,61 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
       <List>
         {cartKeys.map((key) => {
-          const { image } = cart[key].product;
+          const { amount, countInStock, price } = cart[key];
+
+          const { image, name, brand } = cart[key].product;
+
+          let nome = name;
+          let brando = brand;
+          /* 
+          if (nome.length > 30) {
+            nome = nome.slice(0, 29) + "...";
+
+            console.log({ nome });
+          }
+
+          if (brando.length > 30) {
+            brando = brando.slice(0, 29) + "...";
+          } */
 
           return (
-            <ListItem key={key} button>
-              {/* {cart[key].product.brand} */}
-              <Avatar src={image} />
-            </ListItem>
+            <Fragment key={key}>
+              {" "}
+              {amount !== 0 ? (
+                <ListItem button>
+                  <div
+                    css={css`
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      border: crimson solid 1px;
+                      width: 100%;
+
+                      & .brando {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: no-wrap;
+                        width: 120px;
+                        border: pink solid 1px;
+                        max-height: 1.2em;
+                      }
+
+                      /* & .nome {
+
+                      } */
+                    `}
+                  >
+                    {/* {cart[key].product.brand} */}
+                    <Avatar src={image} />
+                    <h5 className="nome">{nome}</h5>
+                    <h5 className="brando">{brando}</h5>
+                    <h5>{amount}</h5>
+                    <h5>{price}</h5>
+                    <h5>x</h5>
+                  </div>
+                </ListItem>
+              ) : null}
+            </Fragment>
           );
         })}
       </List>
