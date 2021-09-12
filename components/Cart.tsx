@@ -32,7 +32,16 @@ const ShoppingCart: FC<PropsI> = ({}) => {
   const cartKeys = Object.keys(cart);
 
   return (
-    <div>
+    <div
+      css={css`
+        width: 72%;
+        margin: 2px auto;
+
+        @media screen and (max-width: 720px) {
+          width: 96%;
+        }
+      `}
+    >
       <h1>Shopping Cart</h1>
       <div></div>
 
@@ -42,8 +51,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
           const { image, name, brand } = cart[key].product;
 
-          let nome = name;
-          let brando = brand;
+          /*  let nome = name;
+          let brando = brand; */
           /* 
           if (nome.length > 30) {
             nome = nome.slice(0, 29) + "...";
@@ -65,30 +74,45 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                       display: flex;
                       justify-content: space-between;
                       align-items: center;
-                      border: crimson solid 1px;
+                      border-left: #df5470 solid 4px;
                       width: 100%;
+                      padding-left: 5px;
+                      flex-wrap: wrap;
+
+                      & h5 {
+                        border: pink solid 1px;
+                      }
 
                       & .brando {
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: no-wrap;
                         width: 120px;
-                        border: pink solid 1px;
+                        /* border: pink solid 1px; */
                         max-height: 1.2em;
                       }
 
-                      /* & .nome {
+                      & .nome {
+                        width: 120px;
+                      }
 
-                      } */
+                      & .ex,
+                      & .amount {
+                        @media screen and (max-width: 900px) {
+                          /* justify-self: flex-end; */
+                          /* align-self: flex-end; */
+                          width: 38%;
+                        }
+                      }
                     `}
                   >
                     {/* {cart[key].product.brand} */}
                     <Avatar src={image} />
-                    <h5 className="nome">{nome}</h5>
-                    <h5 className="brando">{brando}</h5>
-                    <h5>{amount}</h5>
+                    <h5 className="nome">{name}</h5>
+                    <h5 className="brando">{brand}</h5>
                     <h5>{price}</h5>
-                    <h5>x</h5>
+                    <h5 className="amount">{amount}</h5>
+                    <h5 className="ex">x</h5>
                   </div>
                 </ListItem>
               ) : null}
