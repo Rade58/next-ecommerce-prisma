@@ -140,9 +140,9 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 {amount > 0 && (
                   <Button
                     className={butti}
-                    variant="contained"
-                    size="large"
-                    color="secondary"
+                    variant="outlined"
+                    size="medium"
+                    color="primary"
                     onClick={() => {
                       dispatch({
                         type: EE.REMOVE_ITEM,
@@ -178,12 +178,12 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 css={css`
                   width: 100%;
                   display: flex;
-                  justify-content: center;
+                  justify-content: space-evenly;
                   align-items: center;
 
                   padding: 0 10px;
                   & h5 {
-                    margin-right: 18px;
+                    /* margin-right: 18px; */
                     user-select: none;
                   }
                   /* 
@@ -193,7 +193,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                 `}
               >
                 <h5>
-                  Left Products In Stock:{" "}
+                  Products Left In Stock:{" "}
                   <span
                     css={css`
                       color: #5f3483;
@@ -203,6 +203,13 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     {countInStock}
                   </span>
                 </h5>
+                <div
+                  css={css`
+                    height: 36px;
+                    border-left: #7ab9c299 solid 1px;
+                    width: 4px;
+                  `}
+                />
                 {amount > 0 && (
                   <h5>
                     Added To Your Cart:{" "}
