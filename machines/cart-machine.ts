@@ -32,7 +32,7 @@ export enum fse {
   clearing_product = "clearing_product",
   // I DON'T THINK THIS IS RELEVENT TO CART
   // moving_to_checkout = "moving_to_checkout",
-  erasing_everything = "erasing_everything",
+  clearing_cart = "clearing_cart",
   // WE DON'T NEED THIS BECAUSE WE ARE HANDLING THIS BACKEND
   // stock_exceed = "stock_exceed",
   request_failed = "request_failed",
@@ -46,9 +46,10 @@ export enum EE {
   // GET_CART_ON_MOUNT = "GET_CART_ON_MOUNT",
   ADD_ITEM = "ADD_ITEM",
   REMOVE_ITEM = "REMOVE_ITEM",
-  ERASE_EVERYTHING = "ERASE_EVERYTHING",
+  // ERASE_EVERYTHING = "ERASE_EVERYTHING",
   // SERVER_RESPONDED = "SERVER_RESSPONDED",
   CLEAR_PRODUCT = "CLEAR_PRODUCT",
+  CLEAR_CART = "CLEAR_CART",
   TICK = "TICK",
 }
 
@@ -76,7 +77,7 @@ export type machineEventsGenericType =
       };
     }
   | {
-      type: EE.ERASE_EVERYTHING;
+      type: EE.CLEAR_CART;
     }
   | {
       type: EE.CLEAR_PRODUCT;
@@ -117,7 +118,7 @@ export type machineFiniteStatesGenericType =
       context: MachineContextGenericI;
     }
   | {
-      value: fse.erasing_everything;
+      value: fse.clearing_cart;
       context: MachineContextGenericI;
     };
 
@@ -187,10 +188,9 @@ const cartMachine = createMachine<
             actions: [AA.EXPIRATION_MANIPULATION, AA.SET_LAST_ITEM],
             target: fse.clearing_product,
           },
-
-          [EE.ERASE_EVERYTHING]: {
+          [EE.CLEAR_CART]: {
             actions: [AA.CLEAR_TIMER, AA.UNSET_LAST_ITEM],
-            target: fse.erasing_everything,
+            target: fse.clearing_cart,
           },
         },
       },
@@ -374,16 +374,14 @@ const cartMachine = createMachine<
           },
         },
       },
-      [fse.erasing_everything]: {
+      [fse.clearing_cart]: {
         //
         invoke: {
-          id: "erase_everything",
+          id: "clear_cart",
           src: (ctx, event) => {
             const { cart } = ctx;
 
-            const data = Object.values(cart);
-
-            return axios.put("/api/cart/products", data);
+            return axios.put("/api/cart/clear-cart", cart);
           },
           onDone: {
             target: fse.idle,

@@ -60,7 +60,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
   const loading =
     state.value === fse.adding_item ||
     state.value === fse.removing_item ||
-    state.value === fse.erasing_everything;
+    state.value === fse.clearing_cart;
 
   return (
     <Fragment>
