@@ -1,4 +1,5 @@
 import { createMachine, assign, interpret } from "xstate";
+import type { EventObject } from "xstate";
 
 import axios from "axios";
 
@@ -14,6 +15,8 @@ import type { Product } from "@prisma/client";
 enum AA {
   EXPIRATION_MANIPULATION = " EXPIRATION_MANIPULATION",
   CLEAR_TIMER = "CLEAR_TIMER",
+  SET_LAST_ITEM = "SET_LAST_ITEM",
+  UNSET_LAST_ITEM = "UNSET_LAST_ITEM",
 }
 
 //
@@ -26,6 +29,7 @@ export enum fse {
   idle = "idle",
   adding_item = "adding_item",
   removing_item = "removing_item",
+  clearing_product = "clearing_product",
   // I DON'T THINK THIS IS RELEVENT TO CART
   // moving_to_checkout = "moving_to_checkout",
   erasing_everything = "erasing_everything",
@@ -44,6 +48,7 @@ export enum EE {
   REMOVE_ITEM = "REMOVE_ITEM",
   ERASE_EVERYTHING = "ERASE_EVERYTHING",
   // SERVER_RESPONDED = "SERVER_RESSPONDED",
+  CLEAR_PRODUCT = "CLEAR_PRODUCT",
   TICK = "TICK",
 }
 
@@ -72,6 +77,9 @@ export type machineEventsGenericType =
     }
   | {
       type: EE.ERASE_EVERYTHING;
+    }
+  | {
+      type: EE.CLEAR_PRODUCT;
       payload: {
         productId: string;
       };
@@ -100,10 +108,10 @@ export type machineFiniteStatesGenericType =
       value: fse.removing_item;
       context: MachineContextGenericI;
     }
-  /* | {
-      value: fse.stock_exceed;
+  | {
+      value: fse.clearing_product;
       context: MachineContextGenericI;
-    } */
+    }
   | {
       value: fse.cart_expired;
       context: MachineContextGenericI;
@@ -168,51 +176,20 @@ const cartMachine = createMachine<
         //
         on: {
           [EE.ADD_ITEM]: {
-            actions: [
-              AA.EXPIRATION_MANIPULATION,
-              assign({
-                lastItem: (_, ev) => {
-                  return ev.payload.item;
-                },
-              }),
-              assign({
-                lastItemId: (_, ev) => {
-                  return ev.payload.item.productId;
-                },
-              }),
-            ],
+            actions: [AA.EXPIRATION_MANIPULATION, AA.SET_LAST_ITEM],
             target: fse.adding_item,
           },
           [EE.REMOVE_ITEM]: {
-            actions: [
-              AA.EXPIRATION_MANIPULATION,
-              assign({
-                lastItem: (_, ev) => {
-                  return ev.payload.item;
-                },
-              }),
-              assign({
-                lastItemId: (_, ev) => {
-                  return ev.payload.item.productId;
-                },
-              }),
-            ],
+            actions: [AA.EXPIRATION_MANIPULATION, AA.SET_LAST_ITEM],
             target: fse.removing_item,
           },
+          [EE.CLEAR_PRODUCT]: {
+            actions: [AA.EXPIRATION_MANIPULATION, AA.SET_LAST_ITEM],
+            target: fse.clearing_product,
+          },
+
           [EE.ERASE_EVERYTHING]: {
-            actions: [
-              AA.CLEAR_TIMER,
-              assign({
-                lastItem: (_, ev) => {
-                  return null;
-                },
-              }),
-              assign({
-                lastItemId: (_, ev) => {
-                  return "";
-                },
-              }),
-            ],
+            actions: [AA.CLEAR_TIMER, AA.UNSET_LAST_ITEM],
             target: fse.erasing_everything,
           },
         },
@@ -347,6 +324,50 @@ const cartMachine = createMachine<
           },
         },
       },
+      [fse.clearing_product]: {
+        //
+        invoke: {
+          id: "clear_product",
+          src: (ctx, event) => {
+            const { lastItemId, cart } = ctx;
+
+            const { amount } = cart[lastItemId];
+
+            return axios.put(`/api/cart/${lastItemId}`, {
+              type: "clear-product",
+              amount,
+            });
+          },
+          onDone: {
+            target: fse.idle,
+            actions: [
+              assign({
+                cart: (ctx, ev) => {
+                  const data = ev.data.data as Product;
+
+                  const { cart } = ctx;
+
+                  delete cart[data.productId];
+
+                  //
+
+                  CartStore.clearProduct(data.productId);
+
+                  return cart;
+                },
+              }),
+            ],
+          },
+          onError: {
+            target: fse.request_failed,
+            actions: [
+              (ctx, event) => {
+                console.log(event.data.error);
+              },
+            ],
+          },
+        },
+      },
       [fse.erasing_everything]: {
         //
         invoke: {
@@ -412,6 +433,26 @@ const cartMachine = createMachine<
       [AA.CLEAR_TIMER]: (ctx, ev) => {
         CartStore.clearTimer();
       },
+      [AA.SET_LAST_ITEM]: assign({
+        lastItem: (_, ev) => {
+          // PAYLOAD SHOUD BE HERE
+          // @ts-ignore
+          return ev.payload.item;
+        },
+        lastItemId: (_, ev) => {
+          // PAYLOAD SHOUD BE HERE
+          // @ts-ignore
+          return ev.payload.item.productId;
+        },
+      }),
+      [AA.UNSET_LAST_ITEM]: assign({
+        lastItem: (_, ev) => {
+          return null;
+        },
+        lastItemId: (_, ev) => {
+          return "";
+        },
+      }),
     },
   }
 );

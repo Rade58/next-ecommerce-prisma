@@ -64,7 +64,7 @@ const setCartItem = ({ productId, countInStock, price, amount }: ItemIn) => {
   return prevCart as CartRecord;
 };
 
-const removeCartItem = (productId: string) => {
+const clearProduct = (productId: string) => {
   const prevCartString = Cookies.get(CART);
 
   if (prevCartString === undefined) {
@@ -136,7 +136,7 @@ const clearTimer = () => {
 
 const CartStore = {
   setCartItem,
-  removeCartItem,
+  clearProduct,
   clearCart,
   getCart,
   //

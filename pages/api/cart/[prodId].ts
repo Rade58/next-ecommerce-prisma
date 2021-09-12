@@ -113,6 +113,21 @@ handler.put(async (req, res) => {
 
       return res.status(200).json(updatedProduct);
     }
+
+    if (type === "clear-product") {
+      const updatedProduct = await prismaClient.product.update({
+        where: {
+          productId: prodId,
+        },
+        data: {
+          countInStock: product.countInStock + amount,
+        },
+      });
+
+      console.log(updatedProduct);
+
+      return res.status(200).json(updatedProduct);
+    }
   } catch (error) {
     console.error(error);
 
