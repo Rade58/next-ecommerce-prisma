@@ -14,6 +14,7 @@ import {
   Divider,
   Avatar,
   Typography,
+  CircularProgress,
 } from "@material-ui/core";
 
 import {
@@ -38,6 +39,12 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
   const cartKeys = Object.keys(cart);
 
+  const disabled =
+    state.value === fse.adding_item ||
+    state.value === fse.removing_item ||
+    state.value === fse.clearing_product ||
+    state.value === fse.clearing_cart;
+
   return (
     <div
       css={css`
@@ -57,7 +64,17 @@ const ShoppingCart: FC<PropsI> = ({}) => {
       `}
     >
       <h1>Shopping Cart</h1>
-      <div></div>
+      {disabled && (
+        <div
+          css={css`
+            display: flex;
+            justify-content: center;
+            height: 28px;
+          `}
+        >
+          <CircularProgress color="primary" size={26} />
+        </div>
+      )}
 
       <List>
         {cartKeys.map((key) => {
@@ -94,6 +111,12 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           width: 120px;
                           /* border: pink solid 1px; */
                           max-height: 1.2em;
+
+                          @media screen and (max-width: 900px) {
+                            /* justify-self: flex-end; */
+                            /* align-self: flex-end; */
+                            display: none;
+                          }
                         }
 
                         & .nome {
@@ -105,12 +128,25 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                           @media screen and (max-width: 900px) {
                             /* justify-self: flex-end; */
                             /* align-self: flex-end; */
-                            width: 50%;
+                            width: 30%;
                           }
 
                           & button,
                           & span.am {
                             border-bottom: #8f6291 solid 2px;
+                          }
+                        }
+                        & .price {
+                          color: #181633;
+                          font-size: 1.1em;
+                          font-weight: 400;
+                          display: flex;
+                          align-items: center;
+
+                          & span {
+                            color: green;
+
+                            font-size: 1.4em;
                           }
                         }
                       `}
@@ -119,7 +155,10 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                       <Avatar src={image} />
                       <h5 className="nome">{name}</h5>
                       <h5 className="brando">{brand}</h5>
-                      <h5>${price}</h5>
+                      <h5 className="price">
+                        <span>$ </span>
+                        {price}
+                      </h5>
                       <div
                         className="amount"
                         css={css`
@@ -130,6 +169,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         `}
                       >
                         <Button
+                          disabled={disabled}
                           onClick={() => {
                             console.log("something");
                           }}
@@ -139,6 +179,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         <span>{amount}</span>
 
                         <Button
+                          disabled={disabled}
                           onClick={() => {
                             console.log("something");
                           }}
@@ -155,6 +196,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         `}
                       >
                         <Button
+                          disabled={disabled}
                           onClick={() => {
                             //
 
@@ -177,11 +219,11 @@ const ShoppingCart: FC<PropsI> = ({}) => {
         css={css`
           display: flex;
           & button {
-            margin-left: 20px;
+            margin-left: auto;
           }
         `}
       >
-        <Button>
+        <Button disabled={disabled}>
           <span>Empty Your Cart</span>
           <DeleteOutlineRounded />
         </Button>
