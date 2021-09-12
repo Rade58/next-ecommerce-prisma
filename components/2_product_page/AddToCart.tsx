@@ -226,7 +226,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
             <Card>
               <div
                 style={{
-                  borderColor: amount > 0 ? "crimson" : "#56bec5",
+                  borderColor: amount > 0 ? "crimson" : "#9c80c0",
                 }}
                 css={css`
                   border: solid 2px;
@@ -260,7 +260,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
               </div>
               <div
                 style={{
-                  borderColor: amount > 0 ? "crimson" : "#56bec5",
+                  borderColor: amount > 0 ? "crimson" : "#46727575",
                 }}
                 css={css`
                   border: solid 2px;
@@ -280,7 +280,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     }}
                     disabled={loading}
                   >
-                    Clear Cart
+                    Clear Entire Cart
                   </Button>
                 )}
               </div>
