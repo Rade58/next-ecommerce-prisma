@@ -69,111 +69,123 @@ const ShoppingCart: FC<PropsI> = ({}) => {
             <Fragment key={key}>
               {" "}
               {amount !== 0 ? (
-                <ListItem>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      border-left: #8f6291 solid 4px;
-                      border-radius: 4px;
-                      width: 100%;
-                      padding-left: 15px;
-                      flex-wrap: wrap;
-
-                      & h5 {
-                        /* border: pink solid 1px; */
-                      }
-
-                      & .brando {
-                        display: inline;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        width: 120px;
-                        /* border: pink solid 1px; */
-                        max-height: 1.2em;
-                      }
-
-                      & .nome {
-                        width: 120px;
-                      }
-
-                      & .ex,
-                      & .amount {
-                        @media screen and (max-width: 900px) {
-                          /* justify-self: flex-end; */
-                          /* align-self: flex-end; */
-                          width: 50%;
-                        }
-
-                        & button,
-                        & span.am {
-                          border-bottom: #8f6291 solid 2px;
-                        }
-                      }
-                    `}
-                  >
-                    {/* {cart[key].product.brand} */}
-                    <Avatar src={image} />
-                    <h5 className="nome">{name}</h5>
-                    <h5 className="brando">{brand}</h5>
-                    <h5>${price}</h5>
+                <Fragment>
+                  <ListItem>
                     <div
-                      className="amount"
                       css={css`
                         display: flex;
-                        justify-content: center;
+                        justify-content: space-between;
                         align-items: center;
-                        /* border-bottom: crimson solid 2px; */
+                        border-left: #8f6291 solid 4px;
+                        border-radius: 4px;
+                        width: 100%;
+                        padding-left: 15px;
+                        flex-wrap: wrap;
+
+                        & h5 {
+                          /* border: pink solid 1px; */
+                        }
+
+                        & .brando {
+                          display: inline;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                          width: 120px;
+                          /* border: pink solid 1px; */
+                          max-height: 1.2em;
+                        }
+
+                        & .nome {
+                          width: 120px;
+                        }
+
+                        & .ex,
+                        & .amount {
+                          @media screen and (max-width: 900px) {
+                            /* justify-self: flex-end; */
+                            /* align-self: flex-end; */
+                            width: 50%;
+                          }
+
+                          & button,
+                          & span.am {
+                            border-bottom: #8f6291 solid 2px;
+                          }
+                        }
                       `}
                     >
-                      <Button
-                        onClick={() => {
-                          console.log("something");
-                        }}
+                      {/* {cart[key].product.brand} */}
+                      <Avatar src={image} />
+                      <h5 className="nome">{name}</h5>
+                      <h5 className="brando">{brand}</h5>
+                      <h5>${price}</h5>
+                      <div
+                        className="amount"
+                        css={css`
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          /* border-bottom: crimson solid 2px; */
+                        `}
                       >
-                        <Remove />
-                      </Button>
-                      <span>{amount}</span>
+                        <Button
+                          onClick={() => {
+                            console.log("something");
+                          }}
+                        >
+                          <Remove />
+                        </Button>
+                        <span>{amount}</span>
 
-                      <Button
-                        onClick={() => {
-                          console.log("something");
-                        }}
+                        <Button
+                          onClick={() => {
+                            console.log("something");
+                          }}
+                        >
+                          <Add />
+                        </Button>
+                      </div>
+                      <div
+                        className="ex"
+                        css={css`
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                        `}
                       >
-                        <Add />
-                      </Button>
-                    </div>
-                    <div
-                      className="ex"
-                      css={css`
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                      `}
-                    >
-                      <Button
-                        onClick={() => {
-                          //
+                        <Button
+                          onClick={() => {
+                            //
 
-                          console.log("something");
-                        }}
-                      >
-                        <DeleteForever />
-                      </Button>
+                            console.log("something");
+                          }}
+                        >
+                          <DeleteForever />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </ListItem>
+                  </ListItem>
+                  <Divider />
+                </Fragment>
               ) : null}
             </Fragment>
           );
         })}
       </List>
-      <Button>
-        <span>Empty Your Cart</span>
-        <DeleteOutlineRounded />
-      </Button>
+      <div
+        css={css`
+          display: flex;
+          & button {
+            margin-left: 20px;
+          }
+        `}
+      >
+        <Button>
+          <span>Empty Your Cart</span>
+          <DeleteOutlineRounded />
+        </Button>
+      </div>
       <Divider />
       {/* <List>
         <ListItem button>
