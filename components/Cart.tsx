@@ -36,7 +36,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
       <List>
         {cartKeys.map((key) => (
           <ListItem key={key} button>
-            {cart[key].productId}
+            {cart[key].product.brand}
           </ListItem>
         ))}
 
