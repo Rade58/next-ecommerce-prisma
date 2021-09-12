@@ -84,9 +84,10 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                       }
 
                       & .brando {
+                        display: inline;
                         overflow: hidden;
                         text-overflow: ellipsis;
-                        white-space: no-wrap;
+                        white-space: nowrap;
                         width: 120px;
                         /* border: pink solid 1px; */
                         max-height: 1.2em;
@@ -101,7 +102,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         @media screen and (max-width: 900px) {
                           /* justify-self: flex-end; */
                           /* align-self: flex-end; */
-                          width: 38%;
+                          width: 46%;
                         }
                       }
                     `}
