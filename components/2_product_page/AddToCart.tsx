@@ -228,7 +228,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
             <Card>
               <div
                 style={{
-                  borderColor: amount > 0 ? "crimson" : "olive",
+                  borderColor: amount > 0 ? "crimson" : "#56bec5",
                 }}
                 css={css`
                   border: solid 2px;
