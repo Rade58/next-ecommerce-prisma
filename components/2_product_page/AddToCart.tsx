@@ -2,12 +2,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useEffect, useCallback, useState, Fragment } from "react";
+import { Fragment } from "react";
 import type { FC } from "react";
 
 import { useActor } from "@xstate/react";
-
-import axios from "axios";
 
 import {
   Button,
@@ -156,7 +154,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                         },
                       });
                     }}
-                    disabled={/* amount >= countInStock || */ loading}
+                    disabled={loading}
                   >
                     Remove One
                   </Button>
