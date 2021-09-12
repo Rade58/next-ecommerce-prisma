@@ -81,7 +81,7 @@ export type machineEventsGenericType =
   | {
       type: EE.CLEAR_PRODUCT;
       payload: {
-        productId: string;
+        item: ItemIn;
       };
     }
   | {
@@ -347,7 +347,13 @@ const cartMachine = createMachine<
 
                   const { cart } = ctx;
 
-                  delete cart[data.productId];
+                  // delete cart[data.productId];
+                  cart[data.productId] = {
+                    amount: 0,
+                    countInStock: data.countInStock,
+                    productId: data.productId,
+                    price: data.price,
+                  };
 
                   //
 

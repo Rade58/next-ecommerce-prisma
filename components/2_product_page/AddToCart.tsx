@@ -236,10 +236,10 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     color="secondary"
                     onClick={() => {
                       dispatch({
-                        type: EE.REMOVE_ITEM,
+                        type: EE.CLEAR_PRODUCT,
                         payload: {
                           item: {
-                            amount: 1,
+                            amount,
                             countInStock,
                             price,
                             productId,
