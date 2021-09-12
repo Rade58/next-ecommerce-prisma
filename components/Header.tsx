@@ -40,6 +40,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
+import ShoppingCart from "./Cart";
+
 cartService.start();
 
 const useStyles = makeStyles({
@@ -51,7 +53,7 @@ const useStyles = makeStyles({
   },
 });
 
-type Anchor = "top";
+export type Anchor = "top";
 
 function TemporaryDrawer() {
   const classes = useStyles();
@@ -98,6 +100,8 @@ function TemporaryDrawer() {
           open={state["top"]}
           onClose={toggleDrawer("top", false)}
         >
+          <ShoppingCart openModal={toggleDrawer} closeModal={toggleDrawer} />
+
           <div
             className={clsx(classes.list, {
               [classes.fullList]: anchor === "top" || anchor === "bottom",
