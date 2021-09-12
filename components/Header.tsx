@@ -100,7 +100,7 @@ function TemporaryDrawer() {
           open={state["top"]}
           onClose={toggleDrawer("top", false)}
         >
-          <ShoppingCart openModal={toggleDrawer} closeModal={toggleDrawer} />
+          <ShoppingCart />
 
           <div
             className={clsx(classes.list, {

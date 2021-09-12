@@ -9,26 +9,14 @@ import { Button } from "@material-ui/core";
 import type { Anchor } from "./Header";
 
 interface PropsI {
-  openModal: (
-    anchor: "top",
-    open: boolean
-  ) => (event: KeyboardEvent | MouseEvent) => void;
-  closeModal: (
-    anchor: "top",
-    open: boolean
-  ) => (event: KeyboardEvent | MouseEvent) => void;
+  placeholder?: string;
 }
 
-const ShoppingCart: FC<PropsI> = ({ closeModal, openModal }) => {
-  console.log({ openModal, closeModal });
-
+const ShoppingCart: FC<PropsI> = ({}) => {
   return (
     <div>
       <h1>Hello Shopping Cart</h1>
-      <div>
-        <Button onClick={openModal}>Close</Button>
-        <Button onClick={closeModal}>Open</Button>
-      </div>
+      <div></div>
     </div>
   );
 };
