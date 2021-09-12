@@ -102,7 +102,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         @media screen and (max-width: 900px) {
                           /* justify-self: flex-end; */
                           /* align-self: flex-end; */
-                          width: 46%;
+                          width: 50%;
                         }
                       }
                     `}
