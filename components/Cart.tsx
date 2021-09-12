@@ -16,6 +16,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import { DeleteForever, Add, Remove } from "@material-ui/icons";
+
 import { useActor } from "@xstate/react";
 
 import { cartService, fse, EE } from "../machines/cart-machine";
@@ -40,6 +42,10 @@ const ShoppingCart: FC<PropsI> = ({}) => {
         @media screen and (max-width: 720px) {
           width: 96%;
         }
+
+        & li {
+          cursor: default;
+        }
       `}
     >
       <h1>Shopping Cart</h1>
@@ -50,19 +56,6 @@ const ShoppingCart: FC<PropsI> = ({}) => {
           const { amount, countInStock, price } = cart[key];
 
           const { image, name, brand } = cart[key].product;
-
-          /*  let nome = name;
-          let brando = brand; */
-          /* 
-          if (nome.length > 30) {
-            nome = nome.slice(0, 29) + "...";
-
-            console.log({ nome });
-          }
-
-          if (brando.length > 30) {
-            brando = brando.slice(0, 29) + "...";
-          } */
 
           return (
             <Fragment key={key}>
@@ -80,7 +73,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                       flex-wrap: wrap;
 
                       & h5 {
-                        border: pink solid 1px;
+                        /* border: pink solid 1px; */
                       }
 
                       & .brando {
@@ -111,9 +104,50 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                     <Avatar src={image} />
                     <h5 className="nome">{name}</h5>
                     <h5 className="brando">{brand}</h5>
-                    <h5>{price}</h5>
-                    <h5 className="amount">{amount}</h5>
-                    <h5 className="ex">x</h5>
+                    <h5>${price}</h5>
+                    <div
+                      className="amount"
+                      css={css`
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      `}
+                    >
+                      <Button
+                        onClick={() => {
+                          console.log("something");
+                        }}
+                      >
+                        <Remove />
+                      </Button>
+                      <span>{amount}</span>
+
+                      <Button
+                        onClick={() => {
+                          console.log("something");
+                        }}
+                      >
+                        <Add />
+                      </Button>
+                    </div>
+                    <div
+                      className="ex"
+                      css={css`
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      `}
+                    >
+                      <Button
+                        onClick={() => {
+                          //
+
+                          console.log("something");
+                        }}
+                      >
+                        <DeleteForever />
+                      </Button>
+                    </div>
                   </div>
                 </ListItem>
               ) : null}
