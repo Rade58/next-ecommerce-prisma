@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 import {
   Button,
@@ -38,6 +38,20 @@ const ShoppingCart: FC<PropsI> = ({}) => {
   const { cart } = state.context;
 
   const cartKeys = Object.keys(cart);
+
+  // DISPATCHING TICKING EVENT
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch({
+        type: EE.TICK,
+      });
+    }, 8000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [dispatch]);
+  //
 
   const disabled =
     state.value === fse.adding_item ||

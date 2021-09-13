@@ -74,13 +74,8 @@ function TemporaryDrawer() {
       setState({ ...state, [anchor]: open });
     };
 
-  const [xState, dispatch] = useActor(cartService);
-
-  useEffect(() => {
-    /* if (!cartService.initialized) {
-      cartService.start();
-    } */
-  }, []);
+  // NO-OP
+  // const [xState, dispatch] = useActor(cartService);
 
   const anchor = "top";
 
