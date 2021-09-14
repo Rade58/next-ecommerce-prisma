@@ -48,6 +48,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import ShoppingCart from "./Cart";
 
+import CookieStore from "../lib/cart-cookies";
+
 cartService.start();
 shippingNavService.start();
 
@@ -242,6 +244,19 @@ const Header: FC = () => {
     };
   }, [dispatch]); */
   //
+
+  const [intention, setIntention] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    console.log(Router.asPath);
+
+    const a = CookieStore.checkShippingNavIntent();
+
+    if (a) {
+      CookieStore.deleteShippIntent;
+      Router.push("/shipping");
+    }
+  }, [Router, Router.asPath]);
 
   return (
     <AppBar position="sticky" color="primary">

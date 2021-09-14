@@ -39,6 +39,8 @@ import {
   fse as fsee,
 } from "../machines/shipping-nav-machine";
 
+import CookieStorage from "../lib/cart-cookies";
+
 interface PropsI {
   placeholder?: string;
 }
@@ -353,7 +355,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
                 // AND, IN HERE ONLY EVENT SHOULD BE DISPATCHED
 
-                if (session) {
+                /* if (session) {
                   dispatchSh({
                     type: EEE.NAVIGATE_TO_SHIPPING,
                   });
@@ -361,6 +363,11 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                   dispatchSh({
                     type: EEE.NAVIGATE_TO_SIGNIN_IN_CASE_SHIPPING_FAIL,
                   });
+                }
+                */
+
+                if (!session) {
+                  CookieStorage.setShippingNavIntention();
                 }
 
                 push(session ? "/shipping" : "/signin");

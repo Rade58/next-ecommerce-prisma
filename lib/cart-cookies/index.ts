@@ -6,6 +6,7 @@ import { afterDate, elapsed } from "../date";
 
 const CART = "cart";
 const EXP_TIME = "EXP_TIME";
+const SHIPPING_NAV_INTENT = "SHIPPING_NAV_INTENT";
 
 export interface ItemIn {
   productId: string;
@@ -145,6 +146,18 @@ const clearTimer = () => {
   Cookies.remove(EXP_TIME);
 };
 
+const setShippingNavIntention = () => {
+  Cookies.set(SHIPPING_NAV_INTENT, "INTENDED");
+};
+
+const checkShippingNavIntent = () => {
+  return Cookies.get(SHIPPING_NAV_INTENT);
+};
+
+const deleteShippIntent = () => {
+  Cookies.remove(SHIPPING_NAV_INTENT);
+};
+
 const CartStore = {
   setCartItem,
   clearProduct,
@@ -154,6 +167,10 @@ const CartStore = {
   setExpirationTime,
   timeExpired,
   clearTimer,
+  //
+  setShippingNavIntention,
+  checkShippingNavIntent,
+  deleteShippIntent,
 };
 
 export default CartStore;
