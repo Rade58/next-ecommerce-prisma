@@ -5,6 +5,8 @@ import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 import { Fragment, useEffect } from "react";
 
+import { useRouter } from "next/router";
+
 import {
   Button,
   List,
@@ -33,6 +35,8 @@ interface PropsI {
 }
 
 const ShoppingCart: FC<PropsI> = ({}) => {
+  const { push } = useRouter();
+
   const [state, dispatch] = useActor(cartService);
 
   const { cart } = state.context;
