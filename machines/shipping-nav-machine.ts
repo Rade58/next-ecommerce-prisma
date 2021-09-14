@@ -6,6 +6,8 @@ import { createMachine, assign, interpret } from "xstate";
 export enum fse {
   idle = "idle",
   landed_on_shipping = "landed_on_shipping",
+  signed_in = "signed_in",
+  not_signed_in = "not_signed_in",
 }
 
 /**
@@ -13,26 +15,25 @@ export enum fse {
  */
 export enum EE {
   NAVIGATE_TO_SHIPPING = "NAVIGATE_TO_SHIPPING",
+  SET_INTENDED_FALSE = "SET_INTENDED_FALSE",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
 
 export interface MachineContextGenericI {
-  random: number;
+  intended_to_go_to_shipping: boolean;
 }
 
-export type machineEventsGenericType = {
-  type: EE.NAVIGATE_TO_SHIPPING;
-  payload: {
-    placeholder: number;
-  };
-};
-/* | {
-      type: EE.PLACEHOLDING_TWO;
+export type machineEventsGenericType =
+  | {
+      type: EE.NAVIGATE_TO_SHIPPING;
       payload: {
-        placeholder: string;
+        placeholder: number;
       };
-    } */
+    }
+  | {
+      type: EE.SET_INTENDED_FALSE;
+    };
 
 export type machineFiniteStatesGenericType =
   | {
@@ -54,7 +55,7 @@ const shippingNavMachine = createMachine<
   id: "main_machine",
   initial: fse.idle,
   context: {
-    random: 2,
+    intended_to_go_to_shipping: false,
   },
   // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
   on: {
