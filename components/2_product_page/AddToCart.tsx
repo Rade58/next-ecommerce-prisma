@@ -51,7 +51,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
   const productId = initialProductLoaded.productId;
 
   if (cart[productId]) {
-    console.log({ DATA: cart[productId] });
+    // console.log({ DATA: cart[productId] });
 
     amount = cart[productId].amount;
     countInStock = cart[productId].countInStock;

@@ -24,7 +24,7 @@ import { useSession } from "next-auth/client";
 
 import { useActor } from "@xstate/react";
 
-import { cartService } from "../machines/cart-machine";
+import { cartService, EE } from "../machines/cart-machine";
 
 import ProfileMenu from "./ProfileMenu";
 
@@ -74,8 +74,7 @@ function TemporaryDrawer() {
       setState({ ...state, [anchor]: open });
     };
 
-  // NO-OP
-  // const [xState, dispatch] = useActor(cartService);
+  const [xState, dispatch] = useActor(cartService);
 
   const anchor = "top";
 
@@ -178,6 +177,23 @@ const Header: FC = () => {
       Router.push("/banned");
     }
   }, [session, Router]);
+
+  const [xState, dispatch] = useActor(cartService);
+
+  // DISPATCHING TICKING EVENT (HERE AND NOT INSIDE CART
+  //  BECAUSE WE MOUNT AND UNMOUNT CART WHEN WE CLOSE/OPEN DRAWER)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch({
+        type: EE.TICK,
+      });
+    }, 8000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [dispatch]);
+  //
 
   return (
     <AppBar position="sticky" color="primary">

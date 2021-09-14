@@ -87,9 +87,6 @@ export type machineEventsGenericType =
     }
   | {
       type: EE.TICK;
-      payload: {
-        productId: string;
-      };
     };
 
 export type machineFiniteStatesGenericType =
@@ -138,7 +135,9 @@ const cartMachine = createMachine<
       lastItemId: "",
       expired: false,
       //
-      clockOffset: 1000 * 60 * 60 * 8, // 8 hours
+      // clockOffset: 1000 * 60 * 60 * 8, // 8 hours
+      // LOWER TIME FOR TESTING
+      clockOffset: 2 * 1000 * 60, // 2 mins
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
@@ -150,7 +149,8 @@ const cartMachine = createMachine<
             },
           }),
         ],
-
+        // GUARDED TRANSITION BECAUSE
+        // TRANSITION WILL HAPPEN IF EXPIRATION HAPPEN
         cond: (ctx, ev) => {
           return ctx.expired;
         },
@@ -429,7 +429,7 @@ const cartMachine = createMachine<
       },
       [fse.cart_expired]: {
         // YOU NEED TO CLEAR CART AND CLEAR TIMER
-        entry: [
+        /* entry: [
           assign({
             cart: (ctx, ev) => {
               CartStore.clearTimer();
@@ -437,7 +437,18 @@ const cartMachine = createMachine<
               return CartStore.clearCart();
             },
           }),
-        ],
+        ], */
+
+        // TRANSITION
+        /* after: {
+          "1000": {
+            target: fse.idle
+          }
+        } */
+
+        always: {
+          target: fse.clearing_cart,
+        },
       },
       [fse.request_failed]: {
         after: {
@@ -487,6 +498,6 @@ export const cartService = interpret(cartMachine);
 
 cartService.onTransition((state, event) => {
   //
-  console.log({ cart: state.context.cart });
-  console.log("TRANSITION");
+  console.log(JSON.stringify(state.context, null, 2));
+  console.log("transition");
 });

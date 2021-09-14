@@ -39,20 +39,6 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
   const cartKeys = Object.keys(cart);
 
-  // DISPATCHING TICKING EVENT
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch({
-        type: EE.TICK,
-      });
-    }, 8000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [dispatch]);
-  //
-
   const disabled =
     state.value === fse.adding_item ||
     state.value === fse.removing_item ||
