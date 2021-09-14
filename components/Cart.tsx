@@ -291,17 +291,28 @@ const ShoppingCart: FC<PropsI> = ({}) => {
             return 1;
           }
         }).length > 1 && (
-          <Button
-            disabled={disabled}
-            onClick={() => {
-              dispatch({
-                type: EE.CLEAR_CART,
-              });
-            }}
-          >
-            <span>Empty Your Cart</span>
-            <DeleteOutlineRounded />
-          </Button>
+          <Fragment>
+            <Button
+              disabled={disabled}
+              onClick={() => {
+                dispatch({
+                  type: EE.CLEAR_CART,
+                });
+              }}
+            >
+              <span>Empty Your Cart</span>
+              <DeleteOutlineRounded />
+            </Button>
+            <Button
+              disabled={disabled}
+              onClick={() => {
+                push("/shipping");
+              }}
+            >
+              <span>Go To Checkout</span>
+              <DeleteOutlineRounded />
+            </Button>
+          </Fragment>
         )}
       </div>
       <Divider />

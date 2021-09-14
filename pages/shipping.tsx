@@ -23,8 +23,8 @@ export const getServerSideProps: GetServerSideProps<
 
   console.log({ session });
 
-  /* if (!session) {
-    ctx.res.writeHead(302, { Location: "/signin" });
+  if (!session) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
 
     Router.push("/signin");
 
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
- */
+
   // const { params } = ctx;
 
   // params?.siteId
