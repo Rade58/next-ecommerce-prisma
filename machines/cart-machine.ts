@@ -502,5 +502,6 @@ cartService.onTransition((state, event) => {
   //
   console.log(event.type);
   console.log(state.context.expired);
+  console.log(state.context.cart);
   console.log("transition");
 });
