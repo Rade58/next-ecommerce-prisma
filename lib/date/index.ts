@@ -7,9 +7,9 @@ export const afterDate = (minutes: number) => {
 };
 
 export const elapsed = (date: Date) => {
-  const time = date.getTime();
+  const time = date.getMinutes();
 
-  const currTime = new Date().getTime();
+  const currTime = new Date(Date.now()).getMinutes();
 
   return time < currTime;
 };
