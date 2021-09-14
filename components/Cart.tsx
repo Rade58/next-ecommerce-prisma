@@ -33,6 +33,12 @@ import { useActor } from "@xstate/react";
 
 import { cartService, fse, EE } from "../machines/cart-machine";
 
+import {
+  shippingNavService,
+  EE as EEE,
+  fse as fsee,
+} from "../machines/shipping-nav-machine";
+
 interface PropsI {
   placeholder?: string;
 }
@@ -44,6 +50,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
   const [state, dispatch] = useActor(cartService);
 
+  const [stateSh, dispatchSh] = useActor(shippingNavService);
+
   const { cart } = state.context;
 
   const cartKeys = Object.keys(cart);
@@ -53,6 +61,20 @@ const ShoppingCart: FC<PropsI> = ({}) => {
     state.value === fse.removing_item ||
     state.value === fse.clearing_product ||
     state.value === fse.clearing_cart;
+
+  useEffect(() => {
+    if (session) {
+      dispatchSh({
+        type: EEE.MARK_SIGNED_IN,
+        payload: true,
+      });
+    } else {
+      dispatchSh({
+        type: EEE.MARK_SIGNED_IN,
+        payload: false,
+      });
+    }
+  }, [session, dispatchSh]);
 
   return (
     <div
@@ -330,6 +352,16 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                 // BUT EVENT SHOULD BE DISPATCHED DEPENDIONG ON SESSION TOO
 
                 // AND, IN HERE ONLY EVENT SHOULD BE DISPATCHED
+
+                if (session) {
+                  dispatchSh({
+                    type: EEE.NAVIGATE_TO_SHIPPING,
+                  });
+                } else {
+                  dispatchSh({
+                    type: EEE.NAVIGATE_TO_SIGNIN_IN_CASE_SHIPPING_FAIL,
+                  });
+                }
 
                 push(session ? "/shipping" : "/signin");
               }}

@@ -26,6 +26,12 @@ import { useActor } from "@xstate/react";
 
 import { cartService, EE } from "../machines/cart-machine";
 
+import {
+  shippingNavService,
+  EE as EEE,
+  fse as fsee,
+} from "../machines/shipping-nav-machine";
+
 import ProfileMenu from "./ProfileMenu";
 
 import AdminButton from "./AdminButton";
@@ -43,6 +49,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ShoppingCart from "./Cart";
 
 cartService.start();
+shippingNavService.start();
 
 const useStyles = makeStyles({
   list: {
@@ -104,19 +111,6 @@ function TemporaryDrawer() {
             onClick={toggleDrawer("top", false)}
             onKeyDown={toggleDrawer("top", false)}
           >
-            {/* <List>
-              <ListItem button>
-                <ListItemIcon>Content</ListItemIcon>
-                <ListItemText primary={"something"} />
-              </ListItem>
-            </List>
-            <Divider />
-            <List>
-              <ListItem button>
-                <ListItemIcon>Content</ListItemIcon>
-                <ListItemText primary={"something"} />
-              </ListItem>
-            </List> */}
             <Divider />
             <List>
               <ListItem button>
