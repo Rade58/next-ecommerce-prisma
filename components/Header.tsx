@@ -154,6 +154,41 @@ const Header: FC = () => {
 
   const [profId, setProfId] = useState<string>("");
 
+  // DO THINGS NOW ONLY IF YOU LANDED ON SIGNIN PAGE
+  const [stateSh, dispatchSh] = useActor(shippingNavService);
+
+  useEffect(() => {
+    // ONLI FOR THE      intended_to_go_to_shipping
+
+    if (stateSh.context.intended_to_go_to_shipping) {
+      // ONLY FOR THE     /signin      PAGE
+
+      if (Router.asPath === "/signin") {
+        // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
+
+        // ON AFTER WE NEED TO REDIRECT TO SHIPPING PAGE
+        // WE NEED TO DISPATCH SIGNIN EVENT WHE USER SIGNS IN
+
+        if (stateSh.value === fsee.landed_on_signin_before_auth) {
+          if (session) {
+            dispatchSh({
+              type: EEE.MARK_SIGNED_IN,
+              payload: true,
+            });
+          }
+        }
+
+        // HERE WE DO THE REDIRECT
+
+        if (stateSh.value === fsee.landed_on_signin_after_auth) {
+          if (session) {
+            Router.push("/shipping");
+          }
+        }
+      }
+    }
+  }, [Router, Router.asPath, session, stateSh, dispatchSh]);
+
   useEffect(() => {
     if (session) {
       setProfId((session?.profile as { id: string }).id as string);
