@@ -1,18 +1,15 @@
-export const afterDate = (milisecs?: number) => {
-  //
-  const ms = milisecs ? milisecs : /* 24h -> */ 1000 * 60 * 60 * 24;
-
+export const afterDate = (minutes: number) => {
   const currTime = new Date();
 
-  currTime.setMilliseconds(currTime.getMilliseconds() + ms);
+  currTime.setMinutes(currTime.getMinutes() + minutes);
 
   return currTime;
 };
 
 export const elapsed = (date: Date) => {
-  const currTime = new Date().getTime();
-
   const time = date.getTime();
+
+  const currTime = new Date().getTime();
 
   return time < currTime;
 };

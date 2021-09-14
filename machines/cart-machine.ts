@@ -135,9 +135,10 @@ const cartMachine = createMachine<
       lastItemId: "",
       expired: false,
       //
-      // clockOffset: 1000 * 60 * 60 * 8, // 8 hours
+      // TIME IN MINUTES
+      // clockOffset: 60 * 8, // 8 hours
       // LOWER TIME FOR TESTING
-      clockOffset: 2 * 1000 * 60, // 2 mins
+      clockOffset: 2, // 2 mins
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {

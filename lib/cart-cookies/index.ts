@@ -125,8 +125,8 @@ const getCart = () => {
   return JSON.parse(cartString) as CartRecord;
 };
 
-const setExpirationTime = (milisecs: number) => {
-  const futureDate = afterDate(milisecs);
+const setExpirationTime = (minutes: number) => {
+  const futureDate = afterDate(minutes);
 
   Cookies.set(EXP_TIME, futureDate.toISOString());
 };
@@ -134,11 +134,11 @@ const setExpirationTime = (milisecs: number) => {
 const timeExpired = () => {
   const timestring = Cookies.get(EXP_TIME);
 
-  if (!timestring) {
+  /*  if (!timestring) {
     return false;
-  }
+  } */
 
-  return elapsed(new Date(timestring));
+  return elapsed(new Date(timestring as string));
 };
 
 const clearTimer = () => {
