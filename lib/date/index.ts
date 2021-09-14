@@ -14,8 +14,5 @@ export const elapsed = (date: Date) => {
 
   const time = date.getTime();
 
-  console.log("time < currTime");
-  console.log(time < currTime);
-
   return time < currTime;
 };

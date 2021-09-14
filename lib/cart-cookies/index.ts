@@ -134,9 +134,7 @@ const setExpirationTime = (milisecs: number) => {
 const timeExpired = () => {
   const timestring = Cookies.get(EXP_TIME);
 
-  debugger;
   if (!timestring) {
-    debugger;
     return false;
   }
 

@@ -141,7 +141,7 @@ const cartMachine = createMachine<
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
-      //
+      // I DON'T THINK I NEED ANY
     },
     // -------------------------------------------------------------------
     states: {
