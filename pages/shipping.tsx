@@ -2,45 +2,68 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
-import { getSession } from "next-auth/client";
+import Router from "next/router";
+
+import { getSession, useSession } from "next-auth/client";
 
 interface PropsI {
-  placeholder: boolean;
+  placeholder?: boolean;
 }
 
-type paramsType = {
+/* type paramsType = {
   siteId: string;
-};
+}; */
 
-export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
-  async (ctx) => {
-    const session = await getSession({
-      req: ctx.req,
-    });
+export const getServerSideProps: GetServerSideProps<
+  PropsI | { nothing: true } /* , paramsType */
+> = async (ctx) => {
+  const session = await getSession({
+    req: ctx.req,
+  });
 
-    console.log({ session });
+  console.log({ session });
 
-    if (!session) {
-      ctx.res.writeHead(302, { Location: "/signin" });
-    }
+  /* if (!session) {
+    ctx.res.writeHead(302, { Location: "/signin" });
 
-    const { params } = ctx;
-
-    params?.siteId; //
+    Router.push("/signin");
 
     return {
       props: {
-        placeholder: true,
+        nothing: true,
       },
     };
+  }
+ */
+  // const { params } = ctx;
+
+  // params?.siteId
+
+  return {
+    props: {
+      placeholder: true,
+    },
   };
+};
 
 const ShippingPage: NP<PropsI> = (props) => {
   //
 
+  const [session, loading] = useSession();
+
   console.log(props);
 
-  return <div>🦉</div>;
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  if (!session) {
+    Router.push("/signin");
+
+    return null;
+  }
+
+  return <div>Shipping</div>;
 };
 
 export default ShippingPage;
