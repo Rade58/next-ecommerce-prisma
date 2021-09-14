@@ -4,7 +4,6 @@ import { createMachine, assign, interpret } from "xstate";
  * @description finite states enum
  */
 export enum fse {
-  mounted = "mounted",
   idle = "idle",
   landed_on_shipping = "landed_on_shipping",
   landed_on_signin_before_auth = "landed_on_signin_before_auth",
@@ -73,7 +72,7 @@ const shippingNavMachine = createMachine<
   machineFiniteStatesGenericType
 >({
   id: "main_machine",
-  initial: fse.mounted,
+  initial: fse.idle,
   context: {
     intended_to_go_to_shipping: false,
     signed_in: false,

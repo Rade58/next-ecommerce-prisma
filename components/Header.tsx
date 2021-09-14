@@ -163,7 +163,7 @@ const Header: FC = () => {
     if (stateSh.context.intended_to_go_to_shipping) {
       // ONLY FOR THE     /signin      PAGE
 
-      if (Router.asPath === "/signin") {
+      if (Router.asPath === "/signin" || Router.asPath === "/") {
         // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
 
         // ON AFTER WE NEED TO REDIRECT TO SHIPPING PAGE
