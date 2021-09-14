@@ -24,6 +24,7 @@ import {
   Add,
   Remove,
   DeleteOutlineRounded,
+  CheckOutlined,
 } from "@material-ui/icons";
 
 import { useActor } from "@xstate/react";
@@ -310,7 +311,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
               }}
             >
               <span>Go To Checkout</span>
-              <DeleteOutlineRounded />
+              <CheckOutlined />
             </Button>
           </Fragment>
         )}
