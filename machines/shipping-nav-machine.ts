@@ -84,11 +84,11 @@ const shippingNavMachine = createMachine<
   // -------------------------------------------------------------------
   states: {
     [fse.idle]: {
-      entry: [
+      /* entry: [
         assign({
           intended_to_go_to_shipping: (c, e) => false,
         }),
-      ],
+      ], */
 
       // NO TRANSITION HERE
       on: {

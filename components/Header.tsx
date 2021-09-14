@@ -157,11 +157,13 @@ const Header: FC = () => {
   // DO THINGS NOW ONLY IF YOU LANDED ON SIGNIN PAGE
   const [stateSh, dispatchSh] = useActor(shippingNavService);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     // ONLI FOR THE      intended_to_go_to_shipping
 
     if (stateSh.context.intended_to_go_to_shipping) {
       // ONLY FOR THE     /signin      PAGE
+
+      debugger;
 
       if (Router.asPath === "/signin" || Router.asPath === "/") {
         // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
@@ -177,17 +179,34 @@ const Header: FC = () => {
             });
           }
         }
+      }
+    }
+  }, [Router, Router.asPath, session, stateSh, dispatchSh]);
+  useEffect(() => {
+    // ONLI FOR THE      intended_to_go_to_shipping
+
+    if (stateSh.context.intended_to_go_to_shipping) {
+      // ONLY FOR THE     /signin      PAGE
+
+      debugger;
+
+      if (Router.asPath === "/signin" || Router.asPath === "/") {
+        // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
+
+        // ON AFTER WE NEED TO REDIRECT TO SHIPPING PAGE
 
         // HERE WE DO THE REDIRECT
 
         if (stateSh.value === fsee.landed_on_signin_after_auth) {
+          debugger;
+
           if (session) {
             Router.push("/shipping");
           }
         }
       }
     }
-  }, [Router, Router.asPath, session, stateSh, dispatchSh]);
+  }, [Router, Router.asPath, session, stateSh, dispatchSh]); */
 
   useEffect(() => {
     if (session) {
