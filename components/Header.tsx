@@ -245,18 +245,23 @@ const Header: FC = () => {
   }, [dispatch]); */
   //
 
-  const [intention, setIntention] = useState<string | undefined>(undefined);
+  /* const [intention, setIntention] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    if (intention) return;
+
     console.log(Router.asPath);
+
+    if (Router.asPath.includes("/veryify-email-info")) return;
 
     const a = CookieStore.checkShippingNavIntent();
 
     if (a) {
+      setIntention("hello world");
       CookieStore.deleteShippIntent;
       Router.push("/shipping");
     }
-  }, [Router, Router.asPath]);
+  }, [Router, Router.asPath, intention, setIntention]); */
 
   return (
     <AppBar position="sticky" color="primary">

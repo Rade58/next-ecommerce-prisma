@@ -26,6 +26,8 @@ import { signIn, useSession } from "next-auth/client";
 //
 //
 
+import CookieStore from "../lib/cart-cookies";
+
 const SignInPage: NP = () => {
   const { push, asPath } = useRouter();
   const [session, loading] = useSession();
@@ -74,6 +76,24 @@ const SignInPage: NP = () => {
   );
 
   const buttonDisabled = !email || reqStatus === "pending" ? true : false;
+
+  const [intention, setIntention] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (intention) return;
+
+    // console.log(asPath);
+
+    // if (asPath.includes("/veryify-email-info")) return;
+
+    const a = CookieStore.checkShippingNavIntent();
+
+    if (a) {
+      setIntention("hello world");
+      CookieStore.deleteShippIntent;
+      push("/shipping");
+    }
+  }, [push, intention, setIntention]);
 
   if (session) {
     return null;

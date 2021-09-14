@@ -22,6 +22,8 @@ import prismaClient from "../lib/prisma";
 
 import Layout from "../components/1_index_page/Layout";
 
+import CookieStore from "../lib/cart-cookies";
+
 // import products from "../dummy/products";
 // import type { ProductsListType } from "../dummy/products";
 
@@ -101,6 +103,24 @@ const IndexPage: NP<PagePropsI> = ({ products }) => {
   console.log({ session, loading });
 
   const [stateSh, dispatchSh] = useActor(shippingNavService);
+
+  const [intention, setIntention] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (intention) return;
+
+    // console.log(asPath);
+
+    // if (asPath.includes("/veryify-email-info")) return;
+
+    const a = CookieStore.checkShippingNavIntent();
+
+    if (a) {
+      setIntention("hello world");
+      CookieStore.deleteShippIntent;
+      push("/shipping");
+    }
+  }, [push, intention, setIntention]);
 
   return (
     <>
