@@ -316,6 +316,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
                 // BUT EVENT SHOULD BE DISPATCHED DEPENDIONG ON SESSION TOO
 
+                // AND, IN HERE ONLY EVENT SHOULD BE DISPATCHED
+
                 push(session ? "/shipping" : "/signin");
               }}
             >

@@ -4,7 +4,11 @@ import type { GetServerSideProps, NextPage as NP } from "next";
 
 import Router from "next/router";
 
+import { useActor } from "@xstate/react";
+
 import { getSession, useSession } from "next-auth/client";
+
+import { cartService } from "../machines/cart-machine";
 
 interface PropsI {
   placeholder?: boolean;
@@ -51,6 +55,8 @@ export const getServerSideProps: GetServerSideProps<
 const ShippingPage: NP<PropsI> = (props) => {
   //
 
+  const [cartState, cartDispatch] = useActor(cartService);
+
   const [session, loading] = useSession();
 
   console.log(props);
@@ -61,6 +67,14 @@ const ShippingPage: NP<PropsI> = (props) => {
 
   if (!session) {
     Router.push("/signin");
+
+    return null;
+  }
+
+  // HANDLING EMPTY CART
+
+  if (!Object.keys(cartState.context.cart).length) {
+    Router.push("/");
 
     return null;
   }
