@@ -10,6 +10,8 @@ import { getSession, useSession } from "next-auth/client";
 
 import { cartService } from "../machines/cart-machine";
 
+import Layout from "../components/5_shipping_page/Layout";
+
 interface PropsI {
   placeholder?: boolean;
 }
@@ -79,7 +81,7 @@ const ShippingPage: NP<PropsI> = (props) => {
     return null;
   }
 
-  return <div>Shipping</div>;
+  return <Layout>Shipping</Layout>;
 };
 
 export default ShippingPage;
