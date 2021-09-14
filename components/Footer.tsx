@@ -8,13 +8,15 @@ const Footer: FC = () => {
   return (
     <footer
       css={css`
+        margin-top: 166px;
+        border-top: 1px soliid #be9f9f4e;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80vh;
+        height: 10vh;
       `}
     >
-      footer &copy; My Shop
+      &copy; Fancy Parrot Shop
     </footer>
   );
 };
