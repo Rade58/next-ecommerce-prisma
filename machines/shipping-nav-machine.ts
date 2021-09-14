@@ -57,7 +57,7 @@ export type machineFiniteStatesGenericType =
 
 // -----------------  MACHINE --------------------
 
-const mainMachine = createMachine<
+const shippingNavMachine = createMachine<
   MachineContextGenericI,
   machineEventsGenericType,
   machineFiniteStatesGenericType
@@ -89,9 +89,9 @@ const mainMachine = createMachine<
   },
 });
 
-export const mainService = interpret(mainMachine);
+export const shippingNavService = interpret(shippingNavMachine);
 
-mainService.onTransition((state, event) => {
+shippingNavService.onTransition((state, event) => {
   //
   console.log({ isDarkMode: state.context.isDarkMode });
   console.log("TRANSITION");
