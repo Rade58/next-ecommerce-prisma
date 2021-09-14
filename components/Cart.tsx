@@ -104,7 +104,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         border-left: #8f6291 solid 4px;
                         border-radius: 4px;
                         width: 100%;
-                        padding-left: 15px;
+                        /* padding-left: 15px; */
                         flex-wrap: wrap;
 
                         & h5 {
@@ -112,12 +112,13 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         }
 
                         & .brando {
+                          margin-right: auto;
                           display: inline;
                           overflow: hidden;
                           text-overflow: ellipsis;
                           white-space: nowrap;
                           width: 120px;
-                          /* border: pink solid 1px; */
+                          /* border: #cac9c9 solid 1px; */
                           max-height: 1.2em;
 
                           @media screen and (max-width: 900px) {
@@ -128,8 +129,17 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                         }
 
                         & .nome {
+                          margin-right: auto;
                           text-align: center;
                           padding: 0 16px;
+
+                          display: inline;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                          width: 120px;
+                          /* border: #cac9c9 solid 1px; */
+                          max-height: 1.2em;
 
                           min-width: 120px;
                           @media screen and (max-width: 900px) {
@@ -141,6 +151,9 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
                         & .ex,
                         & .amount {
+                          margin-right: auto;
+
+                          width: 100px;
                           @media screen and (max-width: 900px) {
                             /* justify-self: flex-end; */
                             /* align-self: flex-end; */
