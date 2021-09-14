@@ -1,10 +1,20 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { NextPage as NP, GetStaticProps } from "next";
-
+import { useState, useCallback, useEffect } from "react";
 import { useSession } from "next-auth/client";
 
 import type { Product } from "@prisma/client";
+
+import { useRouter } from "next/router";
+
+import { useActor } from "@xstate/react";
+
+import {
+  shippingNavService,
+  EE as EEE,
+  fse as fsee,
+} from "../machines/shipping-nav-machine";
 
 import prismaClient from "../lib/prisma";
 
@@ -86,7 +96,11 @@ const IndexPage: NP<PagePropsI> = ({ products }) => {
 
   const [session, loading] = useSession();
 
+  const { push, asPath } = useRouter();
+
   console.log({ session, loading });
+
+  const [stateSh, dispatchSh] = useActor(shippingNavService);
 
   return (
     <>

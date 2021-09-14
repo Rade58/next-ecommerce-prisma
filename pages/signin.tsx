@@ -12,6 +12,14 @@ import type { ChangeEventHandler, FormEvent } from "react";
 
 import { TextField, Button, CircularProgress } from "@material-ui/core";
 
+import { useActor } from "@xstate/react";
+
+import {
+  shippingNavService,
+  EE as EEE,
+  fse as fsee,
+} from "../machines/shipping-nav-machine";
+
 // WE ARE GOING TO USE SIGNING IN WITH EMAIL LOGIC LIKE THIS
 // AND WE NEED TO CHECK SESSION
 import { signIn, useSession } from "next-auth/client";
@@ -19,8 +27,10 @@ import { signIn, useSession } from "next-auth/client";
 //
 
 const SignInPage: NP = () => {
-  const { push } = useRouter();
+  const { push, asPath } = useRouter();
   const [session, loading] = useSession();
+
+  const [stateSh, dispatchSh] = useActor(shippingNavService);
 
   useEffect(() => {
     if (session) push("/");

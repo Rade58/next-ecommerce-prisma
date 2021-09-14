@@ -126,9 +126,7 @@ const shippingNavMachine = createMachine<
       },
     },
     [fse.landed_on_shipping]: {
-      always: {
-        target: fse.idle,
-      },
+      type: "final",
     },
     [fse.landed_on_signin_before_auth]: {
       // WAITING TO BE SIGNED IN
