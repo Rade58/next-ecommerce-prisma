@@ -311,8 +311,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
             <Button
               disabled={disabled}
               onClick={() => {
-                // HERE WWE NEED ALSO TI SEND EVENT
-                // THT SAYS THAT WE CLICKED THIS BUTTON
+                // HERE WE NEED ALSO TO SEND EVENT
+                // THAT SAYS THAT WE CLICKED THIS BUTTON
 
                 push(session ? "/shipping" : "/signin");
               }}
