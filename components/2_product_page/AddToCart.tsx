@@ -114,8 +114,8 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                   size="large"
                   color="primary"
                   onClick={() => {
+                    // @ts-ignore
                     dispatch({
-                      // @ts-ignore
                       type: EE.ADD_ITEM,
                       payload: {
                         item: {
@@ -123,7 +123,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                           countInStock,
                           price,
                           productId,
-
                           // @ts-ignore
                           product: cart[productId]
                             ? cart[productId].product
@@ -148,6 +147,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     size="medium"
                     color="primary"
                     onClick={() => {
+                      // @ts-ignore
                       dispatch({
                         // @ts-ignore
                         type: EE.REMOVE_ITEM,
@@ -157,7 +157,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
-
                             // @ts-ignore
                             product: cart[productId]
                               ? cart[productId].product
@@ -252,6 +251,7 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                     size="small"
                     color="secondary"
                     onClick={() => {
+                      // @ts-ignore
                       dispatch({
                         // @ts-ignore
                         type: EE.CLEAR_PRODUCT,
@@ -261,7 +261,6 @@ const AddToCart: FC<PropsI> = ({ initialProductLoaded }) => {
                             countInStock,
                             price,
                             productId,
-
                             // @ts-ignore
                             product: cart[productId]
                               ? cart[productId].product

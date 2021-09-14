@@ -4,9 +4,9 @@ export const afterDate = (milisecs?: number) => {
 
   const currTime = new Date();
 
-  const after = currTime.getTime() + ms;
+  currTime.setMilliseconds(currTime.getMilliseconds() + ms);
 
-  return new Date(after);
+  return currTime;
 };
 
 export const elapsed = (date: Date) => {

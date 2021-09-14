@@ -141,21 +141,7 @@ const cartMachine = createMachine<
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
-      [EE.TICK]: {
-        actions: [
-          assign({
-            expired: (ctx, __) => {
-              return CartStore.timeExpired();
-            },
-          }),
-        ],
-        // GUARDED TRANSITION BECAUSE
-        // TRANSITION WILL HAPPEN IF EXPIRATION HAPPEN
-        cond: (ctx, ev) => {
-          return ctx.expired;
-        },
-        target: fse.cart_expired,
-      },
+      //
     },
     // -------------------------------------------------------------------
     states: {
@@ -176,6 +162,21 @@ const cartMachine = createMachine<
       [fse.idle]: {
         //
         on: {
+          [EE.TICK]: {
+            actions: [
+              assign({
+                expired: (ctx, __) => {
+                  return CartStore.timeExpired();
+                },
+              }),
+            ],
+            // GUARDED TRANSITION BECAUSE
+            // TRANSITION WILL HAPPEN IF EXPIRATION HAPPEN
+            cond: (ctx, ev) => {
+              return ctx.expired;
+            },
+            target: fse.cart_expired,
+          },
           [EE.ADD_ITEM]: {
             actions: [AA.EXPIRATION_MANIPULATION, AA.SET_LAST_ITEM],
             target: fse.adding_item,
@@ -498,6 +499,7 @@ export const cartService = interpret(cartMachine);
 
 cartService.onTransition((state, event) => {
   //
-  console.log(JSON.stringify(state.context, null, 2));
+  console.log(event.type);
+  console.log(state.context.expired);
   console.log("transition");
 });

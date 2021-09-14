@@ -108,7 +108,7 @@ const clearCart = () => {
 const getCart = () => {
   const cartString = Cookies.get(CART);
 
-  console.log({ cartString });
+  // console.log({ cartString });
 
   if (!cartString) {
     Cookies.set(CART, JSON.stringify({}));
@@ -128,13 +128,15 @@ const getCart = () => {
 const setExpirationTime = (milisecs: number) => {
   const futureDate = afterDate(milisecs);
 
-  Cookies.set(EXP_TIME, futureDate.toLocaleDateString());
+  Cookies.set(EXP_TIME, futureDate.toISOString());
 };
 
 const timeExpired = () => {
   const timestring = Cookies.get(EXP_TIME);
 
+  debugger;
   if (!timestring) {
+    debugger;
     return false;
   }
 
