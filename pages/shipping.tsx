@@ -2,6 +2,8 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
+import { getSession } from "next-auth/client";
+
 interface PropsI {
   placeholder: boolean;
 }
@@ -12,6 +14,14 @@ type paramsType = {
 
 export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
   async (ctx) => {
+    const session = await getSession({
+      req: ctx.req,
+    });
+
+    if (!session) {
+      ctx.res.writeHead(302, { Location: "/signin" });
+    }
+
     const { params } = ctx;
 
     params?.siteId; //
