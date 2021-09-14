@@ -18,6 +18,8 @@ export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
       req: ctx.req,
     });
 
+    console.log({ session });
+
     if (!session) {
       ctx.res.writeHead(302, { Location: "/signin" });
     }
@@ -33,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
     };
   };
 
-const Page: NP<PropsI> = (props) => {
+const ShippingPage: NP<PropsI> = (props) => {
   //
 
   console.log(props);
@@ -41,4 +43,4 @@ const Page: NP<PropsI> = (props) => {
   return <div>🦉</div>;
 };
 
-export default Page;
+export default ShippingPage;
