@@ -182,7 +182,7 @@ const Header: FC = () => {
 
   // DISPATCHING TICKING EVENT (HERE AND NOT INSIDE CART
   //  BECAUSE WE MOUNT AND UNMOUNT CART WHEN WE CLOSE/OPEN DRAWER)
-  useEffect(() => {
+  /* useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch({
         type: EE.TICK,
@@ -192,7 +192,7 @@ const Header: FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [dispatch]);
+  }, [dispatch]); */
   //
 
   return (
