@@ -5,7 +5,7 @@ import { createMachine, assign, interpret } from "xstate";
  */
 export enum fse {
   idle = "idle",
-  non_idle = "non_idle",
+  nav_to_shipping = "nav_to_shipping",
 }
 
 /**
@@ -13,37 +13,26 @@ export enum fse {
  */
 export enum EE {
   PLACEHOLDING_ONE = "PLACEHOLDING_ONE",
-  PLACEHOLDING_TWO = "PLACEHOLDING_TWO",
-  // events not depending on finite state
-  CHECK_CURRENT_DARK_MODE = "CHECK_CURRENT_DARK_MODE",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
 
 export interface MachineContextGenericI {
-  isDarkMode: boolean;
   random: number;
 }
 
-export type machineEventsGenericType =
-  | {
-      type: EE.CHECK_CURRENT_DARK_MODE;
-      payload: {
-        isDark: boolean;
-      };
-    }
-  | {
-      type: EE.PLACEHOLDING_ONE;
-      payload: {
-        placeholder: number;
-      };
-    }
-  | {
+export type machineEventsGenericType = {
+  type: EE.PLACEHOLDING_ONE;
+  payload: {
+    placeholder: number;
+  };
+};
+/* | {
       type: EE.PLACEHOLDING_TWO;
       payload: {
         placeholder: string;
       };
-    };
+    } */
 
 export type machineFiniteStatesGenericType =
   | {
@@ -51,7 +40,7 @@ export type machineFiniteStatesGenericType =
       context: MachineContextGenericI;
     }
   | {
-      value: fse.non_idle;
+      value: fse.nav_to_shipping;
       context: MachineContextGenericI;
     };
 
