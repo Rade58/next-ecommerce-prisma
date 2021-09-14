@@ -117,7 +117,7 @@ const IndexPage: NP<PagePropsI> = ({ products }) => {
 
     if (a) {
       setIntention("hello world");
-      CookieStore.deleteShippIntent;
+      CookieStore.deleteShippIntent();
       push("/shipping");
     }
   }, [push, intention, setIntention]);

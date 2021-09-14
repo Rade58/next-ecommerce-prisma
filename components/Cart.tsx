@@ -33,11 +33,11 @@ import { useActor } from "@xstate/react";
 
 import { cartService, fse, EE } from "../machines/cart-machine";
 
-import {
+/* import {
   shippingNavService,
   EE as EEE,
   fse as fsee,
-} from "../machines/shipping-nav-machine";
+} from "../machines/shipping-nav-machine"; */
 
 import CookieStorage from "../lib/cart-cookies";
 
@@ -52,7 +52,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
 
   const [state, dispatch] = useActor(cartService);
 
-  const [stateSh, dispatchSh] = useActor(shippingNavService);
+  // const [stateSh, dispatchSh] = useActor(shippingNavService);
 
   const { cart } = state.context;
 
@@ -63,7 +63,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
     state.value === fse.removing_item ||
     state.value === fse.clearing_product ||
     state.value === fse.clearing_cart;
-
+  /* 
   useEffect(() => {
     if (session) {
       dispatchSh({
@@ -76,7 +76,7 @@ const ShoppingCart: FC<PropsI> = ({}) => {
         payload: false,
       });
     }
-  }, [session, dispatchSh]);
+  }, [session, dispatchSh]); */
 
   return (
     <div

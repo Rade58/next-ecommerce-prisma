@@ -26,13 +26,11 @@ import { useActor } from "@xstate/react";
 
 import { cartService, EE } from "../machines/cart-machine";
 
-import {
+/* import {
   shippingNavService,
   EE as EEE,
   fse as fsee,
-} from "../machines/shipping-nav-machine";
-
-import ProfileMenu from "./ProfileMenu";
+} from "../machines/shipping-nav-machine" */ import ProfileMenu from "./ProfileMenu";
 
 import AdminButton from "./AdminButton";
 
@@ -51,7 +49,7 @@ import ShoppingCart from "./Cart";
 import CookieStore from "../lib/cart-cookies";
 
 cartService.start();
-shippingNavService.start();
+// shippingNavService.start();
 
 const useStyles = makeStyles({
   list: {
@@ -157,7 +155,7 @@ const Header: FC = () => {
   const [profId, setProfId] = useState<string>("");
 
   // DO THINGS NOW ONLY IF YOU LANDED ON SIGNIN PAGE
-  const [stateSh, dispatchSh] = useActor(shippingNavService);
+  // const [stateSh, dispatchSh] = useActor(shippingNavService);
 
   /*  useEffect(() => {
     // ONLI FOR THE      intended_to_go_to_shipping

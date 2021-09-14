@@ -79,7 +79,7 @@ const SignInPage: NP = () => {
 
   const [intention, setIntention] = useState<string | undefined>(undefined);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (intention) return;
 
     // console.log(asPath);
@@ -93,7 +93,9 @@ const SignInPage: NP = () => {
       CookieStore.deleteShippIntent;
       push("/shipping");
     }
-  }, [push, intention, setIntention]);
+
+    console.log(a);
+  }, [push, intention, setIntention]); */
 
   if (session) {
     return null;
