@@ -5,14 +5,14 @@ import { createMachine, assign, interpret } from "xstate";
  */
 export enum fse {
   idle = "idle",
-  nav_to_shipping = "nav_to_shipping",
+  landed_on_shipping = "landed_on_shipping",
 }
 
 /**
  * @description EVENTS ENUM
  */
 export enum EE {
-  PLACEHOLDING_ONE = "PLACEHOLDING_ONE",
+  NAVIGATE_TO_SHIPPING = "NAVIGATE_TO_SHIPPING",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -22,7 +22,7 @@ export interface MachineContextGenericI {
 }
 
 export type machineEventsGenericType = {
-  type: EE.PLACEHOLDING_ONE;
+  type: EE.NAVIGATE_TO_SHIPPING;
   payload: {
     placeholder: number;
   };
@@ -40,7 +40,7 @@ export type machineFiniteStatesGenericType =
       context: MachineContextGenericI;
     }
   | {
-      value: fse.nav_to_shipping;
+      value: fse.landed_on_shipping;
       context: MachineContextGenericI;
     };
 
@@ -54,27 +54,16 @@ const shippingNavMachine = createMachine<
   id: "main_machine",
   initial: fse.idle,
   context: {
-    isDarkMode: false,
     random: 2,
   },
   // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
   on: {
-    [EE.CHECK_CURRENT_DARK_MODE]: {
-      actions: [
-        assign((ctx, event) => {
-          const { isDark } = event.payload;
-
-          return {
-            isDarkMode: isDark,
-          };
-        }),
-      ],
-    },
+    //
   },
   // -------------------------------------------------------------------
   states: {
     [fse.idle]: {},
-    [fse.non_idle]: {},
+    [fse.landed_on_shipping]: {},
   },
 });
 
@@ -82,6 +71,6 @@ export const shippingNavService = interpret(shippingNavMachine);
 
 shippingNavService.onTransition((state, event) => {
   //
-  console.log({ isDarkMode: state.context.isDarkMode });
+  console.log({ ctx: state.context });
   console.log("TRANSITION");
 });
