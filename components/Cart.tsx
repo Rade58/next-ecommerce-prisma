@@ -7,6 +7,8 @@ import { Fragment, useEffect } from "react";
 
 import { useRouter } from "next/router";
 
+import { useSession } from "next-auth/client";
+
 import {
   Button,
   List,
@@ -37,6 +39,8 @@ interface PropsI {
 
 const ShoppingCart: FC<PropsI> = ({}) => {
   const { push } = useRouter();
+
+  const [session, loading] = useSession();
 
   const [state, dispatch] = useActor(cartService);
 
@@ -307,7 +311,10 @@ const ShoppingCart: FC<PropsI> = ({}) => {
             <Button
               disabled={disabled}
               onClick={() => {
-                push("/shipping");
+                // HERE WWE NEED ALSO TI SEND EVENT
+                // THT SAYS THAT WE CLICKED THIS BUTTON
+
+                push(session ? "/shipping" : "/signin");
               }}
             >
               <span>Go To Checkout</span>
