@@ -11,3 +11,13 @@ touch pages/api/shipping/[profileId].ts
 ## WE ARE GETTING THE PROFILE DATA, BUT JUST SHIPPMENT DATA FROM `getServerSideProps`, AS A INITIAL DATA
 
 WE WANT EVERYTHING FILL INSIDE FORM WHEN USER WANTS TO BUY SOMETHING NEXT TIME
+
+## WHAT WE BUILT
+
+```
+cat components/5_shipping_page/ShippingForm.tsx
+```
+
+```
+cat pages/shipping.tsx
+```
