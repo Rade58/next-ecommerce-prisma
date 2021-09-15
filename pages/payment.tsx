@@ -2,6 +2,8 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
+import Layout from "../components/6_payment_page/Layout";
+
 interface PropsI {
   placeholder: boolean;
 }
@@ -28,7 +30,11 @@ const PaymentPage: NP<PropsI> = (props) => {
 
   console.log(props);
 
-  return <div>🦉</div>;
+  return (
+    <div>
+      <Layout>{/*  */}</Layout>
+    </div>
+  );
 };
 
 export default PaymentPage;

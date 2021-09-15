@@ -4,10 +4,9 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
-import ShippingForm from "./ShippingForm";
 import Steps from "../Steps";
 
-const Layout: FC<{
+const Layout: FC /* <{
   userData: {
     fullName: string | null;
     address: string | null;
@@ -15,11 +14,11 @@ const Layout: FC<{
     country: string | null;
     postalCode: string | null;
   };
-}> = ({ children, userData }) => {
+}> */ = ({ children /* , userData  */ }) => {
   return (
     <main>
       <section
-        className="shipping-page-content"
+        className="place-order-page-content"
         css={css`
           /* border: pink solid 2px; */
           margin: 20px auto;
@@ -30,7 +29,6 @@ const Layout: FC<{
         `}
       >
         <Steps />
-        <ShippingForm {...userData} />
         {children}
       </section>
     </main>
