@@ -44,7 +44,15 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import type { Profile } from "@prisma/client";
 
-const ShippingForm: FC = () => {
+interface PropsI {
+  fullName?: string;
+  address?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
+}
+
+const ShippingForm: FC<PropsI> = (props) => {
   const [session, loading] = useSession();
 
   const [shippingUpdateReqStatus, setShippingUpdateReqStatus] = useState<
@@ -59,11 +67,11 @@ const ShippingForm: FC = () => {
     country: string;
   }>({
     // WE WILL FETCH DATA BUT TEMPORARRY PUT SOMETHING
-    address: "",
-    city: "",
-    country: "",
-    fullName: "",
-    postalCode: "",
+    address: props.address || "",
+    city: props.city || "",
+    country: props.country || "",
+    fullName: props.fullName || "",
+    postalCode: props.postalCode || "",
   });
 
   const { address, city, country, fullName, postalCode } = fields;
