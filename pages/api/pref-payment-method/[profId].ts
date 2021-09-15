@@ -27,7 +27,7 @@ handler.put(async (req, res) => {
 
   // WE NEED TO UPDATE Profile RECORD
 
-  const paymentMethod = body as string;
+  const paymentMethod = (body as { paymentMethod: string }).paymentMethod;
 
   try {
     const data = await prismaClient.profile.update({

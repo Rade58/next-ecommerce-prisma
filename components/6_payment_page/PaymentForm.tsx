@@ -53,21 +53,29 @@ import Cookies from "js-cookie";
 
 import { useActor } from "@xstate/react";
 
+import { useRouter } from "next/router";
 import { cartService, EE } from "../../machines/cart-machine";
 
 export const PAYMENT_METHOD = "PAYMENT_METHOD";
 
 interface PropsI {
-  placeholder?: boolean;
+  // placeholder?: boolean;
+  initialPaymentMethod: string | null;
 }
 
 const PaymentForm: FC<PropsI> = (props) => {
+  const { push } = useRouter();
+
+  const { initialPaymentMethod } = props;
+
   const [session, loading] = useSession();
 
   const [state, dispatch] = useActor(cartService);
 
   // const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
-  const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState<string>(
+    initialPaymentMethod ? initialPaymentMethod : "PayPal"
+  );
 
   const [paymentMethodSetupReqStatus, setPaymentMethodSetupReqStatus] =
     useState<"idle" | "pending" | "rejected">("idle");
@@ -76,62 +84,71 @@ const PaymentForm: FC<PropsI> = (props) => {
     setPaymentMethod((event.target as HTMLInputElement).value);
   };
 
-  const handlePaymentMethodSetup = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  const handlePaymentMethodSetup = useCallback(async () => {
+    // e.preventDefault();
 
-      if (!session) {
-        return;
-      }
+    if (!session) {
+      return;
+    }
 
-      if (loading) {
-        return;
-      }
+    if (loading) {
+      return;
+    }
 
-      if (!session.profile || !(session as any).profile.id) {
-        return;
-      }
+    if (!session.profile || !(session as any).profile.id) {
+      return;
+    }
 
-      try {
-        setPaymentMethodSetupReqStatus("pending");
-        // throw new Error("Hello world");
+    if (!paymentMethod) {
+      return;
+    }
 
-        // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
-        const { data } = await axios.put(
-          `/api/pref-payment-method/${(session as any).profile.id}`,
-          {
-            paymentMethod,
-          }
-        );
+    try {
+      setPaymentMethodSetupReqStatus("pending");
+      // throw new Error("Hello world");
 
-        console.log({ receivedData: data });
+      // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
+      const { data } = await axios.put(
+        `/api/pref-payment-method/${(session as any).profile.id}`,
+        {
+          paymentMethod,
+        }
+      );
 
-        // SAVING PAYMENT DATA TO COOKIE
+      console.log({ receivedData: data });
 
-        Cookies.set(PAYMENT_METHOD, data as string);
+      // SAVING PAYMENT DATA TO COOKIE
 
-        /* const a = JSON.parse(Cookies.get(SHIPPING_DATA));
+      Cookies.set(PAYMENT_METHOD, data as string);
+
+      /* const a = JSON.parse(Cookies.get(SHIPPING_DATA));
 
         console.log({ a }); */
 
-        // setCursor(products[products.length - 1].productId);
+      // setCursor(products[products.length - 1].productId);
 
+      setPaymentMethodSetupReqStatus("idle");
+
+      push("/place-order");
+
+      // console.log({ data });
+    } catch (err) {
+      setPaymentMethodSetupReqStatus("rejected");
+      console.error({ err });
+      setTimeout(() => {
         setPaymentMethodSetupReqStatus("idle");
-
-        // console.log({ data });
-      } catch (err) {
-        setPaymentMethodSetupReqStatus("rejected");
-        console.error({ err });
-        setTimeout(() => {
-          setPaymentMethodSetupReqStatus("idle");
-        }, 3000);
-      }
-    },
-    [session, loading, setPaymentMethodSetupReqStatus, paymentMethod]
-  );
+      }, 3000);
+    }
+  }, [session, loading, setPaymentMethodSetupReqStatus, paymentMethod, push]);
 
   const buttonDisabled =
     !paymentMethod || paymentMethodSetupReqStatus === "pending" ? true : false;
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, [setMounted]);
 
   return (
     <div className="shipping-form">
@@ -167,34 +184,39 @@ const PaymentForm: FC<PropsI> = (props) => {
         `}
       >
         <h2>Payment Method</h2>
-        <FormControl component="fieldset">
-          {/* <FormLabel component="legend">Gender</FormLabel> */}
-          <RadioGroup
-            aria-label="paayment method"
-            name="payment-method"
-            value={paymentMethod}
-            onChange={handleChange}
-          >
-            <FormControlLabel
-              value="PayPal"
-              control={<Radio />}
-              label="PayPal"
-            />
-            {/* <FormControlLabel value="male" control={<Radio />} label="Male" />
+        {mounted && (
+          <FormControl component="fieldset">
+            {/* <FormLabel component="legend">Gender</FormLabel> */}
+            <RadioGroup
+              aria-label="paayment method"
+              name="payment-method"
+              value={paymentMethod}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="PayPal"
+                control={<Radio />}
+                label="PayPal"
+              />
+              {/* <FormControlLabel value="male" control={<Radio />} label="Male" />
             <FormControlLabel value="other" control={<Radio />} label="Other" />
             <FormControlLabel
-              value="disabled"
+            value="disabled"
               disabled
               control={<Radio />}
               label="(Disabled option)"
             /> */}
-          </RadioGroup>
-        </FormControl>
+            </RadioGroup>
+          </FormControl>
+        )}
         <Button
           variant="contained"
           color="primary"
           type="submit"
           disabled={buttonDisabled}
+          onClick={() => {
+            handlePaymentMethodSetup();
+          }}
         >
           {/* WE ARE SAYING CONTINUE
             BUT BECAUSE THIS BUTTON SHOUD DIRECT US

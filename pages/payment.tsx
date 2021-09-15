@@ -5,10 +5,12 @@ import type { GetServerSideProps, NextPage as NP } from "next";
 import { getSession } from "next-auth/client";
 import type { Profile } from "@prisma/client";
 
+import prismaClient from "../lib/prisma";
+
 import Layout from "../components/6_payment_page/Layout";
 
 interface PropsI {
-  placeholder: boolean;
+  initialPaymentMethod: string | null;
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -54,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
-      placeholder: true,
+      initialPaymentMethod: (session.profile as Profile).paymentMethod,
     },
   };
 };
@@ -66,7 +68,9 @@ const PaymentPage: NP<PropsI> = (props) => {
 
   return (
     <div>
-      <Layout>{/*  */}</Layout>
+      <Layout initialPaymentMethod={props.initialPaymentMethod}>
+        {/*  */}
+      </Layout>
     </div>
   );
 };

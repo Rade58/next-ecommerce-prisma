@@ -7,15 +7,10 @@ import type { FC } from "react";
 import Steps from "../Steps";
 import PaymentForm from "./PaymentForm";
 
-const Layout: FC /* <{
-  userData: {
-    fullName: string | null;
-    address: string | null;
-    city: string | null;
-    country: string | null;
-    postalCode: string | null;
-  };
-}>  */ = ({ children /* , userData  */ }) => {
+const Layout: FC<{ initialPaymentMethod: string | null }> = ({
+  children,
+  initialPaymentMethod,
+}) => {
   return (
     <main>
       <section
@@ -32,7 +27,7 @@ const Layout: FC /* <{
         `}
       >
         <Steps />
-        <PaymentForm />
+        <PaymentForm initialPaymentMethod={initialPaymentMethod} />
         {children}
       </section>
     </main>
