@@ -11,6 +11,8 @@ import type {
 } from "react";
 import { useState, Fragment, useCallback, useEffect } from "react";
 
+import { useRouter } from "next/router";
+
 import axios from "axios";
 
 import { useSession } from "next-auth/client";
@@ -61,6 +63,8 @@ interface PropsI {
 }
 
 const ShippingForm: FC<PropsI> = (props) => {
+  const { push } = useRouter();
+
   const [session, loading] = useSession();
 
   const [state, dispatch] = useActor(cartService);
@@ -154,6 +158,8 @@ const ShippingForm: FC<PropsI> = (props) => {
           postalCode: "",
         });
 
+        push("/payment");
+
         setShippingUpdateReqStatus("idle");
 
         // console.log({ data });
@@ -174,6 +180,7 @@ const ShippingForm: FC<PropsI> = (props) => {
       fullName,
       postalCode,
       setShippingUpdateReqStatus,
+      push,
     ]
   );
 

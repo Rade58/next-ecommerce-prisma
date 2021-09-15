@@ -39,6 +39,10 @@ const useStyles = makeStyles((theme: Theme) =>
     link: {
       display: "flex",
     },
+    tip: {
+      display: "flex",
+      color: "#0c4646",
+    },
     icon: {
       // "& > *": {
       marginRight: theme.spacing(0.5),
@@ -95,16 +99,12 @@ const Steps: FC = () => {
                   // onClick={handleClick}
                   className={classes.link}
                 >
-                  {/* @ts-ignore */}
-                  {/*  */}
                   <Icon className={classes.icon} />
                   {name}
                 </MuLink>
               </Link>
             ) : (
-              <Typography color="textPrimary" className={classes.link}>
-                {/* @ts-ignore */}
-                {/*  */}
+              <Typography className={classes.tip}>
                 <Icon className={classes.icon} />
                 {name}
               </Typography>
