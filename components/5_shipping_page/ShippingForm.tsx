@@ -44,6 +44,10 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import type { Profile } from "@prisma/client";
 
+import Cookies from "js-cookie";
+
+const SHIPPING_DATA = "SHIPPING_DATA";
+
 interface PropsI {
   fullName: string | null;
   address: string | null;
@@ -117,6 +121,23 @@ const ShippingForm: FC<PropsI> = (props) => {
         );
 
         console.log({ receivedData: data });
+
+        // SAVING SHIPPING DATA TO COOKIE
+
+        Cookies.set(
+          SHIPPING_DATA,
+          JSON.stringify({
+            address,
+            city,
+            postalCode,
+            name: fullName,
+            country,
+          })
+        );
+
+        /* const a = JSON.parse(Cookies.get(SHIPPING_DATA));
+
+        console.log({ a }); */
 
         // setCursor(products[products.length - 1].productId);
         setFields({
