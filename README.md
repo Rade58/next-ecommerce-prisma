@@ -21,3 +21,5 @@ cat components/5_shipping_page/ShippingForm.tsx
 ```
 cat pages/shipping.tsx
 ```
+
+## WE ARE, ALSO SETTING SHIPPING DATA TO COOKIE
