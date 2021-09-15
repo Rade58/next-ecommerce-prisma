@@ -207,7 +207,7 @@ const ShippingForm: FC = () => {
               value={city}
               name="city"
               id="city-field"
-              label="Price"
+              label="City"
               placeholder="City"
               variant="filled"
             />
