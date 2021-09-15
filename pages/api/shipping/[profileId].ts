@@ -1,19 +1,25 @@
 import nc from "next-connect";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
+// import verifyCurrentUser from "../../../middlewares/verifyCurrentUser";
 
 import prismaClient from "../../../lib/prisma";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 // I ADDED MIDDLEWARE LIKE YOU SEE
-handler.use(verifyCurrentUser);
+// handler.use(verifyCurrentUser);
 
 // PUT
 handler.put(async (req, res) => {
+  console.log({
+    cookies: req.cookies,
+  });
+
   //
   const { profileId } = req.query;
+
+  console.log({ profileId });
   //
   const body = req.body;
 

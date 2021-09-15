@@ -105,7 +105,7 @@ const ShippingForm: FC<PropsI> = (props) => {
         // throw new Error("Hello world");
 
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
-        const { data } = await axios.post(
+        const { data } = await axios.put(
           `/api/shipping/${(session as any).profile.id}`,
           {
             address,
