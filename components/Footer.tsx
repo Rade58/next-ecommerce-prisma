@@ -9,7 +9,7 @@ const Footer: FC = () => {
     <footer
       css={css`
         margin-top: 166px;
-        border-top: 1px soliid #be9f9f4e;
+        border-top: 1px solid #7296da81;
         display: flex;
         justify-content: center;
         align-items: center;

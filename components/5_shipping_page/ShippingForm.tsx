@@ -150,6 +150,8 @@ const ShippingForm: FC = () => {
       <section
         className="form-holder"
         css={css`
+          margin-top: 10vh;
+
           /* padding-top: 10vh; */
           width: 100%;
           display: flex;
@@ -239,7 +241,7 @@ const ShippingForm: FC = () => {
             type="submit"
             disabled={buttonDisabled}
           >
-            {"Save New Product "}
+            {"Save Shippment Info "}
             {shippingUpdateReqStatus === "pending" ||
             shippingUpdateReqStatus === "rejected" ? (
               <div
