@@ -12,7 +12,7 @@ touch pages/api/shipping/[profileId].ts
 
 WE WANT EVERYTHING FILL INSIDE FORM WHEN USER WANTS TO BUY SOMETHING NEXT TIME
 
-## WHAT WE BUILT
+## WHAT WE BUILT AND HOOKED UP, FOR SHIPPING PAGE
 
 ```
 cat components/5_shipping_page/ShippingForm.tsx
