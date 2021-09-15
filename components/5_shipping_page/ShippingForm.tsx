@@ -108,13 +108,15 @@ const ShippingForm: FC<PropsI> = (props) => {
         const { data } = await axios.put(
           `/api/shipping/${(session as any).profile.id}`,
           {
-            address,
+            addrss: address,
             city,
             postalCode,
             name: fullName,
             country,
           }
         );
+
+        console.log({ receivedData: data });
 
         // setCursor(products[products.length - 1].productId);
         setFields({
