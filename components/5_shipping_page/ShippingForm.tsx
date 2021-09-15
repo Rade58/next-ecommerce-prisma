@@ -50,7 +50,7 @@ import { useActor } from "@xstate/react";
 
 import { cartService, EE } from "../../machines/cart-machine";
 
-const SHIPPING_DATA = "SHIPPING_DATA";
+export const SHIPPING_DATA = "SHIPPING_DATA";
 
 interface PropsI {
   fullName: string | null;
