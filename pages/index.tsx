@@ -124,6 +124,8 @@ const IndexPage: NP<PagePropsI> = ({ products }) => {
 
   const shipIntent = CookieStore.checkShippingNavIntent();
 
+  console.log({ shipIntent });
+
   if (shipIntent) {
     return null;
   }
