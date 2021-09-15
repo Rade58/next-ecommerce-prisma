@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // BECAUSE WE WILL CHECK STATE WE WILL DO FRONT END NAVIGATION
   // THAT IS WHY I DID COMMENT THIS OUT
-  /* if (!session) {
+  if (!session) {
     ctx.res.writeHead(302, { Location: "/signin/" });
 
     Router.push("/signin");
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<
         nothing: true,
       },
     };
-  } */
+  }
 
   // const { params } = ctx;
 
