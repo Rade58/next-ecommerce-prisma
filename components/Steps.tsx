@@ -3,7 +3,11 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC, MouseEvent, MouseEventHandler } from "react";
-// import  {  } from "react";
+import { Fragment } from "react";
+
+import { useRouter } from "next/router";
+
+import Link from "next/link";
 
 import {
   makeStyles,
@@ -39,6 +43,8 @@ const handleClick: MouseEventHandler = (event) => {
 };
 
 const Steps: FC = () => {
+  const { asPath, push } = useRouter();
+
   const classes = useStyles();
 
   const paths = [
@@ -49,6 +55,30 @@ const Steps: FC = () => {
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
+      {paths.map(({ path, name }, i) => {
+        return (
+          <Fragment key={`${name}-${i}`}>
+            {path !== asPath ? (
+              <Link href={path} passHref>
+                <MuLink
+                  color="inherit"
+                  // onClick={handleClick}
+                  className={classes.link}
+                >
+                  <HomeIcon className={classes.icon} />
+                  {name}
+                </MuLink>
+              </Link>
+            ) : (
+              <Typography color="textPrimary" className={classes.link}>
+                <GrainIcon className={classes.icon} />
+                {name}
+              </Typography>
+            )}
+          </Fragment>
+        );
+      })}
+
       {/* 
       <MuLink
         color="inherit"
