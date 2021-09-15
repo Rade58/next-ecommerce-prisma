@@ -45,11 +45,11 @@ import MuiAlert from "@material-ui/lab/Alert";
 import type { Profile } from "@prisma/client";
 
 interface PropsI {
-  fullName?: string;
-  address?: string;
-  city?: string;
-  postalCode?: string;
-  country?: string;
+  fullName: string | null;
+  address: string | null;
+  city: string | null;
+  postalCode: string | null;
+  country: string | null;
 }
 
 const ShippingForm: FC<PropsI> = (props) => {

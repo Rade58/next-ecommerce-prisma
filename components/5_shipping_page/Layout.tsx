@@ -6,7 +6,15 @@ import type { FC } from "react";
 
 import ShippingForm from "./ShippingForm";
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<{
+  userData: {
+    fullName: string | null;
+    address: string | null;
+    city: string | null;
+    country: string | null;
+    postalCode: string | null;
+  };
+}> = ({ children, userData }) => {
   return (
     <main>
       <section
@@ -20,7 +28,7 @@ const Layout: FC = ({ children }) => {
           width: 100%;
         `}
       >
-        <ShippingForm />
+        <ShippingForm {...userData} />
         {children}
       </section>
     </main>

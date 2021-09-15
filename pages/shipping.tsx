@@ -8,12 +8,23 @@ import { useActor } from "@xstate/react";
 
 import { getSession, useSession } from "next-auth/client";
 
+import type { Profile } from "@prisma/client";
+
+import prismaClient from "../lib/prisma";
+
 import { cartService } from "../machines/cart-machine";
 
 import Layout from "../components/5_shipping_page/Layout";
 
 interface PropsI {
   placeholder?: boolean;
+  userData: {
+    fullName: string | null;
+    address: string | null;
+    city: string | null;
+    country: string | null;
+    postalCode: string | null;
+  };
 }
 
 /* type paramsType = {
@@ -27,14 +38,63 @@ export const getServerSideProps: GetServerSideProps<
     req: ctx.req,
   });
 
-  console.log({ session });
+  // console.log({ session });
 
-  // BECAUSE WE WILL CHECK STATE WE WILL DO FRONT END NAVIGATION
-  // THAT IS WHY I DID COMMENT THIS OUT
   if (!session) {
     ctx.res.writeHead(302, { Location: "/signin/" });
 
-    Router.push("/signin");
+    // Router.push("/signin");
+
+    return {
+      props: {
+        nothing: true,
+      },
+    };
+  }
+
+  if (!session.profile) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
+
+    return {
+      props: {
+        nothing: true,
+      },
+    };
+  }
+
+  if (!(session.profile as Profile).id) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
+
+    return {
+      props: {
+        nothing: true,
+      },
+    };
+  }
+
+  // WE NEED TO QUERY FOR PROFILE (AND USER)
+  // WE ALREDY HAVE PROFILE (WE ATTACHED IT TO SESSION)
+
+  const profile = session.profile as Profile;
+  // WE JUST NEED TO FIND USER NAME (WHICH IS ON User RECORD)
+
+  const user = await prismaClient.user.findFirst({
+    where: {
+      profiles: {
+        some: {
+          id: {
+            equals: profile.id,
+          },
+        },
+      },
+    },
+    select: {
+      name: true,
+    },
+  });
+
+  if (!user) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
 
     return {
       props: {
@@ -49,7 +109,13 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
-      placeholder: true,
+      userData: {
+        fullName: user.name,
+        address: profile.addrss,
+        city: profile.city,
+        country: profile.country,
+        postalCode: profile.postalCode,
+      },
     },
   };
 };
@@ -81,7 +147,9 @@ const ShippingPage: NP<PropsI> = (props) => {
     return null;
   }
 
-  return <Layout>{/* Shipping */}</Layout>;
+  const { userData } = props;
+
+  return <Layout userData={userData}>{/* Shipping */}</Layout>;
 };
 
 export default ShippingPage;
