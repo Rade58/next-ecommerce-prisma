@@ -26,6 +26,9 @@ import {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    cont: {
+      marginTop: "20px",
+    },
     link: {
       display: "flex",
     },
@@ -54,7 +57,7 @@ const Steps: FC = () => {
   ];
 
   return (
-    <Breadcrumbs aria-label="breadcrumb">
+    <Breadcrumbs aria-label="breadcrumb" className={classes.cont}>
       {paths.map(({ path, name }, i) => {
         return (
           <Fragment key={`${name}-${i}`}>

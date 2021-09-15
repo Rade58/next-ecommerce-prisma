@@ -25,7 +25,9 @@ const Layout: FC /* <{
           position: relative;
           display: flex;
           justify-content: center;
+          flex-direction: column;
           width: 100%;
+          align-items: center;
         `}
       >
         <Steps />
