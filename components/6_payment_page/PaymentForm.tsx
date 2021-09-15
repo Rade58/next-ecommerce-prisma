@@ -98,15 +98,15 @@ const PaymentForm: FC<PropsI> = (props) => {
 
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const { data } = await axios.put(
-          `/api/payment/${(session as any).profile.id}`,
+          `/api/pref-payment-method/${(session as any).profile.id}`,
           {
-            something: "something",
+            paymentMethod,
           }
         );
 
         console.log({ receivedData: data });
 
-        // SAVING SHIPPING DATA TO COOKIE
+        // SAVING PAYMENT DATA TO COOKIE
 
         Cookies.set(PAYMENT_METHOD, data as string);
 
@@ -127,7 +127,7 @@ const PaymentForm: FC<PropsI> = (props) => {
         }, 3000);
       }
     },
-    [session, loading, setPaymentMethodSetupReqStatus]
+    [session, loading, setPaymentMethodSetupReqStatus, paymentMethod]
   );
 
   const buttonDisabled =
