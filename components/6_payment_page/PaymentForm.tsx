@@ -198,6 +198,11 @@ const PaymentForm: FC<PropsI> = (props) => {
                 control={<Radio />}
                 label="PayPal"
               />
+              <FormControlLabel
+                value="Stripe"
+                control={<Radio />}
+                label="Stripe"
+              />
               {/* <FormControlLabel value="male" control={<Radio />} label="Male" />
             <FormControlLabel value="other" control={<Radio />} label="Other" />
             <FormControlLabel
