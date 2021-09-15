@@ -268,7 +268,7 @@ const ShippingForm: FC<PropsI> = (props) => {
                   margin-left: 8px;
                 `}
               >
-                <CircularProgress color="secondary" size={18} />
+                <CircularProgress color="primary" size={18} />
               </div>
             ) : (
               ""
