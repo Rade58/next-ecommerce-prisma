@@ -98,9 +98,13 @@ const ShippingForm: FC = () => {
 
         // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
         const { data } = await axios.post(
-          `/api/admin/${(session as any).profile.id}`,
+          `/api/shipping/${(session as any).profile.id}`,
           {
-            model: "product",
+            address,
+            city,
+            postalCode,
+            name: fullName,
+            country,
           }
         );
 
