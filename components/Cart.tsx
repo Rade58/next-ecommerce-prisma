@@ -370,6 +370,8 @@ const ShoppingCart: FC<PropsI> = ({}) => {
                   CookieStorage.setShippingNavIntention();
                 }
 
+                dispatch({ type: EE.TOOGLE_DRAWER, payload: false });
+
                 push(session ? "/shipping" : "/signin");
               }}
             >

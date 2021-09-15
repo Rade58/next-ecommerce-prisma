@@ -46,6 +46,10 @@ import type { Profile } from "@prisma/client";
 
 import Cookies from "js-cookie";
 
+import { useActor } from "@xstate/react";
+
+import { cartService, EE } from "../../machines/cart-machine";
+
 const SHIPPING_DATA = "SHIPPING_DATA";
 
 interface PropsI {
@@ -58,6 +62,8 @@ interface PropsI {
 
 const ShippingForm: FC<PropsI> = (props) => {
   const [session, loading] = useSession();
+
+  const [state, dispatch] = useActor(cartService);
 
   const [shippingUpdateReqStatus, setShippingUpdateReqStatus] = useState<
     "idle" | "pending" | "rejected"
@@ -149,6 +155,7 @@ const ShippingForm: FC<PropsI> = (props) => {
         });
 
         setShippingUpdateReqStatus("idle");
+
         // console.log({ data });
       } catch (err) {
         setShippingUpdateReqStatus("rejected");

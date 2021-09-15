@@ -68,6 +68,7 @@ function TemporaryDrawer() {
     top: false,
   });
 
+  // NO OP
   const toggleDrawer =
     (anchor: Anchor, open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
@@ -85,6 +86,10 @@ function TemporaryDrawer() {
 
   const anchor = "top";
 
+  const openDrawer = () => dispatch({ type: EE.TOOGLE_DRAWER, payload: true });
+  const closeDrawer = () =>
+    dispatch({ type: EE.TOOGLE_DRAWER, payload: false });
+
   return (
     <div>
       <Fragment>
@@ -92,14 +97,14 @@ function TemporaryDrawer() {
           color="secondary"
           variant="contained"
           size="small"
-          onClick={toggleDrawer("top", true)}
+          onClick={openDrawer}
         >
           <ShopIcon />
         </Button>
         <Drawer
           anchor={"top"}
-          open={state["top"]}
-          onClose={toggleDrawer("top", false)}
+          open={xState.context.drawerOpened}
+          onClose={closeDrawer}
         >
           <ShoppingCart />
 
@@ -108,8 +113,8 @@ function TemporaryDrawer() {
               [classes.fullList]: anchor === "top" || anchor === "bottom",
             })}
             role="presentation"
-            onClick={toggleDrawer("top", false)}
-            onKeyDown={toggleDrawer("top", false)}
+            onClick={closeDrawer}
+            onKeyDown={closeDrawer}
           >
             <Divider />
             <List>

@@ -51,6 +51,8 @@ export enum EE {
   CLEAR_PRODUCT = "CLEAR_PRODUCT",
   CLEAR_CART = "CLEAR_CART",
   TICK = "TICK",
+
+  TOOGLE_DRAWER = "TOOGLE_DRAWER",
 }
 
 // TO BE USED AS GENERIC TYPES INSIDE STATE MACHINE DEFINISTION
@@ -61,6 +63,7 @@ export interface MachineContextGenericI {
   lastItemId: string;
   expired: boolean;
   clockOffset: number;
+  drawerOpened: boolean;
 }
 
 export type machineEventsGenericType =
@@ -87,6 +90,10 @@ export type machineEventsGenericType =
     }
   | {
       type: EE.TICK;
+    }
+  | {
+      type: EE.TOOGLE_DRAWER;
+      payload: boolean;
     };
 
 export type machineFiniteStatesGenericType =
@@ -139,10 +146,18 @@ const cartMachine = createMachine<
       // clockOffset: 60 * 8, // 8 hours
       // LOWER TIME FOR TESTING
       clockOffset: 2, // 2 mins
+
+      drawerOpened: false,
     },
     // ---- EVENTS RECEVIED WHEN CURRENT FINITE STATE DOESN'T MATTER -----
     on: {
-      // I DON'T THINK I NEED ANY
+      [EE.TOOGLE_DRAWER]: {
+        actions: [
+          assign({
+            drawerOpened: (ctx, e) => e.payload,
+          }),
+        ],
+      },
     },
     // -------------------------------------------------------------------
     states: {
