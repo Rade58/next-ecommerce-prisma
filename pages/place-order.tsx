@@ -2,28 +2,61 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
+import { getSession } from "next-auth/client";
+import type { Profile } from "@prisma/client";
+
 import Layout from "../components/7_place_order_page/Layout";
 
 interface PropsI {
   placeholder: boolean;
 }
 
-type paramsType = {
-  siteId: string;
-};
+export const getServerSideProps: GetServerSideProps<
+  PropsI | { nothing: true }
+> = async (ctx) => {
+  const session = await getSession({
+    req: ctx.req,
+  });
 
-export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
-  async (ctx) => {
-    const { params } = ctx;
+  // console.log({ session });
 
-    params?.siteId; //
+  if (!session) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
+
+    // Router.push("/signin");
 
     return {
       props: {
-        placeholder: true,
+        nothing: true,
       },
     };
+  }
+
+  if (!session.profile) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
+
+    return {
+      props: {
+        nothing: true,
+      },
+    };
+  }
+
+  if (!(session.profile as Profile).id) {
+    ctx.res.writeHead(302, { Location: "/signin/" });
+
+    return {
+      props: {
+        nothing: true,
+      },
+    };
+  }
+  return {
+    props: {
+      placeholder: true,
+    },
   };
+};
 
 const PlaceOrderPage: NP<PropsI> = (props) => {
   //
