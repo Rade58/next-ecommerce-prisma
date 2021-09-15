@@ -196,7 +196,7 @@ const PaymentForm: FC<PropsI> = (props) => {
               <FormControlLabel
                 value="PayPal"
                 control={<Radio />}
-                label="PayPal"
+                label="PayPal or Credit Card"
               />
               <FormControlLabel
                 value="Stripe"
