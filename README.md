@@ -23,3 +23,11 @@ cat pages/shipping.tsx
 ```
 
 ## WE ARE, ALSO SETTING SHIPPING DATA TO COOKIE
+
+AND AFTER WE SAVE DATA, BOTH IN DATBASE AND IN THE COOKIE, WE ARE NAVIGATING TO THE /payment
+
+# WE WILL BUILD `/payment` PAGE
+
+```
+cat pages/payment.tsx
+```
