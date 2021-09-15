@@ -10,6 +10,10 @@ import { getSession, useSession } from "next-auth/client";
 
 import type { Profile } from "@prisma/client";
 
+import Cookies from "js-cookie";
+
+import { SHIPPING_DATA } from "../components/5_shipping_page/ShippingForm";
+
 import prismaClient from "../lib/prisma";
 
 import { cartService } from "../machines/cart-machine";
@@ -143,6 +147,14 @@ const ShippingPage: NP<PropsI> = (props) => {
 
   if (!Object.keys(cartState.context.cart).length) {
     Router.push("/");
+
+    return null;
+  }
+
+  const shippingData = Cookies.get(SHIPPING_DATA);
+
+  if (!shippingData) {
+    Router.push("/shipping");
 
     return null;
   }

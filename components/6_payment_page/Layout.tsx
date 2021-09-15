@@ -5,6 +5,7 @@ import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
 import Steps from "../Steps";
+import PaymentForm from "./PaymentForm";
 
 const Layout: FC /* <{
   userData: {
@@ -31,6 +32,7 @@ const Layout: FC /* <{
         `}
       >
         <Steps />
+        <PaymentForm />
         {children}
       </section>
     </main>

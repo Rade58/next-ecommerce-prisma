@@ -60,7 +60,7 @@ interface PropsI {
   country: string | null;
 }
 
-const ShippingForm: FC<PropsI> = (props) => {
+const PaymentForm: FC<PropsI> = (props) => {
   const [session, loading] = useSession();
 
   const [state, dispatch] = useActor(cartService);
@@ -220,7 +220,7 @@ const ShippingForm: FC<PropsI> = (props) => {
           }
         `}
       >
-        <h2>Shipping Info</h2>
+        <h2>Payment Method</h2>
         <form onSubmit={handleUpdateShippingData}>
           <div className="field">
             <TextField
@@ -320,4 +320,4 @@ const ShippingForm: FC<PropsI> = (props) => {
   );
 };
 
-export default ShippingForm;
+export default PaymentForm;
