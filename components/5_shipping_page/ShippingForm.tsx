@@ -180,10 +180,10 @@ const ShippingForm: FC = () => {
             <TextField
               onChange={handleFieldChange}
               value={fullName}
-              name="name"
-              id="name-field"
-              label="Name"
-              placeholder="Name"
+              name="fullName"
+              id="fname-field"
+              label="Full Name"
+              placeholder="Full Name"
               variant="filled"
             />
           </div>
@@ -191,10 +191,10 @@ const ShippingForm: FC = () => {
             <TextField
               onChange={handleFieldChange}
               value={address}
-              name="brand"
-              id="brand-field"
-              label="Brand"
-              placeholder="Brand"
+              name="address"
+              id="address-field"
+              label="Address"
+              placeholder="Address"
               variant="filled"
             />
           </div>
@@ -202,23 +202,21 @@ const ShippingForm: FC = () => {
             <TextField
               onChange={handleFieldChange}
               value={city}
-              name="price"
-              id="price-field"
+              name="city"
+              id="city-field"
               label="Price"
-              placeholder="Price"
+              placeholder="City"
               variant="filled"
-              type="number"
             />
           </div>
           <div className="field">
             <TextField
               onChange={handleFieldChange}
               value={country}
-              type="number"
-              name="countInStock"
-              id="countinstock-field"
-              label="Count In Stock"
-              placeholder="CountInStock"
+              name="country"
+              id="country-field"
+              label="Country"
+              placeholder="Country"
               variant="filled"
             />
           </div>
@@ -227,10 +225,10 @@ const ShippingForm: FC = () => {
             <TextField
               onChange={handleFieldChange}
               value={postalCode}
-              name="category"
-              id="category-field"
-              label="Category"
-              placeholder="Category"
+              name="postalCode"
+              id="postalCode-field"
+              label="postalCode"
+              placeholder="postalCode"
               variant="filled"
             />
           </div>
