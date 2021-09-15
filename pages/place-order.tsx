@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
     };
   };
 
-const Page: NP<PropsI> = (props) => {
+const PlaceOrderPage: NP<PropsI> = (props) => {
   //
 
   console.log(props);
@@ -31,4 +31,4 @@ const Page: NP<PropsI> = (props) => {
   return <div>🦉</div>;
 };
 
-export default Page;
+export default PlaceOrderPage;
