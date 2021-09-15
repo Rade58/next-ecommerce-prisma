@@ -242,7 +242,10 @@ const ShippingForm: FC = () => {
             type="submit"
             disabled={buttonDisabled}
           >
-            {"Save Shippment Info "}
+            {/* WE ARE SAYING CONTINUE
+            BUT BECAUSE THIS BUTTON SHOUD DIRECT US
+            TO CHECKOUT PAGE */}
+            {"Continue "}
             {shippingUpdateReqStatus === "pending" ||
             shippingUpdateReqStatus === "rejected" ? (
               <div
