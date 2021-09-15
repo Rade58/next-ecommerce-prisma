@@ -4,6 +4,8 @@
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
 
+import ShippingForm from "./ShippingForm";
+
 const Layout: FC = ({ children }) => {
   return (
     <main>
@@ -18,6 +20,7 @@ const Layout: FC = ({ children }) => {
           width: 100%;
         `}
       >
+        <ShippingForm />
         {children}
       </section>
     </main>
