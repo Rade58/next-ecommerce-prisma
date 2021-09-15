@@ -2,7 +2,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC, MouseEvent, MouseEventHandler } from "react";
+import type {
+  FC,
+  MouseEvent,
+  MouseEventHandler,
+  PropsWithChildren,
+} from "react";
 import { Fragment } from "react";
 
 import { useRouter } from "next/router";
@@ -22,6 +27,8 @@ import {
   Home as HomeIcon,
   Whatshot as WhatshotIcon,
   GrainRounded as GrainIcon,
+  LocalShipping,
+  Payment,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,9 +40,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
     },
     icon: {
+      // "& > *": {
       marginRight: theme.spacing(0.5),
       width: 20,
       height: 20,
+      // },
     },
   })
 );
@@ -51,14 +60,32 @@ const Steps: FC = () => {
   const classes = useStyles();
 
   const paths = [
-    { name: "Shipping", path: "/shipping" },
-    { name: "Payment", path: "/payment" },
-    { name: "Place Order", path: "/place-order" },
+    {
+      name: "Shipping",
+      path: "/shipping",
+      Icon: function Shipp(props: PropsWithChildren<{ className: string }>) {
+        return <LocalShipping className={props.className} />;
+      },
+    },
+    {
+      name: "Payment",
+      path: "/payment",
+      Icon: function Pay(props: PropsWithChildren<{ className: string }>) {
+        return <Payment className={props.className} />;
+      },
+    },
+    {
+      name: "Place Order",
+      path: "/place-order",
+      Icon: function Grain(props: PropsWithChildren<{ className: string }>) {
+        return <GrainIcon className={props.className} />;
+      },
+    },
   ];
 
   return (
     <Breadcrumbs aria-label="breadcrumb" className={classes.cont}>
-      {paths.map(({ path, name }, i) => {
+      {paths.map(({ path, name, Icon }, i) => {
         return (
           <Fragment key={`${name}-${i}`}>
             {path !== asPath ? (
@@ -68,13 +95,17 @@ const Steps: FC = () => {
                   // onClick={handleClick}
                   className={classes.link}
                 >
-                  <HomeIcon className={classes.icon} />
+                  {/* @ts-ignore */}
+                  {/*  */}
+                  <Icon className={classes.icon} />
                   {name}
                 </MuLink>
               </Link>
             ) : (
               <Typography color="textPrimary" className={classes.link}>
-                <GrainIcon className={classes.icon} />
+                {/* @ts-ignore */}
+                {/*  */}
+                <Icon className={classes.icon} />
                 {name}
               </Typography>
             )}
