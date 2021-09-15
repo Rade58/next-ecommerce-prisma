@@ -163,6 +163,7 @@ const ShippingForm: FC = () => {
             /* margin-top: 10vh; */
             display: flex;
             justify-content: center;
+            margin-top: 2vh;
           }
           & div.file-input {
             /* margin-top: 10vh; */
