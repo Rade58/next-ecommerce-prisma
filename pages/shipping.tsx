@@ -81,7 +81,7 @@ const ShippingPage: NP<PropsI> = (props) => {
     return null;
   }
 
-  return <Layout>Shipping</Layout>;
+  return <Layout>{/* Shipping */}</Layout>;
 };
 
 export default ShippingPage;

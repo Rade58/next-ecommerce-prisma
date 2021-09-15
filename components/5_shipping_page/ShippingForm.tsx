@@ -1,0 +1,276 @@
+/* eslint jsx-a11y/anchor-is-valid: 1 */
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
+import type {
+  FC,
+  ChangeEventHandler,
+  FormEvent,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
+import { useState, Fragment, useCallback, useEffect } from "react";
+
+import axios from "axios";
+
+import { useSession } from "next-auth/client";
+
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import type {
+  GridSelectionModel,
+  GridEditRowsModel,
+} from "@material-ui/data-grid";
+
+import {
+  Card,
+  Button,
+  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  TextField,
+  CircularProgress,
+  Snackbar,
+  IconButton,
+  Input,
+  LinearProgress,
+} from "@material-ui/core";
+
+import { DeleteSweep as DelIcon, ExpandMore } from "@material-ui/icons";
+
+import type { AlertProps } from "@material-ui/lab";
+import MuiAlert from "@material-ui/lab/Alert";
+
+import type { Profile } from "@prisma/client";
+
+const ShippingForm: FC = () => {
+  const [session, loading] = useSession();
+
+  const [shippingUpdateReqStatus, setShippingUpdateReqStatus] = useState<
+    "idle" | "pending" | "rejected"
+  >("idle");
+
+  const [fields, setFields] = useState<{
+    fullName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  }>({
+    // WE WILL FETCH DATA BUT TEMPORARRY PUT SOMETHING
+    address: "",
+    city: "",
+    country: "",
+    fullName: "",
+    postalCode: "",
+  });
+
+  const { address, city, country, fullName, postalCode } = fields;
+
+  const handleFieldChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) =>
+    setFields((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+  const handleUpdateShippingData = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (!session) {
+        return;
+      }
+
+      if (loading) {
+        return;
+      }
+
+      if (!session.profile || !(session as any).profile.id) {
+        return;
+      }
+
+      try {
+        setShippingUpdateReqStatus("pending");
+        // throw new Error("Hello world");
+
+        // AS YOU CAN SEE HERE WE ARE MAKING NETWORK REQUEST
+        const { data } = await axios.post(
+          `/api/admin/${(session as any).profile.id}`,
+          {
+            model: "product",
+          }
+        );
+
+        // setCursor(products[products.length - 1].productId);
+        setFields({
+          address: "",
+          city: "",
+          country: "",
+          fullName: "",
+          postalCode: "",
+        });
+
+        setShippingUpdateReqStatus("idle");
+        // console.log({ data });
+      } catch (err) {
+        setShippingUpdateReqStatus("rejected");
+        console.error({ err });
+        setTimeout(() => {
+          setShippingUpdateReqStatus("idle");
+        }, 3000);
+      }
+    },
+    [
+      session,
+      loading,
+      address,
+      city,
+      country,
+      fullName,
+      postalCode,
+      setShippingUpdateReqStatus,
+    ]
+  );
+
+  const buttonDisabled =
+    !fullName ||
+    !address ||
+    !city ||
+    !country ||
+    !postalCode ||
+    shippingUpdateReqStatus === "pending"
+      ? true
+      : false;
+
+  return (
+    <div className="shipping-form">
+      <section
+        className="form-holder"
+        css={css`
+          /* padding-top: 10vh; */
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          align-content: center;
+
+          & div.field {
+            /* margin-top: 10vh; */
+            display: flex;
+            justify-content: center;
+          }
+          & div.file-input {
+            /* margin-top: 10vh; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 22px;
+          }
+
+          & button {
+            margin-top: 8vh;
+          }
+        `}
+      >
+        <form onSubmit={handleUpdateShippingData}>
+          <div className="field">
+            <TextField
+              onChange={handleFieldChange}
+              value={fullName}
+              name="name"
+              id="name-field"
+              label="Name"
+              placeholder="Name"
+              variant="filled"
+            />
+          </div>
+          <div className="field">
+            <TextField
+              onChange={handleFieldChange}
+              value={address}
+              name="brand"
+              id="brand-field"
+              label="Brand"
+              placeholder="Brand"
+              variant="filled"
+            />
+          </div>
+          <div className="field">
+            <TextField
+              onChange={handleFieldChange}
+              value={city}
+              name="price"
+              id="price-field"
+              label="Price"
+              placeholder="Price"
+              variant="filled"
+              type="number"
+            />
+          </div>
+          <div className="field">
+            <TextField
+              onChange={handleFieldChange}
+              value={country}
+              type="number"
+              name="countInStock"
+              id="countinstock-field"
+              label="Count In Stock"
+              placeholder="CountInStock"
+              variant="filled"
+            />
+          </div>
+
+          <div className="field">
+            <TextField
+              onChange={handleFieldChange}
+              value={postalCode}
+              name="category"
+              id="category-field"
+              label="Category"
+              placeholder="Category"
+              variant="filled"
+            />
+          </div>
+
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={buttonDisabled}
+          >
+            {"Save New Product "}
+            {shippingUpdateReqStatus === "pending" ||
+            shippingUpdateReqStatus === "rejected" ? (
+              <div
+                css={css`
+                  display: inline-block;
+                  margin-left: 8px;
+                `}
+              >
+                <CircularProgress color="secondary" size={18} />
+              </div>
+            ) : (
+              ""
+            )}
+          </Button>
+          {shippingUpdateReqStatus === "rejected" && (
+            <span
+              css={css`
+                color: tomato;
+                margin-left: 60px;
+                margin-top: 12px;
+              `}
+            >
+              Something went wrong
+            </span>
+          )}
+        </form>
+      </section>
+    </div>
+  );
+};
+
+export default ShippingForm;
