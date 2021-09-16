@@ -199,13 +199,17 @@ const SummaryList: FC = () => {
           <Collapse in={prOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {cartToArr().map(
-                ({ productId, amount, product: { name } }, i) => {
+                ({ productId, amount, product: { name, price } }, i) => {
                   return (
                     <ListItem
                       key={`${i}-${i}-${productId}`}
                       className={classes.nested}
                     >
-                      <ListItemText primary={`${amount} x ${name}`} />
+                      <ListItemText
+                        primary={`${amount} x ${name} = $${parseFloat(
+                          amount * price
+                        ).toFixed(2)}`}
+                      />
                     </ListItem>
                   );
                 }
