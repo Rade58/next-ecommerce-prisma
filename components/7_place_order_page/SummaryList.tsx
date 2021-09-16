@@ -42,7 +42,7 @@ const TAX_PRICE_KEY = "TAX_PRICE_KEY";
 const SHIPPING_PRICE_KEY = "SHIPPING_PRICE_KEY";
 const TOTAL_PRICE_KEY = "TOTAL_PRICE_KEY";
 
-const TAX_PRICE = 20.99;
+const TAX_PRICE = 15; // PERCENTS
 const SHIPPING_PRICE = 10.99;
 
 export const STORAGE_KEYS = {
@@ -148,12 +148,21 @@ const SummaryList: FC = () => {
     let sum = 0;
 
     for (const key in cart) {
-      sum = sum + (cart[key].amount as unknown as number) * cart[key].price;
+      // DON'T FORGET TO CALCCULATE 15 PERCENTS OF AN PRODUCT PRICE
+      // AND ADD IT TO THE PRODUCT PRICE
+      const productPrice = cart[key].price;
+
+      const tax = 15 / (100 / productPrice);
+
+      sum =
+        sum +
+        (cart[key].amount as unknown as number) * productPrice +
+        (cart[key].amount as unknown as number) * tax;
     }
 
-    // WE SHOULD ALSO ADD TAX PRICE, AND SHIPPING PRICE
+    // WE SHOULD ALSO ADD SHIPPING PRICE
 
-    sum = sum + SHIPPING_PRICE + TAX_PRICE;
+    sum = sum + SHIPPING_PRICE;
 
     setTotal(sum);
   }, [cart, setTotal]);
@@ -368,7 +377,7 @@ const SummaryList: FC = () => {
         </div>
         <div className="tax-pr">
           <span>Tax price:</span>
-          <span>{formatter.format(TAX_PRICE)}</span>
+          <span>{TAX_PRICE}%</span>
         </div>
       </div>
       <span
