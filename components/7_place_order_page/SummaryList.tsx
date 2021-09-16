@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Fragment } from "react";
 import type { FC } from "react";
 
 import { useRouter } from "next/router";
@@ -136,73 +136,85 @@ const SummaryList: FC = () => {
     setPrOpen(!prOpen);
   };
 
-  return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Order Summary
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-      <ListItem button onClick={handleShClick}>
-        <ListItemIcon>
-          <LocalShippingRounded />
-        </ListItemIcon>
-        <ListItemText primary="Shipping Info" />
-        {shOpen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={shOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {shippingKeys.map((key) => {
-            return (
-              <ListItem key={key} className={classes.nested}>
-                {/* @ts-ignore */}
-                <ListItemText primary={`${key}: ${shippingInfo[key]}`} />
-              </ListItem>
-            );
-          })}
-        </List>
-      </Collapse>
-      <ListItem button onClick={handlePaClick}>
-        <ListItemIcon>
-          <PaymentRounded />
-        </ListItemIcon>
-        <ListItemText primary="Payment Method" />
-        {paOpen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={paOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem className={classes.nested}>
-            <ListItemText primary={paymentMethod} />
-          </ListItem>
-        </List>
-      </Collapse>
-      <ListItem button onClick={handlePrClick}>
-        <ListItemIcon>
-          <Cake />
-        </ListItemIcon>
-        <ListItemText primary="Products" />
-        {prOpen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+  const [canRender, setCanRender] = useState(false);
 
-      <Collapse in={prOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {cartToArr().map(({ productId, amount, product: { name } }, i) => {
-            return (
-              <ListItem
-                key={`${i}-${i}-${productId}`}
-                className={classes.nested}
-              >
-                <ListItemText primary={`${amount} x ${name}`} />
+  useEffect(() => {
+    setCanRender(true);
+  }, [setCanRender]);
+
+  return (
+    <Fragment>
+      {canRender && (
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+              Order Summary
+            </ListSubheader>
+          }
+          className={classes.root}
+        >
+          <ListItem button onClick={handleShClick}>
+            <ListItemIcon>
+              <LocalShippingRounded />
+            </ListItemIcon>
+            <ListItemText primary="Shipping Info" />
+            {shOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={shOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {shippingKeys.map((key) => {
+                return (
+                  <ListItem key={key} className={classes.nested}>
+                    {/* @ts-ignore */}
+                    <ListItemText primary={`${key}: ${shippingInfo[key]}`} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Collapse>
+          <ListItem button onClick={handlePaClick}>
+            <ListItemIcon>
+              <PaymentRounded />
+            </ListItemIcon>
+            <ListItemText primary="Payment Method" />
+            {paOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={paOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem className={classes.nested}>
+                <ListItemText primary={paymentMethod} />
               </ListItem>
-            );
-          })}
+            </List>
+          </Collapse>
+          <ListItem button onClick={handlePrClick}>
+            <ListItemIcon>
+              <Cake />
+            </ListItemIcon>
+            <ListItemText primary="Products" />
+            {prOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+
+          <Collapse in={prOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {cartToArr().map(
+                ({ productId, amount, product: { name } }, i) => {
+                  return (
+                    <ListItem
+                      key={`${i}-${i}-${productId}`}
+                      className={classes.nested}
+                    >
+                      <ListItemText primary={`${amount} x ${name}`} />
+                    </ListItem>
+                  );
+                }
+              )}
+            </List>
+          </Collapse>
         </List>
-      </Collapse>
-    </List>
+      )}
+    </Fragment>
   );
 };
 

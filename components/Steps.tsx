@@ -8,7 +8,7 @@ import type {
   MouseEventHandler,
   PropsWithChildren,
 } from "react";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import { useRouter } from "next/router";
 
@@ -87,33 +87,41 @@ const Steps: FC = () => {
     },
   ];
 
-  return (
-    <Breadcrumbs aria-label="breadcrumb" className={classes.cont}>
-      {paths.map(({ path, name, Icon }, i) => {
-        return (
-          <Fragment key={`${name}-${i}`}>
-            {path !== asPath ? (
-              <Link href={path} passHref>
-                <MuLink
-                  color="inherit"
-                  // onClick={handleClick}
-                  className={classes.link}
-                >
-                  <Icon className={classes.icon} />
-                  {name}
-                </MuLink>
-              </Link>
-            ) : (
-              <Typography className={classes.tip}>
-                <Icon className={classes.icon} />
-                {name}
-              </Typography>
-            )}
-          </Fragment>
-        );
-      })}
+  const [canRender, setCanRender] = useState(false);
 
-      {/* 
+  useEffect(() => {
+    setCanRender(true);
+  }, [setCanRender]);
+
+  return (
+    <Fragment>
+      {canRender && (
+        <Breadcrumbs aria-label="breadcrumb" className={classes.cont}>
+          {paths.map(({ path, name, Icon }, i) => {
+            return (
+              <Fragment key={`${name}-${i}`}>
+                {path !== asPath ? (
+                  <Link href={path} passHref>
+                    <MuLink
+                      color="inherit"
+                      // onClick={handleClick}
+                      className={classes.link}
+                    >
+                      <Icon className={classes.icon} />
+                      {name}
+                    </MuLink>
+                  </Link>
+                ) : (
+                  <Typography className={classes.tip}>
+                    <Icon className={classes.icon} />
+                    {name}
+                  </Typography>
+                )}
+              </Fragment>
+            );
+          })}
+
+          {/* 
       <MuLink
         color="inherit"
         href="/"
@@ -131,12 +139,14 @@ const Steps: FC = () => {
       >
         <WhatshotIcon className={classes.icon} />
         Core
-      </MuLink>
+        </MuLink>
       <Typography color="textPrimary" className={classes.link}>
         <GrainIcon className={classes.icon} />
         Breadcrumb
       </Typography> */}
-    </Breadcrumbs>
+        </Breadcrumbs>
+      )}
+    </Fragment>
   );
 };
 

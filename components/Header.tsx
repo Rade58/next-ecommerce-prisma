@@ -90,17 +90,26 @@ function TemporaryDrawer() {
   const closeDrawer = () =>
     dispatch({ type: EE.TOOGLE_DRAWER, payload: false });
 
+  const { asPath } = useRouter();
+
+  const canRenderCartButton =
+    asPath !== "/shipping" &&
+    asPath !== "/payment" &&
+    asPath !== "/place-order";
+
   return (
     <div>
       <Fragment>
-        <Button
-          color="secondary"
-          variant="contained"
-          size="small"
-          onClick={openDrawer}
-        >
-          <ShopIcon />
-        </Button>
+        {canRenderCartButton && (
+          <Button
+            color="secondary"
+            variant="contained"
+            size="small"
+            onClick={openDrawer}
+          >
+            <ShopIcon />
+          </Button>
+        )}
         <Drawer
           anchor={"top"}
           open={xState.context.drawerOpened}
