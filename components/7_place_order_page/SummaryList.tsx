@@ -179,8 +179,31 @@ const SummaryList: FC = () => {
               {shippingKeys.map((key) => {
                 return (
                   <ListItem key={key} className={classes.nested}>
-                    {/* @ts-ignore */}
-                    <ListItemText primary={`${key}: ${shippingInfo[key]}`} />
+                    <ListItemText
+                      primary={
+                        <div
+                          css={css`
+                            display: flex;
+                            justify-content: space-between;
+
+                            & .sp1 {
+                              color: black;
+                            }
+
+                            & .sp2 {
+                              color: #2b125a;
+                              font-size: 1.1em;
+                            }
+                          `}
+                        >
+                          <span className="sp1">{key}:</span>
+                          <span className="sp2">
+                            {/* @ts-ignore */}
+                            {shippingInfo[key]}
+                          </span>
+                        </div>
+                      }
+                    />
                   </ListItem>
                 );
               })}
@@ -218,9 +241,45 @@ const SummaryList: FC = () => {
                       className={classes.nested}
                     >
                       <ListItemText
-                        primary={`${amount} x ${name} = $${(
-                          (amount as unknown as number) * price
-                        ).toFixed(2)}`}
+                        primary={
+                          <div
+                            css={css`
+                              display: flex;
+                              justify-content: space-between;
+
+                              & .sp1 {
+                                color: black;
+                              }
+
+                              & .sp2 {
+                                color: #2b125a;
+                                font-size: 1.1em;
+                              }
+
+                              & .name-sp {
+                                margin-left: 10px;
+                                display: inline-block;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                width: 120px;
+                                /* border: #cac9c9 solid 1px; */
+                                max-height: 1.2em;
+                              }
+                            `}
+                          >
+                            <span className="sp1">
+                              <span>{`${amount} x`}</span>
+                              <span className="name-sp">{name}</span>
+                            </span>
+                            <span className="sp2">
+                              $
+                              {((amount as unknown as number) * price).toFixed(
+                                2
+                              )}
+                            </span>
+                          </div>
+                        }
                       />
                     </ListItem>
                   );
@@ -230,7 +289,16 @@ const SummaryList: FC = () => {
           </Collapse>
         </List>
       )}
-      ${total}
+      <span
+        css={css`
+          margin-top: 18px;
+          font-size: 1.2em;
+          font-weight: 600;
+        `}
+      >
+        total:
+      </span>
+      <h2>${total}</h2>
     </Fragment>
   );
 };
