@@ -5,6 +5,8 @@ import { jsx, css } from "@emotion/react";
 import { useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
 
+import { useRouter } from "next/router";
+
 import {
   makeStyles,
   Theme,
@@ -56,6 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SummaryList: FC = () => {
+  const { push } = useRouter();
+
   const classes = useStyles();
   const [shOpen, setShOpen] = useState(true);
   const [paOpen, setPaOpen] = useState(false);
@@ -72,20 +76,40 @@ const SummaryList: FC = () => {
   });
 
   useEffect(() => {
-    setCart(CartStore.getCart());
+    const ca = CartStore.getCart();
 
     const pM = Cookies.get(PAYMENT_METHOD);
 
-    if (pM) {
-      setPaymentMethod(pM);
+    const sI = Cookies.get(SHIPPING_DATA);
+
+    // IF ANY OF THESE PRAMETERS IS MISSING, WE SHOUD REDDIRECT TO INDEX PAGE
+    // I'M NOT GOING TO SHOW ANY INFO TO THE USER
+    // BECAUSE I WANT TO END THSI PROJECT AS SOON AS POSSIBLE
+
+    if (ca) {
+      setCart(ca);
+
+      if (!Object.keys(ca).length) {
+        return push("/");
+      }
     }
 
-    const sI = Cookies.get(SHIPPING_DATA);
+    if (pM) {
+      setPaymentMethod(pM);
+
+      if (!pM.length) {
+        return push("/");
+      }
+    }
 
     if (sI) {
       setShippingInfo(JSON.parse(sI) as ShippingInfoI);
+
+      if (!Object.keys(JSON.parse(sI) as ShippingInfoI).length) {
+        return push("/");
+      }
     }
-  }, [setCart, setPaymentMethod, setShippingInfo]);
+  }, [setCart, setPaymentMethod, setShippingInfo, push]);
 
   const cartToArr = useCallback(() => {
     const arr = [];
