@@ -7,9 +7,6 @@ WE ALREADY SKAFFOLD IT
 WE BUILT AND HOOKED UP THIS
 
 ```
-cat
+cat components/7_place_order_page/SummaryList.tsx
 ```
 
-```
-cat
-```
