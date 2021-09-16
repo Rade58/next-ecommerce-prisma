@@ -157,6 +157,13 @@ const SummaryList: FC = () => {
     setCanRender(true);
   }, [setCanRender]);
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  const toto = formatter.format(total);
+
   return (
     <Fragment>
       {canRender && (
@@ -239,6 +246,17 @@ const SummaryList: FC = () => {
             <List component="div" disablePadding>
               {cartToArr().map(
                 ({ productId, amount, product: { name, price } }, i) => {
+                  let tot = ((amount as unknown as number) * price)
+                    .toFixed(2)
+                    .toString();
+
+                  const formatter = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  });
+
+                  tot = formatter.format(tot);
+
                   return (
                     <ListItem
                       key={`${i}-${i}-${productId}`}
@@ -294,12 +312,7 @@ const SummaryList: FC = () => {
                                 </MuLink>
                               </Link>
                             </span>
-                            <span className="sp2">
-                              $
-                              {((amount as unknown as number) * price).toFixed(
-                                2
-                              )}
-                            </span>
+                            <span className="sp2">{tot}</span>
                           </div>
                         }
                       />
@@ -320,7 +333,7 @@ const SummaryList: FC = () => {
       >
         total:
       </span>
-      <h2>${total}</h2>
+      <h2>{toto}</h2>
     </Fragment>
   );
 };
