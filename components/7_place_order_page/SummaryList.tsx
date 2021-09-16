@@ -64,8 +64,8 @@ const SummaryList: FC = () => {
 
   const classes = useStyles();
   const [shOpen, setShOpen] = useState(true);
-  const [paOpen, setPaOpen] = useState(false);
-  const [prOpen, setPrOpen] = useState(false);
+  const [paOpen, setPaOpen] = useState(true);
+  const [prOpen, setPrOpen] = useState(true);
 
   const [cart, setCart] = useState<CartRecord>({});
   const [paymentMethod, setPaymentMethod] = useState<string>("");
