@@ -60,6 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const SummaryList: FC = () => {
   const { push } = useRouter();
 
+  const [total, setTotal] = useState<number>(0);
+
   const classes = useStyles();
   const [shOpen, setShOpen] = useState(true);
   const [paOpen, setPaOpen] = useState(false);
@@ -123,6 +125,16 @@ const SummaryList: FC = () => {
 
     return arr;
   }, [cart]);
+
+  useEffect(() => {
+    let sum = 0;
+
+    for (const key in cart) {
+      sum = sum + (cart[key].amount as unknown as number) * cart[key].price;
+    }
+
+    setTotal(sum);
+  }, [cart, setTotal]);
 
   const shippingKeys = Object.keys(shippingInfo);
 
@@ -218,6 +230,7 @@ const SummaryList: FC = () => {
           </Collapse>
         </List>
       )}
+      ${total}
     </Fragment>
   );
 };
