@@ -276,13 +276,20 @@ const SummaryList: FC = () => {
                                 max-width: 120px;
                                 /* border: #cac9c9 solid 1px; */
                                 max-height: 1.3em;
+
+                                color: #436497;
+
+                                &:hover {
+                                  color: #392d80;
+                                  text-decoration-line: underline;
+                                }
                               }
                             `}
                           >
                             <span className="sp1">
                               <span>{`${amount} x`}</span>
-                              <Link href={`/product/productId`} passHref>
-                                <MuLink>
+                              <Link href={`/products/${productId}`} passHref>
+                                <MuLink component="button" variant="body2">
                                   <span className="name-sp">{name}</span>
                                 </MuLink>
                               </Link>
