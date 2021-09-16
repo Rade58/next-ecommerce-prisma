@@ -7,6 +7,8 @@ import type { FC } from "react";
 
 import { useRouter } from "next/router";
 
+import Link from "next/link";
+
 import {
   makeStyles,
   Theme,
@@ -17,6 +19,7 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
+  Link as MuLink,
 } from "@material-ui/core";
 
 import {
@@ -185,6 +188,7 @@ const SummaryList: FC = () => {
                           css={css`
                             display: flex;
                             justify-content: space-between;
+                            flex-wrap: wrap;
 
                             & .sp1 {
                               color: black;
@@ -246,14 +250,21 @@ const SummaryList: FC = () => {
                             css={css`
                               display: flex;
                               justify-content: space-between;
+                              flex-wrap: wrap;
 
                               & .sp1 {
                                 color: black;
+                                display: flex;
+                                font-size: 0.9em;
+
+                                & > sapn {
+                                  word-wrap: nowrap;
+                                }
                               }
 
                               & .sp2 {
                                 color: #2b125a;
-                                font-size: 1.1em;
+                                font-size: 1em;
                               }
 
                               & .name-sp {
@@ -262,15 +273,19 @@ const SummaryList: FC = () => {
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 white-space: nowrap;
-                                width: 120px;
+                                max-width: 120px;
                                 /* border: #cac9c9 solid 1px; */
-                                max-height: 1.2em;
+                                max-height: 1.3em;
                               }
                             `}
                           >
                             <span className="sp1">
                               <span>{`${amount} x`}</span>
-                              <span className="name-sp">{name}</span>
+                              <Link href={`/product/productId`} passHref>
+                                <MuLink>
+                                  <span className="name-sp">{name}</span>
+                                </MuLink>
+                              </Link>
                             </span>
                             <span className="sp2">
                               $
