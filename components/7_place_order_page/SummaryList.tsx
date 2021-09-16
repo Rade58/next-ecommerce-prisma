@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
 
 import {
@@ -87,6 +87,18 @@ const SummaryList: FC = () => {
     }
   }, [setCart, setPaymentMethod, setShippingInfo]);
 
+  const cartToArr = useCallback(() => {
+    const arr = [];
+
+    for (const key in cart) {
+      arr.push(cart[key]);
+    }
+
+    return arr;
+  }, [cart]);
+
+  const shippingKeys = Object.keys(shippingInfo);
+
   const handleShClick = () => {
     setShOpen(!shOpen);
   };
@@ -117,12 +129,14 @@ const SummaryList: FC = () => {
       </ListItem>
       <Collapse in={shOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItem>
+          {shippingKeys.map((key) => {
+            return (
+              <ListItem key={key} className={classes.nested}>
+                {/* @ts-ignore */}
+                <ListItemText primary={`${key}: ${shippingInfo[key]}`} />
+              </ListItem>
+            );
+          })}
         </List>
       </Collapse>
       <ListItem button onClick={handlePaClick}>
@@ -135,10 +149,7 @@ const SummaryList: FC = () => {
       <Collapse in={paOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
+            <ListItemText primary={paymentMethod} />
           </ListItem>
         </List>
       </Collapse>
@@ -152,12 +163,16 @@ const SummaryList: FC = () => {
 
       <Collapse in={prOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItem>
+          {cartToArr().map(({ productId, amount, product: { name } }, i) => {
+            return (
+              <ListItem
+                key={`${i}-${i}-${productId}`}
+                className={classes.nested}
+              >
+                <ListItemText primary={`${amount} x ${name}`} />
+              </ListItem>
+            );
+          })}
         </List>
       </Collapse>
     </List>
