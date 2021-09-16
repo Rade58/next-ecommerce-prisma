@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FC } from "react";
 
 import {
@@ -18,13 +18,28 @@ import {
 } from "@material-ui/core";
 
 import {
-  MoveToInbox as InboxIcon,
-  Drafts as DraftsIcon,
-  Send as SendIcon,
-  ExpandLess as ExpandLess,
-  ExpandMore as ExpandMore,
-  StarBorder as StarBorder,
+  ExpandLess,
+  ExpandMore,
+  StarBorder,
+  LocalShippingRounded,
+  PaymentRounded,
+  Cake,
 } from "@material-ui/icons";
+
+import Cookies from "js-cookie";
+
+import { SHIPPING_DATA } from "../5_shipping_page/ShippingForm";
+import { PAYMENT_METHOD } from "../6_payment_page/PaymentForm";
+import CartStore from "../../lib/cart-cookies";
+import type { CartRecord } from "../../lib/cart-cookies";
+
+interface ShippingInfoI {
+  address: string;
+  city: string;
+  country: string;
+  fullName: string;
+  postalCode: string;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
+      marginTop: "10vh",
     },
     nested: {
       paddingLeft: theme.spacing(4),
@@ -41,10 +57,44 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SummaryList: FC = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [shOpen, setShOpen] = useState(true);
+  const [paOpen, setPaOpen] = useState(false);
+  const [prOpen, setPrOpen] = useState(false);
 
-  const handleClick = () => {
-    setOpen(!open);
+  const [cart, setCart] = useState<CartRecord>({});
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfoI>({
+    address: "",
+    city: "",
+    country: "",
+    fullName: "",
+    postalCode: "",
+  });
+
+  useEffect(() => {
+    setCart(CartStore.getCart());
+
+    const pM = Cookies.get(PAYMENT_METHOD);
+
+    if (pM) {
+      setPaymentMethod(pM);
+    }
+
+    const sI = Cookies.get(SHIPPING_DATA);
+
+    if (sI) {
+      setShippingInfo(JSON.parse(sI) as ShippingInfoI);
+    }
+  }, [setCart, setPaymentMethod, setShippingInfo]);
+
+  const handleShClick = () => {
+    setShOpen(!shOpen);
+  };
+  const handlePaClick = () => {
+    setPaOpen(!paOpen);
+  };
+  const handlePrClick = () => {
+    setPrOpen(!prOpen);
   };
 
   return (
@@ -53,33 +103,56 @@ const SummaryList: FC = () => {
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
+          Order Summary
         </ListSubheader>
       }
       className={classes.root}
     >
-      <ListItem button>
+      <ListItem button onClick={handleShClick}>
         <ListItemIcon>
-          <SendIcon />
+          <LocalShippingRounded />
         </ListItemIcon>
-        <ListItemText primary="Sent mail" />
+        <ListItemText primary="Shipping Info" />
+        {shOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Drafts" />
-      </ListItem>
-      <ListItem button onClick={handleClick}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={shOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem className={classes.nested}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItem>
+        </List>
+      </Collapse>
+      <ListItem button onClick={handlePaClick}>
+        <ListItemIcon>
+          <PaymentRounded />
+        </ListItemIcon>
+        <ListItemText primary="Payment Method" />
+        {paOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={paOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem className={classes.nested}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItem>
+        </List>
+      </Collapse>
+      <ListItem button onClick={handlePrClick}>
+        <ListItemIcon>
+          <Cake />
+        </ListItemIcon>
+        <ListItemText primary="Products" />
+        {prOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+
+      <Collapse in={prOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem className={classes.nested}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
