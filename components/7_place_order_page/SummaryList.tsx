@@ -246,9 +246,7 @@ const SummaryList: FC = () => {
             <List component="div" disablePadding>
               {cartToArr().map(
                 ({ productId, amount, product: { name, price } }, i) => {
-                  let tot = ((amount as unknown as number) * price)
-                    .toFixed(2)
-                    .toString();
+                  let tot = ((amount as unknown as number) * price).toFixed(2);
 
                   const formatter = new Intl.NumberFormat("en-US", {
                     style: "currency",
