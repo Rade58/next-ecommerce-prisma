@@ -253,7 +253,7 @@ const SummaryList: FC = () => {
                     currency: "USD",
                   });
 
-                  tot = formatter.format(tot);
+                  tot = formatter.format(parseFloat(tot));
 
                   return (
                     <ListItem
