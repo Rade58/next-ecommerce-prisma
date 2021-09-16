@@ -38,6 +38,16 @@ import { PAYMENT_METHOD } from "../6_payment_page/PaymentForm";
 import CartStore from "../../lib/cart-cookies";
 import type { CartRecord } from "../../lib/cart-cookies";
 
+export const TAX_PRICE_KEY = "TAX_PRICE_KEY";
+
+const TAX_PRICE = 20;
+
+export const STORAGE_KEYS = {
+  SHIPPING_DATA: SHIPPING_DATA,
+  PAYMENT_METHOD: PAYMENT_METHOD,
+  TAX_PRICE_KEY: TAX_PRICE_KEY,
+};
+
 interface ShippingInfoI {
   address: string;
   city: string;
