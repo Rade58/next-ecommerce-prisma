@@ -90,7 +90,8 @@ const SummaryList: FC = () => {
       setCart(ca);
 
       if (!Object.keys(ca).length) {
-        return push("/");
+        push("/");
+        return;
       }
     }
 
@@ -98,7 +99,8 @@ const SummaryList: FC = () => {
       setPaymentMethod(pM);
 
       if (!pM.length) {
-        return push("/");
+        push("/");
+        return;
       }
     }
 
@@ -106,7 +108,8 @@ const SummaryList: FC = () => {
       setShippingInfo(JSON.parse(sI) as ShippingInfoI);
 
       if (!Object.keys(JSON.parse(sI) as ShippingInfoI).length) {
-        return push("/");
+        push("/");
+        return;
       }
     }
   }, [setCart, setPaymentMethod, setShippingInfo, push]);
