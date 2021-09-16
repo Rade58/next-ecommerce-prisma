@@ -25,7 +25,7 @@ import {
   StarBorder,
   LocalShippingRounded,
   PaymentRounded,
-  Cake,
+  ShoppingBasket,
 } from "@material-ui/icons";
 
 import Cookies from "js-cookie";
@@ -190,9 +190,9 @@ const SummaryList: FC = () => {
           </Collapse>
           <ListItem button onClick={handlePrClick}>
             <ListItemIcon>
-              <Cake />
+              <ShoppingBasket />
             </ListItemIcon>
-            <ListItemText primary="Products" />
+            <ListItemText primary="Cart" />
             {prOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
@@ -206,8 +206,8 @@ const SummaryList: FC = () => {
                       className={classes.nested}
                     >
                       <ListItemText
-                        primary={`${amount} x ${name} = $${parseFloat(
-                          amount * price
+                        primary={`${amount} x ${name} = $${(
+                          (amount as unknown as number) * price
                         ).toFixed(2)}`}
                       />
                     </ListItem>
