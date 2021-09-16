@@ -40,6 +40,7 @@ import type { CartRecord } from "../../lib/cart-cookies";
 
 const TAX_PRICE_KEY = "TAX_PRICE_KEY";
 const SHIPPING_PRICE_KEY = "SHIPPING_PRICE_KEY";
+const TOTAL_PRICE_KEY = "TOTAL_PRICE_KEY";
 
 const TAX_PRICE = 20.99;
 const SHIPPING_PRICE = 10.99;
@@ -47,8 +48,9 @@ const SHIPPING_PRICE = 10.99;
 export const STORAGE_KEYS = {
   SHIPPING_DATA: SHIPPING_DATA,
   PAYMENT_METHOD: PAYMENT_METHOD,
-  TAX_PRICE_KEY: TAX_PRICE_KEY,
+  TAX_PRICE_KEY,
   SHIPPING_PRICE_KEY,
+  TOTAL_PRICE_KEY,
 };
 
 interface ShippingInfoI {
@@ -178,6 +180,14 @@ const SummaryList: FC = () => {
     style: "currency",
     currency: "USD",
   });
+
+  // SETTING ALL THE DATA INSIDE COOKIE
+
+  useEffect(() => {
+    if (!total) return;
+
+    Cookies.set(TOTAL_PRICE_KEY, total.toFixed(2));
+  }, [total]);
 
   const toto = formatter.format(total);
 
@@ -343,6 +353,7 @@ const SummaryList: FC = () => {
         css={css`
           display: flex;
           flex-direction: column;
+          margin: 20px 5px;
 
           & div {
             display: flex;
