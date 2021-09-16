@@ -41,8 +41,8 @@ import type { CartRecord } from "../../lib/cart-cookies";
 const TAX_PRICE_KEY = "TAX_PRICE_KEY";
 const SHIPPING_PRICE_KEY = "SHIPPING_PRICE_KEY";
 
-const TAX_PRICE = 20;
-const SHIPPING_PRICE = 10;
+const TAX_PRICE = 20.99;
+const SHIPPING_PRICE = 10.99;
 
 export const STORAGE_KEYS = {
   SHIPPING_DATA: SHIPPING_DATA,
@@ -150,6 +150,8 @@ const SummaryList: FC = () => {
     }
 
     // WE SHOULD ALSO ADD TAX PRICE, AND SHIPPING PRICE
+
+    sum = sum + SHIPPING_PRICE + TAX_PRICE;
 
     setTotal(sum);
   }, [cart, setTotal]);
@@ -337,6 +339,27 @@ const SummaryList: FC = () => {
           </Collapse>
         </List>
       )}
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+
+          & div {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+          }
+        `}
+      >
+        <div className="ship-pr">
+          <span>Shippment cost:</span>
+          <span>{formatter.format(SHIPPING_PRICE)}</span>
+        </div>
+        <div className="tax-pr">
+          <span>Tax price:</span>
+          <span>{formatter.format(TAX_PRICE)}</span>
+        </div>
+      </div>
       <span
         css={css`
           margin-top: 18px;
