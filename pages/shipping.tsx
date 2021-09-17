@@ -31,10 +31,6 @@ interface PropsI {
   };
 }
 
-/* type paramsType = {
-  siteId: string;
-}; */
-
 export const getServerSideProps: GetServerSideProps<
   PropsI | { nothing: true }
 > = async (ctx) => {
