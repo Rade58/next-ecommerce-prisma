@@ -18,6 +18,37 @@ handler.post(async (req, res) => {
   // AGAIN WE NEED TO CALCULATE AND WE WILL STORE TOTAL PRICE ON
   // ORDER OBJECT
 
+  const productsArr = [];
+
+  let total: number = 0;
+
+  total = total + shippingPrice;
+
+  for (const key in cart) {
+    if (typeof key === "string") {
+      productsArr.push(cart[key]);
+
+      total =
+        total +
+        cart[key].price * cart[key].amount +
+        (15 / (100 / cart[key].price)) * cart[key].amount;
+    }
+  }
+
+  // FIRST WE WILL CREATE ORDER
+  const order = await prismaClient.order.create({
+    data: {
+      buyer: {
+        connect: {
+          id: buyerId,
+        },
+      },
+    },
+  });
+
+  // ORDER ELEMENTS
+  // THEY ARE TIEING IN INFO ABOUT PRODUCT AND QUANTITY
+
   try {
     const data = "";
 
