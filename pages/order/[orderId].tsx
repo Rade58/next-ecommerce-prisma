@@ -34,7 +34,7 @@ const OrderPage: NP<PropsI> = (props) => {
 
   return (
     <div>
-      <h1>Order ID: {query.siteId}</h1>
+      <h1>Order ID: {query.orderId}</h1>
     </div>
   );
 };
