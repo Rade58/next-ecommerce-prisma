@@ -13,7 +13,7 @@ import Link from "next/link";
 
 import axios from "axios";
 
-import type { Profile } from "@prisma/client";
+import type { Profile, Order } from "@prisma/client";
 
 import {
   makeStyles,
@@ -107,6 +107,8 @@ const SummaryList: FC = () => {
   const [paOpen, setPaOpen] = useState(true);
   const [prOpen, setPrOpen] = useState(true);
 
+  const [order, setOrder] = useState<Order | null>(null);
+
   const [cart, setCart] = useState<CartRecord>({});
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [shippingInfo, setShippingInfo] = useState<ShippingInfoI>({
@@ -140,7 +142,13 @@ const SummaryList: FC = () => {
 
       // SEND REQUEST, TO CREATE ORDER RECORD
 
-      const { data } = await axios.post(`/api/order`, body);
+      const { data: order } = await axios.post(`/api/order`, body);
+
+      // WE SHOULD GET ORDER BACK IN RETURN
+
+      console.log({ order });
+
+      setOrder(order as Order);
 
       setPlacingOrderReqStatus("idle");
     } catch (error) {
@@ -152,7 +160,7 @@ const SummaryList: FC = () => {
     }
 
     console.log("placing order");
-  }, [setPlacingOrderReqStatus, session, cart, paymentMethod]);
+  }, [setPlacingOrderReqStatus, setOrder, session, cart, paymentMethod]);
 
   useEffect(() => {
     const ca = CartStore.getCart();
