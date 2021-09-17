@@ -56,6 +56,11 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
+
+  const cookies = ctx.req.cookies;
+
+  console.log({ cookies });
+
   return {
     props: {
       placeholder: true,

@@ -1,6 +1,7 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
+import { useState } from "react";
 import { Order, Profile, OrderElement } from "@prisma/client";
 import { useRouter } from "next/router";
 
@@ -33,6 +34,10 @@ export const getServerSideProps: GetServerSideProps<
   const { params } = ctx;
 
   const orderId = params?.orderId || "";
+
+  const cookies = ctx.req.cookies;
+
+  console.log({ cookies });
 
   const order = await prismaClient.order.findUnique({
     where: {
