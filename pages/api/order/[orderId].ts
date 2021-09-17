@@ -14,6 +14,10 @@ handler.get(async (req, res) => {
       where: {
         id: id as string,
       },
+      include: {
+        buyer: true,
+        items: true,
+      },
     });
 
     return res.status(200).send(order);

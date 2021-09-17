@@ -74,7 +74,7 @@ handler.post(async (req, res) => {
       });
     }
 
-    return res.status(200).send(order);
+    return res.status(201).send(order);
   } catch (err) {
     console.error(err);
     return res.status(400).send("Something went wrong");
