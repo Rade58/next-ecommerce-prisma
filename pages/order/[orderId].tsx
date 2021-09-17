@@ -5,6 +5,8 @@ import { Order, Profile, OrderElement } from "@prisma/client";
 import { useRouter } from "next/router";
 import prismaClient from "../../lib/prisma";
 
+import Layout from "../../components/8_order_page/Layout";
+
 interface PropsI {
   order: Order & {
     buyer: Profile;
@@ -58,12 +60,14 @@ const OrderPage: NP<PropsI> = (props) => {
   console.log(props);
 
   return (
-    <div>
-      <h1>Order ID: {query.orderId}</h1>
+    <Layout>
       <div>
-        <pre>{JSON.stringify(props, null, 2)}</pre>
+        <h1>Order ID: {query.orderId}</h1>
+        <div>
+          <pre>{JSON.stringify(props, null, 2)}</pre>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
