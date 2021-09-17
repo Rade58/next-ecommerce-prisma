@@ -37,6 +37,8 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   if (!order) {
+    ctx.res.writeHead(302, { Location: "/" });
+
     return {
       props: {
         ok: false,
