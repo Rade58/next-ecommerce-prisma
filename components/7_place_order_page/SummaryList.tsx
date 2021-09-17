@@ -7,7 +7,13 @@ import type { FC } from "react";
 
 import { useRouter } from "next/router";
 
+import { useSession } from "next-auth/client";
+
 import Link from "next/link";
+
+import axios from "axios";
+
+import type { Profile } from "@prisma/client";
 
 import {
   makeStyles,
@@ -63,6 +69,13 @@ interface ShippingInfoI {
   postalCode: string;
 }
 
+export interface BodyDataI {
+  buyerId: string;
+  cart: CartRecord;
+  taxPrice: number;
+  shippingPrice: number;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -78,6 +91,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SummaryList: FC = () => {
+  const [session, loading] = useSession();
+
   const { push } = useRouter();
 
   const [placingOrderReqStatus, setPlacingOrderReqStatus] = useState<
@@ -104,10 +119,26 @@ const SummaryList: FC = () => {
   const handlePlacingOrder = useCallback(async () => {
     //
 
+    if (!session) return;
+
+    const profile = session.profile as Profile;
+
+    if (!profile) return;
+
     try {
+      const body: BodyDataI = {
+        buyerId: profile.id,
+        cart: cart,
+        shippingPrice: SHIPPING_PRICE,
+        taxPrice: TAX_PRICE,
+        //
+      };
+
       setPlacingOrderReqStatus("pending");
 
       // SEND REQUEST, TO CREATE ORDER RECORD
+
+      const { data } = await axios.post(`/api/order`, body);
 
       setPlacingOrderReqStatus("idle");
     } catch (error) {
@@ -119,7 +150,7 @@ const SummaryList: FC = () => {
     }
 
     console.log("placing order");
-  }, [total, setPlacingOrderReqStatus]);
+  }, [total, setPlacingOrderReqStatus, session, cart]);
 
   useEffect(() => {
     const ca = CartStore.getCart();
