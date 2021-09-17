@@ -1,41 +1,54 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
-
+import { Order, Profile, OrderElement } from "@prisma/client";
+import { useRouter } from "next/router";
 import prismaClient from "../../lib/prisma";
 
-import { useRouter } from "next/router";
-
 interface PropsI {
-  placeholder: boolean;
+  order: Order & {
+    buyer: Profile;
+    items: OrderElement[];
+  };
 }
 
 type paramsType = {
   orderId: string;
 };
 
-export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
-  async (ctx) => {
-    const { params } = ctx;
+export const getServerSideProps: GetServerSideProps<
+  PropsI | { ok: boolean },
+  paramsType
+> = async (ctx) => {
+  const { params } = ctx;
 
-    const orderId = params?.orderId || "";
+  const orderId = params?.orderId || "";
 
-    const order = prismaClient.order.findUnique({
-      where: {
-        id: orderId,
-      },
-      include: {
-        buyer: true,
-        items: true,
-      },
-    });
+  const order = await prismaClient.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    include: {
+      buyer: true,
+      items: true,
+    },
+  });
 
+  if (order) {
     return {
       props: {
-        placeholder: true,
+        ok: false,
       },
     };
+  }
+
+  return {
+    props: {
+      order,
+      ok: true,
+    },
   };
+};
 
 const OrderPage: NP<PropsI> = (props) => {
   //
@@ -47,6 +60,9 @@ const OrderPage: NP<PropsI> = (props) => {
   return (
     <div>
       <h1>Order ID: {query.orderId}</h1>
+      <div>
+        <pre>{JSON.stringify(props, null, 2)}</pre>
+      </div>
     </div>
   );
 };
