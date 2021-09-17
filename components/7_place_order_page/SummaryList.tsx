@@ -74,6 +74,7 @@ export interface BodyDataI {
   cart: CartRecord;
   taxPrice: number;
   shippingPrice: number;
+  paymentMethod: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -131,6 +132,7 @@ const SummaryList: FC = () => {
         cart: cart,
         shippingPrice: SHIPPING_PRICE,
         taxPrice: TAX_PRICE,
+        paymentMethod,
         //
       };
 
@@ -150,7 +152,7 @@ const SummaryList: FC = () => {
     }
 
     console.log("placing order");
-  }, [total, setPlacingOrderReqStatus, session, cart]);
+  }, [setPlacingOrderReqStatus, session, cart, paymentMethod]);
 
   useEffect(() => {
     const ca = CartStore.getCart();
