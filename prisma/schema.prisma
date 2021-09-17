@@ -173,6 +173,8 @@ model Order {
 
   taxPrice Float? @default(0.0)
 
+  totalPrice Float?
+
   paymentMethod String?
 
   // PAYPAL RELATED
