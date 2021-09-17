@@ -2,6 +2,8 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
+import prismaClient from "../../lib/prisma";
+
 import { useRouter } from "next/router";
 
 interface PropsI {
@@ -16,7 +18,17 @@ export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
   async (ctx) => {
     const { params } = ctx;
 
-    params?.orderId; //
+    const orderId = params?.orderId || "";
+
+    const order = prismaClient.order.findUnique({
+      where: {
+        id: orderId,
+      },
+      include: {
+        buyer: true,
+        items: true,
+      },
+    });
 
     return {
       props: {
