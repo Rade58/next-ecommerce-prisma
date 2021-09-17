@@ -187,6 +187,13 @@ const Header: FC = () => {
 
   const [xState, dispatch] = useActor(cartService);
 
+  const { asPath } = useRouter();
+
+  const canRenderProfile =
+    asPath !== "/shipping" &&
+    asPath !== "/payment" &&
+    asPath !== "/place-order";
+
   return (
     <AppBar position="sticky" color="primary">
       <Toolbar color="primary">
@@ -248,22 +255,30 @@ const Header: FC = () => {
           `}
         >
           {session ? (
-            <ProfileMenu
-              profileId={profId || ""}
-              email={session.user?.email}
-              name={session.user?.name}
-            />
+            <Fragment>
+              {canRenderProfile && (
+                <ProfileMenu
+                  profileId={profId || ""}
+                  email={session.user?.email}
+                  name={session.user?.name}
+                />
+              )}
+            </Fragment>
           ) : (
-            <Button
-              className="signin"
-              onClick={() => Router.push("/signin")}
-              color="secondary"
-              variant="contained"
-              disabled={loading}
-              size="small"
-            >
-              Login
-            </Button>
+            <Fragment>
+              {canRenderProfile && (
+                <Button
+                  className="signin"
+                  onClick={() => Router.push("/signin")}
+                  color="secondary"
+                  variant="contained"
+                  disabled={loading}
+                  size="small"
+                >
+                  Login
+                </Button>
+              )}
+            </Fragment>
           )}
 
           {session &&

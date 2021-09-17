@@ -3,6 +3,14 @@
 import type { GetServerSideProps, NextPage as NP } from "next";
 import { Order, Profile, OrderElement } from "@prisma/client";
 import { useRouter } from "next/router";
+
+import Cookies from "js-cookie";
+
+import Router from "next/router";
+import { SHIPPING_DATA } from "../../components/5_shipping_page/ShippingForm";
+
+import { PAYMENT_METHOD } from "../../components/6_payment_page/PaymentForm";
+
 import prismaClient from "../../lib/prisma";
 
 import Layout from "../../components/8_order_page/Layout";
@@ -60,6 +68,20 @@ const OrderPage: NP<PropsI> = (props) => {
   const { query } = useRouter();
 
   console.log(props);
+
+  const shippingData = Cookies.get(SHIPPING_DATA);
+  const paymentMethod = Cookies.get(PAYMENT_METHOD);
+
+  if (!shippingData) {
+    Router.push("/shipping");
+
+    return null;
+  }
+  if (!paymentMethod) {
+    Router.push("/payment");
+
+    return null;
+  }
 
   return (
     <Layout>

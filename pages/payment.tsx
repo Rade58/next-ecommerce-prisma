@@ -5,7 +5,13 @@ import type { GetServerSideProps, NextPage as NP } from "next";
 import { getSession } from "next-auth/client";
 import type { Profile } from "@prisma/client";
 
+import Cookies from "js-cookie";
+
+import Router from "next/router";
+
 import prismaClient from "../lib/prisma";
+
+import { SHIPPING_DATA } from "../components/5_shipping_page/ShippingForm";
 
 import Layout from "../components/6_payment_page/Layout";
 
@@ -65,6 +71,14 @@ const PaymentPage: NP<PropsI> = (props) => {
   //
 
   console.log(props);
+
+  const shippingData = Cookies.get(SHIPPING_DATA);
+
+  if (!shippingData) {
+    Router.push("/shipping");
+
+    return null;
+  }
 
   return (
     <div>
