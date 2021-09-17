@@ -109,7 +109,7 @@ const SummaryList: FC = () => {
 
       // SEND REQUEST
 
-      setPlacingOrderReqStatus;
+      setPlacingOrderReqStatus("idle");
     } catch (error) {
       setPlacingOrderReqStatus("failed");
 
