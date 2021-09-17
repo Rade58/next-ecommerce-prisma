@@ -36,7 +36,7 @@ interface PropsI {
 }; */
 
 export const getServerSideProps: GetServerSideProps<
-  PropsI | { nothing: true } /* , paramsType */
+  PropsI | { nothing: true }
 > = async (ctx) => {
   const session = await getSession({
     req: ctx.req,
