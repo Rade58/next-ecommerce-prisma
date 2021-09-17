@@ -196,6 +196,8 @@ const SummaryList: FC = () => {
     if (!total) return;
 
     Cookies.set(TOTAL_PRICE_KEY, total.toFixed(2));
+    Cookies.set(SHIPPING_PRICE_KEY, SHIPPING_PRICE);
+    Cookies.set(TAX_PRICE_KEY, TAX_PRICE);
   }, [total]);
 
   const toto = formatter.format(total);
