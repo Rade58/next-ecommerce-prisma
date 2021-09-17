@@ -145,7 +145,9 @@ const SummaryList: FC = () => {
       const { data: order } = await axios.post(`/api/order`, body);
 
       // WE SHOULD GET ORDER BACK IN RETURN
-      // AND I'M GOING TO SET IT AS STATE
+      // AND I'M GOING TO SET IT AS STATE (BUT I DON'T THINK WE
+      // WILL NEED THE ENTIRE ORDER RECORD ON THIS PAGE)
+      // SINCE WE ARE GOING TO NAVIGATE TO ORDER PAGE
 
       console.log({ order });
 
@@ -162,6 +164,12 @@ const SummaryList: FC = () => {
 
     console.log("placing order");
   }, [setPlacingOrderReqStatus, setOrder, session, cart, paymentMethod]);
+
+  useEffect(() => {
+    if (order) {
+      push(`/order/${order.id}`);
+    }
+  }, [order, push]);
 
   useEffect(() => {
     const ca = CartStore.getCart();
