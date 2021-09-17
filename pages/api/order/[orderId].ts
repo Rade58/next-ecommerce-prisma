@@ -7,12 +7,16 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 
 // GETTING ORDER
 handler.get(async (req, res) => {
-  const { orderId } = req.query;
+  const { orderId: id } = req.query;
 
   try {
-    const data = "";
+    const order = prismaClient.order.findUnique({
+      where: {
+        id: id as string,
+      },
+    });
 
-    return res.status(200).send(data);
+    return res.status(200).send(order);
   } catch (err) {
     console.error(err);
     return res.status(400).send("Something went wrong");

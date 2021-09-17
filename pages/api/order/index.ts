@@ -62,11 +62,14 @@ handler.post(async (req, res) => {
     // WE WILL CREATE ORDER ELEMENTS AND CONNECT THEM TO THE ORDER
 
     for (let item of cartArr) {
-      const orderElement = await prismaClient.orderElement.create({
+      await prismaClient.orderElement.create({
         data: {
           quantity: item.amount,
           productId: item.productId,
           orderId: order.id,
+        },
+        select: {
+          id: true,
         },
       });
     }
