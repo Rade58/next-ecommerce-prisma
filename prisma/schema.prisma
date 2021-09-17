@@ -171,6 +171,10 @@ model Order {
   status      OrderStatus    @default(PENDING)
   isDelivered Boolean        @default(false)
 
+  taxPrice Float? @default(0.0)
+
+  paymentMethod String?
+
   // PAYPAL RELATED
   paymentResult   PaymentResult? @relation(fields: [paymentResultId], references: [paymentId])
   //
@@ -197,7 +201,7 @@ model Profile {
   postalCode    String?
   country       String?
   paymentMethod String?
-  taxPrice      Float?  @default(0.0)
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
