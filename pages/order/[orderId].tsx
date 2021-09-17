@@ -9,14 +9,14 @@ interface PropsI {
 }
 
 type paramsType = {
-  siteId: string;
+  orderId: string;
 };
 
 export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
   async (ctx) => {
     const { params } = ctx;
 
-    params?.siteId; //
+    params?.orderId; //
 
     return {
       props: {
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<PropsI, paramsType> =
     };
   };
 
-const Page: NP<PropsI> = (props) => {
+const OrderPage: NP<PropsI> = (props) => {
   //
 
   const { query } = useRouter();
@@ -39,4 +39,4 @@ const Page: NP<PropsI> = (props) => {
   );
 };
 
-export default Page;
+export default OrderPage;
