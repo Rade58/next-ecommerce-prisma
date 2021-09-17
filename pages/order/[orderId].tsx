@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<
     },
   });
 
-  if (order) {
+  if (!order) {
     return {
       props: {
         ok: false,
