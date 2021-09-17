@@ -59,6 +59,7 @@ export const STORAGE_KEYS = {
   TAX_PRICE_KEY,
   SHIPPING_PRICE_KEY,
   TOTAL_PRICE_KEY,
+  EXP_TIME: "EXP_TIME",
 };
 
 interface ShippingInfoI {

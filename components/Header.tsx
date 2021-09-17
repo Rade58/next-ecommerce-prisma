@@ -168,60 +168,6 @@ const Header: FC = () => {
 
   const [profId, setProfId] = useState<string>("");
 
-  // DO THINGS NOW ONLY IF YOU LANDED ON SIGNIN PAGE
-  // const [stateSh, dispatchSh] = useActor(shippingNavService);
-
-  /*  useEffect(() => {
-    // ONLI FOR THE      intended_to_go_to_shipping
-
-    if (stateSh.context.intended_to_go_to_shipping) {
-      // ONLY FOR THE     /signin      PAGE
-
-      debugger;
-
-      if (Router.asPath === "/signin" || Router.asPath === "/") {
-        // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
-
-        // ON AFTER WE NEED TO REDIRECT TO SHIPPING PAGE
-        // WE NEED TO DISPATCH SIGNIN EVENT WHE USER SIGNS IN
-
-        if (stateSh.value === fsee.landed_on_signin_before_auth) {
-          if (session) {
-            dispatchSh({
-              type: EEE.MARK_SIGNED_IN,
-              payload: true,
-            });
-          }
-        }
-      }
-    }
-  }, [Router, Router.asPath, session, stateSh, dispatchSh]);
-  useEffect(() => {
-    // ONLI FOR THE      intended_to_go_to_shipping
-
-    if (stateSh.context.intended_to_go_to_shipping) {
-      // ONLY FOR THE     /signin      PAGE
-
-      debugger;
-
-      if (Router.asPath === "/signin" || Router.asPath === "/") {
-        // WE HAVE TWO CASES BEFORE SIGNIN OR AFTER
-
-        // ON AFTER WE NEED TO REDIRECT TO SHIPPING PAGE
-
-        // HERE WE DO THE REDIRECT
-
-        if (stateSh.value === fsee.landed_on_signin_after_auth) {
-          debugger;
-
-          if (session) {
-            Router.push("/shipping");
-          }
-        }
-      }
-    }
-  }, [Router, Router.asPath, session, stateSh, dispatchSh]); */
-
   useEffect(() => {
     if (session) {
       setProfId((session?.profile as { id: string }).id as string);
@@ -241,39 +187,6 @@ const Header: FC = () => {
   }, [session, Router]);
 
   const [xState, dispatch] = useActor(cartService);
-
-  // DISPATCHING TICKING EVENT (HERE AND NOT INSIDE CART
-  //  BECAUSE WE MOUNT AND UNMOUNT CART WHEN WE CLOSE/OPEN DRAWER)
-  /* useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch({
-        type: EE.TICK,
-      });
-    }, 8000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [dispatch]); */
-  //
-
-  /* const [intention, setIntention] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if (intention) return;
-
-    console.log(Router.asPath);
-
-    if (Router.asPath.includes("/veryify-email-info")) return;
-
-    const a = CookieStore.checkShippingNavIntent();
-
-    if (a) {
-      setIntention("hello world");
-      CookieStore.deleteShippIntent;
-      Router.push("/shipping");
-    }
-  }, [Router, Router.asPath, intention, setIntention]); */
 
   return (
     <AppBar position="sticky" color="primary">
@@ -362,7 +275,6 @@ const Header: FC = () => {
                 isAdmin={(session as unknown as any)?.profile?.role === "ADMIN"}
               />
             )}
-          {/* -------------------------DRAWER ()------------------------ */}
 
           <TemporaryDrawer />
         </nav>

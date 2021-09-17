@@ -12,25 +12,25 @@ const Layout: FC = ({ children }) => {
 
   return (
     <Fragment>
-      {cleared ? (
-        <main>
-          <section
-            className="order-page-content"
-            css={css`
-              /* border: pink solid 2px; */
-              margin: 20px auto;
-              position: relative;
-              display: flex;
-              justify-content: center;
-              flex-direction: column;
-              width: 100%;
-              align-items: center;
-            `}
-          >
-            {children}
-          </section>
-        </main>
-      ) : null}
+      {/* {cleared ? ( */}
+      <main>
+        <section
+          className="order-page-content"
+          css={css`
+            /* border: pink solid 2px; */
+            margin: 20px auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+          `}
+        >
+          {children}
+        </section>
+      </main>
+      {/*) : null}*/}
     </Fragment>
   );
 };
