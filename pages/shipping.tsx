@@ -147,14 +147,15 @@ const ShippingPage: NP<PropsI> = (props) => {
     return null;
   }
 
-  const shippingData = Cookies.get(SHIPPING_DATA);
+  // THIS CAUSES INFINITE LOOP
+  /* const shippingData = Cookies.get(SHIPPING_DATA);
 
   if (!shippingData) {
     Router.push("/shipping");
 
     return null;
   }
-
+ */
   const { userData } = props;
 
   return <Layout userData={userData}>{/* Shipping */}</Layout>;

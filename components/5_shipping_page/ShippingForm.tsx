@@ -67,7 +67,7 @@ const ShippingForm: FC<PropsI> = (props) => {
 
   const [session, loading] = useSession();
 
-  const [state, dispatch] = useActor(cartService);
+  // const [state, dispatch] = useActor(cartService);
 
   const [shippingUpdateReqStatus, setShippingUpdateReqStatus] = useState<
     "idle" | "pending" | "rejected"
