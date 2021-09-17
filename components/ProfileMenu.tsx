@@ -84,8 +84,8 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ email, name, profileId }) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            handleClose();
             signOut();
+            handleClose();
           }}
         >
           Logout

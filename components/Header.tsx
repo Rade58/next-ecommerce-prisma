@@ -100,16 +100,16 @@ function TemporaryDrawer() {
   return (
     <div>
       <Fragment>
-        {/* {canRenderCartButton && ( */}
-        <Button
-          color="secondary"
-          variant="contained"
-          size="small"
-          onClick={openDrawer}
-        >
-          <ShopIcon />
-        </Button>
-        {/* )} */}
+        {canRenderCartButton && (
+          <Button
+            color="secondary"
+            variant="contained"
+            size="small"
+            onClick={openDrawer}
+          >
+            <ShopIcon />
+          </Button>
+        )}
         <Drawer
           anchor={"top"}
           open={xState.context.drawerOpened}
