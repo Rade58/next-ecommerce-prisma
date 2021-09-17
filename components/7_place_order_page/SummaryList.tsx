@@ -145,6 +145,7 @@ const SummaryList: FC = () => {
       const { data: order } = await axios.post(`/api/order`, body);
 
       // WE SHOULD GET ORDER BACK IN RETURN
+      // AND I'M GOING TO SET IT AS STATE
 
       console.log({ order });
 
