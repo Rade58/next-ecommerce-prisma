@@ -69,7 +69,7 @@ function TemporaryDrawer() {
   });
 
   // NO OP
-  const toggleDrawer =
+  /* const toggleDrawer =
     (anchor: Anchor, open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -80,7 +80,7 @@ function TemporaryDrawer() {
       }
 
       setState({ ...state, [anchor]: open });
-    };
+    }; */
 
   const [xState, dispatch] = useActor(cartService);
 
@@ -100,16 +100,16 @@ function TemporaryDrawer() {
   return (
     <div>
       <Fragment>
-        {canRenderCartButton && (
-          <Button
-            color="secondary"
-            variant="contained"
-            size="small"
-            onClick={openDrawer}
-          >
-            <ShopIcon />
-          </Button>
-        )}
+        {/* {canRenderCartButton && ( */}
+        <Button
+          color="secondary"
+          variant="contained"
+          size="small"
+          onClick={openDrawer}
+        >
+          <ShopIcon />
+        </Button>
+        {/* )} */}
         <Drawer
           anchor={"top"}
           open={xState.context.drawerOpened}
@@ -133,7 +133,6 @@ function TemporaryDrawer() {
                     border: pink solid 1px;
                     display: flex;
                     justify-content: center;
-                    /* width: 100%; */
                     align-items: center;
                     margin: 0 auto;
                     padding: 0 6px;
@@ -237,7 +236,7 @@ const Header: FC = () => {
 
         <nav
           css={css`
-            /* border: pink solid 1px; */
+            border: pink solid 0px;
             display: flex;
             justify-content: space-evenly;
             margin-left: auto;
@@ -250,7 +249,6 @@ const Header: FC = () => {
         >
           {session ? (
             <ProfileMenu
-              // IT IS IMPORTANT TO PASS ID
               profileId={profId || ""}
               email={session.user?.email}
               name={session.user?.name}

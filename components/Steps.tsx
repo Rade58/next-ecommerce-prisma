@@ -120,30 +120,6 @@ const Steps: FC = () => {
               </Fragment>
             );
           })}
-
-          {/* 
-      <MuLink
-        color="inherit"
-        href="/"
-        onClick={handleClick}
-        className={classes.link}
-      >
-        <HomeIcon className={classes.icon} />
-        Material-UI
-      </MuLink>
-      <MuLink
-        color="inherit"
-        href="/getting-started/installation/"
-        onClick={handleClick}
-        className={classes.link}
-      >
-        <WhatshotIcon className={classes.icon} />
-        Core
-        </MuLink>
-      <Typography color="textPrimary" className={classes.link}>
-        <GrainIcon className={classes.icon} />
-        Breadcrumb
-      </Typography> */}
         </Breadcrumbs>
       )}
     </Fragment>
