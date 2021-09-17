@@ -20,6 +20,8 @@ import {
   ListItemText,
   Collapse,
   Link as MuLink,
+  Button,
+  CircularProgress,
 } from "@material-ui/core";
 
 import {
@@ -78,6 +80,10 @@ const useStyles = makeStyles((theme: Theme) =>
 const SummaryList: FC = () => {
   const { push } = useRouter();
 
+  const [placingOrderReqStatus, setPlacingOrderReqStatus] = useState<
+    "pending" | "failed" | "idle"
+  >("idle");
+
   const [total, setTotal] = useState<number>(0);
 
   const classes = useStyles();
@@ -94,6 +100,26 @@ const SummaryList: FC = () => {
     fullName: "",
     postalCode: "",
   });
+
+  const handlePlacingOrder = useCallback(async () => {
+    //
+
+    try {
+      setPlacingOrderReqStatus("pending");
+
+      // SEND REQUEST
+
+      setPlacingOrderReqStatus;
+    } catch (error) {
+      setPlacingOrderReqStatus("failed");
+
+      setTimeout(() => {
+        setPlacingOrderReqStatus("idle");
+      }, 2000);
+    }
+
+    console.log("placing order");
+  }, [total, setPlacingOrderReqStatus]);
 
   useEffect(() => {
     const ca = CartStore.getCart();
@@ -201,6 +227,8 @@ const SummaryList: FC = () => {
   }, [total]);
 
   const toto = formatter.format(total);
+
+  const buttonDisabled = !total || placingOrderReqStatus !== "idle";
 
   return (
     <Fragment>
@@ -392,6 +420,43 @@ const SummaryList: FC = () => {
         total:
       </span>
       <h2>{toto}</h2>
+      {placingOrderReqStatus !== "failed" && (
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={buttonDisabled}
+          onClick={() => {
+            handlePlacingOrder();
+          }}
+        >
+          {/* WE ARE SAYING CONTINUE
+            BUT BECAUSE THIS BUTTON SHOUD DIRECT US
+            TO CHECKOUT PAGE */}
+          {"Place Order "}
+          {placingOrderReqStatus !== "idle" ? (
+            <div
+              css={css`
+                display: inline-block;
+                margin-left: 8px;
+              `}
+            >
+              <CircularProgress color="primary" size={18} />
+            </div>
+          ) : (
+            ""
+          )}
+        </Button>
+      )}
+      {placingOrderReqStatus === "failed" ? (
+        <div
+          css={css`
+            color: tomato;
+          `}
+        >
+          Something went wrong
+        </div>
+      ) : null}
     </Fragment>
   );
 };
