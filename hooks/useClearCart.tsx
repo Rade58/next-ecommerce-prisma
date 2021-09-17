@@ -11,12 +11,17 @@ import CartStore from "../lib/cart-cookies";
 import { STORAGE_KEYS } from "../components/7_place_order_page/SummaryList";
 
 const useClearCart = () => {
-  //
-  //
-  //
-  //
+  const [cleared, setCleared] = useState<boolean>(false);
 
-  return { status: "cleared" };
+  useEffect(() => {
+    CartStore.clearCart();
+
+    for (let key in STORAGE_KEYS) {
+      Cookies.remove(key);
+    }
+  }, [setCleared]);
+
+  return [cleared];
 };
 
 export default useClearCart;
