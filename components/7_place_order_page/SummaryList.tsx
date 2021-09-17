@@ -107,7 +107,7 @@ const SummaryList: FC = () => {
     try {
       setPlacingOrderReqStatus("pending");
 
-      // SEND REQUEST
+      // SEND REQUEST, TO CREATE ORDER RECORD
 
       setPlacingOrderReqStatus("idle");
     } catch (error) {
