@@ -183,6 +183,8 @@ const SummaryList: FC<{
 
   return (
     <Fragment>
+      <div>Delivered: {order.isDelivered ? "yes" : "no"}</div>
+      <div>Payed: {order.payedAt ? "Payed for" : "Not  Payed For"}</div>
       {canRender && (
         <List
           component="nav"
