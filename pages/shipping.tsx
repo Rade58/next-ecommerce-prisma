@@ -136,7 +136,7 @@ const ShippingPage: NP<PropsI> = (props) => {
       Router.push("/");
     }
   }, [cartState]);
-
+  ``;
   if (loading) {
     return <div>loading...</div>;
   }
