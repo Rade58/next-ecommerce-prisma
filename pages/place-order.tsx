@@ -74,13 +74,13 @@ const PlaceOrderPage: NP<PropsI> = (props) => {
 
   console.log(props);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const shippingData = Cookies.get(SHIPPING_DATA);
 
     if (!shippingData) {
       Router.push("/shipping");
     }
-  }, []);
+  }, []); */
 
   return (
     <div>

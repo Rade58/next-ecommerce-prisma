@@ -251,13 +251,13 @@ const SummaryList: FC<{
               </ListItem>
             </List>
           </Collapse>
-          <ListItem button onClick={handlePrClick}>
+          {/*  <ListItem button onClick={handlePrClick}>
             <ListItemIcon>
               <ShoppingBasket />
             </ListItemIcon>
             <ListItemText primary="Cart" />
             {prOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
+          </ListItem> */}
 
           <Collapse in={prOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding></List>
@@ -309,7 +309,7 @@ const SummaryList: FC<{
           {/* WE ARE SAYING CONTINUE
             BUT BECAUSE THIS BUTTON SHOUD DIRECT US
             TO CHECKOUT PAGE */}
-          {"Place Order "}
+          {"Pay "}
           {placingOrderReqStatus !== "idle" ? (
             <div
               css={css`
