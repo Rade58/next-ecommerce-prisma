@@ -7,7 +7,13 @@ import { Fragment } from "react";
 
 import useClearCart from "../../hooks/useClearCart";
 
-const Layout: FC = ({ children }) => {
+import type { PropsI } from "../../pages/order/[orderId]";
+
+import SummaryOrderList from "./SummaryOrderList";
+
+const Layout: FC<{
+  order: PropsI["order"];
+}> = ({ children, order }) => {
   const [cleared] = useClearCart();
 
   return (
@@ -27,6 +33,7 @@ const Layout: FC = ({ children }) => {
               align-items: center;
             `}
           >
+            <SummaryOrderList order={order} />
             {children}
           </section>
         </main>

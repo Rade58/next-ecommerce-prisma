@@ -16,7 +16,7 @@ import prismaClient from "../../lib/prisma";
 
 import Layout from "../../components/8_order_page/Layout";
 
-interface PropsI {
+export interface PropsI {
   order: Order & {
     buyer: Profile;
     items: OrderElement[];
@@ -89,7 +89,7 @@ const OrderPage: NP<PropsI> = (props) => {
   }
 
   return (
-    <Layout>
+    <Layout order={props.order}>
       <div>
         <h1>Order ID: {query.orderId}</h1>
         <div>

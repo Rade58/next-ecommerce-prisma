@@ -46,6 +46,8 @@ import { PAYMENT_METHOD } from "../6_payment_page/PaymentForm";
 import CartStore from "../../lib/cart-cookies";
 import type { CartRecord } from "../../lib/cart-cookies";
 
+import type { PropsI } from "../../pages/order/[orderId]";
+
 const TAX_PRICE_KEY = "TAX_PRICE_KEY";
 const SHIPPING_PRICE_KEY = "SHIPPING_PRICE_KEY";
 const TOTAL_PRICE_KEY = "TOTAL_PRICE_KEY";
@@ -92,7 +94,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SummaryList: FC = () => {
+const SummaryList: FC<{
+  order: PropsI["order"];
+}> = ({ order }) => {
   const [session, loading] = useSession();
 
   const { push } = useRouter();
