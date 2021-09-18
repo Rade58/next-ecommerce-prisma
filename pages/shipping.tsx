@@ -2,6 +2,8 @@
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
 
+import { useEffect } from "react";
+
 import Router from "next/router";
 
 import { useActor } from "@xstate/react";
@@ -129,6 +131,12 @@ const ShippingPage: NP<PropsI> = (props) => {
 
   console.log(props);
 
+  useEffect(() => {
+    if (!Object.keys(cartState.context.cart).length) {
+      Router.push("/");
+    }
+  }, [cartState]);
+
   if (loading) {
     return <div>loading...</div>;
   }
@@ -140,12 +148,6 @@ const ShippingPage: NP<PropsI> = (props) => {
   }
 
   // HANDLING EMPTY CART
-
-  if (!Object.keys(cartState.context.cart).length) {
-    Router.push("/");
-
-    return null;
-  }
 
   // THIS CAUSES INFINITE LOOP
   /* const shippingData = Cookies.get(SHIPPING_DATA);
