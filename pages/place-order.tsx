@@ -1,6 +1,7 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
+import { useEffect } from "react";
 
 import { getSession } from "next-auth/client";
 import type { Profile } from "@prisma/client";
@@ -73,13 +74,13 @@ const PlaceOrderPage: NP<PropsI> = (props) => {
 
   console.log(props);
 
-  const shippingData = Cookies.get(SHIPPING_DATA);
+  useEffect(() => {
+    const shippingData = Cookies.get(SHIPPING_DATA);
 
-  if (!shippingData) {
-    Router.push("/shipping");
-
-    return null;
-  }
+    if (!shippingData) {
+      Router.push("/shipping");
+    }
+  }, []);
 
   return (
     <div>

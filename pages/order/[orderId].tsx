@@ -1,7 +1,7 @@
 /* eslint react/react-in-jsx-scope: 0 */
 /* eslint jsx-a11y/anchor-is-valid: 1 */
 import type { GetServerSideProps, NextPage as NP } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Order, Profile, OrderElement } from "@prisma/client";
 import { useRouter } from "next/router";
 
@@ -70,23 +70,21 @@ export const getServerSideProps: GetServerSideProps<
 const OrderPage: NP<PropsI> = (props) => {
   //
 
-  const { query } = useRouter();
+  const { query, push } = useRouter();
 
   console.log(props);
 
-  const shippingData = Cookies.get(SHIPPING_DATA);
-  const paymentMethod = Cookies.get(PAYMENT_METHOD);
+  useEffect(() => {
+    const shippingData = Cookies.get(SHIPPING_DATA);
+    const paymentMethod = Cookies.get(PAYMENT_METHOD);
 
-  if (!shippingData) {
-    Router.push("/shipping");
-
-    return null;
-  }
-  if (!paymentMethod) {
-    Router.push("/payment");
-
-    return null;
-  }
+    if (!shippingData) {
+      push("/shipping");
+    }
+    if (!paymentMethod) {
+      push("/payment");
+    }
+  }, [push]);
 
   return (
     <Layout order={props.order}>
