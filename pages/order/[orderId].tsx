@@ -92,9 +92,9 @@ const OrderPage: NP<PropsI> = (props) => {
     <Layout order={props.order}>
       <div>
         <h1>Order ID: {query.orderId}</h1>
-        <div>
+        {/* <div>
           <pre>{JSON.stringify(props, null, 2)}</pre>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
