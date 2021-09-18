@@ -105,26 +105,23 @@ const SummaryList: FC<{
     "pending" | "failed" | "idle"
   >("idle");
 
-  const [total, setTotal] = useState<number>(0);
-
   const classes = useStyles();
   const [shOpen, setShOpen] = useState(true);
   const [paOpen, setPaOpen] = useState(true);
   const [prOpen, setPrOpen] = useState(true);
+  const handleShClick = () => {
+    setShOpen(!shOpen);
+  };
+  const handlePaClick = () => {
+    setPaOpen(!paOpen);
+  };
+  const handlePrClick = () => {
+    setPrOpen(!prOpen);
+  };
 
-  const [order, setOrder] = useState<Order | null>(null);
+  // const [order, setOrder] = useState<Order | null>(null);
 
-  const [cart, setCart] = useState<CartRecord>({});
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
-  const [shippingInfo, setShippingInfo] = useState<ShippingInfoI>({
-    address: "",
-    city: "",
-    country: "",
-    fullName: "",
-    postalCode: "",
-  });
-
-  const handlePlacingOrder = useCallback(async () => {
+  const handlePaying = useCallback(async () => {
     if (!session) return;
 
     const profile = session.profile as Profile;
@@ -132,21 +129,11 @@ const SummaryList: FC<{
     if (!profile) return;
 
     try {
-      const body: BodyDataI = {
-        buyerId: profile.id,
-        cart: cart,
-        shippingPrice: SHIPPING_PRICE,
-        taxPrice: TAX_PRICE,
-        paymentMethod,
-      };
-
       setPlacingOrderReqStatus("pending");
 
-      const { data: order } = await axios.post(`/api/order`, body);
+      // const { data: order } = await axios.post(`/api/order`, body);
 
-      console.log({ order });
-
-      setOrder(order as Order);
+      // console.log({ order });
 
       setPlacingOrderReqStatus("idle");
     } catch (error) {
@@ -158,89 +145,18 @@ const SummaryList: FC<{
     }
 
     console.log("placing order");
-  }, [setPlacingOrderReqStatus, setOrder, session, cart, paymentMethod]);
+  }, [setPlacingOrderReqStatus, session]);
 
-  useEffect(() => {
-    if (order) {
-      push(`/order/${order.id}`);
-    }
-  }, [order, push]);
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
-  useEffect(() => {
-    const ca = CartStore.getCart();
+  const total = order.totalPrice;
 
-    const pM = Cookies.get(PAYMENT_METHOD);
+  const toto = formatter.format(total || 0);
 
-    const sI = Cookies.get(SHIPPING_DATA);
-
-    if (ca) {
-      setCart(ca);
-
-      if (!Object.keys(ca).length) {
-        push("/");
-        return;
-      }
-    }
-
-    if (pM) {
-      setPaymentMethod(pM);
-
-      if (!pM.length) {
-        push("/");
-        return;
-      }
-    }
-
-    if (sI) {
-      setShippingInfo(JSON.parse(sI) as ShippingInfoI);
-
-      if (!Object.keys(JSON.parse(sI) as ShippingInfoI).length) {
-        push("/");
-        return;
-      }
-    }
-  }, [setCart, setPaymentMethod, setShippingInfo, push]);
-
-  const cartToArr = useCallback(() => {
-    const arr = [];
-
-    for (const key in cart) {
-      arr.push(cart[key]);
-    }
-
-    return arr;
-  }, [cart]);
-
-  useEffect(() => {
-    let sum = 0;
-
-    for (const key in cart) {
-      const productPrice = cart[key].price;
-
-      const tax = 15 / (100 / productPrice);
-
-      sum =
-        sum +
-        (cart[key].amount as unknown as number) * productPrice +
-        (cart[key].amount as unknown as number) * tax;
-    }
-
-    sum = sum + SHIPPING_PRICE;
-
-    setTotal(sum);
-  }, [cart, setTotal]);
-
-  const shippingKeys = Object.keys(shippingInfo);
-
-  const handleShClick = () => {
-    setShOpen(!shOpen);
-  };
-  const handlePaClick = () => {
-    setPaOpen(!paOpen);
-  };
-  const handlePrClick = () => {
-    setPrOpen(!prOpen);
-  };
+  const buttonDisabled = !total || placingOrderReqStatus !== "idle";
 
   const [canRender, setCanRender] = useState(false);
 
@@ -248,22 +164,22 @@ const SummaryList: FC<{
     setCanRender(true);
   }, [setCanRender]);
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  if (!session) {
+    return null;
+  }
 
-  useEffect(() => {
-    if (!total) return;
+  const profile = session.profile as Profile;
 
-    Cookies.set(TOTAL_PRICE_KEY, total.toFixed(2));
-    Cookies.set(SHIPPING_PRICE_KEY, SHIPPING_PRICE.toFixed(2));
-    Cookies.set(TAX_PRICE_KEY, TAX_PRICE.toFixed(0));
-  }, [total]);
+  const shippingInfo = {
+    addrss: profile.addrss,
+    city: profile.city,
+    country: profile.country,
+    postalCode: profile.postalCode,
+    name: session?.user?.name,
+  };
+  const shippingKeys = Object.keys(shippingInfo);
 
-  const toto = formatter.format(total);
-
-  const buttonDisabled = !total || placingOrderReqStatus !== "idle";
+  const paymentMethod = order.paymentMethod;
 
   return (
     <Fragment>
@@ -344,82 +260,7 @@ const SummaryList: FC<{
           </ListItem>
 
           <Collapse in={prOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {cartToArr().map(
-                ({ productId, amount, product: { name, price } }, i) => {
-                  let tot = ((amount as unknown as number) * price).toFixed(2);
-
-                  const formatter = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  });
-
-                  tot = formatter.format(parseFloat(tot));
-
-                  return (
-                    <ListItem
-                      key={`${i}-${i}-${productId}`}
-                      className={classes.nested}
-                    >
-                      <ListItemText
-                        primary={
-                          <div
-                            css={css`
-                              display: flex;
-                              justify-content: space-between;
-                              flex-wrap: wrap;
-
-                              & .sp1 {
-                                color: black;
-                                display: flex;
-                                font-size: 0.9em;
-
-                                & > sapn {
-                                  word-wrap: nowrap;
-                                }
-                              }
-
-                              & .sp2 {
-                                color: #2b125a;
-                                font-size: 1em;
-                              }
-
-                              & .name-sp {
-                                margin-left: 10px;
-                                display: inline-block;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                max-width: 120px;
-                                /* border: #cac9c9 solid 1px; */
-                                max-height: 1.3em;
-
-                                color: #436497;
-
-                                &:hover {
-                                  color: #392d80;
-                                  text-decoration-line: underline;
-                                }
-                              }
-                            `}
-                          >
-                            <span className="sp1">
-                              <span>{`${amount} x`}</span>
-                              <Link href={`/products/${productId}`} passHref>
-                                <MuLink component="button" variant="body2">
-                                  <span className="name-sp">{name}</span>
-                                </MuLink>
-                              </Link>
-                            </span>
-                            <span className="sp2">{tot}</span>
-                          </div>
-                        }
-                      />
-                    </ListItem>
-                  );
-                }
-              )}
-            </List>
+            <List component="div" disablePadding></List>
           </Collapse>
         </List>
       )}
@@ -462,7 +303,7 @@ const SummaryList: FC<{
           type="submit"
           disabled={buttonDisabled}
           onClick={() => {
-            handlePlacingOrder();
+            handlePaying();
           }}
         >
           {/* WE ARE SAYING CONTINUE
