@@ -24,6 +24,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/x-data-grid-generator": "^4.0.0",
     "@next-auth/prisma-adapter": "^0.5.4",
+    "@paypal/react-paypal-js": "^7.3.3",
     "@prisma/client": "^3.0.2",
     "@sendgrid/mail": "^7.4.6",
     "@supabase/supabase-js": "^1.22.5",

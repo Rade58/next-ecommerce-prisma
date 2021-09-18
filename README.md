@@ -128,5 +128,54 @@ PAYPAL_CLIENT_ID=
 ## WE ARE GOING TO CREATE CONFIG ROUTE FOR OUR PAYPAL
 
 ```
-mkdir -p pages/api/config/paypal
+mkdir pages/api/config && touch pages/api/config/paypal.ts
+```
+
+```ts
+import nc from "next-connect";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.get(async (req, res) => {
+  // WE ARE JUST SENDING GLIENT ID
+  return res.status(200).send(process.env.PAYPAL_CLIENT_ID);
+});
+
+export default handler;
+```
+
+SO,  WHEN WE ARE REDY TO MAKE PAYMENT WE WILL HIT THIS ROUTE
+
+## BUT WE ALSO NEED A PAYPAL SCRIPT ON FRONTED
+
+I FOUND THIS:
+
+<https://developer.paypal.com/docs/business/javascript-sdk/javascript-sdk-configuration/>
+
+YOU HAVE HERE SCRIPT WE CAN USE
+
+**BUT I DECIDED TO GO WITH PROVIDER SOLUTION, ALSO SPECIFIED ON UPPER PAGE**
+
+AND IN THIS TUTORIAL, EVERYTHING IS EXPLAINED IN DETAIL
+
+<https://www.youtube.com/watch?v=3kYkEVIZNZY>
+
+## WE ARE GOING TO USE PACKAGE `react-paypal-js`
+
+[____](https://www.npmjs.com/package/@paypal/react-paypal-js)
+
+```
+yarn add @paypal/react-paypal-js
+```
+
+WE ARE GOING TO USE THIS IN `_app.tsx`
+
+```
+code pages/_app.tsx
+```
+
+```tsx
+
+
 ```

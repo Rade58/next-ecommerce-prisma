@@ -6,14 +6,16 @@ import { useRouter } from "next/router";
 
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
-// IMPORTED PROVIDER
 import { Provider } from "next-auth/client";
+
+// LETS IMPORT THIS
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+//
 
 import theme from "../theme";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-// import Cart from "../components/Cart";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { asPath } = useRouter();
@@ -34,14 +36,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      {/* ADDED Provider */}
       <Provider session={pageProps.session}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Header />
-          {/* <Cart /> */}
+          {/* WE ARE GOING TO WRAP PAGE COMPONENT IN
+          MENTIONED PROVIDER LIKE THIS */}
+          {/* <PayPalScriptProvider > */}
           <Component {...pageProps} />
-          {asPath !== "/" && <Footer />}
+          {/* </PayPalScriptProvider> */}
         </ThemeProvider>
       </Provider>
     </Fragment>
