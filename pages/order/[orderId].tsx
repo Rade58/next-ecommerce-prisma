@@ -49,6 +49,8 @@ export const getServerSideProps: GetServerSideProps<
     },
   });
 
+  console.log({ order });
+
   if (!order) {
     ctx.res.writeHead(302, { Location: "/" });
 
@@ -74,7 +76,7 @@ const OrderPage: NP<PropsI> = (props) => {
 
   console.log(props);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const shippingData = Cookies.get(SHIPPING_DATA);
     const paymentMethod = Cookies.get(PAYMENT_METHOD);
 
@@ -84,7 +86,7 @@ const OrderPage: NP<PropsI> = (props) => {
     if (!paymentMethod) {
       push("/payment");
     }
-  }, [push]);
+  }, [push]); */
 
   return (
     <Layout order={props.order}>
