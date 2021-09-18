@@ -53,6 +53,11 @@ handler.post(async (req, res) => {
       return res.status(400).send("order not exist");
     }
 
+    // I WON'T DO THIS NOW, BUT FOR SECURITY REASONS WE WOULD
+    // CHECK SESSION AND CHECK BUYER (TO SECURE THIS
+    // I AM SAVING ON TIME AND I AM NOT GOING TO DO THIS NOW)
+
+
     // NOW WE WOULD TALK TO PAYPAL API
     // TODO
 
