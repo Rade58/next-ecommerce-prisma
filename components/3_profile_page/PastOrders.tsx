@@ -17,12 +17,21 @@ interface PropsI {
 const PastOrders: FC<PropsI> = ({ orders }) => {
   return (
     <div>
+      <h1>Your orders</h1>
       {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
 
-      <nav>
+      <nav
+        css={css`
+          display: flex;
+          flex-direction: column;
+          & > * {
+            flex-basis: 100%;
+          }
+        `}
+      >
         {orders.map(({ id }, i) => {
           return (
-            <Link passHref href={`/orders/${id}`} key={`${id}-${i}`}>
+            <Link passHref href={`/order/${id}`} key={`${id}-${i}`}>
               <MuiLink component="button" variant="body2">
                 {id}
               </MuiLink>
