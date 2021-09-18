@@ -10,7 +10,7 @@ handler.get(async (req, res) => {
 
   // BUT LET'S SECURE THIS
   // LETS CHECK FOR SESSION
-  const session = getSession({
+  const session = await getSession({
     req: req,
   });
 
