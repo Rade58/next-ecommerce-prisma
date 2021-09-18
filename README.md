@@ -124,3 +124,9 @@ code .env.local
 PAYPAL_CLIENT_ID=
 
 ```
+
+## WE ARE GOING TO CREATE CONFIG ROUTE FOR OUR PAYPAL
+
+```
+mkdir -p pages/api/config/paypal
+```
