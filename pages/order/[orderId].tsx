@@ -91,7 +91,7 @@ const OrderPage: NP<PropsI> = (props) => {
   return (
     <Layout order={props.order}>
       <div>
-        <h1>Order ID: {query.orderId}</h1>
+        <h1 style={{ fontSize: "2em" }}>Order ID: {query.orderId}</h1>
         {/* <div>
           <pre>{JSON.stringify(props, null, 2)}</pre>
         </div> */}

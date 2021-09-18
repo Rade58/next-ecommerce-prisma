@@ -29,6 +29,8 @@ const useClearCart = () => {
     for (let key in STORAGE_KEYS) {
       Cookies.remove(key);
     }
+
+    setCleared(true);
   }, [setCleared, dispatch]);
 
   return [cleared];

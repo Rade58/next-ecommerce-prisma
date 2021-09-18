@@ -33,8 +33,8 @@ const Layout: FC<{
               align-items: center;
             `}
           >
-            <SummaryOrderList order={order} />
             {children}
+            <SummaryOrderList order={order} />
           </section>
         </main>
       ) : null}

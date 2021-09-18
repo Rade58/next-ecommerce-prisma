@@ -189,7 +189,7 @@ const SummaryList: FC<{
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
-              Order Summary
+              INFO ABOUT YOUR ORDER
             </ListSubheader>
           }
           className={classes.root}

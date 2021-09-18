@@ -14,6 +14,7 @@ const Layout: FC = ({ children }) => {
         position: relative;
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
 
         @media screen and (min-width: 680px) {
           width: 80vw;

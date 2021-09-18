@@ -19,6 +19,7 @@ import prismaClient from "../../lib/prisma";
 
 import Layout from "../../components/3_profile_page/Layout";
 import UpdateProfile from "../../components/3_profile_page/UpdateProfile";
+import PastOrders from "../../components/3_profile_page/PastOrders";
 
 export interface PropsI {
   profile: {
@@ -75,7 +76,6 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
         city: true,
         ordersHistory: true,
         postalCode: true,
-        taxPrice: true,
         // I INCLUDED USER LIKE THIS
         user: {
           select: {
@@ -85,6 +85,7 @@ export const getServerSideProps: GetServerSideProps<PropsI | {}, paramsType> =
             id: true,
           },
         },
+
         // I WON'T INCLUDE DATES (FOR Profile OR FOR User)
         // BECAUSE PRISMA RETURNS     Date   OBJECT
         // I CAN'T PASS Date INSTANCES AS PROPS
@@ -155,6 +156,7 @@ const ProfilePage: NP<PropsI> = (props) => {
         postalCode={postalCode || ""}
         taxPrice={taxPrice || 0}
       />
+      <PastOrders orders={props.profile.ordersHistory} />
     </Layout>
   );
 };
