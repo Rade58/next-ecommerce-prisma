@@ -4,3 +4,8 @@
 
 WE ARE GOING TO UPDATE ORDER WHEN WE GET BACK "PAYMENT OBJECT FROM PAYPAL"
 
+ROUTE:
+
+```
+cat pages/api/order/pay/[orderId].ts
+```
