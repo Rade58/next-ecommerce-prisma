@@ -79,5 +79,11 @@ handler.post(async (req, res) => {
 });
 
 export default handler;
-
 ```
+
+WE ARE NOT DONE WITH UPPER ROUTE, WE WILL CONTINUE LATER, AFTER WE IMPLEMENT PAYPAL
+
+# SETTING UP PAYPAL
+
+I OPENED PERSONAL PAYPAL ACCOUNT
+
