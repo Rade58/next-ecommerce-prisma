@@ -49,7 +49,7 @@ handler.post(async (req, res) => {
     // WE THEN UPDATE ORDER BY CONNECTING
     // PAYMENT RECORD TO THE ORDER RECORD
 
-    return res.status(201).send(order);
+    return res.status(201).send("some data");
   } catch (err) {
     console.error(err);
     return res.status(400).send("Something went wrong");
