@@ -499,7 +499,10 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                   // BUT WE ARE NOT GOING TO DO FULL REFRES
                   // JUST NAVIGATE TO THE SAME PAGE
 
+                  // IDE IS TO CAUSE A PAGE REFRESH SO
+                  // UPDATED ORDER CAN BE SEEN
                   Router.push(`/order/${orderId}`);
+
                 } catch (error) {
                   console.error(error);
 
@@ -656,3 +659,7 @@ handler.post(async (req, res) => {
 
 export default handler;
 ```
+
+## WE CAN TEST BY TRYING TO MAKE PURCHASE IN OUR APP
+
+

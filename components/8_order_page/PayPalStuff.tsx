@@ -128,7 +128,7 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                   // BUT WE ARE NOT GOING TO DO FULL REFRES
                   // JUST NAVIGATE TO THE SAME PAGE
 
-                  // Router.push(`/order/${orderId}`);
+                  Router.push(`/order/${orderId}`);
                 } catch (error) {
                   console.error(error);
 
