@@ -68,6 +68,9 @@ const useLoadPaypalScript = () => {
   // WE CAN RETURN COMPONENT WE WILL DISPLAY
   // AND OFCOURSE, WE ARE GOING TO RETURN UPPER CALLBACK
 
+  // DEPENDING ON IF SCRIPT IS LOADED OR NOT
+  // isPending IS GOING TO CHANGE ODCOURSE
+
   return {
     isPending,
     PayPalButtons,
