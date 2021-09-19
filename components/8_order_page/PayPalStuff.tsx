@@ -100,6 +100,9 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                     `/api/order/pay/${orderId}`,
                     { paymentId, status, update_time }
                   );
+                  // WE DIDN'T SEND AUTHORIZATION HEADERS
+                  // BECAUSEE WE HAVE (OR NOT) SESSION INSIDE COOKIE
+                  // WE ARE GOING TO CHECK FOR SESSION AT BACKEND
 
                   // WE CAN REFRESH AFTER SUCCESSFUL REQUEST
                 } catch (error) {
