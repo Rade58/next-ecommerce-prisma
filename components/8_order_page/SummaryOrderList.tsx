@@ -193,10 +193,10 @@ const SummaryList: FC<{
         Delivered:
         <span
           style={{
-            color: order.payedAt ? "green" : "red",
+            color: order.isDelivered ? "green" : "red",
           }}
         >
-          {order.isDelivered ? "yes" : "no"}
+          {order.isDelivered ? "Delivered" : "Not Delivered"}
         </span>
       </div>
       <div
