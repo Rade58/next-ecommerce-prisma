@@ -298,7 +298,7 @@ const SummaryList: FC<{
         total:
       </span>
       <h2>{toto}</h2>
-      {placingOrderReqStatus !== "failed" && (
+      {/*  {placingOrderReqStatus !== "failed" && (
         <Button
           variant="contained"
           color="primary"
@@ -308,10 +308,7 @@ const SummaryList: FC<{
             handlePaying();
           }}
         >
-          {/* WE ARE SAYING CONTINUE
-            BUT BECAUSE THIS BUTTON SHOUD DIRECT US
-            TO CHECKOUT PAGE */}
-          {"Pay "}
+        
           {placingOrderReqStatus !== "idle" ? (
             <div
               css={css`
@@ -325,7 +322,7 @@ const SummaryList: FC<{
             ""
           )}
         </Button>
-      )}
+      )} */}
       {placingOrderReqStatus === "failed" ? (
         <div
           css={css`
