@@ -35,22 +35,13 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
           {!isPending ? (
             <PayPalButtons
               createOrder={async (data, actions) => {
-                // HERE WE ARE GOING TO TAKE CREATED ORDER
-                // WHICH IS ORDER CREATED BY PAYPAL
-
-                // AND WE ARE GOING TO SEND REQUEST TO OUR API ROUTE
-                // WE NEED TO CONTINUE BUILDING
-
-                // AND THE ROUTE WE ARE GOING SHOUD UPDATE ORDER
-                // RECORD INSIDE OUR DATBASE
-
-                // AND ALSO WE WILL CREATE PAYMENT RECORD
-
+                // HERE WE ARE GOING TO DEFINE HOW MUCH WE CHARGE THE
+                // THE USERS CARD
                 return "";
               }}
               onApprove={async (data, actions) => {
                 // HERE WE SHOULD DEFINE NAVIGATION
-                // BACK TO OUR ORDER PAGE
+                // BACK TO OUR ORDER
                 return;
               }}
               onError={(error) => {
