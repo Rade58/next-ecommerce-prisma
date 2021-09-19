@@ -113,17 +113,22 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                   Router.push(`/order/${orderId}`);
                 } catch (error) {
                   console.error(error);
+
+                  // WE SHOULD NAVIGATE MAYBE TO ERROR PAGE
+                  // WE SHOULD BUILT IN CASE PAYPAL FAILS
+
+                  // I AM JUST DOING THIS FOR US TO FINISH QUICKLY
+                  // YOU CAN DECIDE ON YOUR OWN WHAT YOU WANT TO DO
+                  // WITH ERROR
+
+                  Router.push("/payment-error");
                 }
               }}
               onError={(error) => {
                 console.error(error);
 
-                // WE SHOULD NAVIGATE MAYBE TO ERROR PAGE
-                // WE SHOULD BUILT IN CASE PAYPAL FAILS
+                // SAME THING I AM DOING WITH THIS ERROR
 
-                // I AM JUST DOING THIS FOR US TO FINISH QUICKLY
-                // YOU CAN DECIDE ON YOUR OWN WHAT YOU WANT TO DO
-                // WITH ERROR
                 Router.push("/payment-error");
               }}
             />
