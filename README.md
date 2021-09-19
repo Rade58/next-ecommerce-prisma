@@ -184,13 +184,82 @@ AND IN THIS TUTORIAL, EVERYTHING IS EXPLAINED IN DETAIL
 yarn add @paypal/react-paypal-js
 ```
 
-WE ARE GOING TO USE THIS IN `_app.tsx`
+## WE ARE GOING TO USE `@paypal/react-paypal-js` IN OUR `_app.tsx` PAGE
+
 
 ```
 code pages/_app.tsx
 ```
 
 ```tsx
+import { useEffect, Fragment } from "react";
+import type { AppProps } from "next/app";
+import Head from "next/head";
 
+import { useRouter } from "next/router";
+
+import { ThemeProvider, CssBaseline } from "@material-ui/core";
+
+import { Provider } from "next-auth/client";
+
+// LETS IMPORT THIS
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+//
+
+import theme from "../theme";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const { asPath } = useRouter();
+
+  useEffect(() => {
+    const jssStyles = document.querySelector("#jss-server-side");
+
+    if (jssStyles) {
+      jssStyles.parentElement?.removeChild(jssStyles);
+    }
+  }, []);
+
+  return (
+    <Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <Provider session={pageProps.session}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          {/* WE ARE GOING TO WRAP PAGE COMPONENT IN
+          MENTIONED PROVIDER LIKE THIS, AND WE NEED 
+          TO LOAD PAYPAL CLIENT ID FROM ENVIROMENT */}
+          <PayPalScriptProvider
+            options={{
+              "client-id": process.env.PAYPAL_CLIENT_ID as string,
+            }}
+          >
+            <Component {...pageProps} />
+          </PayPalScriptProvider>
+        </ThemeProvider>
+      </Provider>
+    </Fragment>
+  );
+}
+export default MyApp;
+```
+
+ESENTIALLY WE ARE GOING TO TALK WITH REDUCER FUNCTION, WHISH IS IMPLEMENTED BY UPPER PROVIDER
+
+## LETS WRITE UTILITY FUNCTION, WE ARE GOING TO USE EVERY TIME WE TALK TO PAYPAL, IT'S A FUNCTION THAT IS GOING TO HIT OUR ROUTE WE BUILD EARLIER, WAND WHICH IS SENDING PAYPAL API CLIENT, AND WE ARE GOING TO LOAD PAYPAL SCRIPT
+
+WE ARE GOING TO WRITE A HOOK THAT WILL GIVE US MENTIONED FUNCTION
 
 ```
+mkdir hooks/paypal && touch hooks/paypal/useLoadPaypalScript.tsx
+```
+
+

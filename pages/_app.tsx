@@ -41,10 +41,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           <CssBaseline />
           <Header />
           {/* WE ARE GOING TO WRAP PAGE COMPONENT IN
-          MENTIONED PROVIDER LIKE THIS */}
-          {/* <PayPalScriptProvider > */}
-          <Component {...pageProps} />
-          {/* </PayPalScriptProvider> */}
+          MENTIONED PROVIDER LIKE THIS, AND WE NEED 
+          TO LOAD PAYPAL CLIENT ID FROM ENVIROMENT */}
+          <PayPalScriptProvider
+            options={{
+              "client-id": process.env.PAYPAL_CLIENT_ID as string,
+            }}
+            deferLoading={true}
+          >
+            <Component {...pageProps} />
+          </PayPalScriptProvider>
         </ThemeProvider>
       </Provider>
     </Fragment>

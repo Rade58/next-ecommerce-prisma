@@ -40,7 +40,6 @@ handler.put(async (req, res) => {
         city,
         country,
         postalCode,
-        taxPrice: Number(taxPrice),
         user: {
           update: {
             name,
@@ -52,7 +51,6 @@ handler.put(async (req, res) => {
         city: true,
         country: true,
         postalCode: true,
-        taxPrice: true,
         user: {
           select: {
             name: true,
