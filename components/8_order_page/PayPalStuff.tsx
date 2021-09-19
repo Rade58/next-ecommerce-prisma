@@ -40,8 +40,10 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
                 return "";
               }}
               onApprove={async (data, actions) => {
-                // HERE WE SHOULD DEFINE NAVIGATION
-                // BACK TO OUR ORDER
+                // HERE WE SHOULD DFINE WHAT HAPPENS
+                // AFTER PAYMENT WAS SUCCESSFULL
+                // WE SHOUD DEFINE UPDATING OF ORDER OBJECT IN HERE
+                // OF COURSE WE DO THIS BY HITTING THE ROUTE
                 return;
               }}
               onError={(error) => {
