@@ -9,6 +9,7 @@ import { CircularProgress } from "@material-ui/core";
 
 // WE CAN IMPORT THE HOOK
 import useLoadPaypalScript from "../../hooks/paypal/useLoadPaypalScript";
+import axios from "axios";
 
 interface PropsI {
   orderPayed: boolean;
@@ -39,14 +40,67 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
               createOrder={async (__, actions) => {
                 // HERE WE ARE GOING TO DEFINE HOW MUCH WE CHARGE THE
                 // THE USERS CARD
-                return "";
+
+                // WE ARE GOING TO USE
+                // actions.order.create
+                // THIS HAS NOTHING TO DO WITH OUR ORDER RECORD
+                // IN OUR DATBASE
+
+                // YOU CAN SAY THAT WE ARE TRYING TO CREATE ORDER
+                // INSIDE PAYPLAS DATBASE
+
+                const paypalOrderId = await actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: amountToBePayed.toFixed(2),
+                        currency_code: "USD",
+                      },
+                    },
+                  ],
+                });
+
+                // WE RETURN ID OF CREATED PAYPAL ORDER
+                return paypalOrderId;
               }}
               onApprove={async (data, actions) => {
                 // HERE WE SHOULD DFINE WHAT HAPPENS
                 // AFTER PAYMENT WAS SUCCESSFULL
-                // WE SHOUD DEFINE UPDATING OF ORDER OBJECT IN HERE
+                // WE SHOUD DEFINE UPDATING OF OUR ORDER OBJECT
+                // THAT'S AN ORDER OBJECT WE MADE EARLIER IN OUR DATBASE
+
+                // AND WE SHOUD CREATE PaymentResult RECORD
+
                 // OF COURSE WE DO THIS BY HITTING THE ROUTE
-                return;
+                // WE ALREADY MADE BUT WE NEED TO ALTER SOME CODE IN
+                // MWNTIONED ROUTE
+
+                // BUT WE MUST CALL capture HERE
+                // BY DOING THIS WE ARE CONFIRMING PAYMENT
+                // AND WE ARE GETTING SOME DATA IN RETURN
+                // WE WILL GET BODY OF THE RESPONSE (I GUESS RESPONSE
+                // THAT IS BEING SENT AFTER SUCCESSFULL PAYMENT)
+                const details = await actions.order.capture();
+
+                const { id: paymentId, status, update_time } = details;
+
+                // THIS status CAN HAVE THESE VALUES:
+                // "COMPLETED" | "SAVED" | "APPROVED" | "VOIDED" | "PAYER_ACTION_REQUIRED"
+                // IT MAKES SENSE WHY YOU WOULD SAVE THIS TO
+                // YOUR DATABASE
+
+                // NOW LETS SEND REQUEST TO OUR API ROUTE
+
+                try {
+                  const { data: d } = await axios.post(
+                    `/api/order/pay/${orderId}`,
+                    { paymentId, status, update_time }
+                  );
+
+                  // WE CAN REFRESH AFTER SUCCESSFUL REQUEST
+                } catch (error) {
+                  console.error(error);
+                }
               }}
               onError={(error) => {
                 console.error(error);

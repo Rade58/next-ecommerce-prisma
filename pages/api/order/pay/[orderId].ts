@@ -8,6 +8,10 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
   const { orderId: id } = req.query;
 
+  // THIS BODY WOULD BE CONSTRUCTED FROM SOME DATA
+  // WE WOULD TAKE AFTER PAYPAL CREATES HIS ORDER OBJECT
+  // OR PAYMENT OBJECT, OOR CALLL IT WHAT EVER YOU WANT
+
   if (!id) {
     return res.status(400).send("order id invalid");
   }
@@ -35,9 +39,6 @@ handler.post(async (req, res) => {
     if (!order) {
       return res.status(400).send("order not exist");
     }
-
-    // NOW WE WOULD TALK TO PAYPAL API
-    // TODO
 
     // --------------------------------
 
