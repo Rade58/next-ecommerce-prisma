@@ -183,8 +183,29 @@ const SummaryList: FC<{
 
   return (
     <Fragment>
-      <div>Delivered: {order.isDelivered ? "yes" : "no"}</div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          width: "220px",
+          justifyContent: "space-between",
+        }}
+      >
+        Delivered:
+        <span
+          style={{
+            color: order.payedAt ? "green" : "red",
+          }}
+        >
+          {order.isDelivered ? "yes" : "no"}
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          width: "220px",
+          justifyContent: "space-between",
+        }}
+      >
         Payed:{" "}
         <span
           style={{
