@@ -405,11 +405,17 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
   // INSIDE EFFECT WE WILL LOAD PAYPAL SCRIP
   // BUT ONLY IF ORDER ISN'T PAYED FOR
 
+  
+  const [canLoad, setCanLoad] = useState<boolean>(true);
+
   useEffect(() => {
+    if (!canLoad) return;
+
     if (!orderPayed) {
       loadPypalScript();
+      setCanLoad(false);
     }
-  }, [orderPayed, loadPypalScript]);
+  }, [orderPayed, loadPypalScript, setCanLoad, canLoad]);
 
   return (
     <Fragment>
