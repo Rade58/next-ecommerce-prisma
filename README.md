@@ -356,11 +356,21 @@ const useLoadPaypalScript = () => {
 export default useLoadPaypalScript;
 ```
 
+**JUST TO TELL TO YOU IF YOU ARE CONFUSED ABOUT WHAT HAPPEND AFTER PAYING, OR IF A PAYING IS FAILED `PayPalButtons` COMPONENT ACCEPTS CALLBACS FOR THAT MATTER**
+
+IN [THIS STORYBOOK](https://paypal.github.io/react-paypal-js/?path=/docs/example-paypalbuttons--default) YOU CAN SEE ALL POSIBLE PROPS FOR THE `PayPalButtons` COMPONENT
+
+WE ARE GOING TO BE INTERESTED IN `createOrder`, `onApprove`, `onError`
+
 ## WE CAN NOW USE THIS HOOK
 
 WE ARE GOING TO BUILD PAYPAL COMPONENT
 
 ```
+touch components/8_order_page/PayPalStuff.tsx
+```
+
+```tsx
 
 ```
 
