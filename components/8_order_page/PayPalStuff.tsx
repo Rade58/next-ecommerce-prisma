@@ -84,7 +84,12 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                 // THAT IS BEING SENT AFTER SUCCESSFULL PAYMENT)
                 const details = await actions.order.capture();
 
-                const { id: paymentId, status, update_time } = details;
+                const {
+                  id: paymentId,
+                  status,
+                  update_time,
+                  payer: { email_address },
+                } = details;
 
                 // THIS status CAN HAVE THESE VALUES:
                 // "COMPLETED" | "SAVED" | "APPROVED" | "VOIDED" | "PAYER_ACTION_REQUIRED"
@@ -100,7 +105,7 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
 
                   const { data: d } = await axios.post(
                     `/api/order/pay/${orderId}`,
-                    { paymentId, status, update_time }
+                    { paymentId, status, update_time, email: email_address }
                   );
                   // WE DIDN'T SEND AUTHORIZATION HEADERS
                   // BECAUSEE WE HAVE (OR NOT) SESSION INSIDE COOKIE
