@@ -204,6 +204,7 @@ import { Provider } from "next-auth/client";
 
 // LETS IMPORT THIS
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import type { ReactPayPalScriptOptions } from "@paypal/react-paypal-js";
 //
 
 import theme from "../theme";
@@ -222,6 +223,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  // THESE ARE SOME INITIAL OPTIONS FOR PROVIDER
+
   return (
     <Fragment>
       <Head>
@@ -239,8 +242,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           TO LOAD PAYPAL CLIENT ID FROM ENVIROMENT */}
           <PayPalScriptProvider
             options={{
-              "client-id": process.env.PAYPAL_CLIENT_ID as string,
+              // I DON'T THINK WE SHOULD USE ID HERE LIKE
+              // THIS SINCE WE WILL MAKE REQUEST TO OUR ENDPOINT TO
+              // TAKE ID
+              // "client-id": process.env.PAYPAL_CLIENT_ID as string,
+              // I SAW THAT PEOPLE WRITE HERE "test"
+              "client-id": "test",
             }}
+            deferLoading={true}
           >
             <Component {...pageProps} />
           </PayPalScriptProvider>
