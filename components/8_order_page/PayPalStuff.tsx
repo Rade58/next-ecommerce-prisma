@@ -120,6 +120,11 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
 
                 // WE SHOULD NAVIGATE MAYBE TO ERROR PAGE
                 // WE SHOULD BUILT IN CASE PAYPAL FAILS
+
+                // I AM JUST DOING THIS FOR US TO FINISH QUICKLY
+                // YOU CAN DECIDE ON YOUR OWN WHAT YOU WANT TO DO
+                // WITH ERROR
+                Router.push("/payment-error");
               }}
             />
           ) : (
