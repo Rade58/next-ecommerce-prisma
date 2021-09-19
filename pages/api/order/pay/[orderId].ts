@@ -10,7 +10,13 @@ handler.post(async (req, res) => {
 
   // THIS BODY WOULD BE CONSTRUCTED FROM SOME DATA
   // WE WOULD TAKE AFTER PAYPAL CREATES HIS ORDER OBJECT
-  // OR PAYMENT OBJECT, OOR CALLL IT WHAT EVER YOU WANT
+  // OR PAYMENT OBJECT, OR CALL IT WHAT EVER YOU WANT
+
+  const body = req.body;
+
+  if (!body) {
+    return res.status(400).send("invalid body");
+  }
 
   if (!id) {
     return res.status(400).send("order id invalid");
