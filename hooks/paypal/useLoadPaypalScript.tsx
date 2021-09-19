@@ -18,9 +18,9 @@ const useLoadPaypalScript = () => {
   // LETS USE PAYPALS REDUCER
   // ON THIS OBJECT WE HAVE SOME HELPFUL BOOLEANS
   // WE ARE GOING TO USE JUST isPending
-  const [options, paypalDispatch] = usePayPalScriptReducer();
+  const [__, paypalDispatch] = usePayPalScriptReducer();
 
-  const { isPending } = options;
+  const { isPending, options } = __;
 
   // WE WILL CREATE ASYNC FUNCTION
 
@@ -69,7 +69,11 @@ const useLoadPaypalScript = () => {
   // AND OFCOURSE, WE ARE GOING TO RETURN UPPER CALLBACK
 
   // DEPENDING ON IF SCRIPT IS LOADED OR NOT
-  // isPending IS GOING TO CHANGE ODCOURSE
+  // isPending IS GOING TO CHANGE OFCOURSE
+
+  // DURING WHEN isPending IS ACTUALLY true, WE SHOULDD
+  // SHOW SOME LOADER, AND WHEN IT IS false WWE CAN SHOW
+  // PAYPAL BUTTONS
 
   return {
     isPending,
