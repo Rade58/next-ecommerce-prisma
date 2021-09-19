@@ -34,7 +34,7 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
         <div className="paypal-buttons">
           {!isPending ? (
             <PayPalButtons
-              createOrder={async (data, actions) => {
+              createOrder={async (__, actions) => {
                 // HERE WE ARE GOING TO DEFINE HOW MUCH WE CHARGE THE
                 // THE USERS CARD
                 return "";
