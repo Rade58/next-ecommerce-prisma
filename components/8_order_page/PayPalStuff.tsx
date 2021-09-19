@@ -3,6 +3,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
+import { Fragment } from "react";
 // WE CAN IMPORT THE HOOK
 import useLoadPaypalScript from "../../hooks/paypal/useLoadPaypalScript";
 
@@ -15,7 +16,27 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
 
   const { PayPalButtons, isPending, loadPypalScript } = useLoadPaypalScript();
 
-  return <div>PaypalStuff</div>;
+  return (
+    <Fragment>
+      {!orderPayed && (
+        <div className="paypal-buttons">
+          <PayPalButtons
+            createOrder={async (data, actions) => {
+              //
+              return "";
+            }}
+            onApprove={async (data, actions) => {
+              //
+              return;
+            }}
+            onError={(error) => {
+              console.error(error);
+            }}
+          />
+        </div>
+      )}
+    </Fragment>
+  );
 };
 
 export default PayPalStuff;
