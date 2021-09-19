@@ -12,10 +12,12 @@ import useLoadPaypalScript from "../../hooks/paypal/useLoadPaypalScript";
 
 interface PropsI {
   orderPayed: boolean;
+  orderId: string;
+  amountToBePayed: number;
 }
 
-const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
-  console.log({ orderPayed });
+const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
+  console.log({ orderPayed, amountToBePayed, orderId });
 
   const { PayPalButtons, isPending, loadPypalScript } = useLoadPaypalScript();
 
