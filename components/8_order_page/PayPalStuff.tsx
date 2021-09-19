@@ -2,7 +2,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import type { FC } from "react";
+import { FC, useState } from "react";
 import { Fragment, useEffect } from "react";
 
 import { CircularProgress } from "@material-ui/core";
@@ -27,16 +27,29 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
   // INSIDE EFFECT WE WILL LOAD PAYPAL SCRIP
   // BUT ONLY IF ORDER ISN'T PAYED FOR
 
+  const [canLoad, setCanLoad] = useState<boolean>(true);
+
   useEffect(() => {
+    if (!canLoad) return;
+
     if (!orderPayed) {
       loadPypalScript();
+      setCanLoad(false);
     }
-  }, [orderPayed, loadPypalScript]);
+  }, [orderPayed, loadPypalScript, setCanLoad, canLoad]);
 
   return (
     <Fragment>
       {!orderPayed && (
-        <div className="paypal-buttons">
+        <div
+          className="paypal-buttons"
+          css={css`
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin: 10px auto;
+          `}
+        >
           {!isPending ? (
             <PayPalButtons
               createOrder={async (__, actions) => {
@@ -115,7 +128,7 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                   // BUT WE ARE NOT GOING TO DO FULL REFRES
                   // JUST NAVIGATE TO THE SAME PAGE
 
-                  Router.push(`/order/${orderId}`);
+                  // Router.push(`/order/${orderId}`);
                 } catch (error) {
                   console.error(error);
 

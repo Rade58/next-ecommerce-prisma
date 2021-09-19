@@ -184,7 +184,16 @@ const SummaryList: FC<{
   return (
     <Fragment>
       <div>Delivered: {order.isDelivered ? "yes" : "no"}</div>
-      <div>Payed: {order.payedAt ? "Payed for" : "Not  Payed For"}</div>
+      <div>
+        Payed:{" "}
+        <span
+          style={{
+            color: order.payedAt ? "green" : "red",
+          }}
+        >
+          {order.payedAt ? "Payed for" : "Not  Payed For"}
+        </span>
+      </div>
       {canRender && (
         <List
           component="nav"
