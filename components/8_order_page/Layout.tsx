@@ -11,6 +11,8 @@ import type { PropsI } from "../../pages/order/[orderId]";
 
 import SummaryOrderList from "./SummaryOrderList";
 
+import PayPalStuff from "./PayPalStuff";
+
 const Layout: FC<{
   order: PropsI["order"];
 }> = ({ children, order }) => {
@@ -36,6 +38,11 @@ const Layout: FC<{
             {children}
             <SummaryOrderList order={order} />
           </section>
+          <PayPalStuff
+            orderId={order.id}
+            orderPayed={order.status === "FULFILLED"}
+            amountToBePayed={order.totalPrice || 0}
+          />
         </main>
       ) : null}
     </Fragment>
