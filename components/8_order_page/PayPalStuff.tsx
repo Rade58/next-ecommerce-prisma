@@ -3,7 +3,10 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import type { FC } from "react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+
+import { CircularProgress } from "@material-ui/core";
+
 // WE CAN IMPORT THE HOOK
 import useLoadPaypalScript from "../../hooks/paypal/useLoadPaypalScript";
 
@@ -16,23 +19,36 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed }) => {
 
   const { PayPalButtons, isPending, loadPypalScript } = useLoadPaypalScript();
 
+  // INSIDE EFFECT WE WILL LOAD PAYPAL SCRIP
+  // BUT ONLY IF ORDER ISN'T PAYED FOR
+
+  useEffect(() => {
+    if (!orderPayed) {
+      loadPypalScript();
+    }
+  }, [orderPayed, loadPypalScript]);
+
   return (
     <Fragment>
       {!orderPayed && (
         <div className="paypal-buttons">
-          <PayPalButtons
-            createOrder={async (data, actions) => {
-              //
-              return "";
-            }}
-            onApprove={async (data, actions) => {
-              //
-              return;
-            }}
-            onError={(error) => {
-              console.error(error);
-            }}
-          />
+          {!isPending ? (
+            <PayPalButtons
+              createOrder={async (data, actions) => {
+                //
+                return "";
+              }}
+              onApprove={async (data, actions) => {
+                //
+                return;
+              }}
+              onError={(error) => {
+                console.error(error);
+              }}
+            />
+          ) : (
+            <CircularProgress size={20} color="primary" />
+          )}
         </div>
       )}
     </Fragment>
