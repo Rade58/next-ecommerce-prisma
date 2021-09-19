@@ -7,6 +7,8 @@ import { Fragment, useEffect } from "react";
 
 import { CircularProgress } from "@material-ui/core";
 
+import Router from "next/router";
+
 // WE CAN IMPORT THE HOOK
 import useLoadPaypalScript from "../../hooks/paypal/useLoadPaypalScript";
 import axios from "axios";
@@ -105,6 +107,10 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                   // WE ARE GOING TO CHECK FOR SESSION AT BACKEND
 
                   // WE CAN REFRESH AFTER SUCCESSFUL REQUEST
+                  // BUT WE ARE NOT GOING TO DO FULL REFRES
+                  // JUST NAVIGATE TO THE SAME PAGE
+
+                  Router.push(`/order/${orderId}`);
                 } catch (error) {
                   console.error(error);
                 }
