@@ -92,6 +92,10 @@ const PayPalStuff: FC<PropsI> = ({ orderPayed, amountToBePayed, orderId }) => {
                 // NOW LETS SEND REQUEST TO OUR API ROUTE
 
                 try {
+                  // I AM SANDING "POST" REQUEST
+                  // BECAUSE WE ARE GOING TO CREATE PaymentResult
+                  // RECORD ALSO, BESIDES UPDATING Order RECORD
+
                   const { data: d } = await axios.post(
                     `/api/order/pay/${orderId}`,
                     { paymentId, status, update_time }
