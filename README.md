@@ -25,6 +25,16 @@ const handler = nc<NextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
   const { orderId: id } = req.query;
 
+  // THIS BODY WOULD BE CONSTRUCTED FROM SOME DATA
+  // WE WOULD TAKE AFTER PAYPAL CREATES HIS ORDER OBJECT
+  // OR PAYMENT OBJECT, OR CALL IT WHAT EVER YOU WANT
+
+  const body = req.body;
+
+  if (!body) {
+    return res.status(400).send("invalid body");
+  }
+
   if (!id) {
     return res.status(400).send("order id invalid");
   }
@@ -53,23 +63,18 @@ handler.post(async (req, res) => {
       return res.status(400).send("order not exist");
     }
 
-    // I WON'T DO THIS NOW, BUT FOR SECURITY REASONS WE WOULD
-    // CHECK SESSION AND CHECK BUYER (TO SECURE THIS
-    // I AM SAVING ON TIME AND I AM NOT GOING TO DO THIS NOW)
-
-
-    // NOW WE WOULD TALK TO PAYPAL API
-    // TODO
-
     // --------------------------------
 
     // TODO
-    // WHEN WE GET OBJECT FROM PAYPAL
-    // WE CRATE PaymntResult OBJECT
+    // WE SHOULD CREATE PaymentResult RECORD
 
     // TODO
     // WE THEN UPDATE ORDER BY CONNECTING
-    // PAYMENT RECORD TO THE ORDER RECORD
+    // PymentResult RECORD TO THE ORDER RECORD
+
+    // WE NEED TO UPDATE SOME MORE TUFF ON OUR ORDER RECORD
+    // FOR EXAMPLE IT SHOULD BE MARKED ASS PAYED (YOU'LL KNOW WHAT
+    // TO CHANGE (LOOK INTO SCHEMA IF YOU DON'T KNO))
 
     return res.status(201).send("some data");
   } catch (err) {

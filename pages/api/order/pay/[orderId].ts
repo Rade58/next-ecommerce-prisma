@@ -49,12 +49,15 @@ handler.post(async (req, res) => {
     // --------------------------------
 
     // TODO
-    // WHEN WE GET OBJECT FROM PAYPAL
-    // WE CRATE PaymntResult OBJECT
+    // WE SHOULD CREATE PaymentResult RECORD
 
     // TODO
     // WE THEN UPDATE ORDER BY CONNECTING
-    // PAYMENT RECORD TO THE ORDER RECORD
+    // PymentResult RECORD TO THE ORDER RECORD
+
+    // WE NEED TO UPDATE SOME MORE TUFF ON OUR ORDER RECORD
+    // FOR EXAMPLE IT SHOULD BE MARKED ASS PAYED (YOU'LL KNOW WHAT
+    // TO CHANGE (LOOK INTO SCHEMA IF YOU DON'T KNO))
 
     return res.status(201).send("some data");
   } catch (err) {
