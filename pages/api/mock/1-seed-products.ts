@@ -12,6 +12,17 @@ handler.get(async (req, res) => {
   // WE CREATED AND ALTER IT TO HAVE  ADMIN ROLE
   // BUT WE NEED TO GET HIS ID FIRST
 
+  const newuser = await prismaClient.user.create({
+    data: {
+      email: "ajovaska@protonmail.com",
+      profiles: {
+        create: {
+          role: "ADMIN",
+        },
+      },
+    },
+  });
+
   const user = await prismaClient.user.findUnique({
     where: {
       email: "ajovaska@protonmail.com",
@@ -24,6 +35,8 @@ handler.get(async (req, res) => {
       },
     },
   });
+
+  console.log({ user });
 
   const profileId = user?.profiles[0].id;
 

@@ -11,7 +11,7 @@ handler.get(async (req, res) => {
   // FIRST LETS GET USER FOR WHOOM WE ARE CREATING ORDERS
   const user = await prismaClient.user.findUnique({
     where: {
-      email: "bajic.rade2@gmail.com",
+      email: "ajovaska@protonmail.com",
     },
     select: {
       profiles: {
